@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers\Public;
+
+use App\Http\Controllers\Controller;
+use App\Models\Project;
+use Illuminate\Http\Request;
+
+class ProjectController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = Project::where('status', 'published')
+            ->where('published_at', '<=', now());
+
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('description', 'like', '%' . $request->search . '%')
+                  ->orWhere('category', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        $projects = $query->orderBy('display_order')->paginate(9)->withQueryString();
+
+        return view('public.projects.index', compact('projects'));
+    }
+
+    public function show($slug)
+    {
+        $project = cache()->remember('project_' . $slug, 3600, function () use ($slug) {
+            return Project::where('slug', $slug)
+                ->where('status', 'published')
+                ->where('published_at', '<=', now())
+                ->with('screenshots')
+                ->first();
+        });
+
+        if (!$project) {
+            abort(404);
+        }
+
+        return view('public.projects.show', compact('project'));
+    }
+}

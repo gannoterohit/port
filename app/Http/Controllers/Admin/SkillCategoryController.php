@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\SkillCategory;
+use Illuminate\Http\Request;
+
+class SkillCategoryController extends Controller
+{
+    public function index()
+    {
+        $categories = SkillCategory::orderBy('display_order')->get();
+        return view('admin.skill-categories.index', compact('categories'));
+    }
+
+    public function create()
+    {
+        return view('admin.skill-categories.create');
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'color' => ['nullable', 'string', 'max:50'],
+            'display_order' => ['nullable', 'integer', 'min:0'],
+            'is_enabled' => ['boolean'],
+        ]);
+
+        $data['slug'] = \Illuminate\Support\Str::slug($data['name']);
+        $data['display_order'] = $data['display_order'] ?? SkillCategory::max('display_order') + 1;
+        $data['is_enabled'] = $request->boolean('is_enabled', true);
+
+        SkillCategory::create($data);
+
+        return redirect()->route('admin.skill-categories.index')->with('success', 'Category created successfully.');
+    }
+
+    public function edit(SkillCategory $skillCategory)
+    {
+        return view('admin.skill-categories.edit', compact('skillCategory'));
+    }
+
+    public function update(Request $request, SkillCategory $skillCategory)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'color' => ['nullable', 'string', 'max:50'],
+            'display_order' => ['nullable', 'integer', 'min:0'],
+            'is_enabled' => ['boolean'],
+        ]);
+
+        $data['is_enabled'] = $request->boolean('is_enabled');
+
+        $skillCategory->update($data);
+
+        return redirect()->route('admin.skill-categories.index')->with('success', 'Category updated successfully.');
+    }
+
+    public function destroy(SkillCategory $skillCategory)
+    {
+        $skillCategory->delete();
+        return back()->with('success', 'Category deleted successfully.');
+    }
+}
