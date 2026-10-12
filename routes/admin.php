@@ -37,10 +37,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
 
         Route::get('enquiries', [\App\Http\Controllers\Admin\EnquiryController::class, 'index'])->name('enquiries.index');
+        Route::get('enquiries/export', [\App\Http\Controllers\Admin\EnquiryController::class, 'export'])->name('enquiries.export');
         Route::get('enquiries/{enquiry}', [\App\Http\Controllers\Admin\EnquiryController::class, 'show'])->name('enquiries.show');
         Route::put('enquiries/{enquiry}', [\App\Http\Controllers\Admin\EnquiryController::class, 'update'])->name('enquiries.update');
         Route::delete('enquiries/{enquiry}', [\App\Http\Controllers\Admin\EnquiryController::class, 'destroy'])->name('enquiries.destroy');
-        Route::get('enquiries/export', [\App\Http\Controllers\Admin\EnquiryController::class, 'export'])->name('enquiries.export');
         Route::post('enquiries/{enquiry}/notes', [\App\Http\Controllers\Admin\EnquiryController::class, 'addNote'])->name('enquiries.notes');
 
         Route::get('navigation', [\App\Http\Controllers\Admin\NavigationController::class, 'index'])->name('navigation.index');

@@ -57,12 +57,23 @@
                         @elseif($setting->type === 'number')
                             <input type="number" name="{{ $setting->key }}" value="{{ old($setting->key, $setting->value) }}"
                                 class="admin-input">
+                        @elseif($setting->type === 'color')
+                            <div class="flex items-center gap-3">
+                                <input type="color" id="picker_{{ $setting->key }}" value="{{ old($setting->key, $setting->value ?? '#2563eb') }}"
+                                    class="h-10 w-16 p-1 rounded-lg border border-gray-300 cursor-pointer bg-white"
+                                    oninput="document.getElementById('text_{{ $setting->key }}').value = this.value">
+                                <input type="text" id="text_{{ $setting->key }}" name="{{ $setting->key }}"
+                                    value="{{ old($setting->key, $setting->value ?? '#2563eb') }}"
+                                    class="admin-input font-mono w-36 uppercase"
+                                    placeholder="#2563EB"
+                                    oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)) document.getElementById('picker_{{ $setting->key }}').value = this.value">
+                                <span class="text-xs text-gray-500">Pick color or type HEX code</span>
+                            </div>
                         @else
                             <input type="{{ $setting->type === 'url' ? 'url' : ($setting->type === 'email' ? 'email' : 'text') }}"
                                 name="{{ $setting->key }}" value="{{ old($setting->key, $setting->value) }}"
                                 class="admin-input"
-                                placeholder="{{ $setting->type === 'color' ? '' : 'Enter value...' }}"
-                                @if($setting->type === 'color') style="background-color: {{ $setting->value }}; width: 60px; padding: 4px;" @endif>
+                                placeholder="Enter value...">
                         @endif
                     </div>
                 @endforeach

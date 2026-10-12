@@ -54,6 +54,7 @@ class SkillCategoryController extends Controller
         $data['is_enabled'] = $request->boolean('is_enabled');
 
         $skillCategory->update($data);
+        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
 
         return redirect()->route('admin.skill-categories.index')->with('success', 'Category updated successfully.');
     }
@@ -61,6 +62,7 @@ class SkillCategoryController extends Controller
     public function destroy(SkillCategory $skillCategory)
     {
         $skillCategory->delete();
+        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
         return back()->with('success', 'Category deleted successfully.');
     }
 }

@@ -4,7 +4,7 @@
 @section('header', 'Homepage Management')
 
 @section('admin-content')
-<form method="POST" action="{{ route('admin.homepage.update') }}" class="space-y-6">
+<form method="POST" action="{{ route('admin.homepage.update') }}" enctype="multipart/form-data" class="space-y-6">
     @csrf
     @method('PUT')
 
@@ -17,25 +17,26 @@
     <div class="bg-white rounded-xl border border-gray-200 p-6">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Hero Section</h3>
         <div class="space-y-4">
-            <div>
-                <label class="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
-                    <input type="checkbox" name="hero_section_enabled" value="1" {{ $settings->hero_section_enabled ? 'checked' : '' }}>
-                    Enable Hero Section
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span class="text-sm font-medium text-gray-700">Enable Hero Section</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="hero_section_enabled" value="1" {{ $settings->hero_section_enabled ? 'checked' : '' }} class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
             </div>
 
-            <div class="flex items-end gap-6">
-                <div class="flex-1">
+            <div class="flex flex-col sm:flex-row items-start sm:items-end gap-6">
+                <div class="flex-1 w-full">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Hero Heading</label>
                     <input type="text" name="hero_heading" value="{{ old('hero_heading', $settings->hero_heading) }}"
                         class="admin-input" placeholder="e.g., Full Stack Web Developer">
                 </div>
 
-                <div class="flex items-center justify-center w-24 h-24 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300">
+                <div class="flex items-center justify-center w-24 h-24 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 overflow-hidden flex-shrink-0">
                     @if($settings->hero_image)
-                        <img src="{{ $settings->hero_image_url }}" alt="Hero Image" class="w-24 h-24 rounded-lg object-cover">
+                        <img src="{{ $settings->hero_image_url }}" alt="Hero Image" class="w-24 h-24 object-cover">
                     @else
-                        <span class="text-gray-400 text-xs text-center">Hero Image</span>
+                        <span class="text-gray-400 text-xs text-center px-2">No Image</span>
                     @endif
                 </div>
             </div>
@@ -89,50 +90,50 @@
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Section Visibility</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <span class="text-sm font-medium">About Section</span>
-                <label class="relative inline-flex h-5 w-9 items-center rounded-full">
-                    <input type="checkbox" name="about_section_enabled" value="1" {{ $settings->about_section_enabled ? 'checked' : '' }} class="sr-only">
-                    <span class="toggle-slider {{ $settings->about_section_enabled ? 'bg-blue-600' : 'bg-gray-300' }}"></span>
+                <span class="text-sm font-medium text-gray-700">About Section</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="about_section_enabled" value="1" {{ $settings->about_section_enabled ? 'checked' : '' }} class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
             </div>
 
             <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <span class="text-sm font-medium">Skills Section</span>
-                <label class="relative inline-flex h-5 w-9 items-center rounded-full">
-                    <input type="checkbox" name="skills_section_enabled" value="1" {{ $settings->skills_section_enabled ? 'checked' : '' }} class="sr-only">
-                    <span class="toggle-slider {{ $settings->skills_section_enabled ? 'bg-blue-600' : 'bg-gray-300' }}"></span>
+                <span class="text-sm font-medium text-gray-700">Skills Section</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="skills_section_enabled" value="1" {{ $settings->skills_section_enabled ? 'checked' : '' }} class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
             </div>
 
             <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <span class="text-sm font-medium">Projects Section</span>
-                <label class="relative inline-flex h-5 w-9 items-center rounded-full">
-                    <input type="checkbox" name="projects_section_enabled" value="1" {{ $settings->projects_section_enabled ? 'checked' : '' }} class="sr-only">
-                    <span class="toggle-slider {{ $settings->projects_section_enabled ? 'bg-blue-600' : 'bg-gray-300' }}"></span>
+                <span class="text-sm font-medium text-gray-700">Projects Section</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="projects_section_enabled" value="1" {{ $settings->projects_section_enabled ? 'checked' : '' }} class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
             </div>
 
             <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <span class="text-sm font-medium">Services Section</span>
-                <label class="relative inline-flex h-5 w-9 items-center rounded-full">
-                    <input type="checkbox" name="services_section_enabled" value="1" {{ $settings->services_section_enabled ? 'checked' : '' }} class="sr-only">
-                    <span class="toggle-slider {{ $settings->services_section_enabled ? 'bg-blue-600' : 'bg-gray-300' }}"></span>
+                <span class="text-sm font-medium text-gray-700">Services Section</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="services_section_enabled" value="1" {{ $settings->services_section_enabled ? 'checked' : '' }} class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
             </div>
 
             <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <span class="text-sm font-medium">Work Process Section</span>
-                <label class="relative inline-flex h-5 w-9 items-center rounded-full">
-                    <input type="checkbox" name="work_process_section_enabled" value="1" {{ $settings->work_process_section_enabled ? 'checked' : '' }} class="sr-only">
-                    <span class="toggle-slider {{ $settings->work_process_section_enabled ? 'bg-blue-600' : 'bg-gray-300' }}"></span>
+                <span class="text-sm font-medium text-gray-700">Work Process Section</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="work_process_section_enabled" value="1" {{ $settings->work_process_section_enabled ? 'checked' : '' }} class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
             </div>
 
             <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <span class="text-sm font-medium">Testimonials Section</span>
-                <label class="relative inline-flex h-5 w-9 items-center rounded-full">
-                    <input type="checkbox" name="testimonials_section_enabled" value="1" {{ $settings->testimonials_section_enabled ? 'checked' : '' }} class="sr-only">
-                    <span class="toggle-slider {{ $settings->testimonials_section_enabled ? 'bg-blue-600' : 'bg-gray-300' }}"></span>
+                <span class="text-sm font-medium text-gray-700">Testimonials Section</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="testimonials_section_enabled" value="1" {{ $settings->testimonials_section_enabled ? 'checked' : '' }} class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
             </div>
         </div>
@@ -141,9 +142,12 @@
     <div class="bg-white rounded-xl border border-gray-200 p-6">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Contact CTA Section</h3>
         <div class="space-y-4">
-            <div class="flex items-center gap-2">
-                <input type="checkbox" name="contact_cta_section_enabled" value="1" {{ $settings->contact_cta_section_enabled ? 'checked' : '' }}>
-                <label class="text-sm font-medium text-gray-700">Enable Contact CTA Section</label>
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span class="text-sm font-medium text-gray-700">Enable Contact CTA Section</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="contact_cta_section_enabled" value="1" {{ $settings->contact_cta_section_enabled ? 'checked' : '' }} class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
             </div>
 
             <div>
@@ -167,17 +171,4 @@
         </button>
     </div>
 </form>
-
-<style>
-.toggle-slider {
-    content: '';
-    @apply absolute inline-block w-5 h-5 rounded-full transform transition;
-}
-.toggle-slider.before {
-    content: '';
-}
-input[type="checkbox"]:checked + .toggle-slider {
-    @apply translate-x-4;
-}
-</style>
 @endsection

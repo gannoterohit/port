@@ -40,6 +40,20 @@ class ProfileController extends Controller
         $data['location_visible'] = $request->boolean('location_visible');
         $data['resume_button_visible'] = $request->boolean('resume_button_visible');
 
+        if ($request->hasFile('profile_photo')) {
+            $request->validate([
+                'profile_photo' => ['image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            ]);
+            $data['profile_photo'] = $this->uploadFile($request->file('profile_photo'), 'profile', $profile->profile_photo);
+        }
+
+        if ($request->hasFile('resume_pdf')) {
+            $request->validate([
+                'resume_pdf' => ['file', 'mimes:pdf', 'max:5120'],
+            ]);
+            $data['resume_pdf'] = $this->uploadFile($request->file('resume_pdf'), 'profile/resume', $profile->resume_pdf);
+        }
+
         $profile->update($data);
 
         $this->clearCache();

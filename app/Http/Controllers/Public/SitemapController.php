@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Models\Project;
 use App\Models\Service;
+use App\Models\Setting;
 
 class SitemapController extends Controller
 {
     public function __invoke()
     {
+        if (Setting::get('sitemap_enabled', '1') !== '1') {
+            abort(404);
+        }
+
         $urls = [];
 
         $urls[] = [

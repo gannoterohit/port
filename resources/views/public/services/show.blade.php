@@ -1,14 +1,19 @@
 @extends('public.layouts.app')
 
-@section('title', $service->name . ' - ' . $websiteName)
-@section('meta_description', $service->short_description ?? Str::limit(strip_tags($service->description), 160))
-
-@isset($service->og_image_url)
-    <meta property="og:image" content="{{ $service->og_image_url }}">
-@endisset
+@section('title', ($service->seo_title ?: $service->name) . ' - ' . $websiteName)
+@section('meta_description', $service->seo_description ?: ($service->short_description ?? Str::limit(strip_tags($service->description), 160)))
+@section('og_title', $service->og_title ?: $service->name)
+@section('og_description', $service->og_description ?: ($service->short_description ?? Str::limit(strip_tags($service->description), 160)))
+@section('og_image', $service->og_image_url ?: $service->icon_url)
+@if($service->canonical_url)
+    @section('canonical', $service->canonical_url)
+@endif
+@if($service->no_index)
+    @section('meta_robots', 'noindex, nofollow')
+@endif
 
 @section('content')
-<section class="min-h-screen pt-16 py-20">
+<section class="min-h-screen pt-28 sm:pt-36 pb-20 bg-slate-50 dark:bg-slate-950">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
             <a href="{{ route('services') }}" class="text-primary font-medium text-sm flex items-center gap-2 mb-6">
@@ -60,10 +65,10 @@
                 <img src="{{ $service->image_url }}" alt="{{ $service->name }}" class="w-full rounded-xl shadow-md mb-8">
             @endif
 
-            <div class="pt-8 border-t border-gray-200 dark:border-gray-700">
-                <a href="{{ route('contact') }}"
-                    class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-medium">
-                    Get a Quote for {{ $service->name }}
+            <div class="pt-8 border-t border-slate-200 dark:border-slate-800">
+                <a href="{{ $service->cta_url ?: route('contact') }}"
+                    class="btn btn-primary">
+                    {{ $service->cta_text ?: ('Get a Quote for ' . $service->name) }}
                 </a>
             </div>
         </div>

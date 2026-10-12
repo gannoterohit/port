@@ -4,7 +4,7 @@
 @section('meta_description', 'Get in touch with me')
 
 @section('content')
-<section class="min-h-screen pt-16 py-20">
+<section class="min-h-screen pt-28 sm:pt-36 pb-20 bg-slate-50 dark:bg-slate-950">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-12">
@@ -79,19 +79,22 @@
                     @endif
                 </div>
 
-                <form id="contactForm" method="POST" action="{{ route('contact.submit') }}" class="space-y-6">
+                <form id="contactForm" method="POST" action="{{ route('contact.submit') }}" class="space-y-6 bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
                     @csrf
+                    <!-- Honeypot anti-spam field -->
+                    <input type="text" name="website_hp" style="display:none;" tabindex="-1" autocomplete="off">
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name *</label>
-                            <input type="text" name="name" required class="admin-input" value="{{ old('name') }}">
+                            <label class="label">Name *</label>
+                            <input type="text" name="name" required class="input" value="{{ old('name') }}" placeholder="Your Full Name">
                             @error('name')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email *</label>
-                            <input type="email" name="email" required class="admin-input" value="{{ old('email') }}">
+                            <label class="label">Email *</label>
+                            <input type="email" name="email" required class="input" value="{{ old('email') }}" placeholder="name@example.com">
                             @error('email')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -99,29 +102,29 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
-                        <input type="tel" name="phone" class="admin-input" value="{{ old('phone') }}">
+                        <label class="label">Phone (Optional)</label>
+                        <input type="tel" name="phone" class="input" value="{{ old('phone') }}" placeholder="+1 (555) 000-0000">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject *</label>
-                        <input type="text" name="subject" required class="admin-input" value="{{ old('subject', 'Website Contact Form Submission') }}">
+                        <label class="label">Subject *</label>
+                        <input type="text" name="subject" required class="input" value="{{ old('subject', 'Freelance Project Inquiry') }}" placeholder="What is this regarding?">
                         @error('subject')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message *</label>
-                        <textarea name="message" rows="6" required class="admin-textarea"
-                            placeholder="Enter your message...">{{ old('message') }}</textarea>
+                        <label class="label">Message *</label>
+                        <textarea name="message" rows="5" required class="textarea"
+                            placeholder="Tell me about your project, timeline, and goals...">{{ old('message') }}</textarea>
                         @error('message')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <button type="submit"
-                        class="w-full bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
+                    <button type="submit" class="btn btn-primary w-full py-3.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                         <span>Send Message</span>
                     </button>
                 </form>

@@ -4,7 +4,7 @@
 @section('meta_description', 'The page you are looking for does not exist.')
 
 @section('content')
-<section class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 pt-16 py-20">
+<section class="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 pt-28 sm:pt-36 pb-20">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-md mx-auto text-center">
             <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-8">

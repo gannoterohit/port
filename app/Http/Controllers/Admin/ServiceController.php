@@ -127,6 +127,7 @@ class ServiceController extends Controller
         $service->update($data);
 
         Cache::forget('homepage_featured_services');
+        Cache::forget('service_' . $service->slug);
 
         return redirect()->route('admin.services.index')->with('success', 'Service updated successfully.');
     }
@@ -136,9 +137,11 @@ class ServiceController extends Controller
         $this->deleteFile($service->image);
         $this->deleteFile($service->og_image);
 
+        $slug = $service->slug;
         $service->delete();
 
         Cache::forget('homepage_featured_services');
+        Cache::forget('service_' . $slug);
 
         return redirect()->route('admin.services.index')->with('success', 'Service deleted successfully.');
     }

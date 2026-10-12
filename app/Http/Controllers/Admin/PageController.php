@@ -60,6 +60,10 @@ class PageController extends Controller
         $data['show_in_nav'] = $request->boolean('show_in_nav');
         $data['no_index'] = $request->boolean('no_index');
 
+        if ($request->hasFile('og_image')) {
+            $data['og_image'] = $request->file('og_image')->store('pages/seo', 'public');
+        }
+
         Page::create($data);
 
         return redirect()->route('admin.pages.index')->with('success', 'Page created successfully.');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\WorkProcess;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class WorkProcessController extends Controller
@@ -38,6 +39,8 @@ class WorkProcessController extends Controller
 
         WorkProcess::create($data);
 
+        Cache::forget('homepage_work_processes');
+
         return redirect()->route('admin.work-processes.index')->with('success', 'Work process step created successfully.');
     }
 
@@ -67,6 +70,8 @@ class WorkProcessController extends Controller
 
         $process->update($data);
 
+        Cache::forget('homepage_work_processes');
+
         return redirect()->route('admin.work-processes.index')->with('success', 'Work process step updated successfully.');
     }
 
@@ -75,6 +80,8 @@ class WorkProcessController extends Controller
         $process = WorkProcess::findOrFail($id);
         Storage::disk('public')->delete($process->icon);
         $process->delete();
+
+        Cache::forget('homepage_work_processes');
 
         return back()->with('success', 'Work process step deleted successfully.');
     }
@@ -86,6 +93,8 @@ class WorkProcessController extends Controller
         foreach ($order as $id => $displayOrder) {
             WorkProcess::where('id', $id)->update(['display_order' => $displayOrder]);
         }
+
+        Cache::forget('homepage_work_processes');
 
         return response()->json(['success' => true]);
     }

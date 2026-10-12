@@ -174,10 +174,20 @@
     <main class="flex-1 overflow-y-auto">
         <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-semibold text-gray-900">@yield('header', 'Admin Panel')</h1>
-            <div class="flex items-center gap-3">
-                <span class="text-sm text-gray-600">{{ Auth::user()->name }}</span>
-                <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                    {{ Auth::user()->name ? substr(Auth::user()->name, 0, 1) : 'A' }}
+            <div class="flex items-center gap-4">
+                <a href="{{ route('home') }}" target="_blank"
+                   class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                    View Website
+                </a>
+                <div class="h-6 w-px bg-gray-200"></div>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-medium text-gray-700">{{ Auth::user()?->name ?? 'Admin' }}</span>
+                    <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
+                        {{ substr(Auth::user()?->name ?? 'Admin', 0, 1) }}
+                    </div>
                 </div>
             </div>
         </header>

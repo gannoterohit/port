@@ -70,18 +70,28 @@
                     <td class="py-3 px-4 text-sm text-gray-700">{{ $enquiry->phone ?? '—' }}</td>
                     <td class="py-3 px-4 text-sm text-gray-700">{{ Str::limit($enquiry->subject, 40) ?: '—' }}</td>
                     <td class="py-3 px-4">
-                        <span class="inline-flex px-2 py-1 text-xs rounded-full bg-{{ $enquiry->status_color }}-100 text-{{ $enquiry->status_color }}-800">
+                        @php
+                            $statusClasses = [
+                                'new' => 'bg-blue-100 text-blue-800',
+                                'in_progress' => 'bg-amber-100 text-amber-800',
+                                'contacted' => 'bg-emerald-100 text-emerald-800',
+                                'converted' => 'bg-purple-100 text-purple-800',
+                                'closed' => 'bg-slate-100 text-slate-800',
+                            ];
+                        @endphp
+                        <span class="inline-flex px-2.5 py-1 text-xs font-semibold rounded-full {{ $statusClasses[$enquiry->status] ?? 'bg-gray-100 text-gray-800' }}">
                             {{ $enquiry->status_label }}
                         </span>
                     </td>
                     <td class="py-3 px-4 text-sm text-gray-500">{{ $enquiry->created_at->format('M d, Y') }}</td>
                     <td class="py-3 px-4 text-right">
-                        <a href="{{ route('admin.enquiries.show', $enquiry) }}" class="text-blue-600 hover:text-blue-700">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12A3 3 0 0112 15a3 3 0 010-6 3 3 0 013 3z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v6m0 0v6m0 0h6m-6 0h-6"></path>
-                            </svg>
-                        </a>
+                        <div class="flex justify-end items-center gap-2">
+                            <a href="{{ route('admin.enquiries.show', $enquiry) }}" class="text-blue-600 hover:text-blue-700" title="View details">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                            </a>
                         <form method="POST" action="{{ route('admin.enquiries.destroy', $enquiry) }}" class="inline">
                             @csrf
                             @method('DELETE')

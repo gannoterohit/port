@@ -21,24 +21,22 @@ class SeoController extends Controller
         $seoKeys = ['default_seo_title', 'default_seo_description', 'default_og_image', 'sitemap_enabled'];
 
         foreach ($seoKeys as $key) {
-            if ($request->has($key)) {
-                $setting = Setting::where('key', $key)->first();
+            $setting = Setting::where('key', $key)->first();
+            if (!$setting) {
+                continue;
+            }
 
-                if ($setting) {
-                    $value = $request->input($key);
-
-                    if ($setting->type === 'image' && $request->hasFile($key)) {
-                        $oldFile = $setting->value;
-                        if ($oldFile) {
-                            \Illuminate\Support\Facades\Storage::disk('public')->delete($oldFile);
-                        }
-                        $value = $request->file($key)->store('settings/seo', 'public');
-                    } elseif ($setting->type === 'boolean') {
-                        $value = $request->boolean($key) ? '1' : '0';
+            if ($setting->type === 'boolean') {
+                $setting->update(['value' => $request->has($key) ? '1' : '0']);
+            } elseif ($setting->type === 'image') {
+                if ($request->hasFile($key)) {
+                    if ($setting->value) {
+                        \Illuminate\Support\Facades\Storage::disk('public')->delete($setting->value);
                     }
-
-                    $setting->update(['value' => $value]);
+                    $setting->update(['value' => $request->file($key)->store('settings/seo', 'public')]);
                 }
+            } elseif ($request->has($key)) {
+                $setting->update(['value' => $request->input($key)]);
             }
         }
 

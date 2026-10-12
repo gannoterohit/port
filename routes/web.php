@@ -44,6 +44,6 @@ Route::middleware(\App\Http\Middleware\MaintenanceModeMiddleware::class)->group(
     })->name('maintenance');
 
     Route::fallback(function () {
-        return response()->view('errors.404', [], 404);
+        return response()->view('public.404', [], 404);
     });
 });

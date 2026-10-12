@@ -5,31 +5,48 @@
 
 @section('admin-content')
 <div class="space-y-6">
-    <div class="flex justify-between items-start">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
+            <div class="flex items-center gap-2 mb-1">
+                <a href="{{ route('admin.enquiries.index') }}" class="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                    &larr; Back to Enquiries
+                </a>
+            </div>
             <h2 class="text-2xl font-bold text-gray-900">Enquiry from {{ $enquiry->name }}</h2>
-            <div class="flex gap-2 mt-2">
-                <span class="inline-flex px-2 py-1 text-xs rounded-full bg-{{ $enquiry->status_color }}-100 text-{{ $enquiry->status_color }}-800">
+            <div class="flex items-center gap-2 mt-2">
+                @php
+                    $statusClasses = [
+                        'new' => 'bg-blue-100 text-blue-800',
+                        'in_progress' => 'bg-amber-100 text-amber-800',
+                        'contacted' => 'bg-emerald-100 text-emerald-800',
+                        'converted' => 'bg-purple-100 text-purple-800',
+                        'closed' => 'bg-slate-100 text-slate-800',
+                    ];
+                @endphp
+                <span class="inline-flex px-2.5 py-1 text-xs font-semibold rounded-full {{ $statusClasses[$enquiry->status] ?? 'bg-gray-100 text-gray-800' }}">
                     {{ $enquiry->status_label }}
                 </span>
                 @if($enquiry->isUnread())
-                    <span class="inline-flex px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
-                        New
+                    <span class="inline-flex px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                        Unread
                     </span>
                 @endif
             </div>
         </div>
 
-        <div class="flex gap-2">
-            <a href="{{ route('admin.enquiries.export') }}"
-                class="text-green-600 hover:text-green-700 px-3 py-1 border border-green-200 rounded-lg text-sm">
-                Export
+        <div class="flex items-center gap-2">
+            <a href="mailto:{{ $enquiry->email }}?subject={{ urlencode('Re: ' . ($enquiry->subject ?: 'Your Enquiry')) }}"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 01-2-2v12a2 2 0 002 2z"></path>
+                </svg>
+                Reply Email
             </a>
             <form method="POST" action="{{ route('admin.enquiries.destroy', $enquiry) }}" class="inline">
                 @csrf
                 @method('DELETE')
-                <button type="submit" onclick="return confirm('Delete this enquiry? This cannot be undone.')"
-                    class="text-red-600 hover:text-red-700 px-3 py-1 border border-red-200 rounded-lg text-sm">
+                <button type="submit" onclick="return confirm('Delete this enquiry? This action cannot be undone.')"
+                    class="text-red-600 hover:text-red-700 px-3 py-2 border border-red-200 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors">
                     Delete
                 </button>
             </form>
@@ -37,124 +54,116 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 class="text-sm font-semibold text-gray-500 uppercase mb-3">Contact Details</h3>
-            <div class="space-y-3">
+        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Contact Information</h3>
+            <div class="space-y-4">
                 <div>
-                    <label class="text-xs text-gray-500">Name</label>
-                    <p class="text-gray-900 font-medium">{{ $enquiry->name }}</p>
+                    <label class="text-xs text-gray-400 block mb-0.5">Full Name</label>
+                    <p class="text-gray-900 font-semibold">{{ $enquiry->name }}</p>
                 </div>
                 <div>
-                    <label class="text-xs text-gray-500">Email</label>
-                    <p class="text-gray-900 font-medium">{{ $enquiry->email }}</p>
+                    <label class="text-xs text-gray-400 block mb-0.5">Email Address</label>
+                    <a href="mailto:{{ $enquiry->email }}" class="text-blue-600 hover:underline font-medium">
+                        {{ $enquiry->email }}
+                    </a>
                 </div>
                 <div>
-                    <label class="text-xs text-gray-500">Phone</label>
+                    <label class="text-xs text-gray-400 block mb-0.5">Phone / WhatsApp</label>
                     <p class="text-gray-900 font-medium">{{ $enquiry->phone ?? '—' }}</p>
                 </div>
                 <div>
-                    <label class="text-xs text-gray-500">Subject</label>
+                    <label class="text-xs text-gray-400 block mb-0.5">Subject</label>
                     <p class="text-gray-900 font-medium">{{ $enquiry->subject ?? '—' }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 class="text-sm font-semibold text-gray-500 uppercase mb-3">System Info</h3>
-            <div class="space-y-3">
+        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Submission Meta</h3>
+            <div class="space-y-4">
                 <div>
-                    <label class="text-xs text-gray-500">IP Address</label>
-                    <p class="text-gray-900 font-medium">{{ $enquiry->ip_address ?? '—' }}</p>
+                    <label class="text-xs text-gray-400 block mb-0.5">Submitted On</label>
+                    <p class="text-gray-900 font-medium">{{ $enquiry->created_at->format('F d, Y \a\t h:i A') }}</p>
                 </div>
                 <div>
-                    <label class="text-xs text-gray-500">User Agent</label>
-                    <p class="text-xs text-gray-600 break-all">{{ $enquiry->user_agent ?? '—' }}</p>
+                    <label class="text-xs text-gray-400 block mb-0.5">IP Address</label>
+                    <p class="text-gray-700 font-mono text-sm">{{ $enquiry->ip_address ?? '—' }}</p>
                 </div>
                 <div>
-                    <label class="text-xs text-gray-500">Submitted</label>
-                    <p class="text-gray-900 font-medium">{{ $enquiry->created_at->format('M d, Y H:i') }}</p>
-                </div>
-                <div>
-                    <label class="text-xs text-gray-500">Last Updated</label>
-                    <p class="text-gray-900 font-medium">{{ $enquiry->updated_at->format('M d, Y H:i') }}</p>
+                    <label class="text-xs text-gray-400 block mb-0.5">Browser & Device</label>
+                    <p class="text-xs text-gray-600 break-words font-mono bg-gray-50 p-2 rounded border border-gray-100">
+                        {{ $enquiry->user_agent ?? '—' }}
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 class="text-sm font-semibold text-gray-500 uppercase mb-3">Message</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-gray-800 whitespace-pre-wrap">{{ $enquiry->message }}</p>
+    <!-- Message Body -->
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Submitted Message</h3>
+        <div class="bg-slate-50 rounded-xl p-5 border border-slate-100">
+            <p class="text-gray-900 whitespace-pre-line leading-relaxed">{{ $enquiry->message }}</p>
         </div>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <div class="flex justify-between items-center mb-3">
-            <h3 class="text-sm font-semibold text-gray-500 uppercase">Update Status</h3>
-            <form method="POST" action="{{ route('admin.enquiries.update', $enquiry) }}">
-                @csrf
-                @method('PUT')
-                <div class="flex gap-3 items-end">
-                    <div>
-                        <label class="block text-xs text-gray-500 mb-1">Status</label>
-                        <select name="status" class="admin-input text-sm">
-                            <option value="new" {{ $enquiry->status === 'new' ? 'selected' : '' }}>New</option>
-                            <option value="in_progress" {{ $enquiry->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                            <option value="contacted" {{ $enquiry->status === 'contacted' ? 'selected' : '' }}>Contacted</option>
-                            <option value="converted" {{ $enquiry->status === 'converted' ? 'selected' : '' }}>Converted</option>
-                            <option value="closed" {{ $enquiry->status === 'closed' ? 'selected' : '' }}>Closed</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                        Update
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div class="mt-4">
-            <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Internal Notes</h4>
-            <textarea name="internal_notes" class="admin-textarea" rows="3"
-                placeholder="Add your internal notes here...">{{ old('internal_notes', $enquiry->internal_notes) }}</textarea>
-        </div>
-
-        <form method="POST" action="{{ route('admin.enquiries.update', $enquiry) }}" class="mt-3">
+    <!-- Update Status & Notes -->
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Manage Status & Staff Notes</h3>
+        <form method="POST" action="{{ route('admin.enquiries.update', $enquiry) }}" class="space-y-4">
             @csrf
             @method('PUT')
-            <input type="hidden" name="status" value="{{ $enquiry->status }}">
-            <div class="flex gap-3">
-                <textarea name="internal_notes" class="admin-textarea text-sm flex-1" rows="2"
-                    placeholder="Add a note..."></textarea>
-                <button type="submit" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium">
-                    Save Notes
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Enquiry Status</label>
+                    <select name="status" class="admin-input text-sm">
+                        <option value="new" {{ $enquiry->status === 'new' ? 'selected' : '' }}>New</option>
+                        <option value="in_progress" {{ $enquiry->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                        <option value="contacted" {{ $enquiry->status === 'contacted' ? 'selected' : '' }}>Contacted</option>
+                        <option value="converted" {{ $enquiry->status === 'converted' ? 'selected' : '' }}>Converted</option>
+                        <option value="closed" {{ $enquiry->status === 'closed' ? 'selected' : '' }}>Closed</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Internal Notes</label>
+                <textarea name="internal_notes" class="admin-textarea text-sm" rows="3"
+                    placeholder="Add internal notes about this client enquiry...">{{ old('internal_notes', $enquiry->internal_notes) }}</textarea>
+                <p class="text-xs text-gray-400 mt-1">Internal notes are private and never visible to the client.</p>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    Save Changes
                 </button>
             </div>
         </form>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 class="text-sm font-semibold text-gray-500 uppercase mb-3">Status History</h3>
+    <!-- Status History -->
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Status Change History</h3>
         @if($statusLogs && $statusLogs->count() > 0)
             <div class="space-y-3">
                 @foreach($statusLogs as $log)
-                    <div class="border-l-2 border-gray-200 pl-3 pb-2">
+                    <div class="border-l-2 border-blue-500 pl-4 py-1">
                         <div class="text-sm">
-                            <span class="font-medium text-gray-700">{{ $log->user ? $log->user->name : 'System' }}</span>
-                            <span class="text-gray-500">changed status to:</span>
-                            <span class="font-medium text-{{ \App\Models\Enquiry::where('id', $log->enquiry_id)->first()->status_color }}-600">
-                                {{ ucfirst(str_replace('_', ' ', $log->status)) }}
+                            <span class="font-semibold text-gray-900">{{ $log->user ? $log->user->name : 'System' }}</span>
+                            <span class="text-gray-500">updated status to</span>
+                            <span class="font-semibold text-blue-600 uppercase text-xs px-2 py-0.5 rounded bg-blue-50">
+                                {{ str_replace('_', ' ', $log->status) }}
                             </span>
                         </div>
-                        <p class="text-xs text-gray-500 mt-1">{{ $log->created_at->format('M d, Y H:i') }}</p>
+                        <p class="text-xs text-gray-400 mt-0.5">{{ $log->created_at->format('M d, Y \a\t h:i A') }}</p>
                         @if($log->note)
-                            <p class="text-sm text-gray-600 mt-1">{{ $log->note }}</p>
+                            <p class="text-sm text-gray-600 mt-1 bg-gray-50 p-2 rounded">{{ $log->note }}</p>
                         @endif
                     </div>
                 @endforeach
             </div>
         @else
-            <p class="text-gray-500 text-sm">No status changes recorded.</p>
+            <p class="text-gray-500 text-sm">No status changes recorded yet.</p>
         @endif
     </div>
 </div>

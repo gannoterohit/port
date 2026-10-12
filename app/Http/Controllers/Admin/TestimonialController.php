@@ -55,6 +55,7 @@ class TestimonialController extends Controller
         }
 
         Testimonial::create($data);
+        \Illuminate\Support\Facades\Cache::forget('homepage_testimonials');
 
         return redirect()->route('admin.testimonials.index')->with('success', 'Testimonial created successfully.');
     }
@@ -78,19 +79,25 @@ class TestimonialController extends Controller
         $data['is_published'] = $request->boolean('is_published');
 
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($testimonial->image);
+            if ($testimonial->image) {
+                Storage::disk('public')->delete($testimonial->image);
+            }
             $data['image'] = $request->file('image')->store('testimonials', 'public');
         }
 
         $testimonial->update($data);
+        \Illuminate\Support\Facades\Cache::forget('homepage_testimonials');
 
         return redirect()->route('admin.testimonials.index')->with('success', 'Testimonial updated successfully.');
     }
 
     public function destroy(Testimonial $testimonial)
     {
-        Storage::disk('public')->delete($testimonial->image);
+        if ($testimonial->image) {
+            Storage::disk('public')->delete($testimonial->image);
+        }
         $testimonial->delete();
+        \Illuminate\Support\Facades\Cache::forget('homepage_testimonials');
 
         return back()->with('success', 'Testimonial deleted successfully.');
     }

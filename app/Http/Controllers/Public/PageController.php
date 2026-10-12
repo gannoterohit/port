@@ -30,11 +30,12 @@ class PageController extends Controller
             ->orderBy('display_order')
             ->get();
 
-        $skills = Skill::where('is_enabled', true)
-            ->with('category')
-            ->orderByRaw("FIELD(category_id, " . implode(',', $categories->pluck('id')->toArray()) . ")")
-            ->orderBy('display_order')
-            ->get();
+        $query = Skill::where('is_enabled', true)->with('category');
+        $catIds = $categories->pluck('id')->filter()->toArray();
+        if (!empty($catIds) && config('database.default') !== 'sqlite') {
+            $query->orderByRaw("FIELD(category_id, " . implode(',', $catIds) . ")");
+        }
+        $skills = $query->orderBy('display_order')->get();
 
         return view('public.skills', compact('categories', 'skills'));
     }

@@ -136,7 +136,16 @@
                                 <p class="text-sm text-gray-600 mt-1 line-clamp-2">{{ Str::limit($enquiry->message, 80) }}</p>
                                 <p class="text-xs text-gray-400 mt-1">{{ $enquiry->created_at->diffForHumans() }}</p>
                             </div>
-                            <span class="px-2 py-1 text-xs rounded-full bg-{{ $enquiry->status_color }}-100 text-{{ $enquiry->status_color }}-800">
+                            @php
+                                $statusClasses = [
+                                    'new' => 'bg-blue-100 text-blue-800',
+                                    'in_progress' => 'bg-amber-100 text-amber-800',
+                                    'contacted' => 'bg-emerald-100 text-emerald-800',
+                                    'converted' => 'bg-purple-100 text-purple-800',
+                                    'closed' => 'bg-slate-100 text-slate-800',
+                                ];
+                            @endphp
+                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ $statusClasses[$enquiry->status] ?? 'bg-gray-100 text-gray-800' }}">
                                 {{ $enquiry->status_label }}
                             </span>
                         </div>

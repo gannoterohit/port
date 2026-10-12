@@ -7,13 +7,13 @@
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Cal Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
   
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
+  --color-primary: var(--primary-color, #2563eb);
+  --color-primary-hover: var(--primary-color, #1d4ed8);
   --color-primary-light: #dbeafe;
   --color-primary-dark: #1e3a8a;
-  --color-secondary: #0f172a;
+  --color-secondary: var(--secondary-color, #0f172a);
   --color-accent: #f59e0b;
   --color-accent-hover: #d97706;
   
@@ -77,19 +77,19 @@
   }
   
   .btn-primary {
-    @apply btn bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-md focus-visible:ring-primary;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-md focus-visible:ring-primary;
   }
   
   .btn-secondary {
-    @apply btn bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 focus-visible:ring-slate-400;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 focus-visible:ring-slate-400;
   }
   
   .btn-outline {
-    @apply btn border-2 border-primary text-primary hover:bg-primary hover:text-white focus-visible:ring-primary;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-primary text-primary hover:bg-primary hover:text-white focus-visible:ring-primary;
   }
   
   .btn-ghost {
-    @apply btn text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 focus-visible:ring-slate-400;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 focus-visible:ring-slate-400;
   }
   
   .card {
@@ -105,7 +105,7 @@
   }
   
   .textarea {
-    @apply input min-h-[120px] resize-y;
+    @apply w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-h-[120px] resize-y;
   }
   
   .label {
@@ -141,11 +141,11 @@
   }
   
   .badge-primary {
-    @apply badge bg-primary/10 text-primary;
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary;
   }
   
   .badge-secondary {
-    @apply badge bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300;
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300;
   }
   
   .link-underline {

@@ -1,33 +1,32 @@
 @extends('public.layouts.app')
 
-@section('title', 'Resume - ' . $websiteName)
+@section('title', 'Resume / CV - ' . $websiteName)
 @section('meta_description', $profile->biography ?? $siteDescription)
-
-@isset($profile->og_image_url)
-    <meta property="og:image" content="{{ $profile->og_image_url }}">
-@endisset
+@if(!empty($profile->og_image_url))
+    @section('og_image', $profile->og_image_url)
+@endif
 
 @section('content')
-<section class="min-h-screen pt-16 py-20 bg-gray-50 dark:bg-gray-900">
+<section class="min-h-screen pt-28 sm:pt-36 pb-20 bg-slate-50 dark:bg-slate-950">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
-            <div class="flex justify-between items-center mb-12">
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Resume</h1>
-                @if($profile->resume_url)
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Resume / CV</h1>
+                @if($profile->resume_url && $profile->resume_button_visible)
                     <a href="{{ $profile->resume_url }}" target="_blank" download
-                        class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path>
-                            </svg>
+                        class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path>
+                        </svg>
                         Download Resume
                     </a>
                 @endif
             </div>
 
-            <div class="prose dark:prose-invert max-w-none mb-12">
+            <div class="prose dark:prose-invert max-w-none mb-12 text-slate-700 dark:text-slate-300">
                 @if($profile->biography)
-                    {!! nl2br(e($profile->biography)) !!}
+                    {!! $profile->biography !!}
                 @else
                     <p>No biography available.</p>
                 @endif

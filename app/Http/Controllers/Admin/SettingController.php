@@ -24,32 +24,34 @@ class SettingController extends Controller
         foreach ($settings as $setting) {
             $key = $setting->key;
 
-            if (!$request->has($key)) {
+            if ($setting->type === 'boolean') {
+                $setting->update(['value' => $request->has($key) ? '1' : '0']);
                 continue;
             }
 
-            $value = $request->input($key);
-
             if ($setting->type === 'image') {
                 if ($request->hasFile($key)) {
-                    $oldFile = $setting->value;
-                    if ($oldFile) {
-                        Storage::disk('public')->delete($oldFile);
+                    if ($setting->value) {
+                        Storage::disk('public')->delete($setting->value);
                     }
-                    $value = $request->file($key)->store('settings', 'public');
-                } else {
-                    $value = $setting->value;
+                    $setting->update(['value' => $request->file($key)->store('settings', 'public')]);
                 }
-            } elseif ($setting->type === 'boolean') {
-                $value = $request->boolean($key) ? '1' : '0';
-            } elseif ($setting->type === 'password') {
-                if (empty($value)) {
-                    $value = $setting->value;
-                }
+                continue;
             }
 
-            $setting->update(['value' => $value]);
+            if ($request->has($key)) {
+                $value = $request->input($key);
+
+                if ($setting->type === 'password' && empty($value)) {
+                    continue;
+                }
+
+                $setting->update(['value' => $value]);
+            }
         }
+
+        \Illuminate\Support\Facades\Cache::forget('profile');
+        \Illuminate\Support\Facades\Cache::forget('homepage_settings');
 
         return back()->with('success', 'Settings updated successfully.');
     }

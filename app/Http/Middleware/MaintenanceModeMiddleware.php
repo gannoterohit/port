@@ -16,7 +16,11 @@ class MaintenanceModeMiddleware
 
     public function handle(Request $request, Closure $next): Response
     {
-        $maintenanceMode = \App\Models\Setting::where('key', 'maintenance_mode')->value('value');
+        try {
+            $maintenanceMode = \App\Models\Setting::where('key', 'maintenance_mode')->value('value');
+        } catch (\Throwable $e) {
+            $maintenanceMode = null;
+        }
 
         if ($maintenanceMode === '1' || $maintenanceMode === true || $maintenanceMode === 1) {
             if (Auth::check() && Auth::user()->is_admin) {

@@ -58,6 +58,7 @@ class SkillController extends Controller
         $data['is_featured'] = $request->boolean('is_featured', false);
 
         Skill::create($data);
+        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
 
         return redirect()->route('admin.skills.index')->with('success', 'Skill created successfully.');
     }
@@ -74,7 +75,7 @@ class SkillController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'category_id' => ['nullable', 'exists:skill_categories,id'],
             'description' => ['nullable', 'string'],
-            'proficiency' => ['nullable', 'integer', 'min:1', 'max:5'],
+            'proficiency' => ['nullable', 'integer', 'min:1', 'max:100'],
             'is_enabled' => ['boolean'],
             'is_featured' => ['boolean'],
         ]);
@@ -83,6 +84,7 @@ class SkillController extends Controller
         $data['is_featured'] = $request->boolean('is_featured');
 
         $skill->update($data);
+        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
 
         return redirect()->route('admin.skills.index')->with('success', 'Skill updated successfully.');
     }
@@ -90,6 +92,7 @@ class SkillController extends Controller
     public function destroy(Skill $skill)
     {
         $skill->delete();
+        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
         return back()->with('success', 'Skill deleted successfully.');
     }
 }

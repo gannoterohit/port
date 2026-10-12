@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function __invoke(Request $request)
     {
         $homepageSettings = Cache::remember('homepage_settings', 3600, function () {
-            return HomepageSetting::firstOrCreate([]);
+            return HomepageSetting::getInstance();
         });
 
         $profile = Cache::remember('profile', 3600, function () {

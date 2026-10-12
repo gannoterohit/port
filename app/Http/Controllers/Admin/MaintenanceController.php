@@ -16,18 +16,20 @@ class MaintenanceController extends Controller
 
     public function update()
     {
-        $setting = Setting::where('key', 'maintenance_mode')->first();
-        $setting->update(['value' => '1']);
+        Setting::updateOrCreate(
+            ['key' => 'maintenance_mode'],
+            ['value' => '1', 'group' => 'general', 'type' => 'boolean', 'label' => 'Maintenance Mode']
+        );
 
         return back()->with('success', 'Maintenance mode enabled.');
     }
 
     public function disable()
     {
-        $setting = Setting::where('key', 'maintenance_mode')->first();
-        if ($setting) {
-            $setting->update(['value' => '0']);
-        }
+        Setting::updateOrCreate(
+            ['key' => 'maintenance_mode'],
+            ['value' => '0', 'group' => 'general', 'type' => 'boolean', 'label' => 'Maintenance Mode']
+        );
 
         return back()->with('success', 'Maintenance mode disabled.');
     }

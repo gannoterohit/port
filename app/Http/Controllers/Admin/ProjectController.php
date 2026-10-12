@@ -90,7 +90,7 @@ class ProjectController extends Controller
 
             $project = Project::create($data);
 
-            if ($request->has('screenshots')) {
+            if ($request->hasFile('screenshots')) {
                 $order = 1;
                 foreach ($request->file('screenshots') as $screenshot) {
                     if ($screenshot) {
@@ -162,7 +162,7 @@ class ProjectController extends Controller
 
         $project->update($data);
 
-        if ($request->has('screenshots')) {
+        if ($request->hasFile('screenshots')) {
             $order = 1;
             foreach ($request->file('screenshots') as $screenshot) {
                 if ($screenshot) {
@@ -176,6 +176,7 @@ class ProjectController extends Controller
         }
 
         Cache::forget('homepage_featured_projects');
+        Cache::forget('project_' . $project->slug);
 
         return redirect()->route('admin.projects.index')->with('success', 'Project updated successfully.');
     }
@@ -191,9 +192,11 @@ class ProjectController extends Controller
         $this->deleteFile($project->thumbnail);
         $this->deleteFile($project->og_image);
 
+        $slug = $project->slug;
         $project->delete();
 
         Cache::forget('homepage_featured_projects');
+        Cache::forget('project_' . $slug);
 
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully.');
     }

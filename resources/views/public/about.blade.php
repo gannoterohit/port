@@ -1,14 +1,13 @@
 @extends('public.layouts.app')
 
-@section('title', 'About - ' . $websiteName)
-@section('meta_description', $profile->bio ?? 'Learn more about me')
-
-@isset($profile->og_image_url)
-    <meta property="og:image" content="{{ $profile->og_image_url }}">
-@endisset
+@section('title', 'About Me - ' . $websiteName)
+@section('meta_description', $profile->bio ?? 'Learn more about my experience and background')
+@if(!empty($profile->og_image_url))
+    @section('og_image', $profile->og_image_url)
+@endif
 
 @section('content')
-<section class="min-h-screen pt-16 py-20">
+<section class="min-h-screen pt-28 sm:pt-36 pb-20 bg-slate-50 dark:bg-slate-950">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
             <div class="flex flex-col md:flex-row gap-12 items-center mb-12">
@@ -22,8 +21,8 @@
                     @if($profile->subtitle)
                         <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">{{ $profile->subtitle }}</p>
                     @endif
-                    <div class="prose dark:prose-invert max-w-none">
-                        {!! nl2br(e($profile->intro ?? $profile->biography ?? '')) !!}
+                    <div class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
+                        {!! $profile->biography ? $profile->biography : nl2br(e($profile->intro ?? '')) !!}
                     </div>
                 </div>
             </div>

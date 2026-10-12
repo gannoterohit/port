@@ -4,7 +4,7 @@
 @section('header', 'Profile & About')
 
 @section('admin-content')
-<form method="POST" action="{{ route('admin.profile.update') }}" class="space-y-6">
+<form method="POST" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data" class="space-y-6">
     @csrf
     @method('PUT')
 
@@ -44,20 +44,17 @@
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Profile Photo</h3>
         <div class="flex items-center gap-6">
             @if($profile->profile_photo)
-                <img src="{{ $profile->profile_photo_url }}" alt="Profile Photo" class="w-20 h-20 rounded-lg object-cover">
+                <img src="{{ $profile->profile_photo_url }}" alt="Profile Photo" class="w-20 h-20 rounded-lg object-cover border border-gray-200">
             @else
-                <div class="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">No Image</div>
+                <div class="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-xs">No Photo</div>
             @endif
-            <form method="POST" action="{{ route('admin.profile.photo') }}" enctype="multipart/form-data" class="flex-1">
-                @csrf
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Upload New Photo</label>
-                    <input type="file" name="profile_photo" accept="image/*" class="admin-input">
-                    @error('profile_photo')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            </form>
+            <div class="flex-1">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Upload New Photo</label>
+                <input type="file" name="profile_photo" accept="image/*" class="admin-input">
+                @error('profile_photo')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
     </div>
 
@@ -80,31 +77,31 @@
 
     <div class="bg-white rounded-xl border border-gray-200 p-6">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Resume / CV</h3>
-        <div class="flex items-center gap-6">
-            <div class="flex-1">
-                <form method="POST" action="{{ route('admin.profile.resume') }}" enctype="multipart/form-data">
-                    @csrf
+        <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-6">
+                <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Upload Resume PDF</label>
                     <input type="file" name="resume_pdf" accept="application/pdf" class="admin-input">
                     @error('resume_pdf')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
-                </form>
-                @if($profile->resume_pdf)
-                    <div class="mt-3">
-                        <a href="{{ $profile->resume_url }}" target="_blank"
-                            class="text-blue-600 hover:text-blue-700 text-sm">
-                            View Current Resume
-                        </a>
-                    </div>
-                @endif
-            </div>
+                    @if($profile->resume_pdf)
+                        <div class="mt-2">
+                            <a href="{{ $profile->resume_url }}" target="_blank"
+                                class="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 text-sm font-medium">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                View Current Resume PDF
+                            </a>
+                        </div>
+                    @endif
+                </div>
 
-            <div class="flex items-center gap-3">
-                <label class="flex items-center gap-2 text-sm text-gray-700">
-                    <input type="checkbox" name="resume_button_visible" value="1" {{ $profile->resume_button_visible ? 'checked' : '' }}>
-                    Resume download button visible
-                </label>
+                <div class="pt-2">
+                    <label class="flex items-center gap-2 text-sm text-gray-700 font-medium">
+                        <input type="checkbox" name="resume_button_visible" value="1" {{ $profile->resume_button_visible ? 'checked' : '' }} class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        Show Download Resume button publicly
+                    </label>
+                </div>
             </div>
         </div>
     </div>
