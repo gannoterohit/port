@@ -62,6 +62,7 @@ class SkillController extends Controller
 
         Skill::create($data);
         Cache::forget('homepage_skills');
+        Cache::forget('about_featured_skills');
 
         return redirect()->route('admin.skills.index')->with('success', 'Skill created successfully.');
     }
@@ -89,6 +90,7 @@ class SkillController extends Controller
 
         $skill->update($data);
         Cache::forget('homepage_skills');
+        Cache::forget('about_featured_skills');
 
         return redirect()->route('admin.skills.index')->with('success', 'Skill updated successfully.');
     }
@@ -97,6 +99,7 @@ class SkillController extends Controller
     {
         $skill->delete();
         Cache::forget('homepage_skills');
+        Cache::forget('about_featured_skills');
 
         return back()->with('success', 'Skill deleted successfully.');
     }

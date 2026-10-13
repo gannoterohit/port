@@ -60,8 +60,8 @@ class DatabaseSeeder extends Seeder
                 'biography' => '<p>Add your professional biography here from Admin → Profile. Keep experience years consistent with Settings (About → Years of Experience).</p>',
                 'experience_text' => 'Add your work history from Admin → Profile (company, role, duration).',
                 'location' => 'Your City, India',
-                'location_visible' => false,
-                'contact_email' => null,
+                'location_visible' => true,
+                'contact_email' => 'admin@example.com',
                 'contact_phone' => null,
                 'contact_whatsapp' => null,
                 'social_links' => [
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
                     'twitter' => null,
                     'website' => null,
                 ],
-                'resume_button_visible' => false,
+                'resume_button_visible' => true,
             ]
         );
 
@@ -161,7 +161,7 @@ class DatabaseSeeder extends Seeder
                 'demo_url' => null,
                 'github_url' => null,
                 'is_featured' => true,
-                'status' => 'draft',
+                'status' => 'published',
                 'display_order' => 1,
             ],
             [
@@ -177,7 +177,7 @@ class DatabaseSeeder extends Seeder
                 'demo_url' => null,
                 'github_url' => null,
                 'is_featured' => true,
-                'status' => 'draft',
+                'status' => 'published',
                 'display_order' => 2,
             ],
             [
@@ -192,8 +192,8 @@ class DatabaseSeeder extends Seeder
                 'solutions' => 'Used Laravel Echo with WebSockets and queue workers for background processing.',
                 'demo_url' => null,
                 'github_url' => null,
-                'is_featured' => false,
-                'status' => 'draft',
+                'is_featured' => true,
+                'status' => 'published',
                 'display_order' => 3,
             ],
         ];

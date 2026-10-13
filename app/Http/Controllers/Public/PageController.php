@@ -15,11 +15,20 @@ class PageController extends Controller
     {
         $profile = Cache::remember('profile', 3600, fn () => Profile::getInstance());
         $featuredSkills = Cache::remember('about_featured_skills', 3600, function () {
-            return Skill::where('is_enabled', true)
+            $skills = Skill::where('is_enabled', true)
                 ->where('is_featured', true)
                 ->orderBy('display_order')
                 ->limit(8)
                 ->get();
+
+            if ($skills->isEmpty()) {
+                $skills = Skill::where('is_enabled', true)
+                    ->orderBy('display_order')
+                    ->limit(8)
+                    ->get();
+            }
+
+            return $skills;
         });
 
         return view('public.about', compact('profile', 'featuredSkills'));

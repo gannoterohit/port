@@ -45,8 +45,14 @@
 
                         <!-- Communication Channels -->
                         <div class="space-y-4">
-                            @if($profile->contact_email || $profile->email)
-                                @php $email = $profile->contact_email ?: $profile->email; @endphp
+                            @php
+                                $contactEmail = $profile->contact_email ?: ($profile->email ?: \App\Models\Setting::get('contact_email'));
+                                $contactPhone = $profile->contact_phone ?: ($profile->phone ?: \App\Models\Setting::get('contact_phone'));
+                                $contactWhatsapp = $profile->whatsapp_url ?: (\App\Models\Setting::get('contact_whatsapp') ? 'https://wa.me/' . preg_replace('/\D+/', '', \App\Models\Setting::get('contact_whatsapp')) : null);
+                                $contactLocation = ($profile->location_visible && $profile->location) ? $profile->location : \App\Models\Setting::get('contact_location');
+                            @endphp
+
+                            @if($contactEmail)
                                 <div class="flex items-start gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-[#F5F7F2] border border-[#E5E7EB] flex items-center justify-center shrink-0 text-[#1B560B]">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,15 +62,14 @@
                                     </div>
                                     <div>
                                         <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">Direct Email</span>
-                                        <a href="mailto:{{ $email }}" class="text-sm font-medium text-[#1F2937] hover:text-[#1B560B] break-all transition-colors">
-                                            {{ $email }}
+                                        <a href="mailto:{{ $contactEmail }}" class="text-sm font-medium text-[#1F2937] hover:text-[#1B560B] break-all transition-colors">
+                                            {{ $contactEmail }}
                                         </a>
                                     </div>
                                 </div>
                             @endif
 
-                            @if($profile->contact_phone || $profile->phone)
-                                @php $phone = $profile->contact_phone ?: $profile->phone; @endphp
+                            @if($contactPhone)
                                 <div class="flex items-start gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-[#F5F7F2] border border-[#E5E7EB] flex items-center justify-center shrink-0 text-[#1B560B]">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,12 +79,12 @@
                                     </div>
                                     <div>
                                         <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">Phone</span>
-                                        <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="text-sm font-medium text-[#1F2937] hover:text-[#1B560B] transition-colors">{{ $phone }}</a>
+                                        <a href="tel:{{ preg_replace('/\s+/', '', $contactPhone) }}" class="text-sm font-medium text-[#1F2937] hover:text-[#1B560B] transition-colors">{{ $contactPhone }}</a>
                                     </div>
                                 </div>
                             @endif
 
-                            @if($profile->whatsapp_url)
+                            @if($contactWhatsapp)
                                 <div class="flex items-start gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-[#F5F7F2] border border-[#E5E7EB] flex items-center justify-center shrink-0 text-[#1B560B]">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -88,14 +93,14 @@
                                     </div>
                                     <div>
                                         <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">WhatsApp</span>
-                                        <a href="{{ $profile->whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-[#1B560B] hover:text-[#144208] transition-colors">
+                                        <a href="{{ $contactWhatsapp }}" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-[#1B560B] hover:text-[#144208] transition-colors">
                                             Chat on WhatsApp
                                         </a>
                                     </div>
                                 </div>
                             @endif
 
-                            @if($profile->location && $profile->location_visible)
+                            @if($contactLocation)
                                 <div class="flex items-start gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-[#F5F7F2] border border-[#E5E7EB] flex items-center justify-center shrink-0 text-[#1B560B]">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,7 +112,7 @@
                                     </div>
                                     <div>
                                         <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">Location</span>
-                                        <span class="text-sm font-medium text-[#1F2937]">{{ $profile->location }}</span>
+                                        <span class="text-sm font-medium text-[#1F2937]">{{ $contactLocation }}</span>
                                     </div>
                                 </div>
                             @endif

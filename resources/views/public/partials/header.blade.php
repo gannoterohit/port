@@ -21,8 +21,22 @@
                     </a>
                 </div>
 
+                @php
+                    $effectiveNav = ($navItems && $navItems->isNotEmpty())
+                        ? $navItems
+                        : collect([
+                            (object)['label' => 'Home', 'url' => '/'],
+                            (object)['label' => 'About', 'url' => '/about'],
+                            (object)['label' => 'Skills', 'url' => '/skills'],
+                            (object)['label' => 'Projects', 'url' => '/projects'],
+                            (object)['label' => 'Services', 'url' => '/services'],
+                            (object)['label' => 'Resume', 'url' => '/resume'],
+                            (object)['label' => 'Contact', 'url' => '/contact'],
+                        ]);
+                @endphp
+
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-1.5">
-                    @foreach($navItems as $item)
+                    @foreach($effectiveNav as $item)
                         @php
                             $isActive = request()->is(ltrim($item->url, '/')) || (request()->routeIs('home') && $item->url === '/');
                         @endphp
@@ -77,7 +91,7 @@
                     </button>
                 </div>
                 <div class="space-y-1">
-                    @foreach($navItems as $item)
+                    @foreach($effectiveNav as $item)
                         @php
                             $isActive = request()->is(ltrim($item->url, '/')) || (request()->routeIs('home') && $item->url === '/');
                         @endphp

@@ -28,6 +28,12 @@
                         </svg>
                         Download PDF
                     </a>
+                @else
+                    <a href="{{ route('contact') }}"
+                        class="inline-flex items-center gap-2 bg-[#1B560B] hover:bg-[#144208] text-white px-6 py-3 rounded-lg text-sm font-semibold shadow-xs transition-colors shrink-0">
+                        Contact / Hire Me
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
                 @endif
             </div>
 

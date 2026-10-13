@@ -26,29 +26,58 @@ class HomeController extends Controller
         });
 
         $skills = Cache::remember('homepage_skills', 3600, function () {
-            return Skill::where('is_featured', true)
+            $items = Skill::where('is_featured', true)
                 ->where('is_enabled', true)
                 ->with('category')
                 ->orderBy('display_order')
                 ->limit(12)
                 ->get();
+
+            if ($items->isEmpty()) {
+                $items = Skill::where('is_enabled', true)
+                    ->with('category')
+                    ->orderBy('display_order')
+                    ->limit(12)
+                    ->get();
+            }
+
+            return $items;
         });
 
         $featuredProjects = Cache::remember('homepage_featured_projects', 60, function () {
-            return Project::where('is_featured', true)
+            $projects = Project::where('is_featured', true)
                 ->where('status', 'published')
                 ->where('published_at', '<=', now())
                 ->orderBy('display_order')
                 ->limit(6)
                 ->get();
+
+            if ($projects->isEmpty()) {
+                $projects = Project::where('status', 'published')
+                    ->where('published_at', '<=', now())
+                    ->orderBy('display_order')
+                    ->limit(6)
+                    ->get();
+            }
+
+            return $projects;
         });
 
         $featuredServices = Cache::remember('homepage_featured_services', 60, function () {
-            return Service::where('is_featured', true)
+            $services = Service::where('is_featured', true)
                 ->where('is_enabled', true)
                 ->orderBy('display_order')
                 ->limit(6)
                 ->get();
+
+            if ($services->isEmpty()) {
+                $services = Service::where('is_enabled', true)
+                    ->orderBy('display_order')
+                    ->limit(6)
+                    ->get();
+            }
+
+            return $services;
         });
 
         $testimonials = Cache::remember('homepage_testimonials', 3600, function () {

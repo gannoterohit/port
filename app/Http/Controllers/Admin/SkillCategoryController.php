@@ -58,6 +58,7 @@ class SkillCategoryController extends Controller
 
         $skillCategory->update($data);
         Cache::forget('homepage_skills');
+        Cache::forget('about_featured_skills');
 
         return redirect()->route('admin.skill-categories.index')->with('success', 'Category updated successfully.');
     }
@@ -66,6 +67,7 @@ class SkillCategoryController extends Controller
     {
         $skillCategory->delete();
         Cache::forget('homepage_skills');
+        Cache::forget('about_featured_skills');
 
         return back()->with('success', 'Category deleted successfully.');
     }
