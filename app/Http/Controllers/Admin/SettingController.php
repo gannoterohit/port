@@ -22,6 +22,16 @@ class SettingController extends Controller
     {
         $settings = Setting::all();
 
+        $presetColors = [
+            'indigo_dark' => ['#6366F1', '#38BDF8'],
+            'apple_light' => ['#2563EB', '#0D9488'],
+            'navy_cyan' => ['#06B6D4', '#8B5CF6'],
+            'titanium_amber' => ['#F59E0B', '#FB923C'],
+            'emerald_dark' => ['#10B981', '#14B8A6'],
+        ];
+
+        $submittedPreset = $request->input('theme_preset');
+
         foreach ($settings as $setting) {
             $key = $setting->key;
 
@@ -40,6 +50,18 @@ class SettingController extends Controller
                 }
 
                 continue;
+            }
+
+            // Keep primary & secondary in sync with chosen theme preset
+            if ($submittedPreset && isset($presetColors[$submittedPreset])) {
+                if ($key === 'primary_color') {
+                    $setting->update(['value' => $presetColors[$submittedPreset][0]]);
+                    continue;
+                }
+                if ($key === 'secondary_color') {
+                    $setting->update(['value' => $presetColors[$submittedPreset][1]]);
+                    continue;
+                }
             }
 
             if ($request->has($key)) {
