@@ -62,7 +62,7 @@
                         <div class="flex items-center gap-2">
                             <span class="font-medium text-gray-900">{{ $enquiry->name }}</span>
                             @if($enquiry->isUnread())
-                                <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
                             @endif
                         </div>
                     </td>
@@ -72,7 +72,7 @@
                     <td class="py-3 px-4">
                         @php
                             $statusClasses = [
-                                'new' => 'bg-blue-100 text-blue-800',
+                                'new' => 'bg-emerald-100 text-emerald-900',
                                 'in_progress' => 'bg-amber-100 text-amber-800',
                                 'contacted' => 'bg-emerald-100 text-emerald-800',
                                 'converted' => 'bg-purple-100 text-purple-800',
@@ -86,7 +86,7 @@
                     <td class="py-3 px-4 text-sm text-gray-500">{{ $enquiry->created_at->format('M d, Y') }}</td>
                     <td class="py-3 px-4 text-right">
                         <div class="flex justify-end items-center gap-2">
-                            <a href="{{ route('admin.enquiries.show', $enquiry) }}" class="text-blue-600 hover:text-blue-700" title="View details">
+                            <a href="{{ route('admin.enquiries.show', $enquiry) }}" class="text-emerald-700 hover:text-emerald-800" title="View details">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -119,3 +119,4 @@
     </div>
 @endif
 @endsection
+

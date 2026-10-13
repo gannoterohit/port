@@ -50,14 +50,15 @@
                 {{ ($seoSettings['sitemap_enabled']->value ?? '1') == '1' ? 'checked' : '' }}>
             <label class="text-sm text-gray-700">Enable XML Sitemap</label>
         </div>
-        <p class="text-xs text-gray-500 mt-1">Sitemap is available at <a href="{{ route('sitemap.xml') }}" class="text-blue-600" target="_blank">/sitemap.xml</a></p>
+        <p class="text-xs text-gray-500 mt-1">Sitemap is available at <a href="{{ route('sitemap.xml') }}" class="text-emerald-700" target="_blank">/sitemap.xml</a></p>
     </div>
 
     <div class="flex justify-end">
         <button type="submit"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+            class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-lg font-medium transition-colors">
             Save SEO Settings
         </button>
     </div>
 </form>
 @endsection
+

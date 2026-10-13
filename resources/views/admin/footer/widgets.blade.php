@@ -7,7 +7,7 @@
 <ul class="flex gap-4 mb-6 border-b border-gray-200">
     <li>
         <a href="{{ route('admin.footer.widgets.index') }}"
-            class="border-b-2 border-blue-600 text-blue-600 pb-2 text-sm font-semibold">
+            class="border-b-2 border-emerald-700 text-emerald-700 pb-2 text-sm font-semibold">
             Widgets
         </a>
     </li>
@@ -25,7 +25,7 @@
         <p class="text-xs text-gray-500 mt-0.5">Manage columns and text sections displayed in the site footer.</p>
     </div>
     <button type="button" onclick="openAddWidgetModal()"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+        class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
         + Add Widget
     </button>
 </div>
@@ -59,7 +59,7 @@
                     <td class="py-3 px-4 text-right">
                         <div class="flex justify-end items-center gap-2">
                             <button type="button" onclick="editWidget({{ $widget->id }})"
-                                class="text-blue-600 hover:text-blue-700 p-1" title="Edit">
+                                class="text-emerald-700 hover:text-emerald-800 p-1" title="Edit">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
@@ -103,14 +103,14 @@
                     <textarea name="content" id="widgetContent" rows="3" class="admin-textarea" placeholder="Optional text or details..."></textarea>
                 </div>
                 <div class="flex items-center gap-2 pt-2">
-                    <input type="checkbox" name="is_enabled" value="1" id="widgetEnabled" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                    <input type="checkbox" name="is_enabled" value="1" id="widgetEnabled" checked class="rounded border-gray-300 text-emerald-700 focus:ring-emerald-700">
                     <label for="widgetEnabled" class="text-sm text-gray-700 select-none">Enabled</label>
                 </div>
             </div>
             <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
                 <button type="button" onclick="closeWidgetModal()"
                     class="text-gray-600 hover:text-gray-900 px-4 py-2 text-sm">Cancel</button>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
+                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
                     Save Widget
                 </button>
             </div>
@@ -175,3 +175,4 @@ function editWidget(id) {
 }
 </script>
 @endsection
+

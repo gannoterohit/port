@@ -22,7 +22,7 @@
                         @if($logo)
                             <img src="{{ asset('storage/' . $logo) }}" alt="{{ $websiteName }}" class="h-9 sm:h-10 w-auto object-contain">
                         @else
-                            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
+                            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-emerald-400 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
                                 {{ substr($websiteName, 0, 1) }}
                             </div>
                             <span class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors">

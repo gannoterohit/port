@@ -11,7 +11,7 @@
             <p class="text-xs text-gray-500 mt-0.5">Manage and reorder links that appear in the public site header.</p>
         </div>
         <button type="button" onclick="openAddModal()"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+            class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
             + Add Menu Item
         </button>
     </div>
@@ -37,7 +37,7 @@
                             {{ $item->is_visible ? 'Visible' : 'Hidden' }}
                         </span>
                         <button type="button" onclick="editItem({{ $item->id }})"
-                            class="text-blue-600 hover:text-blue-700 p-1" title="Edit">
+                            class="text-emerald-700 hover:text-emerald-800 p-1" title="Edit">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                             </svg>
@@ -94,14 +94,14 @@
                     </select>
                 </div>
                 <div class="flex items-center gap-2 pt-2">
-                    <input type="checkbox" name="is_visible" value="1" id="itemVisible" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                    <input type="checkbox" name="is_visible" value="1" id="itemVisible" checked class="rounded border-gray-300 text-emerald-700 focus:ring-emerald-700">
                     <label for="itemVisible" class="text-sm text-gray-700 select-none">Visible in header</label>
                 </div>
             </div>
             <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
                 <button type="button" onclick="closeModal()"
                     class="text-gray-600 hover:text-gray-900 px-4 py-2 text-sm">Cancel</button>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
+                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
                     Save Item
                 </button>
             </div>
@@ -194,3 +194,4 @@ function saveOrder() {
 }
 </script>
 @endsection
+

@@ -9,7 +9,7 @@
         <div class="max-w-6xl mx-auto">
             <!-- Header Section -->
             <div class="text-center mb-16">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 mb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 mb-4">
                     What I Offer
                 </div>
                 <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
@@ -28,7 +28,7 @@
                             @if($service->icon_url)
                                 <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" class="w-14 h-14 object-contain rounded-xl p-2 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
                             @else
-                                <div class="w-14 h-14 bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center border border-blue-100 dark:border-blue-900/50">
+                                <div class="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-xl flex items-center justify-center border border-emerald-100 dark:border-emerald-900/50">
                                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                                     </svg>
@@ -42,7 +42,7 @@
                             @endif
                         </div>
 
-                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                             <a href="{{ route('services.show', ['service' => $service->slug]) }}">
                                 {{ $service->name }}
                             </a>
@@ -67,7 +67,7 @@
 
                         <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between mt-auto">
                             @if($service->price_formatted)
-                                <span class="text-lg font-bold text-blue-600 dark:text-blue-400">
+                                <span class="text-lg font-bold text-emerald-700 dark:text-emerald-400">
                                     {{ $service->price_formatted }}
                                 </span>
                             @else
@@ -75,7 +75,7 @@
                             @endif
 
                             <a href="{{ route('services.show', ['service' => $service->slug]) }}"
-                                class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                                 Learn More
                                 <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -103,3 +103,4 @@
     </div>
 </section>
 @endsection
+

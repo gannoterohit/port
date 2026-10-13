@@ -117,9 +117,9 @@
                         </div>
                     @endif
                     @if($project->solutions)
-                        <div class="bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-800/40 rounded-2xl p-6">
-                            <h3 class="text-lg font-bold text-blue-900 dark:text-blue-300 mb-3 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        <div class="bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold text-emerald-950 dark:text-emerald-300 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-emerald-700 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
                                 Solutions Implemented
                             </h3>
                             <div class="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 text-sm">
@@ -187,11 +187,11 @@
                 </div>
             @endif
 
-            <div class="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-primary text-white shadow-xl text-center">
+            <div class="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-emerald-700 via-indigo-600 to-primary text-white shadow-xl text-center">
                 <h3 class="text-2xl sm:text-3xl font-bold mb-3">Like what you see?</h3>
-                <p class="text-blue-100 max-w-xl mx-auto mb-6">Need a custom web solution with similar architecture and clean delivery? Let's discuss your requirements!</p>
+                <p class="text-emerald-100 max-w-xl mx-auto mb-6">Need a custom web solution with similar architecture and clean delivery? Let's discuss your requirements!</p>
                 <a href="{{ route('contact') }}"
-                    class="inline-flex items-center gap-2 bg-white text-blue-700 hover:bg-blue-50 px-8 py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
+                    class="inline-flex items-center gap-2 bg-white text-emerald-800 hover:bg-emerald-50 px-8 py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
                     Hire Me For Your Project
                 </a>
             </div>
@@ -199,3 +199,4 @@
     </div>
 </section>
 @endsection
+

@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div>
                 <h3 class="text-xl font-bold text-white mb-4">{{ $websiteName ?? config('app.name') }}</h3>
-                <p class="text-sm text-gray-400 mb-4">{{ \App\Models\Setting::get('footer_description') ?: ($profile->bio ?? ($profile->intro ?? 'Full Stack Web Developer crafting scalable applications.')) }}</p>
+                <p class="text-sm text-gray-400 mb-4">{{ \App\Models\Setting::get('footer_description') ?: ($profile->intro ?? ($profile->biography ? strip_tags(Str::limit($profile->biography, 200)) : 'Full Stack Web Developer crafting scalable applications.')) }}</p>
                 @if($profile)
                     <div class="flex space-x-4">
                         @if($profile->email)
@@ -89,3 +89,4 @@
         </div>
     </div>
 </footer>
+

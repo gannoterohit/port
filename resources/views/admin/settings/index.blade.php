@@ -83,9 +83,10 @@
 
     <div class="flex justify-end">
         <button type="submit"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+            class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-lg font-medium transition-colors">
             Save All Settings
         </button>
     </div>
 </form>
 @endsection
+

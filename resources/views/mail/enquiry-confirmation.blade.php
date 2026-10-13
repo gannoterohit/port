@@ -11,3 +11,4 @@ Thank you for reaching out. I have received your message and will get back to yo
 Best regards,<br>
 {{ $websiteName }}
 @endcomponent
+

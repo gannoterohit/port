@@ -7,7 +7,7 @@
 <div class="flex justify-between items-center mb-6">
     <h2 class="text-xl font-semibold text-gray-900">Manage Work Process Steps</h2>
     <a href="{{ route('admin.work-processes.create') }}"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+        class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg text-sm font-medium">
         Add Step
     </a>
 </div>
@@ -34,7 +34,7 @@
                 <span class="text-xs px-2 py-1 rounded-full {{ $process->is_enabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600' }}">
                     {{ $process->is_enabled ? 'Enabled' : 'Disabled' }}
                 </span>
-                <a href="{{ route('admin.work-processes.edit', $process->id) }}" class="text-blue-600 hover:text-blue-700" title="Edit step">
+                <a href="{{ route('admin.work-processes.edit', $process->id) }}" class="text-emerald-700 hover:text-emerald-800" title="Edit step">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                     </svg>
@@ -86,3 +86,4 @@ function saveOrder() {
 }
 </script>
 @endsection
+

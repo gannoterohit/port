@@ -1,7 +1,7 @@
 @extends('public.layouts.app')
 
 @section('title', ($homepageSettings->hero_heading ? $homepageSettings->hero_heading . ' - ' : ($profile->full_name . ' - ')) . $websiteName)
-@section('meta_description', $homepageSettings->hero_description ?? ($profile->bio ?? 'Full Stack Web Developer portfolio'))
+        @section('meta_description', $homepageSettings->hero_description ?? (strip_tags($profile->bio) ?? ($profile->intro ?? 'Full Stack Web Developer portfolio')))
 
 @section('content')
 @php
@@ -20,7 +20,7 @@
         <section class="relative pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden">
             <div class="absolute inset-0 -z-10 overflow-hidden">
                 <div class="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute top-1/2 -left-40 w-96 h-96 bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute top-1/2 -left-40 w-96 h-96 bg-emerald-400/10 dark:bg-emerald-700/10 rounded-full blur-3xl pointer-events-none"></div>
             </div>
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,7 +50,7 @@
                     </h1>
 
                     <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                        {{ $homepageSettings->hero_description ?: ($profile->bio ?: 'I craft clean, efficient, and scalable web applications using modern technologies.') }}
+                        {{ $homepageSettings->hero_description ?: (strip_tags($profile->bio) ?: ($profile->intro ?: 'I craft clean, efficient, and scalable web applications using modern technologies.')) }}
                     </p>
 
                     <div class="flex flex-wrap gap-4 justify-center items-center">
@@ -361,18 +361,18 @@
 
     @if($section === 'contact_cta' && $homepageSettings->contact_cta_section_enabled)
         <!-- Contact CTA Section -->
-        <section class="py-16 sm:py-24 bg-gradient-to-tr from-slate-900 via-blue-950 to-slate-900 text-white relative overflow-hidden">
-            <div class="absolute inset-0 -z-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <section class="py-16 sm:py-24 bg-gradient-to-tr from-slate-900 via-emerald-950 to-slate-900 text-white relative overflow-hidden">
+            <div class="absolute inset-0 -z-0 opacity-20 bg-[radial-gradient(#1B560B_1px,transparent_1px)] [background-size:16px_16px]"></div>
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="max-w-3xl mx-auto text-center">
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
                         {{ $homepageSettings->contact_cta_heading ?: 'Ready to work together?' }}
                     </h2>
-                    <p class="text-base sm:text-lg text-blue-200 mb-8 max-w-xl mx-auto">
+                    <p class="text-base sm:text-lg text-emerald-200 mb-8 max-w-xl mx-auto">
                         {{ $homepageSettings->contact_cta_description ?: "Let's discuss your next project. I'm available for freelance work and technical consulting." }}
                     </p>
                     <div class="flex flex-wrap gap-4 justify-center">
-                        <a href="{{ route('contact') }}" class="btn btn-primary bg-white text-blue-700 hover:bg-blue-50 text-base shadow-lg hover:shadow-xl font-bold">
+                        <a href="{{ route('contact') }}" class="btn btn-primary bg-white text-emerald-800 hover:bg-emerald-50 text-base shadow-lg hover:shadow-xl font-bold">
                             Get In Touch Now
                         </a>
                     </div>
@@ -383,3 +383,4 @@
 @endforeach
 
 @endsection
+

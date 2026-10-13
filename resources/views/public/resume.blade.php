@@ -1,7 +1,7 @@
 @extends('public.layouts.app')
 
 @section('title', 'Resume / CV - ' . $websiteName)
-@section('meta_description', $profile->biography ?? $siteDescription)
+        @section('meta_description', $profile->biography ? strip_tags($profile->biography) : $siteDescription)
 @if(!empty($profile->og_image_url))
     @section('og_image', $profile->og_image_url)
 @endif
@@ -14,7 +14,7 @@
                 <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Resume / CV</h1>
                 @if($profile->resume_url && $profile->resume_button_visible)
                     <a href="{{ $profile->resume_url }}" target="_blank" download
-                        class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-colors">
+                        class="inline-flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path>
@@ -104,3 +104,4 @@
     </div>
 </section>
 @endsection
+

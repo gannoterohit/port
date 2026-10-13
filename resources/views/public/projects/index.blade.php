@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto">
             <!-- Header Section -->
             <div class="text-center mb-16">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 mb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 mb-4">
                     Case Studies & Work
                 </div>
                 <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
@@ -48,7 +48,7 @@
                         </a>
 
                         <div class="p-6 flex-1 flex flex-col">
-                            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                                 <a href="{{ route('projects.show', ['project' => $project->slug]) }}">
                                     {{ $project->title }}
                                 </a>
@@ -75,7 +75,7 @@
 
                             <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between mt-auto">
                                 <a href="{{ route('projects.show', ['project' => $project->slug]) }}"
-                                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300">
                                     View Details
                                     <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -93,7 +93,7 @@
                                     @endif
                                     @if($project->demo_url)
                                         <a href="{{ $project->demo_url }}" target="_blank" rel="noopener noreferrer"
-                                            class="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="Live Preview">
+                                            class="text-slate-400 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors" title="Live Preview">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                             </svg>
@@ -123,3 +123,4 @@
     </div>
 </section>
 @endsection
+

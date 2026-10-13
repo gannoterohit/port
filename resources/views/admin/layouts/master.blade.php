@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="flex h-screen overflow-hidden">
-    @php
-        $currentRoute = request()->route()->getName();
-        $activeClass = 'bg-blue-100 text-blue-700 font-semibold';
-        $inactiveClass = 'text-gray-600 hover:bg-gray-100';
-    @endphp
+        @php
+            $currentRoute = request()->route()->getName();
+            $activeClass = 'bg-emerald-50 text-emerald-700 font-semibold';
+            $inactiveClass = 'text-gray-600 hover:bg-gray-100';
+        @endphp
 
     <aside class="w-64 bg-white border-r border-gray-200 flex flex-col overflow-y-auto">
         <div class="p-4 border-b border-gray-200">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
+                <div class="w-10 h-10 bg-emerald-700 rounded-lg flex items-center justify-center text-white font-bold">
                     {{ substr(\App\Models\Setting::get('website_name', 'CMS'), 0, 1) }}
                 </div>
                 <div>
@@ -176,7 +176,7 @@
             <h1 class="text-xl font-semibold text-gray-900">@yield('header', 'Admin Panel')</h1>
             <div class="flex items-center gap-4">
                 <a href="{{ route('home') }}" target="_blank"
-                   class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors">
+                   class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg border border-emerald-200 transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                     </svg>
@@ -185,7 +185,7 @@
                 <div class="h-6 w-px bg-gray-200"></div>
                 <div class="flex items-center gap-2">
                     <span class="text-sm font-medium text-gray-700">{{ Auth::user()?->name ?? 'Admin' }}</span>
-                    <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
+                    <div class="w-8 h-8 bg-emerald-700 text-white rounded-full flex items-center justify-center font-bold text-xs">
                         {{ substr(Auth::user()?->name ?? 'Admin', 0, 1) }}
                     </div>
                 </div>
@@ -197,3 +197,4 @@
     </main>
 </div>
 @endsection
+

@@ -21,7 +21,7 @@
                 <span class="text-sm font-medium text-gray-700">Enable Hero Section</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" name="hero_section_enabled" value="1" {{ $settings->hero_section_enabled ? 'checked' : '' }} class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-700"></div>
                 </label>
             </div>
 
@@ -93,7 +93,7 @@
                 <span class="text-sm font-medium text-gray-700">About Section</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" name="about_section_enabled" value="1" {{ $settings->about_section_enabled ? 'checked' : '' }} class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-700"></div>
                 </label>
             </div>
 
@@ -101,7 +101,7 @@
                 <span class="text-sm font-medium text-gray-700">Skills Section</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" name="skills_section_enabled" value="1" {{ $settings->skills_section_enabled ? 'checked' : '' }} class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-700"></div>
                 </label>
             </div>
 
@@ -109,7 +109,7 @@
                 <span class="text-sm font-medium text-gray-700">Projects Section</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" name="projects_section_enabled" value="1" {{ $settings->projects_section_enabled ? 'checked' : '' }} class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-700"></div>
                 </label>
             </div>
 
@@ -117,7 +117,7 @@
                 <span class="text-sm font-medium text-gray-700">Services Section</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" name="services_section_enabled" value="1" {{ $settings->services_section_enabled ? 'checked' : '' }} class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-700"></div>
                 </label>
             </div>
 
@@ -125,7 +125,7 @@
                 <span class="text-sm font-medium text-gray-700">Work Process Section</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" name="work_process_section_enabled" value="1" {{ $settings->work_process_section_enabled ? 'checked' : '' }} class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-700"></div>
                 </label>
             </div>
 
@@ -133,7 +133,7 @@
                 <span class="text-sm font-medium text-gray-700">Testimonials Section</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" name="testimonials_section_enabled" value="1" {{ $settings->testimonials_section_enabled ? 'checked' : '' }} class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-700"></div>
                 </label>
             </div>
         </div>
@@ -146,7 +146,7 @@
                 <span class="text-sm font-medium text-gray-700">Enable Contact CTA Section</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" name="contact_cta_section_enabled" value="1" {{ $settings->contact_cta_section_enabled ? 'checked' : '' }} class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-700"></div>
                 </label>
             </div>
 
@@ -166,9 +166,10 @@
 
     <div class="flex justify-end pt-4">
         <button type="submit"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+            class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-lg font-medium transition-colors">
             Save Homepage Settings
         </button>
     </div>
 </form>
 @endsection
+

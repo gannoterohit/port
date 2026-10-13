@@ -21,3 +21,4 @@ from IP address: {{ $enquiry->ip_address ?: 'N/A' }}
 Thanks,<br>
 {{ $websiteName }}
 @endcomponent
+

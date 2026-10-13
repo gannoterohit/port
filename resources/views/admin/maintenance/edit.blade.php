@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <div class="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg text-sm">
+            <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-lg text-sm">
                 <strong>Note:</strong> Admin panel access is always available during maintenance mode.
                 Non-admin visitors will see a maintenance page while maintenance mode is enabled.
             </div>
@@ -65,3 +65,4 @@
     </div>
 </div>
 @endsection
+

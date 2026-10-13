@@ -12,8 +12,8 @@
                     <p class="text-sm text-gray-500 mb-1">Total Projects</p>
                     <p class="text-3xl font-bold text-gray-900">{{ $stats['total_projects'] }}</p>
                 </div>
-                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11V9a6 6 0 00-6-6H8a6 6 0 00-6 6v6l2 2v4a2 2 0 002 2h8a2 2 0 002-2v-4l2-2z"></path>
                     </svg>
                 </div>
@@ -82,10 +82,10 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">New Enquiries</p>
-                    <p class="text-3xl font-bold text-blue-600">{{ $stats['new_enquiries'] }}</p>
+                    <p class="text-3xl font-bold text-emerald-700">{{ $stats['new_enquiries'] }}</p>
                 </div>
-                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
@@ -138,7 +138,7 @@
                             </div>
                             @php
                                 $statusClasses = [
-                                    'new' => 'bg-blue-100 text-blue-800',
+                                    'new' => 'bg-emerald-100 text-emerald-900',
                                     'in_progress' => 'bg-amber-100 text-amber-800',
                                     'contacted' => 'bg-emerald-100 text-emerald-800',
                                     'converted' => 'bg-purple-100 text-purple-800',
@@ -156,7 +156,7 @@
             </div>
             @if($recentEnquiries->count())
                 <div class="p-3 border-t border-gray-200">
-                    <a href="{{ route('admin.enquiries.index') }}" class="text-sm text-blue-600 hover:text-blue-700">View all enquiries</a>
+                    <a href="{{ route('admin.enquiries.index') }}" class="text-sm text-emerald-700 hover:text-emerald-800">View all enquiries</a>
                 </div>
             @endif
         </div>
@@ -189,7 +189,7 @@
             </div>
             @if($recentProjects->count())
                 <div class="p-3 border-t border-gray-200">
-                    <a href="{{ route('admin.projects.index') }}" class="text-sm text-blue-600 hover:text-blue-700">View all projects</a>
+                    <a href="{{ route('admin.projects.index') }}" class="text-sm text-emerald-700 hover:text-emerald-800">View all projects</a>
                 </div>
             @endif
         </div>
@@ -203,3 +203,4 @@
     document.addEventListener('DOMContentLoaded', function() {});
 </script>
 @endsection
+

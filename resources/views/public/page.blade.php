@@ -30,7 +30,7 @@
                     @endif
                 </header>
 
-                <article class="prose prose-slate dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400">
+                <article class="prose prose-slate dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-emerald-700 dark:prose-a:text-emerald-400">
                     {!! $page->content !!}
                 </article>
             </div>
@@ -38,3 +38,4 @@
     </div>
 </section>
 @endsection
+

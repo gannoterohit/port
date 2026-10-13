@@ -88,7 +88,7 @@
                     @if($profile->resume_pdf)
                         <div class="mt-2">
                             <a href="{{ $profile->resume_url }}" target="_blank"
-                                class="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 text-sm font-medium">
+                                class="inline-flex items-center gap-1.5 text-emerald-700 hover:text-emerald-800 text-sm font-medium">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                 View Current Resume PDF
                             </a>
@@ -98,7 +98,7 @@
 
                 <div class="pt-2">
                     <label class="flex items-center gap-2 text-sm text-gray-700 font-medium">
-                        <input type="checkbox" name="resume_button_visible" value="1" {{ $profile->resume_button_visible ? 'checked' : '' }} class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <input type="checkbox" name="resume_button_visible" value="1" {{ $profile->resume_button_visible ? 'checked' : '' }} class="h-4 w-4 text-emerald-700 rounded border-gray-300 focus:ring-emerald-700">
                         Show Download Resume button publicly
                     </label>
                 </div>
@@ -166,7 +166,7 @@
 
     <div class="flex justify-end pt-4">
         <button type="submit"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+            class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-lg font-medium transition-colors">
             Save Changes
         </button>
     </div>
@@ -188,3 +188,4 @@
     });
 </script>
 @endsection
+

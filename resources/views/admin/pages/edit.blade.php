@@ -104,7 +104,7 @@
 
     <div class="flex justify-end pt-4 gap-3">
         <a href="{{ route('admin.pages.index') }}" class="text-gray-600 hover:text-gray-900 px-4 py-2">Cancel</a>
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
+        <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-lg font-medium">
             Update Page
         </button>
     </div>
@@ -134,3 +134,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
+

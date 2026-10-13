@@ -8,7 +8,7 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <div class="flex items-center gap-2 mb-1">
-                <a href="{{ route('admin.enquiries.index') }}" class="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                <a href="{{ route('admin.enquiries.index') }}" class="text-sm font-medium text-emerald-700 hover:text-emerald-800 flex items-center gap-1">
                     &larr; Back to Enquiries
                 </a>
             </div>
@@ -16,7 +16,7 @@
             <div class="flex items-center gap-2 mt-2">
                 @php
                     $statusClasses = [
-                        'new' => 'bg-blue-100 text-blue-800',
+                        'new' => 'bg-emerald-100 text-emerald-900',
                         'in_progress' => 'bg-amber-100 text-amber-800',
                         'contacted' => 'bg-emerald-100 text-emerald-800',
                         'converted' => 'bg-purple-100 text-purple-800',
@@ -27,7 +27,7 @@
                     {{ $enquiry->status_label }}
                 </span>
                 @if($enquiry->isUnread())
-                    <span class="inline-flex px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                    <span class="inline-flex px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-900">
                         Unread
                     </span>
                 @endif
@@ -36,7 +36,7 @@
 
         <div class="flex items-center gap-2">
             <a href="mailto:{{ $enquiry->email }}?subject={{ urlencode('Re: ' . ($enquiry->subject ?: 'Your Enquiry')) }}"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5">
+                class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 01-2-2v12a2 2 0 002 2z"></path>
                 </svg>
@@ -63,7 +63,7 @@
                 </div>
                 <div>
                     <label class="text-xs text-gray-400 block mb-0.5">Email Address</label>
-                    <a href="mailto:{{ $enquiry->email }}" class="text-blue-600 hover:underline font-medium">
+                    <a href="mailto:{{ $enquiry->email }}" class="text-emerald-700 hover:underline font-medium">
                         {{ $enquiry->email }}
                     </a>
                 </div>
@@ -134,7 +134,7 @@
             </div>
 
             <div class="flex justify-end pt-2">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Save Changes
                 </button>
             </div>
@@ -147,11 +147,11 @@
         @if($statusLogs && $statusLogs->count() > 0)
             <div class="space-y-3">
                 @foreach($statusLogs as $log)
-                    <div class="border-l-2 border-blue-500 pl-4 py-1">
+                    <div class="border-l-2 border-emerald-500 pl-4 py-1">
                         <div class="text-sm">
                             <span class="font-semibold text-gray-900">{{ $log->user ? $log->user->name : 'System' }}</span>
                             <span class="text-gray-500">updated status to</span>
-                            <span class="font-semibold text-blue-600 uppercase text-xs px-2 py-0.5 rounded bg-blue-50">
+                            <span class="font-semibold text-emerald-700 uppercase text-xs px-2 py-0.5 rounded bg-emerald-50">
                                 {{ str_replace('_', ' ', $log->status) }}
                             </span>
                         </div>
@@ -168,3 +168,4 @@
     </div>
 </div>
 @endsection
+

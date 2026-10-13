@@ -12,7 +12,7 @@
     </li>
     <li>
         <a href="{{ route('admin.footer.links.index') }}"
-            class="border-b-2 border-blue-600 text-blue-600 pb-2 text-sm font-semibold">
+            class="border-b-2 border-emerald-700 text-emerald-700 pb-2 text-sm font-semibold">
             Links
         </a>
     </li>
@@ -24,7 +24,7 @@
         <p class="text-xs text-gray-500 mt-0.5">Manage URLs grouped under footer widgets or standalone links.</p>
     </div>
     <button type="button" onclick="openAddLinkModal()"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+        class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
         + Add Link
     </button>
 </div>
@@ -57,7 +57,7 @@
                     <td class="py-3 px-4 text-sm text-gray-500 font-mono">{{ $link->url }}</td>
                     <td class="py-3 px-4 text-sm text-gray-600">
                         @if($link->widget)
-                            <span class="inline-flex px-2 py-0.5 rounded text-xs bg-blue-50 text-blue-700 font-medium">
+                            <span class="inline-flex px-2 py-0.5 rounded text-xs bg-emerald-50 text-emerald-800 font-medium">
                                 {{ $link->widget->title }}
                             </span>
                         @else
@@ -69,7 +69,7 @@
                     <td class="py-3 px-4 text-right">
                         <div class="flex justify-end items-center gap-2">
                             <button type="button" onclick="editLink({{ $link->id }})"
-                                class="text-blue-600 hover:text-blue-700 p-1" title="Edit">
+                                class="text-emerald-700 hover:text-emerald-800 p-1" title="Edit">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
@@ -137,7 +137,7 @@
             <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
                 <button type="button" onclick="closeLinkModal()"
                     class="text-gray-600 hover:text-gray-900 px-4 py-2 text-sm">Cancel</button>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
+                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
                     Save Link
                 </button>
             </div>
@@ -189,3 +189,4 @@ function editLink(id) {
 }
 </script>
 @endsection
+

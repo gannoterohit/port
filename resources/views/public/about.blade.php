@@ -1,7 +1,7 @@
 @extends('public.layouts.app')
 
 @section('title', 'About Me - ' . $websiteName)
-@section('meta_description', $profile->bio ?? 'Learn more about my experience and background')
+        @section('meta_description', strip_tags($profile->bio ?? '') ?: 'Learn more about my experience and background')
 @if(!empty($profile->og_image_url))
     @section('og_image', $profile->og_image_url)
 @endif
@@ -163,3 +163,4 @@
     </div>
 </section>
 @endsection
+

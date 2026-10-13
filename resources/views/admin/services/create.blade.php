@@ -56,7 +56,7 @@
                     placeholder="e.g., REST API Development">
             </div>
         </div>
-        <button type="button" onclick="addFeature()" class="mt-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
+        <button type="button" onclick="addFeature()" class="mt-2 text-emerald-700 hover:text-emerald-800 text-sm font-medium">
             + Add Feature
         </button>
     </div>
@@ -131,7 +131,7 @@
 
     <div class="flex justify-end pt-4 gap-3">
         <a href="{{ route('admin.services.index') }}" class="text-gray-600 hover:text-gray-900 px-4 py-2">Cancel</a>
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
+        <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-lg font-medium">
             Create Service
         </button>
     </div>
@@ -164,3 +164,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
+
