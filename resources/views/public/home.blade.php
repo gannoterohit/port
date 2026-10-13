@@ -1,7 +1,7 @@
 @extends('public.layouts.app')
 
 @section('title', ($homepageSettings->hero_heading ? $homepageSettings->hero_heading . ' - ' : ($profile->full_name . ' - ')) . $websiteName)
-        @section('meta_description', $homepageSettings->hero_description ?? (strip_tags($profile->bio) ?? ($profile->intro ?? 'Full Stack Web Developer portfolio')))
+@section('meta_description', $homepageSettings->hero_description ?? (strip_tags($profile->bio) ?? ($profile->intro ?? 'Full Stack Web Developer portfolio specializing in Laravel, PHP, MySQL, and REST APIs.')))
 
 @section('content')
 @php
@@ -16,110 +16,189 @@
 
 @foreach($order as $section)
     @if($section === 'hero' && $homepageSettings->hero_section_enabled)
-        <!-- Hero Section -->
-        <section class="relative pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden">
-            <div class="absolute inset-0 -z-10 overflow-hidden">
-                <div class="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute top-1/2 -left-40 w-96 h-96 bg-emerald-400/10 dark:bg-emerald-700/10 rounded-full blur-3xl pointer-events-none"></div>
-            </div>
-
+        <!-- Hero Section (Two-Column Layout) -->
+        <section class="relative pt-28 sm:pt-36 pb-20 sm:pb-28 bg-white border-b border-[#E5E7EB]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-4xl mx-auto text-center">
-                    @php
-                        $heroImg = $homepageSettings->hero_image_url ?: $profile->profile_photo_url;
-                    @endphp
-
-                    @if($heroImg)
-                        <div class="relative inline-block mb-8 group">
-                            <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden border-4 border-white dark:border-slate-800 shadow-2xl mx-auto ring-4 ring-primary/20 transition-transform duration-300 group-hover:scale-105">
-                                <img src="{{ $heroImg }}" alt="{{ $profile->full_name }}" class="w-full h-full object-cover">
-                            </div>
-                            <span class="absolute bottom-1 right-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500 text-white shadow-md">
-                                <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                                Available
-                            </span>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center max-w-7xl mx-auto">
+                    <!-- Left Column: Introduction & Primary CTAs -->
+                    <div class="lg:col-span-7 text-left">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#DCE8D6] text-[#1B560B] font-semibold text-xs sm:text-sm mb-6 shadow-xs">
+                            <span class="w-2 h-2 rounded-full bg-[#1B560B] animate-pulse"></span>
+                            <span>Available for Freelance Projects</span>
                         </div>
-                    @endif
 
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary font-medium text-xs sm:text-sm mb-6 border border-primary/20">
-                        <span>🚀</span> {{ $homepageSettings->hero_heading ?: 'Full Stack Web Developer' }}
-                    </div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-[#1F2937] leading-[1.15] mb-5">
+                            Full Stack Web Developer
+                        </h1>
 
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
-                        {{ $homepageSettings->hero_title ?: ($profile->name ? "Hi, I'm " . $profile->name : 'Building Scalable Web Applications') }}
-                    </h1>
+                        <p class="text-base sm:text-lg text-[#667085] mb-8 leading-relaxed max-w-2xl">
+                            {{ $homepageSettings->hero_description ?: 'Specializing in Laravel, PHP, MySQL, and RESTful APIs to build secure, robust, and scalable custom web applications, ERPs, and administrative dashboards.' }}
+                        </p>
 
-                    <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                        {{ $homepageSettings->hero_description ?: (strip_tags($profile->bio) ?: ($profile->intro ?: 'I craft clean, efficient, and scalable web applications using modern technologies.')) }}
-                    </p>
+                        <div class="flex flex-wrap gap-4 items-center mb-10">
+                            <a href="{{ $homepageSettings->secondary_cta_url ?: route('contact') }}"
+                                class="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-medium rounded-lg bg-[#1B560B] text-white hover:bg-[#144208] shadow-sm hover:shadow transition-all duration-200 text-base">
+                                {{ $homepageSettings->secondary_cta_text ?: 'Hire Me' }}
+                                <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                            <a href="{{ $homepageSettings->primary_cta_url ?: route('projects') }}"
+                                class="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-medium rounded-lg bg-white text-[#1F2937] hover:bg-[#F5F7F2] border border-[#E5E7EB] hover:border-[#D1D5DB] transition-all duration-200 text-base">
+                                {{ $homepageSettings->primary_cta_text ?: 'View My Projects' }}
+                            </a>
+                        </div>
 
-                    <div class="flex flex-wrap gap-4 justify-center items-center">
-                        <a href="{{ $homepageSettings->primary_cta_url ?: route('projects') }}"
-                            class="btn btn-primary text-base shadow-lg hover:shadow-primary/25">
-                            {{ $homepageSettings->primary_cta_text ?: 'View My Work' }}
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
-                        <a href="{{ $homepageSettings->secondary_cta_url ?: route('contact') }}"
-                            class="btn btn-secondary text-base">
-                            {{ $homepageSettings->secondary_cta_text ?: 'Contact Me' }}
-                        </a>
-                    </div>
-
-                    @if($profile->experience_text)
-                        <div class="mt-12 pt-8 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-500 dark:text-slate-400">
+                        <!-- Genuine Highlights -->
+                        <div class="pt-6 border-t border-[#E5E7EB] flex flex-wrap items-center gap-6 text-xs sm:text-sm text-[#667085]">
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.27V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h12.59l-2.7 2.7a1 1 0 00.7 1.7h3.07a2 2 0 002-2v-4.73"></path></svg>
-                                <span class="font-medium text-slate-700 dark:text-slate-200">{{ $profile->experience_text }}</span>
+                                <span class="w-2 h-2 rounded-full bg-[#1B560B]"></span>
+                                <span class="font-medium text-[#1F2937]">2.5 Years Professional Experience</span>
                             </div>
-                            @if($profile->location && $profile->location_visible)
-                                <div class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.982 18.724A7.481 7.481 0 0112 20a7.481 7.481 0 01-5.982-2.276m11.964 0A10.954 10.954 0 0012 22c-2.648 0-5.145-.97-7.024-2.545A7.478 7.478 0 0112 17.5a7.478 7.478 0 015.982 2.276z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                    <span>{{ $profile->location }}</span>
-                                </div>
-                            @endif
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#1B560B]"></span>
+                                <span class="font-medium text-[#1F2937]">6 Months Intensive Training</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#1B560B]"></span>
+                                <span class="font-medium text-[#1F2937]">Laravel & MySQL Specialist</span>
+                            </div>
                         </div>
-                    @endif
+                    </div>
+
+                    <!-- Right Column: Clean Code Preview Card / Visual -->
+                    <div class="lg:col-span-5">
+                        @php
+                            $heroImg = $homepageSettings->hero_image_url ?: $profile->profile_photo_url;
+                        @endphp
+
+                        @if($heroImg)
+                            <div class="relative max-w-sm mx-auto group">
+                                <div class="rounded-2xl overflow-hidden border-4 border-white shadow-xl ring-1 ring-[#E5E7EB] transition-transform duration-300 group-hover:scale-[1.02]">
+                                    <img src="{{ $heroImg }}" alt="{{ $profile->full_name }}" class="w-full h-auto aspect-square object-cover">
+                                </div>
+                                <div class="absolute -bottom-4 -left-4 bg-white p-3 rounded-xl border border-[#E5E7EB] shadow-md flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center font-bold text-sm">
+                                        PHP
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold text-[#1F2937]">Clean Architecture</div>
+                                        <div class="text-[11px] text-[#667085]">Tested &amp; Maintainable</div>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="bg-white rounded-2xl border border-[#E5E7EB] shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+                                <!-- Card Header Window -->
+                                <div class="bg-[#F5F7F2] px-4 py-3 border-b border-[#E5E7EB] flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                        <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                                        <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+                                    </div>
+                                    <div class="text-xs font-mono text-[#667085] flex items-center gap-1.5">
+                                        <span>ProjectController.php</span>
+                                    </div>
+                                    <div class="text-[11px] font-semibold text-[#1B560B] bg-[#DCE8D6] px-2 py-0.5 rounded-full">
+                                        Production
+                                    </div>
+                                </div>
+                                <!-- Card Content -->
+                                <div class="p-6 font-mono text-xs sm:text-[13px] leading-relaxed bg-[#FFFFFF] text-[#1F2937] overflow-x-auto">
+                                    <div class="text-purple-700 font-semibold mb-1">namespace <span class="text-[#1F2937]">App\Http\Controllers;</span></div>
+                                    <div class="text-[#667085] mb-2">// Full Stack Architecture</div>
+                                    <div><span class="text-blue-700 font-bold">class</span> <span class="text-emerald-700 font-bold">ProjectController</span> <span class="text-blue-700 font-bold">extends</span> Controller</div>
+                                    <div>{</div>
+                                    <div class="pl-4 text-[#667085]">// Deliver high-performance apps</div>
+                                    <div class="pl-4"><span class="text-blue-700 font-bold">public function</span> <span class="text-amber-700 font-bold">deploy</span>(Client $client): WebApp</div>
+                                    <div class="pl-4">{</div>
+                                    <div class="pl-8"><span class="text-blue-700 font-bold">return</span> $this->projects->build([</div>
+                                    <div class="pl-12 text-[#1B560B] font-semibold">'backend' => 'Laravel & PHP',</div>
+                                    <div class="pl-12 text-[#1B560B] font-semibold">'database' => 'Optimized MySQL',</div>
+                                    <div class="pl-12 text-[#1B560B] font-semibold">'apis' => 'Secure RESTful APIs',</div>
+                                    <div class="pl-12 text-[#1B560B] font-semibold">'frontend' => 'Responsive UI',</div>
+                                    <div class="pl-8">]);</div>
+                                    <div class="pl-4">}</div>
+                                    <div>}</div>
+                                </div>
+                                <!-- Card Footer Status -->
+                                <div class="px-5 py-3 bg-[#F5F7F2] border-t border-[#E5E7EB] flex items-center justify-between text-xs text-[#667085]">
+                                    <span class="flex items-center gap-1.5 text-[#1B560B] font-medium">
+                                        <svg class="w-4 h-4 text-[#1B560B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        Tested &amp; Production-Ready
+                                    </span>
+                                    <span>2.5 Years Experience</span>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </section>
     @endif
 
     @if($section === 'about' && $homepageSettings->about_section_enabled)
-        <!-- About Section -->
-        <section class="py-16 sm:py-24 bg-white dark:bg-slate-900 border-y border-slate-200/60 dark:border-slate-800">
+        <!-- About & Experience Section -->
+        <section class="py-20 sm:py-28 bg-[#F5F7F2] border-b border-[#E5E7EB]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-4xl mx-auto">
-                    <div class="text-center mb-12">
-                        <span class="text-xs font-bold uppercase tracking-wider text-primary">Get To Know Me</span>
-                        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-1">About Me</h2>
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-14">
+                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3 py-1 rounded-full mb-3">Professional Background</span>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-[#1F2937] tracking-tight">About &amp; Experience</h2>
+                        <p class="text-[#667085] text-base mt-2 max-w-xl mx-auto">
+                            Committed to building scalable software, dependable backend architecture, and intuitive user experiences.
+                        </p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                        <div class="md:col-span-1 text-center md:text-left">
-                            <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm">
-                                <div class="text-3xl font-extrabold text-primary mb-1">{{ \App\Models\Setting::get('years_experience') ?: '2.5+' }}</div>
-                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Years Professional Experience</div>
-                                <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ \App\Models\Setting::get('training_text') ?: '+ 6 Months Intensive Training' }}</div>
-                                <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300">
-                                    {{ \App\Models\Setting::get('specialization_text') ?: 'Specialized in Laravel, MySQL &amp; Modern Web Development' }}
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        <!-- Left Experience Card -->
+                        <div class="lg:col-span-5 bg-white rounded-2xl p-7 border border-[#E5E7EB] shadow-sm">
+                            <div class="text-4xl font-extrabold text-[#1B560B] mb-1">
+                                {{ \App\Models\Setting::get('years_experience') ?: '2.5+' }}
+                            </div>
+                            <div class="text-base font-bold text-[#1F2937]">Years of Professional Experience</div>
+                            <div class="text-sm font-semibold text-[#1B560B] bg-[#DCE8D6]/60 px-2.5 py-1 rounded-md inline-block mt-2">
+                                {{ \App\Models\Setting::get('training_text') ?: '+ 6 Months Intensive Training' }}
+                            </div>
+
+                            <div class="mt-6 pt-6 border-t border-[#E5E7EB] space-y-4 text-sm text-[#667085]">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-5 h-5 rounded-full bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                    <span>Specialized in <strong>Laravel, PHP &amp; MySQL</strong> database optimization</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-5 h-5 rounded-full bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                    <span>Robust <strong>REST API</strong> architecture and third-party integrations</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-5 h-5 rounded-full bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                    <span>Clean code standards with reliable delivery and transparent communication</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="md:col-span-2 space-y-4 text-slate-600 dark:text-slate-300">
-                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">{{ $profile->title }}</h3>
-                            <div class="prose dark:prose-invert max-w-none text-sm sm:text-base">
-                                {!! $profile->intro ? nl2br(e($profile->intro)) : ($profile->biography ? Str::limit(strip_tags($profile->biography), 280) : 'Passionate full-stack web developer dedicated to building responsive, reliable web solutions for growing businesses.') !!}
+                        <!-- Right Details -->
+                        <div class="lg:col-span-7 bg-white rounded-2xl p-7 sm:p-9 border border-[#E5E7EB] shadow-sm space-y-5">
+                            <h3 class="text-2xl font-bold text-[#1F2937]">{{ $profile->title ?: 'Full Stack Web Developer' }}</h3>
+                            <div class="prose max-w-none text-[#667085] text-base leading-relaxed">
+                                {!! $profile->intro ? nl2br(e($profile->intro)) : ($profile->biography ? Str::limit(strip_tags($profile->biography), 350) : 'With 2.5 years of commercial software development and 6 months of comprehensive training, I solve real business challenges by building robust backend architectures, custom web applications, and seamless administrative panels.') !!}
                             </div>
-                            <div class="flex flex-wrap gap-4 pt-2">
-                                <a href="{{ route('about') }}" class="text-primary font-semibold text-sm hover:underline inline-flex items-center gap-1">
-                                    Read Full Profile
+
+                            <div class="pt-4 border-t border-[#E5E7EB] flex flex-wrap gap-4 items-center">
+                                <a href="{{ route('about') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1B560B] hover:text-[#144208] hover:underline">
+                                    Read Detailed Background
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                 </a>
+
                                 @if($profile->resume_url && $profile->resume_button_visible)
-                                    <a href="{{ $profile->resume_url }}" target="_blank" download class="text-slate-600 dark:text-slate-400 hover:text-primary text-sm font-semibold inline-flex items-center gap-1">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path></svg>
-                                        Download CV
+                                    <a href="{{ $profile->resume_url }}" target="_blank" download
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#1F2937] bg-[#F5F7F2] hover:bg-[#E5E7EB] border border-[#E5E7EB] transition-colors">
+                                        <svg class="w-4 h-4 text-[#1B560B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path></svg>
+                                        Download Resume
                                     </a>
                                 @endif
                             </div>
@@ -132,31 +211,33 @@
 
     @if($section === 'skills' && $homepageSettings->skills_section_enabled && $skills && $skills->isNotEmpty())
         <!-- Skills Section -->
-        <section class="py-16 sm:py-24 bg-slate-50 dark:bg-slate-950">
+        <section class="py-20 sm:py-28 bg-white border-b border-[#E5E7EB]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-4xl mx-auto">
-                    <div class="text-center mb-12">
-                        <span class="text-xs font-bold uppercase tracking-wider text-primary">Core Expertise</span>
-                        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-1">Skills & Technologies</h2>
-                        <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2 max-w-xl mx-auto">
-                            Modern tools and frameworks I leverage to engineer high-performance web products
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-14">
+                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3 py-1 rounded-full mb-3">Core Expertise</span>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-[#1F2937] tracking-tight">Skills &amp; Technologies</h2>
+                        <p class="text-[#667085] text-base mt-2 max-w-xl mx-auto">
+                            Modern stack and tools applied in commercial web application engineering.
                         </p>
                     </div>
 
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         @foreach($skills as $skill)
-                            <div class="bg-white dark:bg-slate-900 rounded-xl p-4 text-center border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
-                                <div class="text-slate-900 dark:text-white font-bold text-base mb-1 group-hover:text-primary transition-colors">{{ $skill->name }}</div>
-                                <span class="inline-block text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                            <div class="bg-[#F5F7F2] rounded-xl p-4 text-center border border-[#E5E7EB] hover:border-[#1B560B] transition-all duration-200 group">
+                                <div class="text-[#1F2937] font-bold text-base mb-1 group-hover:text-[#1B560B] transition-colors">
+                                    {{ $skill->name }}
+                                </div>
+                                <span class="inline-block text-[11px] px-2.5 py-0.5 rounded-full bg-white text-[#667085] border border-[#E5E7EB]">
                                     {{ $skill->category->name ?? 'General' }}
                                 </span>
                             </div>
                         @endforeach
                     </div>
 
-                    <div class="text-center mt-10">
-                        <a href="{{ route('skills') }}" class="text-primary font-semibold text-sm hover:underline inline-flex items-center gap-1.5">
-                            Explore all technical skills
+                    <div class="text-center mt-12">
+                        <a href="{{ route('skills') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1B560B] hover:text-[#144208] hover:underline">
+                            Explore full skill matrix &amp; tools
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </a>
                     </div>
@@ -166,63 +247,86 @@
     @endif
 
     @if($section === 'projects' && $homepageSettings->projects_section_enabled && $featuredProjects->isNotEmpty())
-        <!-- Featured Projects Section -->
-        <section class="py-16 sm:py-24 bg-white dark:bg-slate-900 border-y border-slate-200/60 dark:border-slate-800">
+        <!-- Projects Section — Highest Priority -->
+        <section class="py-20 sm:py-28 bg-[#F5F7F2] border-b border-[#E5E7EB]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-6xl mx-auto">
-                    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14">
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-primary">Portfolio Showcase</span>
-                            <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-1">Featured Projects</h2>
-                            <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">
-                                Genuine web applications built for reliability and real-world clients
+                            <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3 py-1 rounded-full mb-3">Portfolio Showcase</span>
+                            <h2 class="text-3xl sm:text-4xl font-bold text-[#1F2937] tracking-tight">Featured Projects</h2>
+                            <p class="text-[#667085] text-base mt-2 max-w-xl">
+                                Real web applications, APIs, and business platforms built for genuine clients.
                             </p>
                         </div>
                         <div class="mt-4 sm:mt-0">
-                            <a href="{{ route('projects') }}" class="btn btn-secondary text-sm">
+                            <a href="{{ route('projects') }}"
+                                class="inline-flex items-center gap-1 px-4 py-2.5 rounded-lg text-sm font-medium bg-white text-[#1F2937] border border-[#E5E7EB] hover:bg-[#F5F7F2] transition-colors">
                                 View All Projects
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
                         </div>
                     </div>
 
+                    <!-- 3-Column Responsive Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($featuredProjects as $project)
-                            <div class="bg-slate-50 dark:bg-slate-800/80 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 shadow-sm overflow-hidden flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                                @if($project->thumbnail_url)
-                                    <div class="overflow-hidden h-48 bg-slate-200 dark:bg-slate-700">
+                            <div class="bg-white rounded-2xl border border-[#E5E7EB] shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden group">
+                                <a href="{{ route('projects.show', $project->slug) }}" class="relative block aspect-[16/9] overflow-hidden bg-[#F5F7F2]">
+                                    @if($project->thumbnail_url)
                                         <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                                    </div>
-                                @endif
-                                <div class="p-6 flex-1 flex flex-col">
-                                    <div class="flex items-center justify-between gap-2 mb-2">
-                                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary">
-                                            {{ $project->category ?? 'Web App' }}
+                                    @else
+                                        <div class="w-full h-full flex items-center justify-center text-[#667085]">
+                                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        </div>
+                                    @endif
+                                    <div class="absolute top-3 right-3 flex gap-2">
+                                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#DCE8D6] text-[#1B560B]">
+                                            {{ $project->category ?? 'Web Application' }}
                                         </span>
                                     </div>
-                                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
+                                </a>
+
+                                <div class="p-6 flex-1 flex flex-col">
+                                    <h3 class="text-xl font-bold text-[#1F2937] mb-2 group-hover:text-[#1B560B] transition-colors">
                                         <a href="{{ route('projects.show', $project->slug) }}">{{ $project->title }}</a>
                                     </h3>
-                                    <p class="text-slate-600 dark:text-slate-300 text-sm mb-4 flex-1">
+
+                                    <p class="text-[#667085] text-sm mb-4 line-clamp-2 flex-1">
                                         {{ $project->short_description ?? Str::limit(strip_tags($project->description), 110) }}
                                     </p>
+
+                                    @if($project->role)
+                                        <div class="mb-3">
+                                            <span class="inline-block text-[11px] font-medium text-[#1B560B] bg-[#DCE8D6]/60 px-2 py-0.5 rounded">
+                                                Role: {{ $project->role }}
+                                            </span>
+                                        </div>
+                                    @endif
+
                                     @if($project->tech_stack && is_array($project->tech_stack))
                                         <div class="flex flex-wrap gap-1.5 mb-5">
                                             @foreach(array_slice($project->tech_stack, 0, 4) as $tech)
-                                                <span class="text-xs px-2 py-0.5 rounded bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                                                <span class="text-xs px-2.5 py-0.5 rounded bg-[#F5F7F2] text-[#1F2937] border border-[#E5E7EB]">
                                                     {{ $tech }}
                                                 </span>
                                             @endforeach
                                         </div>
                                     @endif
-                                    <div class="pt-4 border-t border-slate-200/80 dark:border-slate-700 flex items-center justify-between">
-                                        <a href="{{ route('projects.show', $project->slug) }}" class="text-primary font-semibold text-sm inline-flex items-center gap-1 hover:underline">
-                                            Case Study
+
+                                    <div class="pt-4 border-t border-[#E5E7EB] flex items-center justify-between mt-auto">
+                                        <a href="{{ route('projects.show', $project->slug) }}" class="text-[#1B560B] hover:text-[#144208] font-semibold text-sm inline-flex items-center gap-1 hover:underline">
+                                            View Details
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                         </a>
-                                        <div class="flex items-center gap-2">
+
+                                        <div class="flex items-center gap-3">
+                                            @if($project->github_url)
+                                                <a href="{{ $project->github_url }}" target="_blank" class="text-[#667085] hover:text-[#1B560B] text-xs font-medium" title="GitHub Source">GitHub ↗</a>
+                                            @endif
                                             @if($project->demo_url)
-                                                <a href="{{ $project->demo_url }}" target="_blank" class="text-slate-500 hover:text-primary text-xs" title="Live Demo">Live Demo ↗</a>
+                                                <a href="{{ $project->demo_url }}" target="_blank" class="text-[#667085] hover:text-[#1B560B] text-xs font-medium" title="Live Demo">Live Demo ↗</a>
                                             @endif
                                         </div>
                                     </div>
@@ -237,43 +341,46 @@
 
     @if($section === 'services' && $homepageSettings->services_section_enabled && $featuredServices->isNotEmpty())
         <!-- Services Section -->
-        <section class="py-16 sm:py-24 bg-slate-50 dark:bg-slate-950">
+        <section class="py-20 sm:py-28 bg-white border-b border-[#E5E7EB]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-12">
-                        <span class="text-xs font-bold uppercase tracking-wider text-primary">What I Do</span>
-                        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-1">Services & Solutions</h2>
-                        <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2 max-w-xl mx-auto">
-                            Custom full-stack web solutions built to help you grow your business
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-14">
+                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3 py-1 rounded-full mb-3">What I Offer</span>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-[#1F2937] tracking-tight">Services &amp; Solutions</h2>
+                        <p class="text-[#667085] text-base mt-2 max-w-xl mx-auto">
+                            Custom software engineering tailored to solve real technical and operational bottlenecks.
                         </p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($featuredServices as $service)
-                            <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group">
-                                @if($service->icon_url)
-                                    <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 overflow-hidden p-2">
-                                        <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" class="w-full h-full object-contain">
-                                    </div>
-                                @else
-                                    <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 text-primary font-bold text-xl">
+                            <div class="bg-white rounded-2xl p-7 border border-[#E5E7EB] shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col group">
+                                <div class="w-12 h-12 rounded-xl bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center mb-5 font-bold text-lg">
+                                    @if($service->icon_url)
+                                        <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" class="w-7 h-7 object-contain">
+                                    @else
                                         {{ substr($service->name, 0, 1) }}
-                                    </div>
-                                @endif
-                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary transition-colors">
+                                    @endif
+                                </div>
+
+                                <h3 class="text-xl font-bold text-[#1F2937] mb-2 group-hover:text-[#1B560B] transition-colors">
                                     <a href="{{ route('services.show', $service->slug) }}">{{ $service->name }}</a>
                                 </h3>
-                                <p class="text-slate-600 dark:text-slate-300 text-sm mb-6 flex-1">
-                                    {{ $service->short_description ?? Str::limit(strip_tags($service->description), 120) }}
+
+                                <p class="text-[#667085] text-sm mb-6 flex-1 leading-relaxed">
+                                    {{ $service->short_description ?? Str::limit(strip_tags($service->description), 130) }}
                                 </p>
-                                <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+
+                                <div class="pt-4 border-t border-[#E5E7EB] flex items-center justify-between mt-auto">
                                     @if($service->price_formatted)
-                                        <span class="text-base font-bold text-primary">{{ $service->price_formatted }}</span>
+                                        <span class="text-sm font-bold text-[#1B560B]">{{ $service->price_formatted }}</span>
                                     @else
-                                        <span class="text-xs font-medium text-slate-400">Custom Quote</span>
+                                        <span class="text-xs text-[#667085]">Custom Quote</span>
                                     @endif
-                                    <a href="{{ route('services.show', $service->slug) }}" class="text-primary font-semibold text-sm inline-flex items-center gap-1 hover:underline">
-                                        Details
+
+                                    <a href="{{ route('contact', ['service' => $service->slug]) }}"
+                                        class="inline-flex items-center gap-1 text-sm font-semibold text-[#1B560B] hover:text-[#144208] hover:underline">
+                                        Enquire Now
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                     </a>
                                 </div>
@@ -287,30 +394,25 @@
 
     @if($section === 'work_process' && $homepageSettings->work_process_section_enabled && $workProcesses->isNotEmpty())
         <!-- Work Process Section -->
-        <section class="py-16 sm:py-24 bg-white dark:bg-slate-900 border-y border-slate-200/60 dark:border-slate-800">
+        <section class="py-20 sm:py-28 bg-[#F5F7F2] border-b border-[#E5E7EB]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-5xl mx-auto">
+                <div class="max-w-6xl mx-auto">
                     <div class="text-center mb-14">
-                        <span class="text-xs font-bold uppercase tracking-wider text-primary">How I Work</span>
-                        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-1">My Work Process</h2>
-                        <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2 max-w-xl mx-auto">
-                            A structured, transparent methodology delivering predictable and high-quality results
+                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3 py-1 rounded-full mb-3">Structured Methodology</span>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-[#1F2937] tracking-tight">How I Work</h2>
+                        <p class="text-[#667085] text-base mt-2 max-w-xl mx-auto">
+                            A clear, predictable, and transparent process that guarantees project success.
                         </p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach($workProcesses as $index => $process)
-                            <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-6 text-center border border-slate-200/70 dark:border-slate-700/60 relative shadow-sm">
-                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold text-xs mb-4">
+                            <div class="bg-white rounded-2xl p-6 text-center border border-[#E5E7EB] shadow-xs relative">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#1B560B] text-white font-bold text-xs mb-4">
                                     {{ $index + 1 }}
                                 </span>
-                                @if($process->icon_url)
-                                    <div class="w-12 h-12 mx-auto mb-3">
-                                        <img src="{{ $process->icon_url }}" alt="{{ $process->title }}" class="w-full h-full object-contain">
-                                    </div>
-                                @endif
-                                <h3 class="font-bold text-base text-slate-900 dark:text-white mb-2">{{ $process->title }}</h3>
-                                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{{ Str::limit(strip_tags($process->description), 100) }}</p>
+                                <h3 class="font-bold text-base text-[#1F2937] mb-2">{{ $process->title }}</h3>
+                                <p class="text-xs text-[#667085] leading-relaxed">{{ Str::limit(strip_tags($process->description), 110) }}</p>
                             </div>
                         @endforeach
                     </div>
@@ -321,34 +423,34 @@
 
     @if($section === 'testimonials' && $homepageSettings->testimonials_section_enabled && $testimonials->isNotEmpty())
         <!-- Testimonials Section -->
-        <section class="py-16 sm:py-24 bg-slate-50 dark:bg-slate-950">
+        <section class="py-20 sm:py-28 bg-white border-b border-[#E5E7EB]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-5xl mx-auto">
-                    <div class="text-center mb-12">
-                        <span class="text-xs font-bold uppercase tracking-wider text-primary">Client Feedback</span>
-                        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-1">What Clients Say</h2>
-                        <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">
-                            Genuine endorsements from past projects and team collaborations
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-14">
+                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3 py-1 rounded-full mb-3">Client Feedback</span>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-[#1F2937] tracking-tight">Testimonials</h2>
+                        <p class="text-[#667085] text-base mt-2 max-w-xl mx-auto">
+                            Endorsements from clients and engineering partners.
                         </p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($testimonials as $testimonial)
-                            <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between">
-                                <p class="text-slate-600 dark:text-slate-300 text-sm italic mb-6">
-                                    "{{ Str::limit(strip_tags($testimonial->feedback), 180) }}"
+                            <div class="bg-[#F5F7F2] rounded-2xl p-6 border border-[#E5E7EB] flex flex-col justify-between">
+                                <p class="text-[#1F2937] text-sm italic mb-6 leading-relaxed">
+                                    "{{ Str::limit(strip_tags($testimonial->feedback), 190) }}"
                                 </p>
-                                <div class="flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                <div class="flex items-center gap-3 pt-4 border-t border-[#E5E7EB]">
                                     @if($testimonial->image_url)
                                         <img src="{{ $testimonial->image_url }}" alt="{{ $testimonial->name }}" class="w-10 h-10 rounded-full object-cover">
                                     @else
-                                        <div class="w-10 h-10 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center">
+                                        <div class="w-10 h-10 rounded-full bg-[#DCE8D6] text-[#1B560B] font-bold text-sm flex items-center justify-center">
                                             {{ substr($testimonial->name, 0, 1) }}
                                         </div>
                                     @endif
                                     <div>
-                                        <div class="font-bold text-sm text-slate-900 dark:text-white">{{ $testimonial->name }}</div>
-                                        <div class="text-xs text-slate-500 dark:text-slate-400">{{ $testimonial->role_company }}</div>
+                                        <div class="font-bold text-sm text-[#1F2937]">{{ $testimonial->name }}</div>
+                                        <div class="text-xs text-[#667085]">{{ $testimonial->role_company }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -361,19 +463,21 @@
 
     @if($section === 'contact_cta' && $homepageSettings->contact_cta_section_enabled)
         <!-- Contact CTA Section -->
-        <section class="py-16 sm:py-24 bg-gradient-to-tr from-slate-900 via-emerald-950 to-slate-900 text-white relative overflow-hidden">
-            <div class="absolute inset-0 -z-0 opacity-20 bg-[radial-gradient(#1B560B_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <section class="py-20 sm:py-28 bg-[#142018] text-white relative overflow-hidden">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="max-w-3xl mx-auto text-center">
-                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
-                        {{ $homepageSettings->contact_cta_heading ?: 'Ready to work together?' }}
+                    <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#DCE8D6] bg-[#1B560B] px-3.5 py-1 rounded-full mb-4">Let's Connect</span>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#F9FAFB] mb-4">
+                        {{ $homepageSettings->contact_cta_heading ?: 'Have a Project in Mind?' }}
                     </h2>
-                    <p class="text-base sm:text-lg text-emerald-200 mb-8 max-w-xl mx-auto">
-                        {{ $homepageSettings->contact_cta_description ?: "Let's discuss your next project. I'm available for freelance work and technical consulting." }}
+                    <p class="text-base sm:text-lg text-gray-300 mb-8 max-w-xl mx-auto leading-relaxed">
+                        {{ $homepageSettings->contact_cta_description ?: "Let's discuss your technical requirements. I am available for freelance web development and software consulting." }}
                     </p>
                     <div class="flex flex-wrap gap-4 justify-center">
-                        <a href="{{ route('contact') }}" class="btn btn-primary bg-white text-emerald-800 hover:bg-emerald-50 text-base shadow-lg hover:shadow-xl font-bold">
-                            Get In Touch Now
+                        <a href="{{ route('contact') }}"
+                            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#1B560B] hover:bg-[#144208] text-white text-base font-semibold shadow-md transition-all">
+                            Send Project Enquiry
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </a>
                     </div>
                 </div>
@@ -383,4 +487,3 @@
 @endforeach
 
 @endsection
-

@@ -7,7 +7,7 @@
 <div class="flex justify-between items-center mb-6">
     <h2 class="text-xl font-semibold text-gray-900">Manage Projects</h2>
     <a href="{{ route('admin.projects.create') }}"
-        class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+        class="admin-btn-primary">
         Add Project
     </a>
 </div>
@@ -61,15 +61,15 @@
                     </td>
                     <td class="py-3 px-4 text-sm text-gray-700">{{ $project->category ?? '—' }}</td>
                     <td class="py-3 px-4">
-                        <span class="inline-flex px-2 py-1 text-xs rounded-full {{ $project->status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                        <span class="inline-flex px-2.5 py-0.5 text-xs font-semibold rounded-full {{ $project->status === 'published' ? 'bg-[#DCE8D6] text-[#1B560B]' : 'bg-amber-100 text-amber-800' }}">
                             {{ $project->status_label }}
                         </span>
                     </td>
                     <td class="py-3 px-4">
                         @if($project->is_featured)
-                            <span class="inline-flex px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Yes</span>
+                            <span class="inline-flex px-2 py-0.5 text-xs bg-[#DCE8D6] text-[#1B560B] font-semibold rounded-full">Yes</span>
                         @else
-                            <span class="text-gray-400">No</span>
+                            <span class="text-gray-400 text-xs">No</span>
                         @endif
                     </td>
                     <td class="py-3 px-4 text-sm text-gray-500">{{ $project->display_order }}</td>
@@ -81,7 +81,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                 </svg>
                             </a>
-                            <a href="{{ route('admin.projects.edit', $project) }}" class="text-emerald-700 hover:text-emerald-800" title="Edit project">
+                            <a href="{{ route('admin.projects.edit', $project) }}" class="text-[#1B560B] hover:text-[#144208]" title="Edit project">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>

@@ -1,55 +1,83 @@
 @extends('public.layouts.app')
 
-@section('title', 'Contact - ' . $websiteName)
-@section('meta_description', 'Get in touch with me')
+@section('title', 'Contact & Hire Me - ' . $websiteName)
+@section('meta_description', 'Have a project in mind? Contact me to discuss custom Laravel applications, RESTful APIs, ERPs, dashboards, and freelance web development.')
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-20 bg-slate-50 dark:bg-slate-950">
+<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#F5F7F2]">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-12">
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">Let's Talk</h1>
-                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                    Have a project in mind? Want to discuss opportunities? Drop me a message and I'll get back to you.
+        <div class="max-w-6xl mx-auto">
+            <!-- Header Section -->
+            <div class="text-center mb-16">
+                <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3.5 py-1 rounded-full mb-3.5">
+                    Start a Conversation
+                </span>
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-[#1F2937] tracking-tight mb-4">
+                    Have a Project in Mind?
+                </h1>
+                <p class="text-base sm:text-lg text-[#667085] max-w-2xl mx-auto leading-relaxed">
+                    Let's discuss your project goals, technical requirements, and timeline. I provide upfront estimates and clear technical consultation.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div>
-                    @if($profile)
-                        <div class="space-y-6">
-                            @if($profile->email)
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                <!-- Left Column: Contact Details & Credibility -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="bg-white rounded-2xl p-7 sm:p-8 border border-[#E5E7EB] shadow-xs space-y-6">
+                        <div class="flex items-center gap-4 pb-6 border-b border-[#E5E7EB]">
+                            <div class="w-14 h-14 rounded-2xl bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center font-bold text-xl">
+                                {{ substr($websiteName, 0, 1) }}
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold text-[#1F2937]">{{ $profile->name ?: 'Full Stack Web Developer' }}</h2>
+                                <p class="text-xs text-[#667085]">{{ $profile->title ?: 'Laravel & MySQL Specialist' }}</p>
+                                <span class="inline-flex items-center gap-1.5 text-xs text-[#1B560B] font-medium mt-1">
+                                    <span class="w-2 h-2 rounded-full bg-[#1B560B] animate-pulse"></span>
+                                    Average response time: &lt; 24h
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Communication Channels -->
+                        <div class="space-y-4">
+                            @if($profile->contact_email || $profile->email)
+                                @php $email = $profile->contact_email ?: $profile->email; @endphp
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-[#F5F7F2] border border-[#E5E7EB] flex items-center justify-center shrink-0 text-[#1B560B]">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                         </svg>
                                     </div>
                                     <div>
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">Email</span>
-                                        <span class="block font-medium text-gray-900 dark:text-white">{{ $profile->email }}</span>
+                                        <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">Direct Email</span>
+                                        <a href="mailto:{{ $email }}" class="text-sm font-medium text-[#1F2937] hover:text-[#1B560B] break-all transition-colors">
+                                            {{ $email }}
+                                        </a>
                                     </div>
                                 </div>
                             @endif
-                            @if($profile->phone)
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                            @if($profile->contact_phone || $profile->phone)
+                                @php $phone = $profile->contact_phone ?: $profile->phone; @endphp
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-[#F5F7F2] border border-[#E5E7EB] flex items-center justify-center shrink-0 text-[#1B560B]">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.14 3.317a1 1 0 01-.54 1.212l-2.52 1.027a.5.5 0 00-.25.278L8.19 11.88a6 6 0 005.92 5.92l.27-1.35a1 1 0 01.27-.41l2.2-2.2a1 1 0 011.11-.22l3.31 1.14A1 1 0 0121 11.72V15a2 2 0 01-2 2h-2"></path>
                                         </svg>
                                     </div>
                                     <div>
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">Phone</span>
-                                        <span class="block font-medium text-gray-900 dark:text-white">{{ $profile->phone }}</span>
+                                        <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">Phone / WhatsApp</span>
+                                        <span class="text-sm font-medium text-[#1F2937]">{{ $phone }}</span>
                                     </div>
                                 </div>
                             @endif
-                            @if($profile->location)
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                            @if($profile->location && $profile->location_visible)
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-[#F5F7F2] border border-[#E5E7EB] flex items-center justify-center shrink-0 text-[#1B560B]">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M17.982 18.724A7.481 7.481 0 0112 20a7.481 7.481 0 01-5.982-2.276m11.964 0A10.954 10.954 0 0012 22c-2.648 0-5.145-.97-7.024-2.545A7.478 7.478 0 0112 17.5a7.478 7.478 0 015.982 2.276z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -57,80 +85,164 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">Location</span>
-                                        <span class="block font-medium text-gray-900 dark:text-white">{{ $profile->location }}</span>
+                                        <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">Location</span>
+                                        <span class="text-sm font-medium text-[#1F2937]">{{ $profile->location }}</span>
                                     </div>
                                 </div>
                             @endif
-                            @if($profile->social_links)
-                                <div class="flex gap-4 pt-2">
+                        </div>
+
+                        <!-- Social & Professional Verification -->
+                        @if(!empty($profile->social_links) && is_array($profile->social_links))
+                            <div class="pt-6 border-t border-[#E5E7EB]">
+                                <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085] mb-3">Verified Profiles</span>
+                                <div class="flex gap-3">
                                     @foreach($profile->social_links as $platform => $url)
-                                        <a href="{{ $url }}" target="_blank"
-                                            class="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
-                                            <span class="sr-only">{{ ucfirst($platform) }}</span>
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M12 0C5.371 0 0 5.371 0 12.004c0 5.302 3.544 9.8 8.434 11.386.6.112.82-.262.82-.58 0-.286-.01-1.186-.015-2.148-3.429.756-4.141-1.647-4.141-1.647-.555-1.401-1.342-1.77-1.342-1.77-1.09-.75.084-.735.084-.735 1.203.084 1.836 1.24 1.836 1.24 1.067 1.83 2.805 1.305 3.49.996.108-.782.418-1.305.762-1.605-2.665-.305-5.467-1.335-5.467-5.935 0-1.311.47-2.381 1.236-3.221-.124-.303-.053-.823.027-1.646 0 0 .027-.086.997 1.203 3.186-.998 4.263-.274 4.263-.274.34.861.995 1.685 1.715 1.998.82-.122 1.64-.247 2.456-.449 0 0 1.09-.19 2.24 1.226 0 0 1.105-1.156 1.568-2.779 0 0 .42-1.325.027-2.779 0 0 1.59-.041 2.997 1.229.96-.273 1.99-.822 3.01-1.599.762 1.155 1.142 2.497 1.142 3.91 0 1.566.015 3.132.015 3.589 0 0 .084.49.82 1.295.932 1.2 1.42 1.964 1.42 1.964.534.889 1.158 1.341 1.81.995 1.27-.338 1.72-.881 2.03.336.265.999.82 1.787 1.427 2.423.81-.161 1.6-.48 2.27-.93.074-.554.136-1.435.136-1.97 0-4.608-3.135-8.342-7.41-9.466 1.32-.975 2.295-2.975 2.295-6.215 0-4.816-3.135-8.746-7.412-8.746-2.322 0-4.522.85-6.29 2.282-.643-.12-1.28.2-1.92.49-.995 22.07-7.7 15.62-12.06 15.66-1.35-.27-2.74-.42-4.15-.42z"></path>
-                                            </svg>
-                                        </a>
+                                        @if($url)
+                                            <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
+                                                class="px-3 py-1.5 rounded-lg bg-[#F5F7F2] hover:bg-[#E5E7EB] text-xs font-medium text-[#1F2937] border border-[#E5E7EB] transition-colors capitalize">
+                                                {{ $platform }}
+                                            </a>
+                                        @endif
                                     @endforeach
                                 </div>
-                            @endif
-                        </div>
-                    @endif
+                            </div>
+                        @endif
+                    </div>
                 </div>
 
-                <form id="contactForm" method="POST" action="{{ route('contact.submit') }}" class="space-y-6 bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
-                    @csrf
-                    <!-- Honeypot anti-spam field -->
-                    <input type="text" name="website_hp" style="display:none;" tabindex="-1" autocomplete="off">
+                <!-- Right Column: Project Enquiry Form -->
+                <div class="lg:col-span-7">
+                    <form id="contactForm" method="POST" action="{{ route('contact.submit') }}"
+                        class="bg-white p-7 sm:p-9 rounded-2xl border border-[#E5E7EB] shadow-xs space-y-6">
+                        @csrf
+                        <!-- Honeypot anti-spam field -->
+                        <input type="text" name="website_hp" style="display:none;" tabindex="-1" autocomplete="off">
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Name -->
+                            <div>
+                                <label for="name" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
+                                    Your Name <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="name" name="name" required
+                                    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] placeholder-[#9CA3AF] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm"
+                                    value="{{ old('name') }}" placeholder="John Doe">
+                                @error('name')
+                                    <p class="text-red-600 text-xs mt-1.5">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
+                                    Email Address <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" id="email" name="email" required
+                                    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] placeholder-[#9CA3AF] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm"
+                                    value="{{ old('email') }}" placeholder="john@company.com">
+                                @error('email')
+                                    <p class="text-red-600 text-xs mt-1.5">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Phone -->
+                            <div>
+                                <label for="phone" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
+                                    Phone Number (Optional)
+                                </label>
+                                <input type="tel" id="phone" name="phone"
+                                    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] placeholder-[#9CA3AF] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm"
+                                    value="{{ old('phone') }}" placeholder="+1 (555) 000-0000">
+                                @error('phone')
+                                    <p class="text-red-600 text-xs mt-1.5">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Service Type Dropdown -->
+                            <div>
+                                <label for="service_type" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
+                                    Service or Project Type
+                                </label>
+                                <select id="service_type" name="service_type"
+                                    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm">
+                                    <option value="">Select a project type...</option>
+                                    <option value="Custom Website Development" {{ old('service_type', request('service')) === 'custom-website-development' || old('service_type') === 'Custom Website Development' ? 'selected' : '' }}>Custom Website Development</option>
+                                    <option value="Laravel Application Development" {{ old('service_type', request('service')) === 'laravel-application-development' || old('service_type') === 'Laravel Application Development' ? 'selected' : '' }}>Laravel Application Development</option>
+                                    <option value="REST API Development & Integration" {{ old('service_type', request('service')) === 'rest-api-development-integration' || old('service_type') === 'REST API Development & Integration' ? 'selected' : '' }}>REST API Development & Integration</option>
+                                    <option value="Admin Panel & Dashboard Development" {{ old('service_type', request('service')) === 'admin-panel-dashboard-development' || old('service_type') === 'Admin Panel & Dashboard Development' ? 'selected' : '' }}>Admin Panel & Dashboard Development</option>
+                                    <option value="ERP & Business Management Systems" {{ old('service_type', request('service')) === 'erp-business-management-systems' || old('service_type') === 'ERP & Business Management Systems' ? 'selected' : '' }}>ERP & Business Management Systems</option>
+                                    <option value="School Management Systems" {{ old('service_type', request('service')) === 'school-management-systems' || old('service_type') === 'School Management Systems' ? 'selected' : '' }}>School Management Systems</option>
+                                    <option value="Maintenance & Bug Fixing" {{ old('service_type', request('service')) === 'maintenance-bug-fixing' || old('service_type') === 'Maintenance & Bug Fixing' ? 'selected' : '' }}>Maintenance & Bug Fixing</option>
+                                    <option value="General Freelance / Consultation" {{ old('service_type') === 'General Freelance / Consultation' ? 'selected' : '' }}>General Freelance / Consultation</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Approximate Budget -->
+                            <div>
+                                <label for="budget" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
+                                    Approximate Budget (Optional)
+                                </label>
+                                <select id="budget" name="budget"
+                                    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm">
+                                    <option value="">Select budget range...</option>
+                                    <option value="Under $1,000" {{ old('budget') === 'Under $1,000' ? 'selected' : '' }}>Under $1,000</option>
+                                    <option value="$1,000 - $3,000" {{ old('budget') === '$1,000 - $3,000' ? 'selected' : '' }}>$1,000 - $3,000</option>
+                                    <option value="$3,000 - $5,000" {{ old('budget') === '$3,000 - $5,000' ? 'selected' : '' }}>$3,000 - $5,000</option>
+                                    <option value="$5,000+" {{ old('budget') === '$5,000+' ? 'selected' : '' }}>$5,000+</option>
+                                    <option value="Flexible / Hourly" {{ old('budget') === 'Flexible / Hourly' ? 'selected' : '' }}>Flexible / Hourly</option>
+                                </select>
+                            </div>
+
+                            <!-- Expected Timeline -->
+                            <div>
+                                <label for="timeline" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
+                                    Expected Timeline (Optional)
+                                </label>
+                                <select id="timeline" name="timeline"
+                                    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm">
+                                    <option value="">Select expected timeline...</option>
+                                    <option value="Urgent (< 2 weeks)" {{ old('timeline') === 'Urgent (< 2 weeks)' ? 'selected' : '' }}>Urgent (&lt; 2 weeks)</option>
+                                    <option value="1 - 4 weeks" {{ old('timeline') === '1 - 4 weeks' ? 'selected' : '' }}>1 - 4 weeks</option>
+                                    <option value="1 - 3 months" {{ old('timeline') === '1 - 3 months' ? 'selected' : '' }}>1 - 3 months</option>
+                                    <option value="3+ months" {{ old('timeline') === '3+ months' ? 'selected' : '' }}>3+ months</option>
+                                    <option value="Flexible" {{ old('timeline') === 'Flexible' ? 'selected' : '' }}>Flexible</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Project Message -->
                         <div>
-                            <label class="label">Name *</label>
-                            <input type="text" name="name" required class="input" value="{{ old('name') }}" placeholder="Your Full Name">
-                            @error('name')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <label for="message" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
+                                Project Message &amp; Requirements <span class="text-red-500">*</span>
+                            </label>
+                            <textarea id="message" name="message" rows="5" required
+                                class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] placeholder-[#9CA3AF] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm resize-y min-h-[130px]"
+                                placeholder="Describe the web application, key features, business goals, and any reference websites or APIs...">{{ old('message') }}</textarea>
+                            @error('message')
+                                <p class="text-red-600 text-xs mt-1.5">{{ $message }}</p>
                             @enderror
                         </div>
+
+                        <!-- Submit Button -->
                         <div>
-                            <label class="label">Email *</label>
-                            <input type="email" name="email" required class="input" value="{{ old('email') }}" placeholder="name@example.com">
-                            @error('email')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                            <button type="submit"
+                                class="w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#1B560B] hover:bg-[#144208] text-white font-semibold text-base shadow-sm hover:shadow transition-all duration-200 cursor-pointer">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                                <span>Send Project Enquiry</span>
+                            </button>
+                            <p class="text-center text-xs text-[#667085] mt-3">
+                                Your project details and contact information are treated strictly with confidentiality.
+                            </p>
                         </div>
-                    </div>
-
-                    <div>
-                        <label class="label">Phone (Optional)</label>
-                        <input type="tel" name="phone" class="input" value="{{ old('phone') }}" placeholder="+1 (555) 000-0000">
-                    </div>
-
-                    <div>
-                        <label class="label">Subject *</label>
-                        <input type="text" name="subject" required class="input" value="{{ old('subject', 'Freelance Project Inquiry') }}" placeholder="What is this regarding?">
-                        @error('subject')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="label">Message *</label>
-                        <textarea name="message" rows="5" required class="textarea"
-                            placeholder="Tell me about your project, timeline, and goals...">{{ old('message') }}</textarea>
-                        @error('message')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-full py-3.5">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                        <span>Send Message</span>
-                    </button>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </section>
 @endsection
-

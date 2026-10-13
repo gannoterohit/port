@@ -15,22 +15,22 @@
 @endif
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-20 bg-slate-50 dark:bg-slate-950">
+<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#F5F7F2]">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-8 sm:p-12 shadow-sm">
-                <header class="mb-8 pb-6 border-b border-slate-100 dark:border-slate-800">
-                    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            <div class="bg-white rounded-2xl border border-[#E5E7EB] p-8 sm:p-12 shadow-xs">
+                <header class="mb-8 pb-6 border-b border-[#E5E7EB]">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-[#1F2937] tracking-tight">
                         {{ $page->title }}
                     </h1>
                     @if($page->updated_at)
-                        <p class="text-xs text-slate-400 dark:text-slate-500 mt-2">
+                        <p class="text-xs text-[#667085] mt-2">
                             Last updated: {{ $page->updated_at->format('F d, Y') }}
                         </p>
                     @endif
                 </header>
 
-                <article class="prose prose-slate dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-emerald-700 dark:prose-a:text-emerald-400">
+                <article class="prose max-w-none text-[#1F2937] prose-headings:font-bold prose-a:text-[#1B560B] leading-relaxed">
                     {!! $page->content !!}
                 </article>
             </div>
@@ -38,4 +38,3 @@
     </div>
 </section>
 @endsection
-

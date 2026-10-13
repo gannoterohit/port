@@ -21,8 +21,9 @@ class ContactController extends Controller
     public function show()
     {
         $profile = Cache::remember('profile', 3600, fn () => Profile::getInstance());
+        $services = Cache::remember('contact_services', 3600, fn () => \App\Models\Service::where('is_enabled', true)->orderBy('display_order')->get());
 
-        return view('public.contact', compact('profile'));
+        return view('public.contact', compact('profile', 'services'));
     }
 
     public function submit(Request $request)
@@ -31,6 +32,9 @@ class ContactController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
+            'service_type' => ['nullable', 'string', 'max:255'],
+            'budget' => ['nullable', 'string', 'max:100'],
+            'timeline' => ['nullable', 'string', 'max:100'],
             'subject' => ['nullable', 'string', 'max:255'],
             'message' => ['required', 'string', 'min:10'],
         ]);
@@ -51,12 +55,31 @@ class ContactController extends Controller
 
         $data = $validator->validate();
 
+        $metadata = [];
+        if (!empty($data['service_type'])) {
+            $metadata[] = "Service: " . $data['service_type'];
+        }
+        if (!empty($data['budget'])) {
+            $metadata[] = "Approx. Budget: " . $data['budget'];
+        }
+        if (!empty($data['timeline'])) {
+            $metadata[] = "Expected Timeline: " . $data['timeline'];
+        }
+
+        $formattedMessage = !empty($metadata)
+            ? implode(" | ", $metadata) . "\n\n" . $data['message']
+            : $data['message'];
+
+        $subject = !empty($data['subject'])
+            ? $data['subject']
+            : (!empty($data['service_type']) ? "Project Enquiry: " . $data['service_type'] : 'Website Contact Form Submission');
+
         $enquiry = Enquiry::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'] ?? null,
-            'subject' => $data['subject'] ?? 'Website Contact Form Submission',
-            'message' => $data['message'],
+            'subject' => $subject,
+            'message' => $formattedMessage,
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
             'status' => 'new',

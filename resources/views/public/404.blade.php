@@ -1,29 +1,28 @@
 @extends('public.layouts.app')
 
-@section('title', '404 - Page Not Found')
+@section('title', '404 - Page Not Found - ' . $websiteName)
 @section('meta_description', 'The page you are looking for does not exist.')
 
 @section('content')
-<section class="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 pt-28 sm:pt-36 pb-20">
+<section class="min-h-screen flex items-center justify-center bg-[#F5F7F2] pt-28 sm:pt-36 pb-24">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md mx-auto text-center">
-            <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-8">
-                <span class="text-4xl font-bold text-gray-400 dark:text-gray-500">404</span>
+        <div class="max-w-md mx-auto text-center bg-white p-10 rounded-2xl border border-[#E5E7EB] shadow-xs">
+            <div class="w-20 h-20 bg-[#DCE8D6] rounded-2xl flex items-center justify-center mx-auto mb-6 text-[#1B560B] font-bold text-2xl">
+                404
             </div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Page Not Found</h1>
-            <p class="text-gray-600 dark:text-gray-400 mb-8">
-                The page you are looking for doesn't exist or has been moved.
+            <h1 class="text-2xl font-bold text-[#1F2937] mb-3">Page Not Found</h1>
+            <p class="text-[#667085] text-sm mb-8 leading-relaxed">
+                The page you are looking for does not exist, has been moved, or is temporarily unavailable.
             </p>
             <a href="{{ route('home') }}"
-                class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                class="inline-flex items-center gap-2 bg-[#1B560B] hover:bg-[#144208] text-white px-6 py-3 rounded-lg text-sm font-semibold transition-all shadow-xs">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 12l2-2v8a2 2 0 002 2h6m-4-10l4-4 4 4m-4-4v10"></path>
                 </svg>
-                Back to Home
+                Back to Homepage
             </a>
         </div>
     </div>
 </section>
 @endsection
-

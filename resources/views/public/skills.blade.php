@@ -1,85 +1,80 @@
 @extends('public.layouts.app')
 
 @section('title', 'Skills & Technical Expertise - ' . $websiteName)
-@section('meta_description', 'Explore my technical skills, proficiencies, tools, and developer stack across Backend, Frontend, Databases, and APIs.')
+@section('meta_description', 'Explore my technical skills and competencies across Backend, Frontend, Databases, APIs, and Development Tools.')
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-20 bg-slate-50 dark:bg-slate-950">
+<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#F5F7F2]">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-5xl mx-auto">
+        <div class="max-w-6xl mx-auto">
             <!-- Header Section -->
             <div class="text-center mb-16">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 mb-4">
-                    Expertise & Toolkit
-                </div>
-                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
-                    Skills & Tech Stack
+                <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3.5 py-1 rounded-full mb-3.5">
+                    Technical Stack
+                </span>
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-[#1F2937] tracking-tight mb-4">
+                    Skills &amp; Technologies
                 </h1>
-                <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                    A comprehensive overview of the programming languages, frameworks, databases, and development tools I work with daily.
+                <p class="text-base sm:text-lg text-[#667085] max-w-2xl mx-auto leading-relaxed">
+                    Organized by domain expertise. Clean, modern tools and frameworks applied across real-world commercial projects.
                 </p>
             </div>
 
-            <!-- Categories & Skills Grid -->
-            <div class="space-y-10">
+            <!-- Categorized Skills Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 @forelse($categories as $category)
                     @if($category->skills->isNotEmpty())
-                        <div class="bg-white dark:bg-slate-900/70 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 backdrop-blur-sm transition-all hover:shadow-md">
-                            <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
-                                <div class="flex items-center gap-3">
-                                    <span class="w-3.5 h-3.5 rounded-full inline-block" style="background-color: {{ $category->color ?? '#3b82f6' }}"></span>
-                                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
-                                        {{ $category->name }}
-                                    </h2>
-                                </div>
-                                <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-                                    {{ $category->skills->count() }} {{ Str::plural('Skill', $category->skills->count()) }}
-                                </span>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                @foreach($category->skills as $skill)
-                                    <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-700/50 hover:border-emerald-400 dark:hover:border-emerald-500 transition-all group">
-                                        <div class="flex items-center justify-between mb-2">
-                                            <div class="flex items-center gap-2">
-                                                @if($skill->is_featured)
-                                                    <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20" title="Featured Skill">
-                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                                    </svg>
-                                                @endif
-                                                <span class="text-slate-900 dark:text-slate-100 font-semibold group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
-                                                    {{ $skill->name }}
-                                                </span>
-                                            </div>
-                                            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                                                {{ $skill->proficiency }}%
-                                            </span>
-                                        </div>
-
-                                        @if($skill->description)
-                                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 line-clamp-1">
-                                                {{ $skill->description }}
-                                            </p>
-                                        @endif
-
-                                        <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                                            <div class="h-full rounded-full transition-all duration-500"
-                                                 style="width: {{ $skill->proficiency }}%; background-color: {{ $category->color ?? 'var(--primary-color, #2563eb)' }}">
-                                            </div>
-                                        </div>
+                        <div class="bg-white rounded-2xl border border-[#E5E7EB] p-7 sm:p-8 shadow-xs flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between pb-4 border-b border-[#E5E7EB] mb-6">
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-3 h-3 rounded-full bg-[#1B560B]"></span>
+                                        <h2 class="text-xl font-bold text-[#1F2937]">
+                                            {{ $category->name }}
+                                        </h2>
                                     </div>
-                                @endforeach
+                                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-[#F5F7F2] text-[#667085] border border-[#E5E7EB]">
+                                        {{ $category->skills->count() }} {{ Str::plural('Skill', $category->skills->count()) }}
+                                    </span>
+                                </div>
+
+                                <div class="flex flex-wrap gap-2.5">
+                                    @foreach($category->skills as $skill)
+                                        <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#F5F7F2] hover:bg-[#DCE8D6]/50 border border-[#E5E7EB] hover:border-[#1B560B]/40 transition-colors group">
+                                            @if($skill->is_featured)
+                                                <span class="w-1.5 h-1.5 rounded-full bg-[#1B560B]"></span>
+                                            @endif
+                                            <span class="text-sm font-semibold text-[#1F2937] group-hover:text-[#1B560B] transition-colors">
+                                                {{ $skill->name }}
+                                            </span>
+                                            @if($skill->description)
+                                                <span class="text-[11px] text-[#667085]">({{ $skill->description }})</span>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     @endif
                 @empty
-                    <div class="text-center py-12 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-                        <p class="text-slate-500 dark:text-slate-400">No skills published yet.</p>
+                    <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-[#E5E7EB]">
+                        <p class="text-[#667085]">No skills published yet.</p>
                     </div>
                 @endforelse
+            </div>
+
+            <!-- Inquire CTA Strip -->
+            <div class="mt-14 bg-white rounded-2xl p-8 border border-[#E5E7EB] shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div>
+                    <h3 class="text-xl font-bold text-[#1F2937]">Need a developer with these specific capabilities?</h3>
+                    <p class="text-sm text-[#667085] mt-1">Available to discuss custom full-stack solutions for your business.</p>
+                </div>
+                <a href="{{ route('contact') }}"
+                    class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#1B560B] hover:bg-[#144208] text-white font-medium text-sm transition-all shadow-xs shrink-0">
+                    Hire Me Now
+                </a>
             </div>
         </div>
     </div>
 </section>
 @endsection
-

@@ -4,19 +4,19 @@
 <div class="flex h-screen overflow-hidden">
         @php
             $currentRoute = request()->route()->getName();
-            $activeClass = 'bg-emerald-50 text-emerald-700 font-semibold';
-            $inactiveClass = 'text-gray-600 hover:bg-gray-100';
+            $activeClass = 'bg-[#DCE8D6]/70 text-[#1B560B] font-semibold';
+            $inactiveClass = 'text-[#667085] hover:bg-[#F5F7F2] hover:text-[#1F2937]';
         @endphp
 
-    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col overflow-y-auto">
-        <div class="p-4 border-b border-gray-200">
+    <aside class="w-64 bg-white border-r border-[#E5E7EB] flex flex-col overflow-y-auto">
+        <div class="p-4 border-b border-[#E5E7EB]">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-emerald-700 rounded-lg flex items-center justify-center text-white font-bold">
+                <div class="w-10 h-10 bg-[#1B560B] rounded-lg flex items-center justify-center text-white font-bold">
                     {{ substr(\App\Models\Setting::get('website_name', 'CMS'), 0, 1) }}
                 </div>
                 <div>
-                    <span class="font-bold text-lg">{{ \App\Models\Setting::get('website_name', 'Portfolio CMS') }}</span>
-                    <span class="text-xs text-gray-500 block">Admin Panel</span>
+                    <span class="font-bold text-lg text-[#1F2937]">{{ \App\Models\Setting::get('website_name', 'Portfolio CMS') }}</span>
+                    <span class="text-xs text-[#667085] block">Admin Panel</span>
                 </div>
             </div>
         </div>
