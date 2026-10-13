@@ -174,6 +174,64 @@
     animation: scaleIn 0.4s ease-out;
   }
   
+  .animate-float-slow {
+    animation: floatSlow 5s ease-in-out infinite;
+  }
+  
+  .animate-float-delayed {
+    animation: floatDelayed 6s ease-in-out 1.2s infinite;
+  }
+  
+  .animate-pulse-glow {
+    animation: pulseGlow 4s ease-in-out infinite;
+  }
+
+  .bg-grid-dots {
+    background-image: radial-gradient(rgba(27, 86, 11, 0.09) 1.5px, transparent 1.5px);
+    background-size: 26px 26px;
+  }
+
+  .bg-grid-dots-dark {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
+    background-size: 26px 26px;
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .card-glow-hover {
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-glow-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 35px -10px rgba(27, 86, 11, 0.12), 0 10px 15px -5px rgba(0, 0, 0, 0.04);
+    border-color: rgba(27, 86, 11, 0.35);
+  }
+
+  .btn-shimmer-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-shimmer-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+    transform: translateX(-150%) skewX(-20deg);
+  }
+
+  .btn-shimmer-effect:hover::after {
+    animation: shimmerPass 1s ease-in-out;
+  }
+  
   .stagger-1 { animation-delay: 100ms; }
   .stagger-2 { animation-delay: 200ms; }
   .stagger-3 { animation-delay: 300ms; }
@@ -200,4 +258,24 @@
 @keyframes scaleIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes floatDelayed {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(8px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.06); }
+}
+
+@keyframes shimmerPass {
+  0% { transform: translateX(-150%) skewX(-20deg); }
+  100% { transform: translateX(250%) skewX(-20deg); }
 }

@@ -7,22 +7,27 @@
 @endif
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#F5F7F2]">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#F5F7F2] relative overflow-hidden">
+    <!-- Ambient Lighting & Dot Grid -->
+    <div class="absolute inset-0 bg-grid-dots opacity-35 pointer-events-none"></div>
+    <div class="absolute -top-32 -left-20 w-[450px] h-[450px] bg-emerald-200/40 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
+    <div class="absolute top-1/3 -right-20 w-[400px] h-[400px] bg-[#DCE8D6]/60 rounded-full blur-3xl pointer-events-none animate-float-delayed"></div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-5xl mx-auto space-y-12">
             <!-- Header Card -->
-            <div class="bg-white rounded-2xl p-8 sm:p-12 border border-[#E5E7EB] shadow-xs">
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-8 sm:p-12 border border-[#E5E7EB] shadow-sm card-glow-hover">
                 <div class="flex flex-col md:flex-row gap-8 items-start md:items-center">
                     @if($profile->profile_photo_url)
                         <img src="{{ $profile->profile_photo_url }}" alt="{{ $profile->full_name }}"
-                            class="w-36 h-36 rounded-2xl object-cover border border-[#E5E7EB] shadow-sm shrink-0">
+                            class="w-36 h-36 rounded-2xl object-cover border border-[#E5E7EB] shadow-md shrink-0">
                     @else
-                        <div class="w-36 h-36 rounded-2xl bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center font-bold text-4xl shrink-0">
+                        <div class="w-36 h-36 rounded-2xl bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center font-bold text-4xl shrink-0 shadow-xs">
                             {{ substr($profile->name ?: $websiteName, 0, 1) }}
                         </div>
                     @endif
                     <div class="flex-1 space-y-3">
-                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3 py-1 rounded-full">
+                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3.5 py-1 rounded-full shadow-xs">
                             {{ $profile->title ?: 'Full Stack Web Developer' }}
                         </span>
                         <h1 class="text-3xl sm:text-4xl font-extrabold text-[#1F2937] tracking-tight">
@@ -34,7 +39,7 @@
                         @if($profile->resume_url && $profile->resume_button_visible)
                             <div class="pt-2">
                                 <a href="{{ $profile->resume_url }}" target="_blank" download
-                                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#1B560B] hover:bg-[#144208] text-white font-medium text-sm transition-all shadow-xs">
+                                    class="btn-shimmer-effect inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#1B560B] hover:bg-[#144208] text-white font-medium text-sm transition-all shadow-md hover:shadow-xl hover:shadow-[#1B560B]/20 hover:-translate-y-0.5">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path>

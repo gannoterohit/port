@@ -4,12 +4,17 @@
 @section('meta_description', 'Browse my portfolio of genuine web applications, client solutions, and full-stack software projects.')
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#F5F7F2]">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#F5F7F2] relative overflow-hidden">
+    <!-- Ambient Lighting & Dot Grid -->
+    <div class="absolute inset-0 bg-grid-dots opacity-35 pointer-events-none"></div>
+    <div class="absolute -top-32 -left-20 w-[450px] h-[450px] bg-emerald-200/40 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
+    <div class="absolute top-1/3 -right-20 w-[400px] h-[400px] bg-[#DCE8D6]/60 rounded-full blur-3xl pointer-events-none animate-float-delayed"></div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-7xl mx-auto">
             <!-- Header Section -->
             <div class="text-center mb-16">
-                <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3.5 py-1 rounded-full mb-3.5">
+                <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3.5 py-1 rounded-full mb-3.5 shadow-xs">
                     Portfolio Showcase
                 </span>
                 <h1 class="text-4xl sm:text-5xl font-extrabold text-[#1F2937] tracking-tight mb-4">
@@ -25,11 +30,11 @@
                 <div class="relative flex-1">
                     <input type="search" name="search" value="{{ request('search') }}"
                         placeholder="Search projects..."
-                        class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] placeholder-[#9CA3AF] text-sm focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent">
+                        class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] placeholder-[#9CA3AF] text-sm focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent shadow-xs">
                 </div>
                 @if(isset($categories) && $categories->isNotEmpty())
                     <select name="category"
-                        class="px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] text-sm focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent sm:min-w-[180px]">
+                        class="px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] text-sm focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent sm:min-w-[180px] shadow-xs">
                         <option value="">All categories</option>
                         @foreach($categories as $category)
                             <option value="{{ $category }}" {{ request('category') === $category ? 'selected' : '' }}>
@@ -39,12 +44,12 @@
                     </select>
                 @endif
                 <button type="submit"
-                    class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-[#1B560B] hover:bg-[#144208] text-white text-sm font-medium transition-colors">
+                    class="btn-shimmer-effect inline-flex items-center justify-center px-6 py-3 rounded-lg bg-[#1B560B] hover:bg-[#144208] text-white text-sm font-semibold transition-all shadow-sm">
                     Filter
                 </button>
                 @if(request()->filled('search') || request()->filled('category'))
                     <a href="{{ route('projects') }}"
-                        class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#667085] hover:text-[#1F2937] text-sm font-medium transition-colors">
+                        class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#667085] hover:text-[#1F2937] text-sm font-medium transition-colors shadow-xs">
                         Clear
                     </a>
                 @endif
@@ -53,7 +58,7 @@
             <!-- 3-Column Projects Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($projects as $project)
-                    <div class="group bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <div class="group bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-xs card-glow-hover flex flex-col">
                         <a href="{{ route('projects.show', ['project' => $project->slug]) }}" class="relative block overflow-hidden aspect-[16/9] bg-[#F5F7F2]">
                             @if($project->thumbnail_url)
                                 <img src="{{ $project->thumbnail_url }}" alt="{{ $project->thumbnail_alt ?: $project->title }}"

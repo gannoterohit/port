@@ -4,12 +4,17 @@
 @section('meta_description', 'Have a project in mind? Contact me to discuss custom Laravel applications, RESTful APIs, ERPs, dashboards, and freelance web development.')
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#F5F7F2]">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#F5F7F2] relative overflow-hidden">
+    <!-- Ambient Lighting & Dot Grid -->
+    <div class="absolute inset-0 bg-grid-dots opacity-40 pointer-events-none"></div>
+    <div class="absolute -top-32 -left-20 w-[450px] h-[450px] bg-emerald-200/40 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
+    <div class="absolute top-1/3 -right-20 w-[400px] h-[400px] bg-[#DCE8D6]/60 rounded-full blur-3xl pointer-events-none animate-float-delayed"></div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-6xl mx-auto">
             <!-- Header Section -->
             <div class="text-center mb-16">
-                <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3.5 py-1 rounded-full mb-3.5">
+                <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3.5 py-1 rounded-full mb-3.5 shadow-xs">
                     Start a Conversation
                 </span>
                 <h1 class="text-4xl sm:text-5xl font-extrabold text-[#1F2937] tracking-tight mb-4">
@@ -23,13 +28,13 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                 <!-- Left Column: Contact Details & Credibility -->
                 <div class="lg:col-span-5 space-y-6">
-                    <div class="bg-white rounded-2xl p-7 sm:p-8 border border-[#E5E7EB] shadow-xs space-y-6">
+                    <div class="bg-white/95 backdrop-blur-md rounded-2xl p-7 sm:p-8 border border-[#E5E7EB] shadow-sm card-glow-hover space-y-6">
                         <div class="flex items-center gap-4 pb-6 border-b border-[#E5E7EB]">
                             @if($profile->profile_photo_url)
                                 <img src="{{ $profile->profile_photo_url }}" alt="{{ $profile->full_name }}"
-                                    class="w-14 h-14 rounded-2xl object-cover border border-[#E5E7EB]">
+                                    class="w-14 h-14 rounded-2xl object-cover border border-[#E5E7EB] shadow-xs">
                             @else
-                                <div class="w-14 h-14 rounded-2xl bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center font-bold text-xl">
+                                <div class="w-14 h-14 rounded-2xl bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center font-bold text-xl shadow-xs">
                                     {{ substr($profile->name ?: $websiteName, 0, 1) }}
                                 </div>
                             @endif
@@ -37,7 +42,10 @@
                                 <h2 class="text-lg font-bold text-[#1F2937]">{{ $profile->name ?: 'Full Stack Web Developer' }}</h2>
                                 <p class="text-xs text-[#667085]">{{ $profile->title ?: 'Laravel & MySQL Specialist' }}</p>
                                 <span class="inline-flex items-center gap-1.5 text-xs text-[#1B560B] font-medium mt-1">
-                                    <span class="w-2 h-2 rounded-full bg-[#1B560B] animate-pulse"></span>
+                                    <span class="relative flex h-2 w-2">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1B560B] opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-[#1B560B]"></span>
+                                    </span>
                                     Average response time: &lt; 24h
                                 </span>
                             </div>
@@ -140,7 +148,7 @@
                 <!-- Right Column: Project Enquiry Form -->
                 <div class="lg:col-span-7">
                     <form id="contactForm" method="POST" action="{{ route('contact.submit') }}"
-                        class="bg-white p-7 sm:p-9 rounded-2xl border border-[#E5E7EB] shadow-xs space-y-6">
+                        class="bg-white/95 backdrop-blur-md p-7 sm:p-9 rounded-2xl border border-[#E5E7EB] shadow-md card-glow-hover space-y-6">
                         @csrf
                         <!-- Honeypot anti-spam field -->
                         <input type="text" name="website_hp" style="display:none;" tabindex="-1" autocomplete="off">
@@ -240,7 +248,7 @@
                         <!-- Submit Button -->
                         <div>
                             <button type="submit"
-                                class="w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#1B560B] hover:bg-[#144208] text-white font-semibold text-base shadow-sm hover:shadow transition-all duration-200 cursor-pointer">
+                                class="btn-shimmer-effect w-full inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-[#1B560B] hover:bg-[#144208] text-white font-semibold text-base shadow-md hover:shadow-xl hover:shadow-[#1B560B]/25 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                                 <span>Send Project Enquiry</span>
                             </button>
