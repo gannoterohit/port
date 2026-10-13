@@ -22,44 +22,59 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center max-w-7xl mx-auto">
                     <!-- Left Column: Introduction & Primary CTAs -->
                     <div class="lg:col-span-7 text-left">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#DCE8D6] text-[#1B560B] font-semibold text-xs sm:text-sm mb-6 shadow-xs">
-                            <span class="w-2 h-2 rounded-full bg-[#1B560B] animate-pulse"></span>
-                            <span>Available for Freelance Projects</span>
-                        </div>
+                        @php
+                            $isAvailable = \App\Models\Setting::get('available_for_freelance', '1') === '1'
+                                || \App\Models\Setting::get('available_for_freelance', true) === true;
+                            $yearsExp = \App\Models\Setting::get('years_experience') ?: '2.5+';
+                            $trainingText = \App\Models\Setting::get('training_text') ?: '+ 6 Months Intensive Training';
+                            $specialization = \App\Models\Setting::get('specialization_text') ?: 'Laravel & MySQL Specialist';
+                        @endphp
 
-                        <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-[#1F2937] leading-[1.15] mb-5">
-                            Full Stack Web Developer
+                        @if($isAvailable)
+                            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#DCE8D6] text-[#1B560B] font-semibold text-xs sm:text-sm mb-6 shadow-xs">
+                                <span class="w-2 h-2 rounded-full bg-[#1B560B] animate-pulse"></span>
+                                <span>Available for Freelance Projects</span>
+                            </div>
+                        @endif
+
+                        <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-[#1F2937] leading-[1.15] mb-3">
+                            {{ $homepageSettings->hero_heading ?: ($profile->title ?: 'Full Stack Web Developer') }}
                         </h1>
+
+                        @if($homepageSettings->hero_title)
+                            <p class="text-lg sm:text-xl font-semibold text-[#1B560B] mb-4">
+                                {{ $homepageSettings->hero_title }}
+                            </p>
+                        @endif
 
                         <p class="text-base sm:text-lg text-[#667085] mb-8 leading-relaxed max-w-2xl">
                             {{ $homepageSettings->hero_description ?: 'Specializing in Laravel, PHP, MySQL, and RESTful APIs to build secure, robust, and scalable custom web applications, ERPs, and administrative dashboards.' }}
                         </p>
 
                         <div class="flex flex-wrap gap-4 items-center mb-10">
-                            <a href="{{ $homepageSettings->secondary_cta_url ?: route('contact') }}"
+                            <a href="{{ $homepageSettings->primary_cta_url ?: route('contact') }}"
                                 class="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-medium rounded-lg bg-[#1B560B] text-white hover:bg-[#144208] shadow-sm hover:shadow transition-all duration-200 text-base">
-                                {{ $homepageSettings->secondary_cta_text ?: 'Hire Me' }}
+                                {{ $homepageSettings->primary_cta_text ?: 'Hire Me' }}
                                 <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
-                            <a href="{{ $homepageSettings->primary_cta_url ?: route('projects') }}"
+                            <a href="{{ $homepageSettings->secondary_cta_url ?: route('projects') }}"
                                 class="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-medium rounded-lg bg-white text-[#1F2937] hover:bg-[#F5F7F2] border border-[#E5E7EB] hover:border-[#D1D5DB] transition-all duration-200 text-base">
-                                {{ $homepageSettings->primary_cta_text ?: 'View My Projects' }}
+                                {{ $homepageSettings->secondary_cta_text ?: 'View My Projects' }}
                             </a>
                         </div>
 
-                        <!-- Genuine Highlights -->
                         <div class="pt-6 border-t border-[#E5E7EB] flex flex-wrap items-center gap-6 text-xs sm:text-sm text-[#667085]">
                             <div class="flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-[#1B560B]"></span>
-                                <span class="font-medium text-[#1F2937]">2.5 Years Professional Experience</span>
+                                <span class="font-medium text-[#1F2937]">{{ $yearsExp }} Years Professional Experience</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-[#1B560B]"></span>
-                                <span class="font-medium text-[#1F2937]">6 Months Intensive Training</span>
+                                <span class="font-medium text-[#1F2937]">{{ ltrim($trainingText, '+ ') }}</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-[#1B560B]"></span>
-                                <span class="font-medium text-[#1F2937]">Laravel & MySQL Specialist</span>
+                                <span class="font-medium text-[#1F2937]">{{ $specialization }}</span>
                             </div>
                         </div>
                     </div>
@@ -125,7 +140,7 @@
                                         <svg class="w-4 h-4 text-[#1B560B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                         Tested &amp; Production-Ready
                                     </span>
-                                    <span>2.5 Years Experience</span>
+                                    <span>{{ \App\Models\Setting::get('years_experience') ?: '2.5+' }} Years Experience</span>
                                 </div>
                             </div>
                         @endif
@@ -372,15 +387,11 @@
                                 </p>
 
                                 <div class="pt-4 border-t border-[#E5E7EB] flex items-center justify-between mt-auto">
-                                    @if($service->price_formatted)
-                                        <span class="text-sm font-bold text-[#1B560B]">{{ $service->price_formatted }}</span>
-                                    @else
-                                        <span class="text-xs text-[#667085]">Custom Quote</span>
-                                    @endif
+                                    <span class="text-xs text-[#667085]">Free estimate on request</span>
 
                                     <a href="{{ route('contact', ['service' => $service->slug]) }}"
                                         class="inline-flex items-center gap-1 text-sm font-semibold text-[#1B560B] hover:text-[#144208] hover:underline">
-                                        Enquire Now
+                                        Get a Quote
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                     </a>
                                 </div>
@@ -401,11 +412,11 @@
                         <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3 py-1 rounded-full mb-3">Structured Methodology</span>
                         <h2 class="text-3xl sm:text-4xl font-bold text-[#1F2937] tracking-tight">How I Work</h2>
                         <p class="text-[#667085] text-base mt-2 max-w-xl mx-auto">
-                            A clear, predictable, and transparent process that guarantees project success.
+                            A clear, predictable process focused on communication, quality, and on-time delivery.
                         </p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($workProcesses as $index => $process)
                             <div class="bg-white rounded-2xl p-6 text-center border border-[#E5E7EB] shadow-xs relative">
                                 <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#1B560B] text-white font-bold text-xs mb-4">

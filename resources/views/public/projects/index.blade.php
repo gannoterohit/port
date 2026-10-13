@@ -20,6 +20,36 @@
                 </p>
             </div>
 
+            <!-- Search & Category Filter -->
+            <form method="GET" action="{{ route('projects') }}" class="mb-10 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                <div class="relative flex-1">
+                    <input type="search" name="search" value="{{ request('search') }}"
+                        placeholder="Search projects..."
+                        class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] placeholder-[#9CA3AF] text-sm focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent">
+                </div>
+                @if(isset($categories) && $categories->isNotEmpty())
+                    <select name="category"
+                        class="px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] text-sm focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent sm:min-w-[180px]">
+                        <option value="">All categories</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category }}" {{ request('category') === $category ? 'selected' : '' }}>
+                                {{ $category }}
+                            </option>
+                        @endforeach
+                    </select>
+                @endif
+                <button type="submit"
+                    class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-[#1B560B] hover:bg-[#144208] text-white text-sm font-medium transition-colors">
+                    Filter
+                </button>
+                @if(request()->filled('search') || request()->filled('category'))
+                    <a href="{{ route('projects') }}"
+                        class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#667085] hover:text-[#1F2937] text-sm font-medium transition-colors">
+                        Clear
+                    </a>
+                @endif
+            </form>
+
             <!-- 3-Column Projects Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($projects as $project)

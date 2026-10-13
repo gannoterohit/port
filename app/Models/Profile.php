@@ -71,6 +71,21 @@ class Profile extends Model
         return $this->contact_phone;
     }
 
+    public function getWhatsappUrlAttribute(): ?string
+    {
+        $raw = $this->contact_whatsapp ?: $this->contact_phone;
+        if (! $raw) {
+            return null;
+        }
+
+        $digits = preg_replace('/\D+/', '', $raw);
+        if (! $digits) {
+            return null;
+        }
+
+        return 'https://wa.me/'.$digits;
+    }
+
     public function getWebsiteAttribute(): ?string
     {
         return $this->social_links['website'] ?? null;
@@ -108,11 +123,13 @@ class Profile extends Model
         return self::firstOrCreate([], [
             'name' => 'Your Name',
             'title' => 'Full Stack Web Developer',
-            'subtitle' => '2.5+ years professional experience',
-            'intro' => 'Passionate developer building web applications.',
-            'biography' => 'Detailed biography here.',
-            'experience_text' => '2.5 years professional experience + 6 months training',
-            'contact_email' => 'hello@example.com',
+            'subtitle' => 'Update your profile in Admin → Profile',
+            'intro' => 'Add a short intro about the work you do.',
+            'biography' => '<p>Add your professional biography from the admin panel.</p>',
+            'experience_text' => '',
+            'contact_email' => null,
+            'location_visible' => false,
+            'resume_button_visible' => false,
         ]);
     }
 }

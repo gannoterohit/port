@@ -38,17 +38,25 @@
                                     </span>
                                 </div>
 
-                                <div class="flex flex-wrap gap-2.5">
+                                <div class="space-y-4">
                                     @foreach($category->skills as $skill)
-                                        <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#F5F7F2] hover:bg-[#DCE8D6]/50 border border-[#E5E7EB] hover:border-[#1B560B]/40 transition-colors group">
-                                            @if($skill->is_featured)
-                                                <span class="w-1.5 h-1.5 rounded-full bg-[#1B560B]"></span>
-                                            @endif
-                                            <span class="text-sm font-semibold text-[#1F2937] group-hover:text-[#1B560B] transition-colors">
-                                                {{ $skill->name }}
-                                            </span>
-                                            @if($skill->description)
-                                                <span class="text-[11px] text-[#667085]">({{ $skill->description }})</span>
+                                        <div>
+                                            <div class="flex items-center justify-between gap-3 mb-1.5">
+                                                <div class="flex items-center gap-2 min-w-0">
+                                                    @if($skill->is_featured)
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-[#1B560B] shrink-0"></span>
+                                                    @endif
+                                                    <span class="text-sm font-semibold text-[#1F2937] truncate">{{ $skill->name }}</span>
+                                                </div>
+                                                @if($skill->proficiency)
+                                                    <span class="text-[11px] font-medium text-[#667085] shrink-0">{{ $skill->proficiency_label }}</span>
+                                                @endif
+                                            </div>
+                                            @if($skill->proficiency)
+                                                <div class="h-1.5 rounded-full bg-[#F5F7F2] border border-[#E5E7EB] overflow-hidden">
+                                                    <div class="h-full rounded-full bg-[#1B560B] transition-all duration-500"
+                                                        style="width: {{ min(100, max(8, $skill->proficiency * 20)) }}%"></div>
+                                                </div>
                                             @endif
                                         </div>
                                     @endforeach

@@ -64,11 +64,8 @@ class Service extends Model
 
     public function getPriceFormattedAttribute(): ?string
     {
-        if (! $this->price) {
-            return null;
-        }
-
-        return '$'.number_format((float) $this->price, 2);
+        // Prices are intentionally hidden — quotes are given after scoping the project.
+        return null;
     }
 
     public function getIconUrlAttribute(): ?string

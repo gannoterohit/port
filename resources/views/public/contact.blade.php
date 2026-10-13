@@ -25,9 +25,14 @@
                 <div class="lg:col-span-5 space-y-6">
                     <div class="bg-white rounded-2xl p-7 sm:p-8 border border-[#E5E7EB] shadow-xs space-y-6">
                         <div class="flex items-center gap-4 pb-6 border-b border-[#E5E7EB]">
-                            <div class="w-14 h-14 rounded-2xl bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center font-bold text-xl">
-                                {{ substr($websiteName, 0, 1) }}
-                            </div>
+                            @if($profile->profile_photo_url)
+                                <img src="{{ $profile->profile_photo_url }}" alt="{{ $profile->full_name }}"
+                                    class="w-14 h-14 rounded-2xl object-cover border border-[#E5E7EB]">
+                            @else
+                                <div class="w-14 h-14 rounded-2xl bg-[#DCE8D6] text-[#1B560B] flex items-center justify-center font-bold text-xl">
+                                    {{ substr($profile->name ?: $websiteName, 0, 1) }}
+                                </div>
+                            @endif
                             <div>
                                 <h2 class="text-lg font-bold text-[#1F2937]">{{ $profile->name ?: 'Full Stack Web Developer' }}</h2>
                                 <p class="text-xs text-[#667085]">{{ $profile->title ?: 'Laravel & MySQL Specialist' }}</p>
@@ -68,8 +73,24 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">Phone / WhatsApp</span>
-                                        <span class="text-sm font-medium text-[#1F2937]">{{ $phone }}</span>
+                                        <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">Phone</span>
+                                        <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="text-sm font-medium text-[#1F2937] hover:text-[#1B560B] transition-colors">{{ $phone }}</a>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if($profile->whatsapp_url)
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-[#F5F7F2] border border-[#E5E7EB] flex items-center justify-center shrink-0 text-[#1B560B]">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xs font-semibold uppercase tracking-wider text-[#667085]">WhatsApp</span>
+                                        <a href="{{ $profile->whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-[#1B560B] hover:text-[#144208] transition-colors">
+                                            Chat on WhatsApp
+                                        </a>
                                     </div>
                                 </div>
                             @endif
@@ -166,53 +187,36 @@
                                 <label for="service_type" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
                                     Service or Project Type
                                 </label>
+                                @php
+                                    $selectedService = old('service_type', request('service'));
+                                @endphp
                                 <select id="service_type" name="service_type"
                                     class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm">
                                     <option value="">Select a project type...</option>
-                                    <option value="Custom Website Development" {{ old('service_type', request('service')) === 'custom-website-development' || old('service_type') === 'Custom Website Development' ? 'selected' : '' }}>Custom Website Development</option>
-                                    <option value="Laravel Application Development" {{ old('service_type', request('service')) === 'laravel-application-development' || old('service_type') === 'Laravel Application Development' ? 'selected' : '' }}>Laravel Application Development</option>
-                                    <option value="REST API Development & Integration" {{ old('service_type', request('service')) === 'rest-api-development-integration' || old('service_type') === 'REST API Development & Integration' ? 'selected' : '' }}>REST API Development & Integration</option>
-                                    <option value="Admin Panel & Dashboard Development" {{ old('service_type', request('service')) === 'admin-panel-dashboard-development' || old('service_type') === 'Admin Panel & Dashboard Development' ? 'selected' : '' }}>Admin Panel & Dashboard Development</option>
-                                    <option value="ERP & Business Management Systems" {{ old('service_type', request('service')) === 'erp-business-management-systems' || old('service_type') === 'ERP & Business Management Systems' ? 'selected' : '' }}>ERP & Business Management Systems</option>
-                                    <option value="School Management Systems" {{ old('service_type', request('service')) === 'school-management-systems' || old('service_type') === 'School Management Systems' ? 'selected' : '' }}>School Management Systems</option>
-                                    <option value="Maintenance & Bug Fixing" {{ old('service_type', request('service')) === 'maintenance-bug-fixing' || old('service_type') === 'Maintenance & Bug Fixing' ? 'selected' : '' }}>Maintenance & Bug Fixing</option>
-                                    <option value="General Freelance / Consultation" {{ old('service_type') === 'General Freelance / Consultation' ? 'selected' : '' }}>General Freelance / Consultation</option>
+                                    @foreach($services as $service)
+                                        <option value="{{ $service->name }}"
+                                            {{ $selectedService === $service->slug || $selectedService === $service->name ? 'selected' : '' }}>
+                                            {{ $service->name }}
+                                        </option>
+                                    @endforeach
+                                    <option value="Other / Not listed" {{ $selectedService === 'Other / Not listed' ? 'selected' : '' }}>Other / Not listed</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <!-- Approximate Budget -->
-                            <div>
-                                <label for="budget" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
-                                    Approximate Budget (Optional)
-                                </label>
-                                <select id="budget" name="budget"
-                                    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm">
-                                    <option value="">Select budget range...</option>
-                                    <option value="Under $1,000" {{ old('budget') === 'Under $1,000' ? 'selected' : '' }}>Under $1,000</option>
-                                    <option value="$1,000 - $3,000" {{ old('budget') === '$1,000 - $3,000' ? 'selected' : '' }}>$1,000 - $3,000</option>
-                                    <option value="$3,000 - $5,000" {{ old('budget') === '$3,000 - $5,000' ? 'selected' : '' }}>$3,000 - $5,000</option>
-                                    <option value="$5,000+" {{ old('budget') === '$5,000+' ? 'selected' : '' }}>$5,000+</option>
-                                    <option value="Flexible / Hourly" {{ old('budget') === 'Flexible / Hourly' ? 'selected' : '' }}>Flexible / Hourly</option>
-                                </select>
-                            </div>
-
-                            <!-- Expected Timeline -->
-                            <div>
-                                <label for="timeline" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
-                                    Expected Timeline (Optional)
-                                </label>
-                                <select id="timeline" name="timeline"
-                                    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm">
-                                    <option value="">Select expected timeline...</option>
-                                    <option value="Urgent (< 2 weeks)" {{ old('timeline') === 'Urgent (< 2 weeks)' ? 'selected' : '' }}>Urgent (&lt; 2 weeks)</option>
-                                    <option value="1 - 4 weeks" {{ old('timeline') === '1 - 4 weeks' ? 'selected' : '' }}>1 - 4 weeks</option>
-                                    <option value="1 - 3 months" {{ old('timeline') === '1 - 3 months' ? 'selected' : '' }}>1 - 3 months</option>
-                                    <option value="3+ months" {{ old('timeline') === '3+ months' ? 'selected' : '' }}>3+ months</option>
-                                    <option value="Flexible" {{ old('timeline') === 'Flexible' ? 'selected' : '' }}>Flexible</option>
-                                </select>
-                            </div>
+                        <div>
+                            <label for="timeline" class="block text-sm font-semibold text-[#1F2937] mb-1.5">
+                                Expected Timeline (Optional)
+                            </label>
+                            <select id="timeline" name="timeline"
+                                class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] bg-white text-[#1F2937] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B560B] focus:border-transparent text-sm">
+                                <option value="">Select expected timeline...</option>
+                                <option value="Urgent (< 2 weeks)" {{ old('timeline') === 'Urgent (< 2 weeks)' ? 'selected' : '' }}>Urgent (&lt; 2 weeks)</option>
+                                <option value="1 - 4 weeks" {{ old('timeline') === '1 - 4 weeks' ? 'selected' : '' }}>1 - 4 weeks</option>
+                                <option value="1 - 3 months" {{ old('timeline') === '1 - 3 months' ? 'selected' : '' }}>1 - 3 months</option>
+                                <option value="3+ months" {{ old('timeline') === '3+ months' ? 'selected' : '' }}>3+ months</option>
+                                <option value="Flexible" {{ old('timeline') === 'Flexible' ? 'selected' : '' }}>Flexible</option>
+                            </select>
                         </div>
 
                         <!-- Project Message -->

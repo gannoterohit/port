@@ -34,9 +34,7 @@
                     @endif
                     <div class="flex-1">
                         <h1 class="text-3xl sm:text-4xl font-extrabold text-[#1F2937] tracking-tight">{{ $service->name }}</h1>
-                        @if($service->price_formatted)
-                            <p class="text-xl font-bold text-[#1B560B] mt-1">{{ $service->price_formatted }}</p>
-                        @endif
+                        <p class="text-sm text-[#667085] mt-2">Pricing depends on your requirements — request a free estimate.</p>
                     </div>
                 </div>
 

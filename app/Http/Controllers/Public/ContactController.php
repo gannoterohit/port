@@ -33,7 +33,6 @@ class ContactController extends Controller
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
             'service_type' => ['nullable', 'string', 'max:255'],
-            'budget' => ['nullable', 'string', 'max:100'],
             'timeline' => ['nullable', 'string', 'max:100'],
             'subject' => ['nullable', 'string', 'max:255'],
             'message' => ['required', 'string', 'min:10'],
@@ -58,9 +57,6 @@ class ContactController extends Controller
         $metadata = [];
         if (!empty($data['service_type'])) {
             $metadata[] = "Service: " . $data['service_type'];
-        }
-        if (!empty($data['budget'])) {
-            $metadata[] = "Approx. Budget: " . $data['budget'];
         }
         if (!empty($data['timeline'])) {
             $metadata[] = "Expected Timeline: " . $data['timeline'];

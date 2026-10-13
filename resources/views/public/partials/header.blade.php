@@ -1,17 +1,6 @@
 <div x-data="{
     scrolled: false,
-    mobileOpen: false,
-    darkMode: document.documentElement.classList.contains('dark'),
-    toggleDark() {
-        this.darkMode = !this.darkMode;
-        if (this.darkMode) {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('color-theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('color-theme', 'light');
-        }
-    }
+    mobileOpen: false
 }" @scroll.window="scrolled = window.scrollY > 20">
     <header class="fixed w-full top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E5E7EB] transition-all duration-300"
         :class="{ 'shadow-sm': scrolled }">
@@ -45,6 +34,13 @@
                 </div>
 
                 <div class="flex items-center gap-2 sm:gap-3">
+                    @if($profile && $profile->whatsapp_url)
+                        <a href="{{ $profile->whatsapp_url }}" target="_blank" rel="noopener noreferrer"
+                            class="hidden sm:inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 font-medium rounded-lg border border-[#E5E7EB] text-[#1F2937] hover:bg-[#F5F7F2] transition-all duration-200 text-sm"
+                            title="Chat on WhatsApp">
+                            WhatsApp
+                        </a>
+                    @endif
                     <div class="hidden sm:block">
                         <a href="{{ route('contact') }}" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 font-medium rounded-lg bg-[#1B560B] text-white hover:bg-[#144208] shadow-sm hover:shadow transition-all duration-200 text-sm">
                             Hire Me
@@ -93,6 +89,12 @@
                 </div>
             </div>
             <div class="pt-6 border-t border-[#E5E7EB] space-y-3">
+                @if($profile && $profile->whatsapp_url)
+                    <a href="{{ $profile->whatsapp_url }}" target="_blank" rel="noopener noreferrer" @click="mobileOpen = false"
+                        class="inline-flex items-center justify-center w-full px-5 py-3 font-medium rounded-lg border border-[#E5E7EB] text-[#1F2937] hover:bg-[#F5F7F2] transition-colors text-base text-center">
+                        WhatsApp
+                    </a>
+                @endif
                 <a href="{{ route('contact') }}" @click="mobileOpen = false"
                     class="inline-flex items-center justify-center w-full px-5 py-3 font-medium rounded-lg bg-[#1B560B] text-white hover:bg-[#144208] shadow-sm transition-colors text-base text-center">
                     Hire Me

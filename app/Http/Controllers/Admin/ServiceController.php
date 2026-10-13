@@ -79,6 +79,7 @@ class ServiceController extends Controller
         Service::create($data);
 
         Cache::forget('homepage_featured_services');
+        Cache::forget('contact_services');
 
         return redirect()->route('admin.services.index')->with('success', 'Service created successfully.');
     }
@@ -127,6 +128,7 @@ class ServiceController extends Controller
         $service->update($data);
 
         Cache::forget('homepage_featured_services');
+        Cache::forget('contact_services');
         Cache::forget('service_'.$service->slug);
 
         return redirect()->route('admin.services.index')->with('success', 'Service updated successfully.');
@@ -141,6 +143,7 @@ class ServiceController extends Controller
         $service->delete();
 
         Cache::forget('homepage_featured_services');
+        Cache::forget('contact_services');
         Cache::forget('service_'.$slug);
 
         return redirect()->route('admin.services.index')->with('success', 'Service deleted successfully.');

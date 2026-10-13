@@ -16,7 +16,7 @@
                     Full Stack Development Services
                 </h1>
                 <p class="text-base sm:text-lg text-[#667085] max-w-2xl mx-auto leading-relaxed">
-                    End-to-end web engineering tailored for businesses, startups, and agencies requiring scalable, clean, and maintainable software.
+                    End-to-end web engineering tailored for businesses, startups, and agencies requiring scalable, clean, and maintainable software. Pricing depends on scope — request a free estimate.
                 </p>
             </div>
 
@@ -64,17 +64,11 @@
                         @endif
 
                         <div class="pt-4 border-t border-[#E5E7EB] flex items-center justify-between mt-auto">
-                            @if($service->price_formatted)
-                                <span class="text-base font-bold text-[#1B560B]">
-                                    {{ $service->price_formatted }}
-                                </span>
-                            @else
-                                <span class="text-xs text-[#667085]">Custom Quote</span>
-                            @endif
+                            <span class="text-xs text-[#667085]">Free estimate on request</span>
 
                             <a href="{{ route('contact', ['service' => $service->slug]) }}"
                                 class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1B560B] hover:text-[#144208]">
-                                Enquire Now
+                                Get a Quote
                                 <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                 </svg>

@@ -23,7 +23,7 @@
                     @endif
                     <div class="flex-1 space-y-3">
                         <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#1B560B] bg-[#DCE8D6] px-3 py-1 rounded-full">
-                            Full Stack Web Developer
+                            {{ $profile->title ?: 'Full Stack Web Developer' }}
                         </span>
                         <h1 class="text-3xl sm:text-4xl font-extrabold text-[#1F2937] tracking-tight">
                             {{ $profile->name ?: 'Full Stack Developer' }}
@@ -91,25 +91,27 @@
                     </div>
 
                     <div class="bg-white rounded-2xl p-6 border border-[#E5E7EB] shadow-xs space-y-4">
-                        <div class="text-3xl font-extrabold text-[#1B560B]">
-                            6 Months
+                        <div class="text-xl font-extrabold text-[#1B560B]">
+                            {{ ltrim(\App\Models\Setting::get('training_text') ?: '6 Months Intensive Training', '+ ') }}
                         </div>
-                        <div class="text-base font-bold text-[#1F2937]">Intensive Training</div>
+                        <div class="text-base font-bold text-[#1F2937]">Training &amp; Growth</div>
                         <p class="text-xs text-[#667085] leading-relaxed">
-                            Dedicated training covering advanced PHP architecture, Laravel framework internals, database schema design, and API integrations.
+                            Hands-on training covering modern PHP architecture, Laravel, database design, and API integrations.
                         </p>
                     </div>
 
                     <div class="bg-white rounded-2xl p-6 border border-[#E5E7EB] shadow-xs space-y-4">
                         <div class="text-base font-bold text-[#1F2937]">Primary Stack</div>
                         <div class="flex flex-wrap gap-1.5">
-                            <span class="text-xs px-2.5 py-1 rounded bg-[#DCE8D6] text-[#1B560B] font-semibold">Laravel</span>
-                            <span class="text-xs px-2.5 py-1 rounded bg-[#DCE8D6] text-[#1B560B] font-semibold">PHP</span>
-                            <span class="text-xs px-2.5 py-1 rounded bg-[#DCE8D6] text-[#1B560B] font-semibold">MySQL</span>
-                            <span class="text-xs px-2.5 py-1 rounded bg-[#DCE8D6] text-[#1B560B] font-semibold">REST APIs</span>
-                            <span class="text-xs px-2.5 py-1 rounded bg-[#F5F7F2] text-[#1F2937] border border-[#E5E7EB]">JavaScript</span>
-                            <span class="text-xs px-2.5 py-1 rounded bg-[#F5F7F2] text-[#1F2937] border border-[#E5E7EB]">Bootstrap</span>
-                            <span class="text-xs px-2.5 py-1 rounded bg-[#F5F7F2] text-[#1F2937] border border-[#E5E7EB]">Git / GitHub</span>
+                            @forelse(($featuredSkills ?? collect()) as $skill)
+                                <span class="text-xs px-2.5 py-1 rounded {{ $loop->index < 4 ? 'bg-[#DCE8D6] text-[#1B560B] font-semibold' : 'bg-[#F5F7F2] text-[#1F2937] border border-[#E5E7EB]' }}">
+                                    {{ $skill->name }}
+                                </span>
+                            @empty
+                                <span class="text-xs px-2.5 py-1 rounded bg-[#DCE8D6] text-[#1B560B] font-semibold">Laravel</span>
+                                <span class="text-xs px-2.5 py-1 rounded bg-[#DCE8D6] text-[#1B560B] font-semibold">PHP</span>
+                                <span class="text-xs px-2.5 py-1 rounded bg-[#DCE8D6] text-[#1B560B] font-semibold">MySQL</span>
+                            @endforelse
                         </div>
                     </div>
                 </div>

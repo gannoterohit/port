@@ -14,8 +14,15 @@ class PageController extends Controller
     public function about()
     {
         $profile = Cache::remember('profile', 3600, fn () => Profile::getInstance());
+        $featuredSkills = Cache::remember('about_featured_skills', 3600, function () {
+            return Skill::where('is_enabled', true)
+                ->where('is_featured', true)
+                ->orderBy('display_order')
+                ->limit(8)
+                ->get();
+        });
 
-        return view('public.about', compact('profile'));
+        return view('public.about', compact('profile', 'featuredSkills'));
     }
 
     public function skills()
@@ -97,10 +104,4 @@ class PageController extends Controller
         return view('public.page', compact('page'));
     }
 
-    public function contactInfo()
-    {
-        $profile = Cache::remember('profile', 3600, fn () => Profile::getInstance());
-
-        return view('public.contact-info', compact('profile'));
-    }
 }

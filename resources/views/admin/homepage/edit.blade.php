@@ -64,24 +64,24 @@
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Call-to-Action Buttons</h3>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Primary CTA Text</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Primary CTA Text (green button)</label>
                 <input type="text" name="primary_cta_text" value="{{ old('primary_cta_text', $settings->primary_cta_text) }}"
-                    class="admin-input" placeholder="e.g., View My Work">
+                    class="admin-input" placeholder="e.g., Hire Me">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Primary CTA URL</label>
                 <input type="text" name="primary_cta_url" value="{{ old('primary_cta_url', $settings->primary_cta_url) }}"
-                    class="admin-input" placeholder="/projects">
+                    class="admin-input" placeholder="/contact">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Secondary CTA Text</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Secondary CTA Text (outline button)</label>
                 <input type="text" name="secondary_cta_text" value="{{ old('secondary_cta_text', $settings->secondary_cta_text) }}"
-                    class="admin-input" placeholder="e.g., Contact Me">
+                    class="admin-input" placeholder="e.g., View My Projects">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Secondary CTA URL</label>
                 <input type="text" name="secondary_cta_url" value="{{ old('secondary_cta_url', $settings->secondary_cta_url) }}"
-                    class="admin-input" placeholder="/contact">
+                    class="admin-input" placeholder="/projects">
             </div>
         </div>
     </div>

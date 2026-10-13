@@ -13,7 +13,6 @@ use App\Models\Service;
 use App\Models\Setting;
 use App\Models\Skill;
 use App\Models\SkillCategory;
-use App\Models\Testimonial;
 use App\Models\User;
 use App\Models\WorkProcess;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -54,24 +53,24 @@ class DatabaseSeeder extends Seeder
         Profile::firstOrCreate(
             ['user_id' => $admin->id],
             [
-                'name' => 'Alex Morgan',
+                'name' => 'Your Name',
                 'title' => 'Full Stack Web Developer',
-                'subtitle' => 'Building scalable web applications with Laravel & Vue.js',
-                'intro' => 'I build modern web applications that scale.',
-                'biography' => '<p>Hello! I\'m a full-stack web developer specializing in building scalable, high-performance web applications. With over 3 years of experience in both frontend and backend development, I create clean, efficient, and user-focused digital experiences.</p><p>My expertise spans modern PHP frameworks, JavaScript ecosystems, database design, and cloud deployment. I\'m passionate about writing clean, maintainable code and delivering projects on time and within budget.</p>',
-                'experience_text' => 'Senior Developer at TechCorp (2022-Present), Mid-Level Developer at StartUpXYZ (2020-2022), Junior Developer at WebAgency (2019-2020)',
-                'location' => 'San Francisco, CA',
-                'location_visible' => true,
-                'contact_email' => 'hello@example.com',
-                'contact_phone' => '+1 (555) 123-4567',
-                'contact_whatsapp' => '+15551234567',
+                'subtitle' => 'Laravel, PHP & MySQL specialist — update this in Admin → Profile',
+                'intro' => 'I build custom web applications, admin panels, and REST APIs. Replace this intro with your own from the admin panel.',
+                'biography' => '<p>Add your professional biography here from Admin → Profile. Keep experience years consistent with Settings (About → Years of Experience).</p>',
+                'experience_text' => 'Add your work history from Admin → Profile (company, role, duration).',
+                'location' => 'Your City, India',
+                'location_visible' => false,
+                'contact_email' => null,
+                'contact_phone' => null,
+                'contact_whatsapp' => null,
                 'social_links' => [
-                    'github' => 'https://github.com/example',
-                    'linkedin' => 'https://linkedin.com/in/example',
-                    'twitter' => 'https://twitter.com/example',
-                    'website' => 'https://example.com',
+                    'github' => null,
+                    'linkedin' => null,
+                    'twitter' => null,
+                    'website' => null,
                 ],
-                'resume_button_visible' => true,
+                'resume_button_visible' => false,
             ]
         );
 
@@ -79,17 +78,17 @@ class DatabaseSeeder extends Seeder
             'hero_heading' => 'Full Stack Web Developer',
             'hero_title' => 'Building Scalable Web Applications',
             'hero_description' => 'I craft clean, efficient, and scalable web applications using modern technologies like Laravel, Vue.js, and Tailwind CSS.',
-            'primary_cta_text' => 'View My Work',
-            'primary_cta_url' => '/projects',
-            'secondary_cta_text' => 'Contact Me',
-            'secondary_cta_url' => '/contact',
+            'primary_cta_text' => 'Hire Me',
+            'primary_cta_url' => '/contact',
+            'secondary_cta_text' => 'View My Projects',
+            'secondary_cta_url' => '/projects',
             'hero_section_enabled' => true,
             'about_section_enabled' => true,
             'skills_section_enabled' => true,
             'projects_section_enabled' => true,
             'services_section_enabled' => true,
             'work_process_section_enabled' => true,
-            'testimonials_section_enabled' => true,
+            'testimonials_section_enabled' => false,
             'contact_cta_section_enabled' => true,
             'contact_cta_heading' => 'Ready to work together?',
             'contact_cta_description' => 'Let\'s discuss your next project. I\'m available for freelance work.',
@@ -159,10 +158,10 @@ class DatabaseSeeder extends Seeder
                 'role' => 'Full Stack Lead Developer',
                 'challenges' => 'Handling large datasets and real-time updates while maintaining performance.',
                 'solutions' => 'Implemented Redis caching and WebSocket connections for real-time data.',
-                'demo_url' => 'https://demo.example.com',
-                'github_url' => 'https://github.com/example/ecommerce-dashboard',
+                'demo_url' => null,
+                'github_url' => null,
                 'is_featured' => true,
-                'status' => 'published',
+                'status' => 'draft',
                 'display_order' => 1,
             ],
             [
@@ -175,10 +174,10 @@ class DatabaseSeeder extends Seeder
                 'role' => 'Full Stack Developer',
                 'challenges' => 'Building a flexible CMS that can be customized per client needs.',
                 'solutions' => 'Used Laravel\'s polymorphic relationships and a modular architecture.',
-                'demo_url' => 'https://portfolio.example.com',
+                'demo_url' => null,
                 'github_url' => null,
                 'is_featured' => true,
-                'status' => 'published',
+                'status' => 'draft',
                 'display_order' => 2,
             ],
             [
@@ -191,10 +190,10 @@ class DatabaseSeeder extends Seeder
                 'role' => 'Backend Developer',
                 'challenges' => 'Implementing real-time updates without compromising performance.',
                 'solutions' => 'Used Laravel Echo with WebSockets and queue workers for background processing.',
-                'demo_url' => 'https://app.example.com',
+                'demo_url' => null,
                 'github_url' => null,
                 'is_featured' => false,
-                'status' => 'published',
+                'status' => 'draft',
                 'display_order' => 3,
             ],
         ];
@@ -229,7 +228,6 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Web Application Development',
                 'description' => 'Custom web application development using modern frameworks like Laravel, React, Vue.js, and more. I build scalable, secure, and performant applications tailored to your business needs.',
                 'features' => ['Custom Feature Development', 'API Integration', 'Database Design', 'Testing & Deployment'],
-                'price' => 2999,
                 'is_featured' => true,
                 'display_order' => 1,
             ],
@@ -237,7 +235,6 @@ class DatabaseSeeder extends Seeder
                 'name' => 'UI/UX Design',
                 'description' => 'Beautiful, responsive, and user-friendly interfaces designed to convert visitors into customers. I use modern design tools and best practices to create compelling digital experiences.',
                 'features' => ['User Research', 'Wireframing', 'Prototype Design', 'Responsive Design'],
-                'price' => 1499,
                 'is_featured' => true,
                 'display_order' => 2,
             ],
@@ -245,7 +242,6 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Technical Consulting',
                 'description' => 'Expert technical consultation on architecture, best practices, code reviews, and project strategy. Whether you need guidance on a single decision or an entire project.',
                 'features' => ['Code Review', 'Architecture Planning', 'Performance Audit', 'Security Assessment'],
-                'price' => 199,
                 'is_featured' => false,
                 'display_order' => 3,
             ],
@@ -253,20 +249,19 @@ class DatabaseSeeder extends Seeder
                 'name' => 'DevOps & Deployment',
                 'description' => 'Complete setup and management of CI/CD pipelines, cloud hosting, server configuration, monitoring, and automated deployment processes.',
                 'features' => ['CI/CD Setup', 'Cloud Hosting', 'Server Configuration', 'Monitoring & Alerts'],
-                'price' => 999,
                 'is_featured' => false,
                 'display_order' => 4,
             ],
         ];
 
         foreach ($servicesData as $serviceData) {
-            Service::firstOrCreate(
+            Service::updateOrCreate(
                 ['slug' => Str::slug($serviceData['name'])],
                 [
                     'name' => $serviceData['name'],
                     'description' => $serviceData['description'],
                     'features' => $serviceData['features'],
-                    'price' => $serviceData['price'],
+                    'price' => null,
                     'is_enabled' => true,
                     'is_featured' => $serviceData['is_featured'],
                     'display_order' => $serviceData['display_order'],
@@ -278,18 +273,7 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        $testimonialsData = [
-            ['name' => 'Sarah Johnson', 'role_company' => 'CEO, TechStart', 'feedback' => 'Working with this developer transformed our business. They delivered a robust e-commerce platform that exceeded our expectations. The attention to detail and communication were exceptional.', 'is_published' => true, 'display_order' => 1],
-            ['name' => 'Michael Chen', 'role_company' => 'Founder, DesignLab', 'feedback' => 'Outstanding work on our new website! The attention to detail, performance optimization, and clean code quality made this project a seamless experience. Highly recommended.', 'is_published' => true, 'display_order' => 2],
-            ['name' => 'Emily Rodriguez', 'role_company' => 'CTO, MarketPeak', 'feedback' => 'They took our complex requirements and turned them into a beautiful, functional product. The project was delivered on time and under budget. We couldn\'t be happier!', 'is_published' => true, 'display_order' => 3],
-        ];
-
-        foreach ($testimonialsData as $testimonial) {
-            Testimonial::firstOrCreate(
-                ['name' => $testimonial['name'], 'role_company' => $testimonial['role_company']],
-                $testimonial
-            );
-        }
+        // Testimonials intentionally not seeded — add real client feedback from Admin when ready.
 
         Page::firstOrCreate(
             ['slug' => 'about'],
@@ -362,9 +346,9 @@ class DatabaseSeeder extends Seeder
             ['footer_widget_id' => $widgetIds['Quick Links'], 'label' => 'Projects', 'url' => '/projects', 'target' => '_self', 'display_order' => 3],
             ['footer_widget_id' => $widgetIds['Quick Links'], 'label' => 'Contact', 'url' => '/contact', 'target' => '_self', 'display_order' => 4],
 
-            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'Web Development', 'url' => '/services', 'target' => '_self', 'display_order' => 1],
-            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'UI/UX Design', 'url' => '/services', 'target' => '_self', 'display_order' => 2],
-            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'Consulting', 'url' => '/services', 'target' => '_self', 'display_order' => 3],
+            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'Web Application Development', 'url' => '/services/web-application-development', 'target' => '_self', 'display_order' => 1],
+            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'UI/UX Design', 'url' => '/services/ui-ux-design', 'target' => '_self', 'display_order' => 2],
+            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'Technical Consulting', 'url' => '/services/technical-consulting', 'target' => '_self', 'display_order' => 3],
 
             ['footer_widget_id' => null, 'label' => 'Privacy Policy', 'url' => '/privacy-policy', 'target' => '_self', 'display_order' => 1],
             ['footer_widget_id' => null, 'label' => 'Terms of Service', 'url' => '/terms', 'target' => '_self', 'display_order' => 2],

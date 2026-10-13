@@ -28,7 +28,15 @@ class ProjectController extends Controller
 
         $projects = $query->orderBy('display_order')->paginate(9)->withQueryString();
 
-        return view('public.projects.index', compact('projects'));
+        $categories = Project::where('status', 'published')
+            ->where('published_at', '<=', now())
+            ->whereNotNull('category')
+            ->where('category', '!=', '')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category');
+
+        return view('public.projects.index', compact('projects', 'categories'));
     }
 
     public function show($slug)
