@@ -76,21 +76,21 @@
 
     <style>
         :root {
-            --primary-color: {{ isset($primaryColor) && $primaryColor ? $primaryColor : '#1B560B' }};
-            --primary-hover-color: #144208;
-            --secondary-color: {{ isset($secondaryColor) && $secondaryColor ? $secondaryColor : '#144208' }};
-            --light-green: #DCE8D6;
-            --main-bg: #FFFFFF;
-            --alt-bg: #F5F7F2;
-            --primary-text: #1F2937;
-            --secondary-text: #667085;
-            --border-color: #E5E7EB;
-            --footer-bg: #142018;
-            --footer-text: #F9FAFB;
+            --primary-color: {{ isset($primaryColor) && $primaryColor ? $primaryColor : '#10B981' }};
+            --primary-hover-color: #059669;
+            --secondary-color: {{ isset($secondaryColor) && $secondaryColor ? $secondaryColor : '#0F172A' }};
+            --light-green: rgba(16, 185, 129, 0.15);
+            --main-bg: #080C14;
+            --alt-bg: #0D131F;
+            --primary-text: #F8FAFC;
+            --secondary-text: #94A3B8;
+            --border-color: #1E293B;
+            --footer-bg: #05080E;
+            --footer-text: #F8FAFC;
         }
     </style>
 </head>
-<body class="bg-white text-[#1F2937] font-sans antialiased selection:bg-[#1B560B]/15 selection:text-[#1B560B] min-h-screen flex flex-col">
+<body class="bg-[#080C14] text-slate-100 font-sans antialiased selection:bg-emerald-500/20 selection:text-emerald-400 min-h-screen flex flex-col">
     @if(session('success'))
         <div x-data="{ show: true }" x-show="show" x-transition
             class="fixed top-4 right-4 z-50 bg-emerald-500 text-white px-4 py-3 rounded-lg shadow-lg animate-slide-down">

@@ -1,9 +1,9 @@
-<footer class="bg-[#142018] text-[#F9FAFB] pt-14 pb-8 mt-auto border-t border-[#1e3325]">
+<footer class="bg-[#05080E] text-slate-300 pt-16 pb-10 mt-auto border-t border-slate-800/80">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
-                <h3 class="text-xl font-bold text-[#F9FAFB] mb-3">{{ $websiteName ?? config('app.name') }}</h3>
-                <p class="text-sm text-gray-300 leading-relaxed mb-5">{{ \App\Models\Setting::get('footer_description') ?: ($profile->intro ?? ($profile->biography ? strip_tags(Str::limit($profile->biography, 200)) : 'Full Stack Web Developer crafting scalable applications.')) }}</p>
+                <h3 class="text-xl font-bold text-white mb-3">{{ $websiteName ?? config('app.name') }}</h3>
+                <p class="text-sm text-slate-400 leading-relaxed mb-6">{{ \App\Models\Setting::get('footer_description') ?: ($profile->intro ?? ($profile->biography ? strip_tags(Str::limit($profile->biography, 200)) : 'Full Stack Web Developer crafting scalable applications.')) }}</p>
                 @if($profile)
                     <div class="flex space-x-4">
                         @if($profile->email)
@@ -87,7 +87,7 @@
             @endif
         </div>
 
-        <div class="border-t border-[#1e3325] pt-6 text-center text-sm text-gray-400">
+        <div class="border-t border-slate-800/80 pt-6 text-center text-sm text-slate-500">
             <p>{{ \App\Models\Setting::get('copyright_text') ?: ('© ' . date('Y') . ' ' . ($websiteName ?? config('app.name')) . '. All rights reserved.') }}</p>
         </div>
     </div>

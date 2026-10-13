@@ -192,12 +192,12 @@
   }
 
   .bg-grid-dots-dark {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
-    background-size: 26px 26px;
+    background-image: radial-gradient(rgba(16, 185, 129, 0.15) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
   }
 
   .glass-effect {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(15, 23, 42, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
@@ -208,8 +208,8 @@
 
   .card-glow-hover:hover {
     transform: translateY(-6px);
-    box-shadow: 0 22px 35px -10px rgba(27, 86, 11, 0.12), 0 10px 15px -5px rgba(0, 0, 0, 0.04);
-    border-color: rgba(27, 86, 11, 0.35);
+    box-shadow: 0 20px 35px -10px rgba(16, 185, 129, 0.22), 0 10px 15px -5px rgba(0, 0, 0, 0.5);
+    border-color: rgba(16, 185, 129, 0.45);
   }
 
   .btn-shimmer-effect {
