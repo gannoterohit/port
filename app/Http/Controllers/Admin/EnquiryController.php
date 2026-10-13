@@ -118,7 +118,7 @@ class EnquiryController extends Controller
 
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="enquiries_' . now()->format('Y-m-d') . '.csv"',
+            'Content-Disposition' => 'attachment; filename="enquiries_'.now()->format('Y-m-d').'.csv"',
         ];
 
         $callback = function () use ($enquiries) {

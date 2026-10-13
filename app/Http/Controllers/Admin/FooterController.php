@@ -6,14 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\FooterLink;
 use App\Models\FooterWidget;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 
 class FooterController extends Controller
 {
     public function widgetsIndex()
     {
         $widgets = FooterWidget::orderBy('display_order')->get();
+
         return view('admin.footer.widgets', compact('widgets'));
     }
 
@@ -62,6 +61,7 @@ class FooterController extends Controller
     {
         $widgets = FooterWidget::orderBy('display_order')->get();
         $links = FooterLink::whereNull('footer_widget_id')->orderBy('display_order')->get();
+
         return view('admin.footer.links', compact('widgets', 'links'));
     }
 
@@ -103,6 +103,7 @@ class FooterController extends Controller
     public function linksDestroy($id)
     {
         FooterLink::findOrFail($id)->delete();
+
         return back()->with('success', 'Footer link deleted successfully.');
     }
 }

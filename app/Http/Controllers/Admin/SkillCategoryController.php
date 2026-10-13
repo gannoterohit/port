@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SkillCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class SkillCategoryController extends Controller
 {
     public function index()
     {
         $categories = SkillCategory::orderBy('display_order')->get();
+
         return view('admin.skill-categories.index', compact('categories'));
     }
 
@@ -28,7 +31,7 @@ class SkillCategoryController extends Controller
             'is_enabled' => ['boolean'],
         ]);
 
-        $data['slug'] = \Illuminate\Support\Str::slug($data['name']);
+        $data['slug'] = Str::slug($data['name']);
         $data['display_order'] = $data['display_order'] ?? SkillCategory::max('display_order') + 1;
         $data['is_enabled'] = $request->boolean('is_enabled', true);
 
@@ -54,7 +57,7 @@ class SkillCategoryController extends Controller
         $data['is_enabled'] = $request->boolean('is_enabled');
 
         $skillCategory->update($data);
-        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
+        Cache::forget('homepage_skills');
 
         return redirect()->route('admin.skill-categories.index')->with('success', 'Category updated successfully.');
     }
@@ -62,7 +65,8 @@ class SkillCategoryController extends Controller
     public function destroy(SkillCategory $skillCategory)
     {
         $skillCategory->delete();
-        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
+        Cache::forget('homepage_skills');
+
         return back()->with('success', 'Category deleted successfully.');
     }
 }

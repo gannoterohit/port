@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EnquiryStatusLog extends Model
 {
@@ -13,12 +14,12 @@ class EnquiryStatusLog extends Model
         'note',
     ];
 
-    public function enquiry(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function enquiry(): BelongsTo
     {
         return $this->belongsTo(Enquiry::class);
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

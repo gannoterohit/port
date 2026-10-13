@@ -108,10 +108,10 @@ class SitemapController extends Controller
 
         foreach ($urls as $url) {
             $content .= '<url>';
-            $content .= '<loc>' . htmlspecialchars($url['loc'], ENT_XML1) . '</loc>';
-            $content .= '<lastmod>' . htmlspecialchars($url['lastmod'], ENT_XML1) . '</lastmod>';
-            $content .= '<changefreq>' . $url['changefreq'] . '</changefreq>';
-            $content .= '<priority>' . $url['priority'] . '</priority>';
+            $content .= '<loc>'.htmlspecialchars($url['loc'], ENT_XML1).'</loc>';
+            $content .= '<lastmod>'.htmlspecialchars($url['lastmod'], ENT_XML1).'</lastmod>';
+            $content .= '<changefreq>'.$url['changefreq'].'</changefreq>';
+            $content .= '<priority>'.$url['priority'].'</priority>';
             $content .= '</url>';
         }
 

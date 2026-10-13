@@ -20,12 +20,13 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()->with('error', 'Invalid credentials.');
         }
 
-        if (!Auth::user()->is_admin) {
+        if (! Auth::user()->is_admin) {
             Auth::logout();
+
             return back()->with('error', 'You do not have admin access.');
         }
 

@@ -13,6 +13,7 @@ class WorkProcessController extends Controller
     public function index()
     {
         $processes = WorkProcess::orderBy('display_order')->get();
+
         return view('admin.work-processes.index', compact('processes'));
     }
 
@@ -47,6 +48,7 @@ class WorkProcessController extends Controller
     public function edit($id)
     {
         $process = WorkProcess::findOrFail($id);
+
         return view('admin.work-processes.edit', compact('process'));
     }
 

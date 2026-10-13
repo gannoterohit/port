@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Traits\HandlesFileUploads;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class ProfileController extends Controller
 {
@@ -15,6 +15,7 @@ class ProfileController extends Controller
     public function edit()
     {
         $profile = Profile::getInstance();
+
         return view('admin.profile.edit', compact('profile'));
     }
 
@@ -99,7 +100,7 @@ class ProfileController extends Controller
 
     protected function clearCache(): void
     {
-        \Illuminate\Support\Facades\Cache::forget('profile');
-        \Illuminate\Support\Facades\Cache::forget('homepage_settings');
+        Cache::forget('profile');
+        Cache::forget('homepage_settings');
     }
 }

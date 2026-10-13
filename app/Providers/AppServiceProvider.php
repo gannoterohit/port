@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\Profile;
-use App\Models\Setting;
+use App\Models\FooterLink;
+use App\Models\FooterWidget;
 use App\Models\HomepageSetting;
 use App\Models\NavigationItem;
-use App\Models\FooterWidget;
-use App\Models\FooterLink;
+use App\Models\Profile;
+use App\Models\Setting;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 

@@ -2,23 +2,24 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Profile;
-use App\Models\Setting;
+use App\Models\FooterLink;
+use App\Models\FooterWidget;
 use App\Models\HomepageSetting;
-use App\Models\SkillCategory;
-use App\Models\Skill;
+use App\Models\NavigationItem;
+use App\Models\Page;
+use App\Models\Profile;
 use App\Models\Project;
 use App\Models\Service;
+use App\Models\Setting;
+use App\Models\Skill;
+use App\Models\SkillCategory;
 use App\Models\Testimonial;
-use App\Models\Page;
-use App\Models\NavigationItem;
-use App\Models\FooterWidget;
-use App\Models\FooterLink;
+use App\Models\User;
 use App\Models\WorkProcess;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -136,9 +137,9 @@ class DatabaseSeeder extends Seeder
             Skill::firstOrCreate(
                 ['name' => $skillData[1]],
                 [
-                    'slug' => \Illuminate\Support\Str::slug($skillData[1]),
+                    'slug' => Str::slug($skillData[1]),
                     'category_id' => $skillData[0],
-                    'description' => $skillData[1] . ' development skills',
+                    'description' => $skillData[1].' development skills',
                     'proficiency' => $skillData[2],
                     'display_order' => $skillData[2],
                     'is_enabled' => true,
@@ -200,7 +201,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($projectsData as $projectData) {
             Project::firstOrCreate(
-                ['slug' => \Illuminate\Support\Str::slug($projectData['title'])],
+                ['slug' => Str::slug($projectData['title'])],
                 [
                     'title' => $projectData['title'],
                     'description' => $projectData['description'],
@@ -217,8 +218,8 @@ class DatabaseSeeder extends Seeder
                     'status' => $projectData['status'],
                     'display_order' => $projectData['display_order'],
                     'published_at' => now(),
-                    'seo_title' => $projectData['title'] . ' - Full Stack Portfolio',
-                    'seo_description' => \Illuminate\Support\Str::limit(strip_tags($projectData['description']), 160),
+                    'seo_title' => $projectData['title'].' - Full Stack Portfolio',
+                    'seo_description' => Str::limit(strip_tags($projectData['description']), 160),
                 ]
             );
         }
@@ -260,7 +261,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($servicesData as $serviceData) {
             Service::firstOrCreate(
-                ['slug' => \Illuminate\Support\Str::slug($serviceData['name'])],
+                ['slug' => Str::slug($serviceData['name'])],
                 [
                     'name' => $serviceData['name'],
                     'description' => $serviceData['description'],
@@ -271,8 +272,8 @@ class DatabaseSeeder extends Seeder
                     'display_order' => $serviceData['display_order'],
                     'cta_text' => 'Get a Quote',
                     'cta_url' => '/contact',
-                    'seo_title' => $serviceData['name'] . ' Service',
-                    'seo_description' => \Illuminate\Support\Str::limit(strip_tags($serviceData['description']), 160),
+                    'seo_title' => $serviceData['name'].' Service',
+                    'seo_description' => Str::limit(strip_tags($serviceData['description']), 160),
                 ]
             );
         }
@@ -309,6 +310,17 @@ class DatabaseSeeder extends Seeder
                 'status' => 'published',
                 'show_in_nav' => false,
                 'display_order' => 999,
+            ]
+        );
+
+        Page::firstOrCreate(
+            ['slug' => 'terms'],
+            [
+                'title' => 'Terms of Service',
+                'content' => '<h2>Terms of Service</h2><p>These terms govern your use of this website. By accessing or using this site, you agree to these terms.</p>',
+                'status' => 'published',
+                'show_in_nav' => false,
+                'display_order' => 998,
             ]
         );
 

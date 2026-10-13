@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Enquiry extends Model
 {
@@ -25,7 +26,7 @@ class Enquiry extends Model
         'replied_at' => 'datetime',
     ];
 
-    public function statusLogs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function statusLogs(): HasMany
     {
         return $this->hasMany(EnquiryStatusLog::class)->orderBy('created_at', 'desc');
     }
@@ -66,6 +67,7 @@ class Enquiry extends Model
         if ($status && $status !== 'all') {
             return $query->where('status', $status);
         }
+
         return $query;
     }
 
@@ -78,13 +80,14 @@ class Enquiry extends Model
     {
         if ($term) {
             return $query->where(function ($q) use ($term) {
-                $q->where('name', 'like', '%' . $term . '%')
-                    ->orWhere('email', 'like', '%' . $term . '%')
-                    ->orWhere('phone', 'like', '%' . $term . '%')
-                    ->orWhere('subject', 'like', '%' . $term . '%')
-                    ->orWhere('message', 'like', '%' . $term . '%');
+                $q->where('name', 'like', '%'.$term.'%')
+                    ->orWhere('email', 'like', '%'.$term.'%')
+                    ->orWhere('phone', 'like', '%'.$term.'%')
+                    ->orWhere('subject', 'like', '%'.$term.'%')
+                    ->orWhere('message', 'like', '%'.$term.'%');
             });
         }
+
         return $query;
     }
 }

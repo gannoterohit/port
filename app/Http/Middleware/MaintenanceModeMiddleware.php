@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ class MaintenanceModeMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         try {
-            $maintenanceMode = \App\Models\Setting::where('key', 'maintenance_mode')->value('value');
+            $maintenanceMode = Setting::where('key', 'maintenance_mode')->value('value');
         } catch (\Throwable $e) {
             $maintenanceMode = null;
         }

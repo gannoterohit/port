@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Project extends Model
@@ -12,6 +13,7 @@ class Project extends Model
         'slug',
         'description',
         'category',
+        'client_name',
         'thumbnail',
         'thumbnail_alt',
         'tech_stack',
@@ -43,7 +45,7 @@ class Project extends Model
         'display_order' => 'integer',
     ];
 
-    public function screenshots(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function screenshots(): HasMany
     {
         return $this->hasMany(ProjectScreenshot::class)->orderBy('display_order');
     }
@@ -75,12 +77,12 @@ class Project extends Model
 
     public function getThumbnailUrlAttribute(): ?string
     {
-        return $this->thumbnail ? asset('storage/' . $this->thumbnail) : null;
+        return $this->thumbnail ? asset('storage/'.$this->thumbnail) : null;
     }
 
     public function getOgImageUrlAttribute(): ?string
     {
-        return $this->og_image ? asset('storage/' . $this->og_image) : null;
+        return $this->og_image ? asset('storage/'.$this->og_image) : null;
     }
 
     public function getShortDescriptionAttribute(): ?string
@@ -101,7 +103,7 @@ class Project extends Model
     protected static function booted()
     {
         static::creating(function ($project) {
-            if (!$project->slug) {
+            if (! $project->slug) {
                 $project->slug = Str::slug($project->title);
             }
         });

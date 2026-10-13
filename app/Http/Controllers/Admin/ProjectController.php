@@ -26,9 +26,9 @@ class ProjectController extends Controller
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhere('category', 'like', '%' . $request->search . '%')
-                    ->orWhere('description', 'like', '%' . $request->search . '%');
+                $q->where('title', 'like', '%'.$request->search.'%')
+                    ->orWhere('category', 'like', '%'.$request->search.'%')
+                    ->orWhere('description', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -49,6 +49,7 @@ class ProjectController extends Controller
             'slug' => ['nullable', 'string', 'max:255', 'unique:projects,slug'],
             'description' => ['nullable', 'string'],
             'category' => ['nullable', 'string', 'max:100'],
+            'client_name' => ['nullable', 'string', 'max:255'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
             'thumbnail_alt' => ['nullable', 'string', 'max:255'],
             'tech_stack' => ['nullable', 'array'],
@@ -123,7 +124,7 @@ class ProjectController extends Controller
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:projects,slug,' . $project->id],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:projects,slug,'.$project->id],
             'description' => ['nullable', 'string'],
             'category' => ['nullable', 'string', 'max:100'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
@@ -150,7 +151,7 @@ class ProjectController extends Controller
 
         $data['is_featured'] = $request->boolean('is_featured');
         $data['no_index'] = $request->boolean('no_index');
-        $data['published_at'] = $data['status'] === 'published' && !$project->published_at ? now() : $project->published_at;
+        $data['published_at'] = $data['status'] === 'published' && ! $project->published_at ? now() : $project->published_at;
 
         if ($request->hasFile('thumbnail')) {
             $data['thumbnail'] = $this->uploadFile($request->file('thumbnail'), 'projects/thumbnails', $project->thumbnail);
@@ -176,7 +177,7 @@ class ProjectController extends Controller
         }
 
         Cache::forget('homepage_featured_projects');
-        Cache::forget('project_' . $project->slug);
+        Cache::forget('project_'.$project->slug);
 
         return redirect()->route('admin.projects.index')->with('success', 'Project updated successfully.');
     }
@@ -196,7 +197,7 @@ class ProjectController extends Controller
         $project->delete();
 
         Cache::forget('homepage_featured_projects');
-        Cache::forget('project_' . $slug);
+        Cache::forget('project_'.$slug);
 
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully.');
     }

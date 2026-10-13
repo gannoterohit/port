@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Setting extends Model
 {
@@ -25,6 +26,7 @@ class Setting extends Model
     public static function get(string $key, mixed $default = null): mixed
     {
         $setting = self::where('key', $key)->where('is_active', true)->first();
+
         return $setting ? $setting->value : $default;
     }
 
@@ -41,7 +43,7 @@ class Setting extends Model
         );
     }
 
-    public static function getAllByGroup(string $group): \Illuminate\Support\Collection
+    public static function getAllByGroup(string $group): Collection
     {
         return self::where('group', $group)->where('is_active', true)->get();
     }
@@ -57,6 +59,11 @@ class Setting extends Model
             ['group' => 'general', 'key' => 'contact_phone', 'value' => null, 'type' => 'text', 'label' => 'Phone Number', 'description' => 'Contact phone number (optional)', 'is_active' => true, 'sort_order' => 6],
             ['group' => 'general', 'key' => 'contact_whatsapp', 'value' => null, 'type' => 'text', 'label' => 'WhatsApp Number', 'description' => 'WhatsApp number (optional)', 'is_active' => true, 'sort_order' => 7],
             ['group' => 'general', 'key' => 'website_address', 'value' => null, 'type' => 'text', 'label' => 'Office Address', 'description' => 'Physical address (optional)', 'is_active' => true, 'sort_order' => 8],
+            ['group' => 'general', 'key' => 'footer_description', 'value' => 'Full Stack Web Developer crafting scalable web applications and digital experiences.', 'type' => 'textarea', 'label' => 'Footer Description', 'description' => 'Description text shown in the footer', 'is_active' => true, 'sort_order' => 9],
+            ['group' => 'general', 'key' => 'copyright_text', 'value' => null, 'type' => 'textarea', 'label' => 'Copyright Text', 'description' => 'Custom copyright text (leave empty for auto-generated)', 'is_active' => true, 'sort_order' => 10],
+            ['group' => 'about', 'key' => 'years_experience', 'value' => '2.5+', 'type' => 'text', 'label' => 'Years of Experience', 'description' => 'Number of years of professional experience', 'is_active' => true, 'sort_order' => 1],
+            ['group' => 'about', 'key' => 'training_text', 'value' => '+ 6 Months Intensive Training', 'type' => 'text', 'label' => 'Training Info', 'description' => 'Brief training/certificate info shown in about section', 'is_active' => true, 'sort_order' => 2],
+            ['group' => 'about', 'key' => 'specialization_text', 'value' => 'Specialized in Laravel, MySQL & Modern Web Development', 'type' => 'text', 'label' => 'Specialization', 'description' => 'Your area of specialization shown in about section', 'is_active' => true, 'sort_order' => 3],
             ['group' => 'theme', 'key' => 'primary_color', 'value' => '#3b82f6', 'type' => 'color', 'label' => 'Primary Color', 'description' => 'Primary theme color', 'is_active' => true, 'sort_order' => 1],
             ['group' => 'theme', 'key' => 'secondary_color', 'value' => '#1e40af', 'type' => 'color', 'label' => 'Secondary Color', 'description' => 'Secondary theme color', 'is_active' => true, 'sort_order' => 2],
             ['group' => 'theme', 'key' => 'enable_dark_mode', 'value' => '1', 'type' => 'boolean', 'label' => 'Enable Dark Mode', 'description' => 'Allow visitors to toggle dark mode', 'is_active' => true, 'sort_order' => 3],
@@ -77,6 +84,10 @@ class Setting extends Model
             ['group' => 'email', 'key' => 'mail_username', 'value' => null, 'type' => 'text', 'label' => 'Mail Username', 'description' => 'SMTP username', 'is_active' => true, 'sort_order' => 4],
             ['group' => 'email', 'key' => 'mail_password', 'value' => null, 'type' => 'password', 'label' => 'Mail Password', 'description' => 'SMTP password', 'is_active' => true, 'sort_order' => 5],
             ['group' => 'email', 'key' => 'mail_encryption', 'value' => 'tls', 'type' => 'text', 'label' => 'Mail Encryption', 'description' => 'SMTP encryption (tls/ssl)', 'is_active' => true, 'sort_order' => 6],
+            ['group' => 'email', 'key' => 'mail_from_address', 'value' => 'hello@example.com', 'type' => 'email', 'label' => 'From Email Address', 'description' => 'The email address emails are sent from', 'is_active' => true, 'sort_order' => 7],
+            ['group' => 'email', 'key' => 'mail_from_name', 'value' => null, 'type' => 'text', 'label' => 'From Name', 'description' => 'The name emails are sent from', 'is_active' => true, 'sort_order' => 8],
+            ['group' => 'email', 'key' => 'notify_admin_on_enquiry', 'value' => '1', 'type' => 'boolean', 'label' => 'Notify Admin on Enquiry', 'description' => 'Send email notification to admin when a contact form enquiry is submitted', 'is_active' => true, 'sort_order' => 9],
+            ['group' => 'email', 'key' => 'send_enquiry_confirmation', 'value' => '1', 'type' => 'boolean', 'label' => 'Send Enquiry Confirmation', 'description' => 'Send a confirmation email to the visitor after they submit the contact form', 'is_active' => true, 'sort_order' => 10],
         ];
 
         foreach ($defaults as $setting) {

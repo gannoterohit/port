@@ -33,6 +33,10 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
                 <input type="text" name="category" value="{{ old('category', $project->category) }}" class="admin-input">
             </div>
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Client Name</label>
+                <input type="text" name="client_name" value="{{ old('client_name', $project->client_name) }}" class="admin-input" placeholder="Client or company name">
+            </div>
         </div>
     </div>
 

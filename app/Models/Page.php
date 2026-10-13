@@ -51,13 +51,13 @@ class Page extends Model
 
     public function getOgImageUrlAttribute(): ?string
     {
-        return $this->og_image ? asset('storage/' . $this->og_image) : null;
+        return $this->og_image ? asset('storage/'.$this->og_image) : null;
     }
 
     protected static function booted()
     {
         static::creating(function ($page) {
-            if (!$page->slug) {
+            if (! $page->slug) {
                 $page->slug = Str::slug($page->title);
             }
         });

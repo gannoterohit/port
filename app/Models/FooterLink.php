@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FooterLink extends Model
 {
@@ -19,7 +20,7 @@ class FooterLink extends Model
         'display_order' => 'integer',
     ];
 
-    public function widget(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function widget(): BelongsTo
     {
         return $this->belongsTo(FooterWidget::class, 'footer_widget_id');
     }

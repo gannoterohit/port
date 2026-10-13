@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
@@ -26,6 +27,7 @@ class SettingController extends Controller
 
             if ($setting->type === 'boolean') {
                 $setting->update(['value' => $request->has($key) ? '1' : '0']);
+
                 continue;
             }
 
@@ -36,6 +38,7 @@ class SettingController extends Controller
                     }
                     $setting->update(['value' => $request->file($key)->store('settings', 'public')]);
                 }
+
                 continue;
             }
 
@@ -50,8 +53,8 @@ class SettingController extends Controller
             }
         }
 
-        \Illuminate\Support\Facades\Cache::forget('profile');
-        \Illuminate\Support\Facades\Cache::forget('homepage_settings');
+        Cache::forget('profile');
+        Cache::forget('homepage_settings');
 
         return back()->with('success', 'Settings updated successfully.');
     }

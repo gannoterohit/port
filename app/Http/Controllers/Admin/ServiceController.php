@@ -23,8 +23,8 @@ class ServiceController extends Controller
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('description', 'like', '%' . $request->search . '%');
+                $q->where('name', 'like', '%'.$request->search.'%')
+                    ->orWhere('description', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -92,7 +92,7 @@ class ServiceController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:services,slug,' . $service->id],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:services,slug,'.$service->id],
             'description' => ['nullable', 'string'],
             'icon' => ['nullable', 'string', 'max:255'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
@@ -127,7 +127,7 @@ class ServiceController extends Controller
         $service->update($data);
 
         Cache::forget('homepage_featured_services');
-        Cache::forget('service_' . $service->slug);
+        Cache::forget('service_'.$service->slug);
 
         return redirect()->route('admin.services.index')->with('success', 'Service updated successfully.');
     }
@@ -141,7 +141,7 @@ class ServiceController extends Controller
         $service->delete();
 
         Cache::forget('homepage_featured_services');
-        Cache::forget('service_' . $slug);
+        Cache::forget('service_'.$slug);
 
         return redirect()->route('admin.services.index')->with('success', 'Service deleted successfully.');
     }

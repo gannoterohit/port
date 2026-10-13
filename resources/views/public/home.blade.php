@@ -97,11 +97,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                         <div class="md:col-span-1 text-center md:text-left">
                             <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm">
-                                <div class="text-3xl font-extrabold text-primary mb-1">2.5+</div>
+                                <div class="text-3xl font-extrabold text-primary mb-1">{{ \App\Models\Setting::get('years_experience') ?: '2.5+' }}</div>
                                 <div class="text-sm font-semibold text-slate-900 dark:text-white">Years Professional Experience</div>
-                                <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">+ 6 Months Intensive Training</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ \App\Models\Setting::get('training_text') ?: '+ 6 Months Intensive Training' }}</div>
                                 <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300">
-                                    Specialized in Laravel, MySQL & Modern Web Development
+                                    {{ \App\Models\Setting::get('specialization_text') ?: 'Specialized in Laravel, MySQL &amp; Modern Web Development' }}
                                 </div>
                             </div>
                         </div>

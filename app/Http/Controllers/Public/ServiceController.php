@@ -19,13 +19,13 @@ class ServiceController extends Controller
 
     public function show($slug)
     {
-        $service = cache()->remember('service_' . $slug, 3600, function () use ($slug) {
+        $service = cache()->remember('service_'.$slug, 3600, function () use ($slug) {
             return Service::where('slug', $slug)
                 ->where('is_enabled', true)
                 ->first();
         });
 
-        if (!$service) {
+        if (! $service) {
             abort(404);
         }
 

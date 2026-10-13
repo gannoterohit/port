@@ -66,6 +66,6 @@ class HomepageSetting extends Model
 
     public function getHeroImageUrlAttribute(): ?string
     {
-        return $this->hero_image ? asset('storage/' . $this->hero_image) : null;
+        return $this->hero_image ? asset('storage/'.$this->hero_image) : null;
     }
 }

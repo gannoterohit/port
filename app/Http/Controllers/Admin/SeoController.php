@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SeoController extends Controller
 {
@@ -22,7 +23,7 @@ class SeoController extends Controller
 
         foreach ($seoKeys as $key) {
             $setting = Setting::where('key', $key)->first();
-            if (!$setting) {
+            if (! $setting) {
                 continue;
             }
 
@@ -31,7 +32,7 @@ class SeoController extends Controller
             } elseif ($setting->type === 'image') {
                 if ($request->hasFile($key)) {
                     if ($setting->value) {
-                        \Illuminate\Support\Facades\Storage::disk('public')->delete($setting->value);
+                        Storage::disk('public')->delete($setting->value);
                     }
                     $setting->update(['value' => $request->file($key)->store('settings/seo', 'public')]);
                 }

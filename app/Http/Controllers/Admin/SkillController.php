@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Skill;
 use App\Models\SkillCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class SkillController extends Controller
 {
@@ -23,9 +25,9 @@ class SkillController extends Controller
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
+                $q->where('name', 'like', '%'.$request->search.'%')
                     ->orWhereHas('category', function ($q) use ($request) {
-                        $q->where('name', 'like', '%' . $request->search . '%');
+                        $q->where('name', 'like', '%'.$request->search.'%');
                     });
             });
         }
@@ -38,6 +40,7 @@ class SkillController extends Controller
     public function create()
     {
         $categories = SkillCategory::where('is_enabled', true)->get();
+
         return view('admin.skills.create', compact('categories'));
     }
 
@@ -52,13 +55,13 @@ class SkillController extends Controller
             'is_featured' => ['boolean'],
         ]);
 
-        $data['slug'] = \Illuminate\Support\Str::slug($data['name']);
+        $data['slug'] = Str::slug($data['name']);
         $data['display_order'] = Skill::max('display_order') + 1;
         $data['is_enabled'] = $request->boolean('is_enabled', true);
         $data['is_featured'] = $request->boolean('is_featured', false);
 
         Skill::create($data);
-        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
+        Cache::forget('homepage_skills');
 
         return redirect()->route('admin.skills.index')->with('success', 'Skill created successfully.');
     }
@@ -66,6 +69,7 @@ class SkillController extends Controller
     public function edit(Skill $skill)
     {
         $categories = SkillCategory::where('is_enabled', true)->get();
+
         return view('admin.skills.edit', compact('skill', 'categories'));
     }
 
@@ -84,7 +88,7 @@ class SkillController extends Controller
         $data['is_featured'] = $request->boolean('is_featured');
 
         $skill->update($data);
-        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
+        Cache::forget('homepage_skills');
 
         return redirect()->route('admin.skills.index')->with('success', 'Skill updated successfully.');
     }
@@ -92,7 +96,8 @@ class SkillController extends Controller
     public function destroy(Skill $skill)
     {
         $skill->delete();
-        \Illuminate\Support\Facades\Cache::forget('homepage_skills');
+        Cache::forget('homepage_skills');
+
         return back()->with('success', 'Skill deleted successfully.');
     }
 }

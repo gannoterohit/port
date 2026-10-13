@@ -64,31 +64,32 @@ class Service extends Model
 
     public function getPriceFormattedAttribute(): ?string
     {
-        if (!$this->price) {
+        if (! $this->price) {
             return null;
         }
-        return '$' . number_format((float) $this->price, 2);
+
+        return '$'.number_format((float) $this->price, 2);
     }
 
     public function getIconUrlAttribute(): ?string
     {
-        return $this->icon ? asset('storage/' . $this->icon) : null;
+        return $this->icon ? asset('storage/'.$this->icon) : null;
     }
 
     public function getImageUrlAttribute(): ?string
     {
-        return $this->image ? asset('storage/' . $this->image) : null;
+        return $this->image ? asset('storage/'.$this->image) : null;
     }
 
     public function getOgImageUrlAttribute(): ?string
     {
-        return $this->og_image ? asset('storage/' . $this->og_image) : null;
+        return $this->og_image ? asset('storage/'.$this->og_image) : null;
     }
 
     protected static function booted()
     {
         static::creating(function ($service) {
-            if (!$service->slug) {
+            if (! $service->slug) {
                 $service->slug = Str::slug($service->name);
             }
         });

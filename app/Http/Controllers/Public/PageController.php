@@ -5,18 +5,15 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Models\Profile;
-use App\Models\Project;
-use App\Models\Service;
 use App\Models\Skill;
 use App\Models\SkillCategory;
-use App\Models\Testimonial;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PageController extends Controller
 {
     public function about()
     {
-        $profile = \Illuminate\Support\Facades\Cache::remember('profile', 3600, fn () => Profile::getInstance());
+        $profile = Cache::remember('profile', 3600, fn () => Profile::getInstance());
 
         return view('public.about', compact('profile'));
     }
@@ -32,8 +29,8 @@ class PageController extends Controller
 
         $query = Skill::where('is_enabled', true)->with('category');
         $catIds = $categories->pluck('id')->filter()->toArray();
-        if (!empty($catIds) && config('database.default') !== 'sqlite') {
-            $query->orderByRaw("FIELD(category_id, " . implode(',', $catIds) . ")");
+        if (! empty($catIds) && config('database.default') !== 'sqlite') {
+            $query->orderByRaw('FIELD(category_id, '.implode(',', $catIds).')');
         }
         $skills = $query->orderBy('display_order')->get();
 
@@ -42,7 +39,7 @@ class PageController extends Controller
 
     public function resume()
     {
-        $profile = \Illuminate\Support\Facades\Cache::remember('profile', 3600, fn () => Profile::getInstance());
+        $profile = Cache::remember('profile', 3600, fn () => Profile::getInstance());
 
         return view('public.resume', compact('profile'));
     }
@@ -51,7 +48,7 @@ class PageController extends Controller
     {
         $page = Page::where('slug', 'privacy-policy')->first();
 
-        if (!$page) {
+        if (! $page) {
             $page = Page::firstOrCreate(
                 ['slug' => 'privacy-policy'],
                 [
@@ -67,13 +64,33 @@ class PageController extends Controller
         return view('public.privacy', compact('page'));
     }
 
+    public function terms()
+    {
+        $page = Page::where('slug', 'terms')->first();
+
+        if (! $page) {
+            $page = Page::firstOrCreate(
+                ['slug' => 'terms'],
+                [
+                    'title' => 'Terms of Service',
+                    'content' => '<h2>Terms of Service</h2><p>These terms govern your use of this website. By accessing or using this site, you agree to these terms.</p>',
+                    'status' => 'published',
+                    'show_in_nav' => false,
+                    'display_order' => 998,
+                ]
+            );
+        }
+
+        return view('public.page', compact('page'));
+    }
+
     public function show($slug)
     {
-        $page = cache()->remember('page_' . $slug, 3600, function () use ($slug) {
+        $page = cache()->remember('page_'.$slug, 3600, function () use ($slug) {
             return Page::where('slug', $slug)->where('status', 'published')->first();
         });
 
-        if (!$page) {
+        if (! $page) {
             abort(404);
         }
 
@@ -82,7 +99,7 @@ class PageController extends Controller
 
     public function contactInfo()
     {
-        $profile = \Illuminate\Support\Facades\Cache::remember('profile', 3600, fn () => Profile::getInstance());
+        $profile = Cache::remember('profile', 3600, fn () => Profile::getInstance());
 
         return view('public.contact-info', compact('profile'));
     }

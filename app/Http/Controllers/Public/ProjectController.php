@@ -16,9 +16,9 @@ class ProjectController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                  ->orWhere('description', 'like', '%' . $search . '%')
-                  ->orWhere('category', 'like', '%' . $search . '%');
+                $q->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('description', 'like', '%'.$search.'%')
+                    ->orWhere('category', 'like', '%'.$search.'%');
             });
         }
 
@@ -33,7 +33,7 @@ class ProjectController extends Controller
 
     public function show($slug)
     {
-        $project = cache()->remember('project_' . $slug, 3600, function () use ($slug) {
+        $project = cache()->remember('project_'.$slug, 3600, function () use ($slug) {
             return Project::where('slug', $slug)
                 ->where('status', 'published')
                 ->where('published_at', '<=', now())
@@ -41,7 +41,7 @@ class ProjectController extends Controller
                 ->first();
         });
 
-        if (!$project) {
+        if (! $project) {
             abort(404);
         }
 

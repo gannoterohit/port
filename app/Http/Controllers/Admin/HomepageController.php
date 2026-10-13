@@ -15,6 +15,7 @@ class HomepageController extends Controller
     public function edit()
     {
         $settings = HomepageSetting::firstOrCreate([]);
+
         return view('admin.homepage.edit', compact('settings'));
     }
 

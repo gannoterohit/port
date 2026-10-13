@@ -21,9 +21,9 @@ class PageController extends Controller
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhere('slug', 'like', '%' . $request->search . '%')
-                    ->orWhere('content', 'like', '%' . $request->search . '%');
+                $q->where('title', 'like', '%'.$request->search.'%')
+                    ->orWhere('slug', 'like', '%'.$request->search.'%')
+                    ->orWhere('content', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -78,7 +78,7 @@ class PageController extends Controller
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,' . $page->id],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,'.$page->id],
             'content' => ['nullable', 'string'],
             'status' => ['required', 'in:draft,published'],
             'show_in_nav' => ['boolean'],
@@ -107,6 +107,7 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         $page->delete();
+
         return back()->with('success', 'Page deleted successfully.');
     }
 }

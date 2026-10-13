@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FooterWidget extends Model
 {
@@ -19,7 +19,7 @@ class FooterWidget extends Model
         'display_order' => 'integer',
     ];
 
-    public function links(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function links(): HasMany
     {
         return $this->hasMany(FooterLink::class)->orderBy('display_order');
     }

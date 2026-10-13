@@ -34,6 +34,11 @@
                 <input type="text" name="category" value="{{ old('category') }}" class="admin-input"
                     placeholder="e.g., E-commerce, Web Application, Mobile App">
             </div>
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Client Name</label>
+                <input type="text" name="client_name" value="{{ old('client_name') }}" class="admin-input"
+                    placeholder="Client or company name (optional)">
+            </div>
         </div>
     </div>
 

@@ -11,6 +11,7 @@ class NavigationController extends Controller
     public function index()
     {
         $items = NavigationItem::orderBy('display_order')->get();
+
         return view('admin.navigation.index', compact('items'));
     }
 
@@ -54,6 +55,7 @@ class NavigationController extends Controller
     public function destroy($id)
     {
         NavigationItem::findOrFail($id)->delete();
+
         return back()->with('success', 'Navigation item deleted successfully.');
     }
 

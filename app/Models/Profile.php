@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
 class Profile extends Model
@@ -33,7 +34,7 @@ class Profile extends Model
         'location_visible' => 'boolean',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -51,6 +52,7 @@ class Profile extends Model
     public function getLastNameAttribute(): string
     {
         $parts = explode(' ', $this->name, 2);
+
         return count($parts) > 1 ? $parts[1] : '';
     }
 
@@ -86,7 +88,7 @@ class Profile extends Model
 
     public function getOgImageUrlAttribute(): ?string
     {
-        return $this->og_image ? asset('storage/' . $this->og_image) : null;
+        return $this->og_image ? asset('storage/'.$this->og_image) : null;
     }
 
     public function getSocialLinksArrayAttribute(): array
@@ -97,6 +99,7 @@ class Profile extends Model
     public function socialLink(string $platform): ?string
     {
         $links = $this->social_links ?? [];
+
         return $links[$platform] ?? null;
     }
 

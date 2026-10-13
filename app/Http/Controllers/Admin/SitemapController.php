@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Enquiry;
 use App\Models\Page;
 use App\Models\Project;
 use App\Models\Service;
-use App\Models\Testimonial;
 
 class SitemapController extends Controller
 {

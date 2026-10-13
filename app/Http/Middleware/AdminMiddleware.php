@@ -11,12 +11,13 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('admin.login');
         }
 
-        if (!Auth::user()->is_admin) {
+        if (! Auth::user()->is_admin) {
             Auth::logout();
+
             return redirect()->route('admin.login')->with('error', 'You do not have admin access.');
         }
 

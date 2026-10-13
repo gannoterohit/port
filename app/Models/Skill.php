@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Skill extends Model
 {
@@ -24,7 +25,7 @@ class Skill extends Model
         'proficiency' => 'integer',
     ];
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(SkillCategory::class, 'category_id');
     }
@@ -46,7 +47,7 @@ class Skill extends Model
 
     public function getProficiencyLabelAttribute(): string
     {
-        if (!$this->proficiency) {
+        if (! $this->proficiency) {
             return '';
         }
 

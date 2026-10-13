@@ -8,8 +8,8 @@ use App\Models\Profile;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\Skill;
-use App\Models\SkillCategory;
 use App\Models\Testimonial;
+use App\Models\WorkProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -59,7 +59,7 @@ class HomeController extends Controller
         });
 
         $workProcesses = Cache::remember('homepage_work_processes', 3600, function () {
-            return \App\Models\WorkProcess::where('is_enabled', true)
+            return WorkProcess::where('is_enabled', true)
                 ->orderBy('display_order')
                 ->limit(6)
                 ->get();
