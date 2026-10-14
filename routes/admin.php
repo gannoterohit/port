@@ -28,6 +28,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/', fn () => redirect()->route('admin.dashboard'))->name('index');
+
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
         Route::get('dashboard', [DashboardController::class, '__invoke'])->name('dashboard');

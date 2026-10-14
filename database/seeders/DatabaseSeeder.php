@@ -255,7 +255,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($servicesData as $serviceData) {
-            Service::updateOrCreate(
+            Service::firstOrCreate(
                 ['slug' => Str::slug($serviceData['name'])],
                 [
                     'name' => $serviceData['name'],

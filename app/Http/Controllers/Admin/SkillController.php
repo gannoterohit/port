@@ -80,7 +80,7 @@ class SkillController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'category_id' => ['nullable', 'exists:skill_categories,id'],
             'description' => ['nullable', 'string'],
-            'proficiency' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'proficiency' => ['nullable', 'integer', 'min:1', 'max:5'],
             'is_enabled' => ['boolean'],
             'is_featured' => ['boolean'],
         ]);

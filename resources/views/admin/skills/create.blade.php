@@ -58,7 +58,7 @@
                 Feature on Homepage
             </label>
             <label class="flex items-center gap-2 text-sm text-gray-700">
-                <input type="checkbox" name="is_enabled" value="1" checked={{ !old('is_enabled', true) ? '' : 'checked' }}>
+                <input type="checkbox" name="is_enabled" value="1" @checked(old('is_enabled', true))>
                 Enabled
             </label>
         </div>
@@ -72,4 +72,3 @@
     </div>
 </form>
 @endsection
-

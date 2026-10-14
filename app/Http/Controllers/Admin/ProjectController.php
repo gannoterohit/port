@@ -127,6 +127,7 @@ class ProjectController extends Controller
             'slug' => ['nullable', 'string', 'max:255', 'unique:projects,slug,'.$project->id],
             'description' => ['nullable', 'string'],
             'category' => ['nullable', 'string', 'max:100'],
+            'client_name' => ['nullable', 'string', 'max:255'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
             'thumbnail_alt' => ['nullable', 'string', 'max:255'],
             'tech_stack' => ['nullable', 'array'],
