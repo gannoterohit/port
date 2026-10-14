@@ -60,7 +60,7 @@
                     <ul class="space-y-2">
                         @foreach($widget->links as $link)
                             <li>
-                                <a href="{{ $link->url }}" target="{{ $link->target }}"
+                                <a href="{{ url($link->url) }}" target="{{ $link->target }}"
                                     class="text-sm text-gray-400 hover:text-white transition-colors">
                                     {{ $link->label }}
                                 </a>
@@ -76,7 +76,7 @@
                     <ul class="space-y-2">
                         @foreach($orphanedFooterLinks as $link)
                             <li>
-                                <a href="{{ $link->url }}" target="{{ $link->target }}"
+                                <a href="{{ url($link->url) }}" target="{{ $link->target }}"
                                     class="text-sm text-gray-400 hover:text-white transition-colors">
                                     {{ $link->label }}
                                 </a>
@@ -92,4 +92,3 @@
         </div>
     </div>
 </footer>
-

@@ -61,12 +61,12 @@
                         </p>
 
                         <div class="flex flex-wrap gap-4 items-center mb-10">
-                            <a href="{{ $homepageSettings->primary_cta_url ?: route('contact') }}"
+                            <a href="{{ url($homepageSettings->primary_cta_url ?: route('contact')) }}"
                                 class="btn-shimmer-effect inline-flex items-center justify-center gap-2 px-7 py-3.5 font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all duration-200 text-base">
                                 <span>{{ $homepageSettings->primary_cta_text ?: 'Hire Me' }}</span>
                                 <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
-                            <a href="{{ $homepageSettings->secondary_cta_url ?: route('projects') }}"
+                            <a href="{{ url($homepageSettings->secondary_cta_url ?: route('projects')) }}"
                                 class="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-medium rounded-xl bg-slate-900/90 text-slate-200 hover:text-white hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 hover:-translate-y-0.5 shadow-md transition-all duration-200 text-base backdrop-blur-md">
                                 {{ $homepageSettings->secondary_cta_text ?: 'View My Projects' }}
                             </a>

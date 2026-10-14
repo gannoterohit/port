@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Project extends Model
@@ -77,12 +78,12 @@ class Project extends Model
 
     public function getThumbnailUrlAttribute(): ?string
     {
-        return $this->thumbnail ? asset('storage/'.$this->thumbnail) : null;
+        return $this->thumbnail ? Storage::disk('public')->url($this->thumbnail) : null;
     }
 
     public function getOgImageUrlAttribute(): ?string
     {
-        return $this->og_image ? asset('storage/'.$this->og_image) : null;
+        return $this->og_image ? Storage::disk('public')->url($this->og_image) : null;
     }
 
     public function getShortDescriptionAttribute(): ?string

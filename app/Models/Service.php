@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Service extends Model
@@ -70,17 +71,17 @@ class Service extends Model
 
     public function getIconUrlAttribute(): ?string
     {
-        return $this->icon ? asset('storage/'.$this->icon) : null;
+        return $this->icon ? Storage::disk('public')->url($this->icon) : null;
     }
 
     public function getImageUrlAttribute(): ?string
     {
-        return $this->image ? asset('storage/'.$this->image) : null;
+        return $this->image ? Storage::disk('public')->url($this->image) : null;
     }
 
     public function getOgImageUrlAttribute(): ?string
     {
-        return $this->og_image ? asset('storage/'.$this->og_image) : null;
+        return $this->og_image ? Storage::disk('public')->url($this->og_image) : null;
     }
 
     protected static function booted()

@@ -32,6 +32,7 @@ Then run:
 
 ```bash
 php artisan migrate:fresh --seed
+php artisan storage:link
 ```
 
 Install frontend dependencies:

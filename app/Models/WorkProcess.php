@@ -32,6 +32,6 @@ class WorkProcess extends Model
 
     public function getIconUrlAttribute(): ?string
     {
-        return $this->icon ? Storage::url($this->icon) : null;
+        return $this->icon ? Storage::disk('public')->url($this->icon) : null;
     }
 }

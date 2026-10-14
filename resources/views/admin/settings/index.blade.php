@@ -109,7 +109,7 @@
                             <div class="mt-2" x-data="{ currentTheme: '{{ $selectedTheme }}' }">
                                 <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                                     <span class="text-xs font-semibold uppercase tracking-wider text-gray-500">Click a theme card to select</span>
-                                    <a href="{{ url('/palette-preview.html') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 transition-colors">
+                                    <a href="{{ asset('palette-preview.html') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 transition-colors">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                         Compare All 5 Live Swatches &rarr;
                                     </a>
@@ -179,7 +179,7 @@
                         @elseif($setting->type === 'image')
                             <div class="flex items-center gap-4">
                                 @if($setting->value)
-                                    <img src="{{ asset('storage/' . $setting->value) }}" alt="{{ $setting->label }}" class="w-16 h-16 object-cover rounded-lg">
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($setting->value) }}" alt="{{ $setting->label }}" class="w-16 h-16 object-cover rounded-lg">
                                 @endif
                                 <input type="file" name="{{ $setting->key }}" accept="image/*" class="admin-input">
                             </div>
@@ -229,4 +229,3 @@
     </div>
 </form>
 @endsection
-

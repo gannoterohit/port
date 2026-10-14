@@ -9,7 +9,7 @@
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center gap-2.5 group" aria-label="{{ $websiteName }} - Home">
                         @if($logo)
-                            <img src="{{ asset('storage/' . $logo) }}" alt="{{ $websiteName }}" class="h-9 sm:h-10 w-auto object-contain">
+                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($logo) }}" alt="{{ $websiteName }}" class="h-9 sm:h-10 w-auto object-contain">
                         @else
                             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg shadow-md shadow-emerald-500/25 group-hover:scale-105 transition-transform">
                                 {{ substr($websiteName, 0, 1) }}
@@ -25,23 +25,35 @@
                     $effectiveNav = ($navItems && $navItems->isNotEmpty())
                         ? $navItems
                         : collect([
-                            (object)['label' => 'Home', 'url' => '/'],
-                            (object)['label' => 'About', 'url' => '/about'],
-                            (object)['label' => 'Skills', 'url' => '/skills'],
-                            (object)['label' => 'Projects', 'url' => '/projects'],
-                            (object)['label' => 'Services', 'url' => '/services'],
-                            (object)['label' => 'Resume', 'url' => '/resume'],
-                            (object)['label' => 'Contact', 'url' => '/contact'],
+                            (object)['label' => 'Home', 'url' => route('home')],
+                            (object)['label' => 'About', 'url' => route('about')],
+                            (object)['label' => 'Skills', 'url' => route('skills')],
+                            (object)['label' => 'Projects', 'url' => route('projects')],
+                            (object)['label' => 'Services', 'url' => route('services')],
+                            (object)['label' => 'Resume', 'url' => route('resume')],
+                            (object)['label' => 'Contact', 'url' => route('contact')],
                         ]);
+
+                    $effectiveNav = $effectiveNav->map(function ($item) {
+                        $parsedUrl = parse_url($item->url);
+                        $path = trim($parsedUrl['path'] ?? '', '/');
+                        $isInternal = ! isset($parsedUrl['host'])
+                            || strtolower($parsedUrl['host']) === strtolower(request()->getHost());
+
+                        return (object) [
+                            'label' => $item->label,
+                            'url' => url($item->url),
+                            'isActive' => $isInternal && ($path === ''
+                                ? request()->routeIs('home')
+                                : request()->is($path)),
+                        ];
+                    });
                 @endphp
 
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-1.5">
                     @foreach($effectiveNav as $item)
-                        @php
-                            $isActive = request()->is(ltrim($item->url, '/')) || (request()->routeIs('home') && $item->url === '/');
-                        @endphp
                         <a href="{{ $item->url }}"
-                            class="px-3.5 py-2 text-sm font-medium rounded-lg transition-all duration-150 {{ $isActive ? 'text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/25 shadow-xs' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                            class="px-3.5 py-2 text-sm font-medium rounded-lg transition-all duration-150 {{ $item->isActive ? 'text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/25 shadow-xs' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
                             {{ $item->label }}
                         </a>
                     @endforeach
@@ -93,11 +105,8 @@
                 </div>
                 <div class="space-y-1">
                     @foreach($effectiveNav as $item)
-                        @php
-                            $isActive = request()->is(ltrim($item->url, '/')) || (request()->routeIs('home') && $item->url === '/');
-                        @endphp
                         <a href="{{ $item->url }}" @click="mobileOpen = false"
-                            class="block px-3.5 py-2.5 text-base font-medium rounded-lg transition-colors {{ $isActive ? 'text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/30' : 'text-slate-300 hover:text-white hover:bg-slate-800' }}">
+                            class="block px-3.5 py-2.5 text-base font-medium rounded-lg transition-colors {{ $item->isActive ? 'text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/30' : 'text-slate-300 hover:text-white hover:bg-slate-800' }}">
                             {{ $item->label }}
                         </a>
                     @endforeach

@@ -76,7 +76,7 @@
                 @endif
 
                 <div class="pt-6 border-t border-slate-800 flex flex-wrap gap-4 items-center justify-between">
-                    <a href="{{ $service->cta_url ?: route('contact', ['service' => $service->slug]) }}"
+                    <a href="{{ url($service->cta_url ?: route('contact', ['service' => $service->slug])) }}"
                         class="btn-shimmer-effect inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-semibold text-base transition-all shadow-lg shadow-emerald-500/25">
                         {{ $service->cta_text ?: ('Enquire for ' . $service->name) }}
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>

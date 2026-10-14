@@ -81,7 +81,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">OG Image</label>
                 @if($page->og_image)
-                    <img src="{{ asset('storage/' . $page->og_image) }}" alt="OG Image" class="w-20 h-20 object-cover rounded-lg mb-2">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($page->og_image) }}" alt="OG Image" class="w-20 h-20 object-cover rounded-lg mb-2">
                 @endif
                 <input type="file" name="og_image" accept="image/*" class="admin-input">
             </div>
@@ -134,4 +134,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
-

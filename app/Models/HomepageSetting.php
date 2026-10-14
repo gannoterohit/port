@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class HomepageSetting extends Model
 {
@@ -66,6 +67,6 @@ class HomepageSetting extends Model
 
     public function getHeroImageUrlAttribute(): ?string
     {
-        return $this->hero_image ? asset('storage/'.$this->hero_image) : null;
+        return $this->hero_image ? Storage::disk('public')->url($this->hero_image) : null;
     }
 }

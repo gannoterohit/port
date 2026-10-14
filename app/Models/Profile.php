@@ -93,17 +93,17 @@ class Profile extends Model
 
     public function getProfilePhotoUrlAttribute(): ?string
     {
-        return $this->profile_photo ? Storage::url($this->profile_photo) : null;
+        return $this->profile_photo ? Storage::disk('public')->url($this->profile_photo) : null;
     }
 
     public function getResumeUrlAttribute(): ?string
     {
-        return $this->resume_pdf ? Storage::url($this->resume_pdf) : null;
+        return $this->resume_pdf ? Storage::disk('public')->url($this->resume_pdf) : null;
     }
 
     public function getOgImageUrlAttribute(): ?string
     {
-        return $this->og_image ? asset('storage/'.$this->og_image) : null;
+        return $this->og_image ? Storage::disk('public')->url($this->og_image) : null;
     }
 
     public function getSocialLinksArrayAttribute(): array

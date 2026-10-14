@@ -19,7 +19,7 @@
     @if($ogImgYield)
         <meta property="og:image" content="{{ $ogImgYield }}">
     @elseif(!empty($defaultOgImage))
-        <meta property="og:image" content="{{ asset('storage/' . $defaultOgImage) }}">
+        <meta property="og:image" content="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($defaultOgImage) }}">
     @elseif(!empty($profile->profile_photo_url))
         <meta property="og:image" content="{{ $profile->profile_photo_url }}">
     @endif
@@ -32,7 +32,7 @@
     @if($ogImgYield)
         <meta name="twitter:image" content="{{ $ogImgYield }}">
     @elseif(!empty($defaultOgImage))
-        <meta name="twitter:image" content="{{ asset('storage/' . $defaultOgImage) }}">
+        <meta name="twitter:image" content="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($defaultOgImage) }}">
     @elseif(!empty($profile->profile_photo_url))
         <meta name="twitter:image" content="{{ $profile->profile_photo_url }}">
     @endif
@@ -40,7 +40,7 @@
     @stack('meta')
 
     @if($favicon)
-        <link rel="icon" href="{{ asset('storage/' . $favicon) }}">
+        <link rel="icon" href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($favicon) }}">
     @else
         <link rel="icon" href="{{ asset('favicon.ico') }}">
     @endif

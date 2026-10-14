@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Page extends Model
@@ -51,7 +52,7 @@ class Page extends Model
 
     public function getOgImageUrlAttribute(): ?string
     {
-        return $this->og_image ? asset('storage/'.$this->og_image) : null;
+        return $this->og_image ? Storage::disk('public')->url($this->og_image) : null;
     }
 
     protected static function booted()
