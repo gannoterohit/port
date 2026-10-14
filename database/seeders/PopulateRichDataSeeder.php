@@ -9,7 +9,6 @@ use App\Models\Service;
 use App\Models\Setting;
 use App\Models\Skill;
 use App\Models\SkillCategory;
-use App\Models\Testimonial;
 use App\Models\WorkProcess;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -52,7 +51,6 @@ class PopulateRichDataSeeder extends Seeder
             'github' => 'https://github.com/rohitgannote',
             'linkedin' => 'https://linkedin.com/in/rohitgannote',
             'twitter' => 'https://twitter.com/rohitgannote',
-            'website' => 'http://192.168.29.83:7000',
         ];
         $profile->save();
 
@@ -71,7 +69,7 @@ class PopulateRichDataSeeder extends Seeder
         $homeSetting->projects_section_enabled = true;
         $homeSetting->services_section_enabled = true;
         $homeSetting->work_process_section_enabled = true;
-        $homeSetting->testimonials_section_enabled = true;
+        $homeSetting->testimonials_section_enabled = false;
         $homeSetting->contact_cta_section_enabled = true;
         $homeSetting->contact_cta_heading = 'Ready to Build Something Exceptional?';
         $homeSetting->contact_cta_description = 'Let\'s collaborate on your next web application. I am available for freelance projects, custom enterprise software development, and technical consulting.';
@@ -93,7 +91,7 @@ class PopulateRichDataSeeder extends Seeder
                 'role' => 'Full Stack Lead Developer',
                 'challenges' => 'Preventing overselling during flash-sale concurrency and maintaining low latency for report aggregation.',
                 'solutions' => 'Implemented MySQL row-level optimistic locking and scheduled Redis background queue aggregation.',
-                'demo_url' => 'http://192.168.29.83:7000/projects/e-commerce-analytics-hub',
+                'demo_url' => null,
                 'github_url' => 'https://github.com/rohitgannote/laravel-ecommerce-platform',
                 'is_featured' => true,
                 'status' => 'published',
@@ -112,7 +110,7 @@ class PopulateRichDataSeeder extends Seeder
                 'role' => 'Full Stack Developer',
                 'challenges' => 'Ensuring instant board responsiveness without race conditions between team members.',
                 'solutions' => 'Optimistic UI state updates coupled with real-time websocket broadcast validation.',
-                'demo_url' => 'http://192.168.29.83:7000/projects/taskflow-agile-workspace',
+                'demo_url' => null,
                 'github_url' => 'https://github.com/rohitgannote/taskflow-agile-workspace',
                 'is_featured' => true,
                 'status' => 'published',
@@ -131,7 +129,7 @@ class PopulateRichDataSeeder extends Seeder
                 'role' => 'Backend Specialist',
                 'challenges' => 'Tracking thousands of requests per second without database bottlenecks.',
                 'solutions' => 'Utilized Redis sliding-window counters and batched asynchronous persistence.',
-                'demo_url' => 'http://192.168.29.83:7000/projects/nebula-cloud-api-gateway',
+                'demo_url' => null,
                 'github_url' => 'https://github.com/rohitgannote/nebula-api-gateway',
                 'is_featured' => true,
                 'status' => 'published',
@@ -199,37 +197,7 @@ class PopulateRichDataSeeder extends Seeder
             ]));
         }
 
-        // 6. Testimonials: Published with real names and reviews
-        Testimonial::truncate();
-        $testimonials = [
-            [
-                'name' => 'Vikas Sharma',
-                'role_company' => 'Founder & CEO, RetailPulse Solutions',
-                'feedback' => 'Rohit delivered our e-commerce platform ahead of schedule with immaculate code quality. His mastery in Laravel and MySQL solved database bottlenecks that our previous developers struggled with for months. Highly recommended!',
-                'is_published' => true,
-                'display_order' => 1,
-            ],
-            [
-                'name' => 'Amit Patel',
-                'role_company' => 'Product Director, TechVentures India',
-                'feedback' => 'Outstanding communication and sheer technical depth. Rohit transformed our raw business requirements into a polished, responsive SaaS dashboard. The API speed and UI responsiveness are top-tier.',
-                'is_published' => true,
-                'display_order' => 2,
-            ],
-            [
-                'name' => 'Neha Deshmukh',
-                'role_company' => 'Operations Lead, CloudLogistics Hub',
-                'feedback' => 'Working with Rohit has been seamless. From initial architectural planning to final deployment, he demonstrated true professionalism, clean coding conventions, and rock-solid reliability.',
-                'is_published' => true,
-                'display_order' => 3,
-            ],
-        ];
-
-        foreach ($testimonials as $t) {
-            Testimonial::create($t);
-        }
-
-        // 7. Work Processes
+        // 6. Work Processes
         WorkProcess::truncate();
         $processes = [
             ['title' => 'Discovery & Blueprint', 'description' => 'In-depth analysis of technical requirements, user user journeys, and database schema planning.', 'display_order' => 1, 'is_enabled' => true],

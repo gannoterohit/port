@@ -4,9 +4,21 @@
 @section('header', 'Dashboard')
 
 @section('admin-content')
-<div class="space-y-6">
+<div class="space-y-7">
+    <section class="flex flex-col gap-4 rounded-2xl border border-[#E2E9E3] bg-gradient-to-br from-white to-[#F2F7F0] p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6">
+        <div>
+            <p class="text-sm font-medium text-[#5F725F]">Welcome back, {{ Auth::user()?->name ?? 'Admin' }}</p>
+            <h2 class="mt-1 text-xl font-semibold tracking-tight text-[#1F2937] sm:text-2xl">Here’s your portfolio overview</h2>
+            <p class="mt-1 text-sm text-[#758078]">Keep your work, messages and website content up to date.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('admin.projects.create') }}" class="admin-btn-primary">Add a project</a>
+            <a href="{{ route('admin.enquiries.index') }}" class="inline-flex items-center justify-center rounded-xl border border-[#DDE4DE] bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">View messages</a>
+        </div>
+    </section>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white rounded-xl p-5 border border-gray-200">
+        <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Total Projects</p>
@@ -20,7 +32,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-5 border border-gray-200">
+        <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Published Projects</p>
@@ -28,13 +40,14 @@
                 </div>
                 <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618y9.05A3.5 3.5 0 0112 16.5a3.5 3.5 0 01-3.5-3.5 3.5 3.5 0 117 0 3.5 3.5 0 01-3.5 3.5z"></path>
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 12 2.5 2.5L16 9"></path>
                     </svg>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-5 border border-gray-200">
+        <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Draft Projects</p>
@@ -48,7 +61,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-5 border border-gray-200">
+        <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Total Services</p>
@@ -64,7 +77,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white rounded-xl p-5 border border-gray-200">
+        <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Total Enquiries</p>
@@ -78,7 +91,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-5 border border-gray-200">
+        <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">New Enquiries</p>
@@ -92,7 +105,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-5 border border-gray-200">
+        <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Unread Enquiries</p>
@@ -106,7 +119,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-5 border border-gray-200">
+        <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Total Testimonials</p>
@@ -122,9 +135,10 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-white rounded-xl border border-gray-200">
-            <div class="p-5 border-b border-gray-200">
-                <h2 class="text-lg font-semibold text-gray-900">Recent Enquiries</h2>
+        <div class="admin-card overflow-hidden">
+            <div class="border-b border-gray-100 px-5 py-4">
+                <h2 class="text-base font-semibold text-gray-900">Recent enquiries</h2>
+                <p class="mt-0.5 text-xs text-gray-500">Latest messages from your contact form</p>
             </div>
             <div class="divide-y divide-gray-100">
                 @forelse($recentEnquiries as $enquiry)
@@ -161,9 +175,10 @@
             @endif
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-200">
-            <div class="p-5 border-b border-gray-200">
-                <h2 class="text-lg font-semibold text-gray-900">Recent Projects</h2>
+        <div class="admin-card overflow-hidden">
+            <div class="border-b border-gray-100 px-5 py-4">
+                <h2 class="text-base font-semibold text-gray-900">Recent projects</h2>
+                <p class="mt-0.5 text-xs text-gray-500">Recently added to your portfolio</p>
             </div>
             <div class="divide-y divide-gray-100">
                 @forelse($recentProjects as $project)
@@ -176,7 +191,12 @@
                             </div>
                             <div class="flex-1">
                                 <p class="font-medium text-gray-900">{{ $project->title }}</p>
-                                <span class="px-2 py-1 text-xs rounded-full bg-{{ $project->status === 'published' ? 'green' : 'yellow' }}-100 text-{{ $project->status === 'published' ? 'green' : 'yellow' }}-800">
+                                @php
+                                    $projectStatusClasses = $project->status === 'published'
+                                        ? 'bg-emerald-100 text-emerald-800'
+                                        : 'bg-amber-100 text-amber-800';
+                                @endphp
+                                <span class="rounded-full px-2 py-1 text-xs {{ $projectStatusClasses }}">
                                     {{ $project->status_label }}
                                 </span>
                                 <p class="text-xs text-gray-400 mt-1">{{ $project->created_at->diffForHumans() }}</p>
@@ -196,11 +216,3 @@
     </div>
 </div>
 @endsection
-
-@section('scripts')
-<script>
-    // Ensure status color classes work correctly
-    document.addEventListener('DOMContentLoaded', function() {});
-</script>
-@endsection
-

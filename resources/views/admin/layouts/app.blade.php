@@ -7,22 +7,21 @@
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
     @yield('head')
 </head>
-<body class="bg-gray-50 font-sans antialiased">
+<body class="bg-[#F6F8F7] font-sans antialiased text-[#1F2937]">
     @if(session('success'))
-        <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-4 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg">
+        <div x-cloak x-data="{ show: true }" x-show="show" x-transition role="status" class="fixed right-4 top-4 z-[60] flex max-w-sm items-start gap-3 rounded-2xl border border-emerald-200 bg-white px-4 py-3 text-sm font-medium text-emerald-900 shadow-xl">
             {{ session('success') }}
-            <button @click="show = false" class="ml-2 text-white hover:text-gray-200">&times;</button>
+            <button @click="show = false" class="ml-auto text-lg leading-none text-emerald-700 hover:text-emerald-900" aria-label="Dismiss notification">&times;</button>
         </div>
     @endif
 
     @if(session('error'))
-        <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg">
+        <div x-cloak x-data="{ show: true }" x-show="show" x-transition role="alert" class="fixed right-4 top-4 z-[60] flex max-w-sm items-start gap-3 rounded-2xl border border-red-200 bg-white px-4 py-3 text-sm font-medium text-red-900 shadow-xl">
             {{ session('error') }}
-            <button @click="show = false" class="ml-2 text-white hover:text-gray-200">&times;</button>
+            <button @click="show = false" class="ml-auto text-lg leading-none text-red-700 hover:text-red-900" aria-label="Dismiss notification">&times;</button>
         </div>
     @endif
 
     @yield('content')
 </body>
 </html>
-

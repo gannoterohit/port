@@ -71,7 +71,7 @@
 
                 @if($service->image_url)
                     <div class="pt-6 border-t border-slate-800">
-                        <img src="{{ $service->image_url }}" alt="{{ $service->name }}" class="w-full rounded-xl border border-slate-800 shadow-md">
+                        <img src="{{ $service->image_url }}" alt="{{ $service->name }}" loading="lazy" decoding="async" class="w-full rounded-xl border border-slate-800 shadow-md">
                     </div>
                 @endif
 

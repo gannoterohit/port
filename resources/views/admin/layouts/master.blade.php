@@ -1,40 +1,54 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<div class="flex h-screen overflow-hidden">
+<div class="min-h-screen bg-[#F6F8F7] text-[#1F2937] lg:flex" x-data="{ sidebarOpen: false }" @keydown.escape.window="sidebarOpen = false">
         @php
-            $currentRoute = request()->route()->getName();
-            $activeClass = 'bg-[#DCE8D6]/70 text-[#1B560B] font-semibold';
-            $inactiveClass = 'text-[#667085] hover:bg-[#F5F7F2] hover:text-[#1F2937]';
+            $currentRoute = request()->route()?->getName() ?? '';
+            $activeClass = 'admin-sidebar-item-active';
+            $inactiveClass = 'admin-sidebar-item-inactive';
         @endphp
 
-    <aside class="w-64 bg-white border-r border-[#E5E7EB] flex flex-col overflow-y-auto">
-        <div class="p-4 border-b border-[#E5E7EB]">
+    <div x-cloak x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false"
+        class="fixed inset-0 z-40 bg-gray-950/40 backdrop-blur-[2px] lg:hidden" aria-hidden="true"></div>
+
+    <aside
+        class="fixed inset-y-0 left-0 z-50 flex w-[min(84vw,288px)] flex-col border-r border-[#E7EBE8] bg-white shadow-xl transition-transform duration-200 lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:w-[272px] lg:shrink-0 lg:translate-x-0 lg:shadow-none"
+        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+        aria-label="Admin navigation">
+        <div class="flex min-h-[76px] items-center justify-between border-b border-[#E7EBE8] px-5">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-[#1B560B] rounded-lg flex items-center justify-center text-white font-bold">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1B560B] text-white font-bold shadow-sm">
                     {{ substr(\App\Models\Setting::get('website_name', 'CMS'), 0, 1) }}
                 </div>
-                <div>
-                    <span class="font-bold text-lg text-[#1F2937]">{{ \App\Models\Setting::get('website_name', 'Portfolio CMS') }}</span>
-                    <span class="text-xs text-[#667085] block">Admin Panel</span>
+                <div class="min-w-0">
+                    <span class="block truncate text-sm font-bold text-[#1F2937]">{{ \App\Models\Setting::get('website_name', 'Portfolio CMS') }}</span>
+                    <span class="mt-0.5 block text-xs text-[#84908A]">PORTFOLIO CONTROL PANEL</span>
                 </div>
             </div>
+            <button type="button" @click="sidebarOpen = false" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 lg:hidden" aria-label="Close navigation">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
 
-        <nav class="flex-1 p-3">
+        <nav class="flex-1 overflow-y-auto px-3 py-4" @click="sidebarOpen = false">
             <ul class="space-y-1">
                 <li>
                     <a href="{{ route('admin.dashboard') }}" class="admin-sidebar-item {{ $currentRoute === 'admin.dashboard' ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a4 4 0 018 0v5.172a1 1 0 01-.337.727l-2 1.5a1 1 0 01-1.326-1.454V7a2 2 0 10-4 0v6.286a1 1 0 01-1.326 1.454l-2-1.5A1 1 0 015 12.172V7"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="3" y="3" width="8" height="8" rx="1.5"></rect>
+                            <rect x="13" y="3" width="8" height="5" rx="1.5"></rect>
+                            <rect x="13" y="10" width="8" height="11" rx="1.5"></rect>
+                            <rect x="3" y="13" width="8" height="8" rx="1.5"></rect>
                         </svg>
                         Dashboard
                     </a>
                 </li>
+                <li class="admin-sidebar-heading">WEBSITE CONTENT</li>
                 <li>
                     <a href="{{ route('admin.profile.edit') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'profile') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
                         Profile & About
@@ -42,32 +56,35 @@
                 </li>
                 <li>
                     <a href="{{ route('admin.homepage.edit') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'homepage') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2v8a2 2 0 002 2h10a2 2 0 002-2V10l2-2"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12V2h14v10"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H5a1 1 0 0 1-1-1V10"></path>
                         </svg>
                         Homepage
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.skills.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'skills') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.983 3C6.45 4.15 2 9.05 2 15v5l3-3 7-1 7 1 7 3v-5c0-5.95-4.45-10.85-10-12z"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 3-1.9 5.8L4 11l6.1 2.2L12 19l1.9-5.8L20 11l-6.1-2.2L12 3Z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 14-.9 2.1L16 17l2.1.9L19 20l.9-2.1L22 17l-2.1-.9L19 14Z"></path>
                         </svg>
                         Skills
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.skill-categories.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'skill-categories') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7l10 10M7 7l10 10M7 7l10 10"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
                         </svg>
                         Skill Categories
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.projects.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'projects') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11V9a6 6 0 00-6-6H8a6 6 0 00-6 6v6l2 2v4a2 2 0 002 2h8a2 2 0 002-2v-4l2-2z"></path>
                         </svg>
                         Projects
@@ -75,15 +92,16 @@
                 </li>
                 <li>
                     <a href="{{ route('admin.services.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'services') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.27V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h12.59l-2.7 2.7a1 1 0 00.7 1.7h3.07a2 2 0 002-2v-4.73"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a4 4 0 0 1-4 4H7l-4 2V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9h8M8 13h5"></path>
                         </svg>
                         Services
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.testimonials.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'testimonials') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3v1a6 6 0 01-3-3V9z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4v4a4 4 0 10-8 0V7"></path>
                         </svg>
@@ -98,14 +116,20 @@
                         Pages
                     </a>
                 </li>
+                <li class="admin-sidebar-heading">MESSAGES</li>
                 <li>
                     <a href="{{ route('admin.enquiries.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'enquiries') ? $activeClass : $inactiveClass }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M3 8a2 2 0 012-2h16a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8"></path>
                         </svg>
-                        Enquiries ({{ \App\Models\Enquiry::whereNull('read_at')->count() }})
+                        <span>Enquiries</span>
+                        @php($unreadEnquiryCount = \App\Models\Enquiry::whereNull('read_at')->count())
+                        @if($unreadEnquiryCount > 0)
+                            <span class="admin-nav-badge">{{ $unreadEnquiryCount > 99 ? '99+' : $unreadEnquiryCount }}</span>
+                        @endif
                     </a>
                 </li>
+                <li class="admin-sidebar-heading">SITE APPEARANCE</li>
                 <li>
                     <a href="{{ route('admin.navigation.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'navigation') ? $activeClass : $inactiveClass }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,41 +140,45 @@
                 </li>
                 <li>
                     <a href="{{ route('admin.footer.widgets.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'footer') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 Mui7v10M8 7l4 4m-4 0l4-4m-4 4h8a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h8a2 2 0 012 2v4"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 3-4 2 4 2m8 3 4 2-4 2m-8 3-4 2 4 2"></path>
                         </svg>
                         Footer
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.work-processes.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'work-processes') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-2-2m0 0l-2 2m4 0V7m-2 8l-2-2m0 0l2-2m2-2h2a2 2 0 110 4h-2"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"></path>
                         </svg>
                         Work Process
                     </a>
                 </li>
+                <li class="admin-sidebar-heading">PREFERENCES</li>
                 <li>
                     <a href="{{ route('admin.settings.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'settings') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.717c.05.05.1.097.215.21l3.558 3.558a.05.05 0 01.042.044v2.705a.05.05 0 01-.032.047l-2.705 2.212a.05.05 0 01-.056-.018 4.747 4.747 0 01-2.55-5.12 4.747 4.747 0 01.57-1.47z"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19.4 15 .1.1a1.7 1.7 0 1 1-2.4 2.4l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.3a1.7 1.7 0 1 1-3.4 0v-.2a1.7 1.7 0 0 0-2.9-1.2l-.1.1a1.7 1.7 0 1 1-2.4-2.4l.1-.1a1.7 1.7 0 0 0-1.2-2.9h-.3a1.7 1.7 0 1 1 0-3.4h.2a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a1.7 1.7 0 1 1 2.4-2.4l.1.1a1.7 1.7 0 0 0 2.9-1.2v-.3a1.7 1.7 0 1 1 3.4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1a1.7 1.7 0 1 1 2.4 2.4l-.1.1a1.7 1.7 0 0 0 1.2 2.9h.3a1.7 1.7 0 1 1 0 3.4h-.2a1.7 1.7 0 0 0-1.2 2.9Z"></path>
                         </svg>
                         Settings
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.seo.edit') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'seo') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 11-9 9 9 9 0 019-9z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a3 3 0 116 0 3 3 0 01-6 0z"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m20 20-4-4M8.5 11h5M11 8.5v5"></path>
                         </svg>
                         SEO
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.maintenance.edit') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'maintenance') ? $activeClass : $inactiveClass }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.983 3C6.45 4.15 2 9.05 2 15v5l3-3 7-1 7 1 7 3v-5c0-5.95-4.45-10.85-10-12z"></path>
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.4 6.4-1.4-1.4M7 7 5.6 5.6m12.8 0L17 7M7 17l-1.4 1.4"></path>
+                            <circle cx="12" cy="12" r="4"></circle>
                         </svg>
                         Maintenance
                     </a>
@@ -158,12 +186,12 @@
             </ul>
         </nav>
 
-        <div class="p-4 border-t border-gray-200">
+        <div class="border-t border-[#E7EBE8] p-3">
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
-                <button type="submit" class="w-full admin-sidebar-item text-red-600 hover:bg-red-50">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 11-12 0v-1m12-4v1a2 2 0 11-12 0v-1"></path>
+                <button type="submit" class="admin-sidebar-item w-full text-red-600 hover:bg-red-50">
+                    <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 17l5-5-5-5M15 12H3m9-9h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-6"></path>
                     </svg>
                     Logout
                 </button>
@@ -171,30 +199,40 @@
         </div>
     </aside>
 
-    <main class="flex-1 overflow-y-auto">
-        <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-semibold text-gray-900">@yield('header', 'Admin Panel')</h1>
-            <div class="flex items-center gap-4">
+    <main class="min-w-0 flex-1">
+        <header class="sticky top-0 z-30 flex min-h-[72px] items-center justify-between border-b border-[#E7EBE8] bg-white/95 px-4 backdrop-blur sm:px-6 lg:px-8">
+            <div class="flex min-w-0 items-center gap-3">
+                <button type="button" @click="sidebarOpen = true" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 lg:hidden" aria-label="Open navigation">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <div class="min-w-0">
+                    <p class="hidden text-xs font-medium uppercase tracking-[0.14em] text-[#84908A] sm:block">Portfolio / Admin</p>
+                    <h1 class="truncate text-lg font-semibold text-gray-900 sm:text-xl">@yield('header', 'Admin Panel')</h1>
+                </div>
+            </div>
+            <div class="flex shrink-0 items-center gap-2 sm:gap-4">
                 <a href="{{ route('home') }}" target="_blank"
-                   class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg border border-emerald-200 transition-colors">
+                   rel="noopener noreferrer"
+                   class="inline-flex items-center gap-1.5 rounded-xl border border-[#D8E5D4] bg-[#F2F7F0] px-3 py-2 text-xs font-semibold text-[#1B560B] transition-colors hover:bg-[#E8F1E5] sm:text-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                     </svg>
-                    View Website
+                    <span class="hidden sm:inline">View website</span>
                 </a>
-                <div class="h-6 w-px bg-gray-200"></div>
+                <div class="hidden h-8 w-px bg-gray-200 sm:block"></div>
                 <div class="flex items-center gap-2">
-                    <span class="text-sm font-medium text-gray-700">{{ Auth::user()?->name ?? 'Admin' }}</span>
-                    <div class="w-8 h-8 bg-emerald-700 text-white rounded-full flex items-center justify-center font-bold text-xs">
+                    <span class="hidden max-w-32 truncate text-sm font-medium text-gray-700 md:block">{{ Auth::user()?->name ?? 'Admin' }}</span>
+                    <div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#1B560B] text-xs font-bold text-white ring-4 ring-[#EFF4ED]">
                         {{ substr(Auth::user()?->name ?? 'Admin', 0, 1) }}
                     </div>
                 </div>
             </div>
         </header>
-        <div class="p-6">
+        <div class="admin-content-wrap px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
             @yield('admin-content')
         </div>
     </main>
 </div>
 @endsection
-

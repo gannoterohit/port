@@ -31,7 +31,7 @@
                     <div class="group bg-[#0F172A]/90 rounded-2xl p-7 border border-slate-800 shadow-xl card-glow-hover flex flex-col h-full transition-all">
                         <div class="flex items-center justify-between mb-6">
                             @if($service->icon_url)
-                                <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" class="w-14 h-14 object-contain rounded-xl p-2 bg-slate-900 border border-slate-800">
+                                <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" loading="lazy" decoding="async" class="w-14 h-14 object-contain rounded-xl p-2 bg-slate-900 border border-slate-800">
                             @else
                                 <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 group-hover:bg-gradient-to-br group-hover:from-emerald-500 group-hover:to-teal-500 group-hover:text-white rounded-xl flex items-center justify-center font-bold text-xl shadow-md transition-all">
                                     {{ substr($service->name, 0, 1) }}

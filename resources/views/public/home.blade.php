@@ -248,7 +248,7 @@
                                 </a>
 
                                 @if($profile->resume_url && $profile->resume_button_visible)
-                                    <a href="{{ $profile->resume_url }}" target="_blank" download
+                                    <a href="{{ $profile->resume_url }}" target="_blank" rel="noopener noreferrer" download
                                         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-emerald-500/40 hover:-translate-y-0.5 transition-all">
                                         <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path></svg>
                                         Download Resume
@@ -327,7 +327,7 @@
                             <div class="bg-[#0F172A]/90 rounded-2xl border border-slate-800 shadow-xl card-glow-hover flex flex-col overflow-hidden group">
                                 <a href="{{ route('projects.show', $project->slug) }}" class="relative block aspect-[16/9] overflow-hidden bg-slate-950">
                                     @if($project->thumbnail_url)
-                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}"
+                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" loading="lazy" decoding="async"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center text-slate-500 bg-gradient-to-br from-slate-900 to-slate-950">
@@ -376,10 +376,10 @@
 
                                         <div class="flex items-center gap-3">
                                             @if($project->github_url)
-                                                <a href="{{ $project->github_url }}" target="_blank" class="text-slate-400 hover:text-emerald-400 text-xs font-semibold" title="GitHub Source">GitHub ↗</a>
+                                                <a href="{{ $project->github_url }}" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-emerald-400 text-xs font-semibold" title="GitHub Source">GitHub ↗</a>
                                             @endif
-                                            @if($project->demo_url)
-                                                <a href="{{ $project->demo_url }}" target="_blank" class="text-slate-400 hover:text-emerald-400 text-xs font-semibold" title="Live Demo">Live Demo ↗</a>
+                                            @if($project->public_demo_url)
+                                                <a href="{{ $project->public_demo_url }}" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-emerald-400 text-xs font-semibold" title="Live Demo">Live Demo ↗</a>
                                             @endif
                                         </div>
                                     </div>
@@ -410,7 +410,7 @@
                             <div class="bg-[#0F172A]/85 hover:bg-[#131E35] rounded-2xl p-6 sm:p-7 border border-slate-800 hover:border-emerald-500/40 shadow-xl card-glow-hover flex flex-col group transition-all">
                                 <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 group-hover:bg-gradient-to-br group-hover:from-emerald-500 group-hover:to-teal-500 group-hover:text-white group-hover:scale-105 transition-all duration-300 flex items-center justify-center mb-5 font-bold text-lg shadow-sm">
                                     @if($service->icon_url)
-                                        <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" class="w-7 h-7 object-contain">
+                                        <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" loading="lazy" decoding="async" class="w-7 h-7 object-contain">
                                     @else
                                         {{ substr($service->name, 0, 1) }}
                                     @endif
@@ -509,7 +509,7 @@
                                 </p>
                                 <div class="flex items-center gap-3 pt-4 border-t border-slate-800">
                                     @if($testimonial->image_url)
-                                        <img src="{{ $testimonial->image_url }}" alt="{{ $testimonial->name }}" class="w-10 h-10 rounded-full object-cover">
+                                        <img src="{{ $testimonial->image_url }}" alt="{{ $testimonial->name }}" loading="lazy" decoding="async" class="w-10 h-10 rounded-full object-cover">
                                     @else
                                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold text-sm flex items-center justify-center shadow-md shadow-emerald-500/20">
                                             {{ substr($testimonial->name, 0, 1) }}

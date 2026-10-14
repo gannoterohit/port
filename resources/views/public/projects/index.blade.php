@@ -61,7 +61,7 @@
                     <div class="group bg-[#0F172A]/90 rounded-2xl overflow-hidden border border-slate-800 shadow-xl card-glow-hover flex flex-col">
                         <a href="{{ route('projects.show', ['project' => $project->slug]) }}" class="relative block overflow-hidden aspect-[16/9] bg-slate-950">
                             @if($project->thumbnail_url)
-                                <img src="{{ $project->thumbnail_url }}" alt="{{ $project->thumbnail_alt ?: $project->title }}"
+                                <img src="{{ $project->thumbnail_url }}" alt="{{ $project->thumbnail_alt ?: $project->title }}" loading="lazy" decoding="async"
                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-slate-500 bg-gradient-to-br from-slate-900 to-slate-950">
@@ -134,8 +134,8 @@
                                             </svg>
                                         </a>
                                     @endif
-                                    @if($project->demo_url)
-                                        <a href="{{ $project->demo_url }}" target="_blank" rel="noopener noreferrer"
+                                    @if($project->public_demo_url)
+                                        <a href="{{ $project->public_demo_url }}" target="_blank" rel="noopener noreferrer"
                                             class="text-slate-400 hover:text-emerald-400 transition-colors" title="Live Preview">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>

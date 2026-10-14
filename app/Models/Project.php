@@ -86,6 +86,33 @@ class Project extends Model
         return $this->og_image ? Storage::disk('public')->url($this->og_image) : null;
     }
 
+    public function getPublicDemoUrlAttribute(): ?string
+    {
+        if (! $this->demo_url) {
+            return null;
+        }
+
+        $url = parse_url($this->demo_url);
+        $scheme = strtolower($url['scheme'] ?? '');
+        $host = strtolower(rtrim($url['host'] ?? '', '.'));
+
+        if (! in_array($scheme, ['http', 'https'], true) || $host === '') {
+            return null;
+        }
+
+        if (in_array($host, ['localhost', 'localhost.localdomain'], true)
+            || preg_match('/\.(local|test|example|invalid)$/', $host)) {
+            return null;
+        }
+
+        if (filter_var($host, FILTER_VALIDATE_IP)
+            && filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+            return null;
+        }
+
+        return $this->demo_url;
+    }
+
     public function getShortDescriptionAttribute(): ?string
     {
         return $this->description ? Str::limit(strip_tags($this->description), 160) : null;

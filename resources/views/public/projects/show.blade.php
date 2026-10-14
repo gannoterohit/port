@@ -162,7 +162,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @foreach($project->screenshots as $screenshot)
                             <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-xl bg-slate-950">
-                                <img src="{{ $screenshot->image_url }}" alt="{{ $screenshot->caption ?? $project->title }}"
+                                <img src="{{ $screenshot->image_url }}" alt="{{ $screenshot->caption ?? $project->title }}" loading="lazy" decoding="async"
                                     class="w-full h-56 object-cover object-top hover:scale-105 transition-transform duration-300">
                                 @if($screenshot->caption)
                                     <p class="p-3 text-xs text-slate-400 text-center border-t border-slate-800 bg-slate-900/80">{{ $screenshot->caption }}</p>
@@ -174,11 +174,11 @@
             @endif
 
             <!-- Live Actions & Client Info -->
-            @if($project->client_name || $project->demo_url || $project->github_url)
+            @if($project->client_name || $project->public_demo_url || $project->github_url)
                 <div class="p-6 rounded-2xl bg-[#0F172A]/90 border border-slate-800 shadow-xl flex flex-wrap gap-4 items-center justify-between mb-12">
                     <div class="flex flex-wrap gap-3 items-center">
-                        @if($project->demo_url)
-                            <a href="{{ $project->demo_url }}" target="_blank" rel="noopener noreferrer"
+                        @if($project->public_demo_url)
+                            <a href="{{ $project->public_demo_url }}" target="_blank" rel="noopener noreferrer"
                                 class="btn-shimmer-effect inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-medium text-sm transition-all shadow-md shadow-emerald-500/25">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -71,6 +71,15 @@ class ImageOptimizationTest extends TestCase
         $this->assertSame($assetBaseUrl.'/homepage/hero.webp', $homepage->hero_image_url);
     }
 
+    public function test_private_demo_urls_are_not_exposed_publicly(): void
+    {
+        $project = new Project(['demo_url' => 'http://192.168.29.83:7000/demo']);
+        $publicProject = new Project(['demo_url' => 'https://demo.example.org']);
+
+        $this->assertNull($project->public_demo_url);
+        $this->assertSame('https://demo.example.org', $publicProject->public_demo_url);
+    }
+
     public function test_store_optimized_image_resizes_large_images(): void
     {
         Storage::fake('public');
