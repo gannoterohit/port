@@ -34,9 +34,9 @@ class AppServiceProvider extends ServiceProvider
                 'defaultSeoDescription' => Setting::get('default_seo_description'),
                 'defaultOgImage' => Setting::get('default_og_image'),
                 'homepageSettings' => cache()->remember('homepage_settings', 3600, fn () => HomepageSetting::getInstance()),
-                'navItems' => NavigationItem::visible()->header()->ordered()->get(),
-                'footerWidgets' => FooterWidget::enabled()->ordered()->get(),
-                'orphanedFooterLinks' => FooterLink::whereNull('footer_widget_id')->ordered()->get(),
+                'navItems' => cache()->remember('public_nav_items', 3600, fn () => NavigationItem::visible()->header()->ordered()->get()),
+                'footerWidgets' => cache()->remember('public_footer_widgets', 3600, fn () => FooterWidget::enabled()->ordered()->get()),
+                'orphanedFooterLinks' => cache()->remember('public_orphaned_footer_links', 3600, fn () => FooterLink::whereNull('footer_widget_id')->ordered()->get()),
             ]);
         });
     }

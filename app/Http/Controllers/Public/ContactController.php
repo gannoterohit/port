@@ -33,6 +33,8 @@ class ContactController extends Controller
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
             'service_type' => ['nullable', 'string', 'max:255'],
+            'project_type' => ['nullable', 'string', 'max:100'],
+            'budget_range' => ['nullable', 'string', 'max:100'],
             'timeline' => ['nullable', 'string', 'max:100'],
             'subject' => ['nullable', 'string', 'max:255'],
             'message' => ['required', 'string', 'min:10'],
@@ -54,12 +56,19 @@ class ContactController extends Controller
 
         $data = $validator->validate();
 
+        $projectType = $data['project_type'] ?? $data['service_type'] ?? null;
+        $budgetRange = $data['budget_range'] ?? null;
+        $timeline = $data['timeline'] ?? null;
+
         $metadata = [];
-        if (!empty($data['service_type'])) {
-            $metadata[] = "Service: " . $data['service_type'];
+        if (!empty($projectType)) {
+            $metadata[] = "Project Type: " . $projectType;
         }
-        if (!empty($data['timeline'])) {
-            $metadata[] = "Expected Timeline: " . $data['timeline'];
+        if (!empty($budgetRange)) {
+            $metadata[] = "Budget: " . $budgetRange;
+        }
+        if (!empty($timeline)) {
+            $metadata[] = "Expected Timeline: " . $timeline;
         }
 
         $formattedMessage = !empty($metadata)
@@ -68,13 +77,16 @@ class ContactController extends Controller
 
         $subject = !empty($data['subject'])
             ? $data['subject']
-            : (!empty($data['service_type']) ? "Project Enquiry: " . $data['service_type'] : 'Website Contact Form Submission');
+            : (!empty($projectType) ? "Project Enquiry: " . $projectType : 'Website Contact Form Submission');
 
         $enquiry = Enquiry::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'] ?? null,
             'subject' => $subject,
+            'project_type' => $projectType,
+            'budget_range' => $budgetRange,
+            'timeline' => $timeline,
             'message' => $formattedMessage,
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
@@ -113,35 +125,51 @@ class ContactController extends Controller
 
     protected function configureMailFromSettings(): void
     {
-        $settings = [
-            'mail_mailer' => Setting::get('mail_mailer'),
-            'mail_host' => Setting::get('mail_host'),
-            'mail_port' => Setting::get('mail_port'),
-            'mail_username' => Setting::get('mail_username'),
-            'mail_password' => Setting::get('mail_password'),
-            'mail_encryption' => Setting::get('mail_encryption'),
-            'mail_from_address' => Setting::get('mail_from_address'),
-            'mail_from_name' => Setting::get('mail_from_name'),
-        ];
+        $mailer = Setting::get('mail_mailer');
+        $host = Setting::get('mail_host');
+        $port = Setting::get('mail_port');
+        $username = Setting::get('mail_username');
+        $password = Setting::get('mail_password');
+        $encryption = Setting::get('mail_encryption');
+        $fromAddress = Setting::get('mail_from_address');
+        $fromName = Setting::get('mail_from_name') ?: Setting::get('website_name', config('app.name'));
 
-        foreach ($settings as $key => $value) {
-            if ($value !== null && $value !== '') {
-                if ($key === 'mail_from_address') {
-                    config()->set('mail.from.address', $value);
-                } elseif ($key === 'mail_from_name') {
-                    config()->set('mail.from.name', $value);
-                } elseif ($key === 'mail_mailer') {
-                    config()->set('mail.default', $value);
-                } elseif (str_starts_with($key, 'mail_')) {
-                    $configKey = str_replace('mail_', 'mail.', $key);
-                    config()->set($configKey, $value);
-                }
+        if (! empty($mailer)) {
+            config()->set('mail.default', $mailer);
+        }
+
+        if (! empty($host)) {
+            config()->set('mail.mailers.smtp.host', $host);
+            config()->set('mail.host', $host);
+        }
+
+        if (! empty($port)) {
+            config()->set('mail.mailers.smtp.port', (int) $port);
+            config()->set('mail.port', (int) $port);
+        }
+
+        if ($username !== null && $username !== '') {
+            config()->set('mail.mailers.smtp.username', $username);
+            config()->set('mail.username', $username);
+        }
+
+        if ($password !== null && $password !== '') {
+            config()->set('mail.mailers.smtp.password', $password);
+            config()->set('mail.password', $password);
+        }
+
+        if (! empty($encryption)) {
+            config()->set('mail.mailers.smtp.encryption', $encryption);
+            if (strtolower($encryption) === 'ssl') {
+                config()->set('mail.mailers.smtp.scheme', 'smtps');
             }
         }
 
-        $fromName = config('mail.from.name');
-        if (! $fromName || $fromName === config('app.name')) {
-            $fromName = Setting::get('mail_from_name') ?: Setting::get('website_name', config('app.name'));
+        if (! empty($fromAddress)) {
+            config()->set('mail.from.address', $fromAddress);
+        }
+
+        if (! empty($fromName)) {
             config()->set('mail.from.name', $fromName);
         }
     }

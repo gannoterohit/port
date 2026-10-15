@@ -75,6 +75,30 @@
                     <label class="text-xs text-gray-400 block mb-0.5">Subject</label>
                     <p class="text-gray-900 font-medium">{{ $enquiry->subject ?? '—' }}</p>
                 </div>
+                @if($enquiry->project_type)
+                <div>
+                    <label class="text-xs text-gray-400 block mb-0.5">Project / Service Type</label>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                        {{ $enquiry->project_type }}
+                    </span>
+                </div>
+                @endif
+                @if($enquiry->budget_range)
+                <div>
+                    <label class="text-xs text-gray-400 block mb-0.5">Approx. Budget</label>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-800 border border-blue-200">
+                        {{ $enquiry->budget_range }}
+                    </span>
+                </div>
+                @endif
+                @if($enquiry->timeline)
+                <div>
+                    <label class="text-xs text-gray-400 block mb-0.5">Expected Timeline</label>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-800 border border-purple-200">
+                        {{ $enquiry->timeline }}
+                    </span>
+                </div>
+                @endif
             </div>
         </div>
 

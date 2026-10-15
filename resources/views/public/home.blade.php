@@ -17,7 +17,7 @@
 @foreach($order as $section)
     @if($section === 'hero' && $homepageSettings->hero_section_enabled)
         <!-- Hero Section (Dynamic, Animated & Dark Tech Aesthetic) -->
-        <section class="relative pt-28 sm:pt-36 pb-20 sm:pb-32 bg-[#080C14] border-b border-slate-800/80 overflow-hidden">
+        <section id="hero" class="relative pt-28 sm:pt-36 pb-20 sm:pb-32 bg-[#080C14] border-b border-slate-800/80 overflow-hidden">
             <!-- Ambient Glowing Lighting & Dot Grid Background -->
             <div class="absolute inset-0 bg-grid-dots-dark opacity-40 pointer-events-none"></div>
             <div class="absolute -top-32 -left-20 w-[550px] h-[550px] bg-emerald-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
@@ -61,15 +61,22 @@
                         </p>
 
                         <div class="flex flex-wrap gap-4 items-center mb-10">
-                            <a href="{{ url($homepageSettings->primary_cta_url ?: route('contact')) }}"
+                            <a href="#contact"
                                 class="btn-shimmer-effect inline-flex items-center justify-center gap-2 px-7 py-3.5 font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all duration-200 text-base">
-                                <span>{{ $homepageSettings->primary_cta_text ?: 'Hire Me' }}</span>
+                                <span>Get in Touch</span>
                                 <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
-                            <a href="{{ url($homepageSettings->secondary_cta_url ?: route('projects')) }}"
+                            <a href="#projects"
                                 class="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-medium rounded-xl bg-slate-900/90 text-slate-200 hover:text-white hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 hover:-translate-y-0.5 shadow-md transition-all duration-200 text-base backdrop-blur-md">
-                                {{ $homepageSettings->secondary_cta_text ?: 'View My Projects' }}
+                                View Projects
                             </a>
+                            @if($profile->resume_url && $profile->resume_button_visible)
+                                <a href="{{ $profile->resume_url }}" target="_blank" rel="noopener noreferrer" download
+                                    class="inline-flex items-center justify-center gap-2 px-5 py-3.5 font-medium rounded-xl text-slate-300 hover:text-emerald-400 bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-emerald-500/30 transition-all duration-200 text-sm">
+                                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path></svg>
+                                    Download CV
+                                </a>
+                            @endif
                         </div>
 
                         <!-- 3 Sleek Stat Cards -->
@@ -97,7 +104,7 @@
                         <!-- Floating Pill 1: Laravel -->
                         <div class="hidden sm:flex absolute -top-5 -right-2 z-20 items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#0D1526]/95 border border-slate-700 shadow-xl shadow-black/50 animate-float-slow">
                             <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
-                            <span class="text-xs font-bold text-white">Laravel 11 &amp; PHP 8.3</span>
+                            <span class="text-xs font-bold text-white">Laravel 12 &amp; PHP 8.2+</span>
                         </div>
 
                         <!-- Floating Pill 2: MySQL -->
@@ -163,7 +170,7 @@
                                         <div class="pl-4"><span class="text-blue-400 font-bold">public function</span> <span class="text-amber-300 font-bold">deploy</span>(Client $client): WebApp</div>
                                         <div class="pl-4">{</div>
                                         <div class="pl-8"><span class="text-blue-400 font-bold">return</span> $this->projects->build([</div>
-                                        <div class="pl-12 text-emerald-400 font-semibold">'backend'  => 'Laravel 11 &amp; PHP 8.3',</div>
+                                        <div class="pl-12 text-emerald-400 font-semibold">'backend'  => 'Laravel 12 &amp; PHP 8.2+',</div>
                                         <div class="pl-12 text-emerald-400 font-semibold">'database' => 'Optimized MySQL Schema',</div>
                                         <div class="pl-12 text-emerald-400 font-semibold">'apis'     => 'Secure RESTful APIs',</div>
                                         <div class="pl-12 text-emerald-400 font-semibold">'frontend' => 'Tailwind &amp; Alpine.js',</div>
@@ -190,7 +197,7 @@
 
     @if($section === 'about' && $homepageSettings->about_section_enabled)
         <!-- About & Experience Section -->
-        <section class="py-20 sm:py-28 bg-[#0B101D] border-b border-slate-800/80 relative overflow-hidden">
+        <section id="about" class="py-20 sm:py-28 bg-[#0B101D] border-b border-slate-800/80 relative overflow-hidden">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="max-w-6xl mx-auto">
                     <div class="text-center mb-14">
@@ -264,7 +271,7 @@
 
     @if($section === 'skills' && $homepageSettings->skills_section_enabled && $skills && $skills->isNotEmpty())
         <!-- Skills Section with Modern Grid & Glowing Cards -->
-        <section class="py-20 sm:py-28 bg-[#080C14] border-b border-slate-800/80 relative">
+        <section id="skills" class="py-20 sm:py-28 bg-[#080C14] border-b border-slate-800/80 relative">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-6xl mx-auto">
                     <div class="text-center mb-14">
@@ -301,7 +308,7 @@
 
     @if($section === 'projects' && $homepageSettings->projects_section_enabled && $featuredProjects->isNotEmpty())
         <!-- Projects Section — Dynamic Cards with Glowing Hover -->
-        <section class="py-20 sm:py-28 bg-[#0B101D] border-b border-slate-800/80 relative">
+        <section id="projects" class="py-20 sm:py-28 bg-[#0B101D] border-b border-slate-800/80 relative">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-7xl mx-auto">
                     <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14">
@@ -394,7 +401,7 @@
 
     @if($section === 'services' && $homepageSettings->services_section_enabled && $featuredServices->isNotEmpty())
         <!-- Services Section with Hover Transitions -->
-        <section class="py-20 sm:py-28 bg-[#080C14] border-b border-slate-800/80">
+        <section id="services" class="py-20 sm:py-28 bg-[#080C14] border-b border-slate-800/80">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-7xl mx-auto">
                     <div class="text-center mb-14">
@@ -472,54 +479,7 @@
                                     {{ $index + 1 }}
                                 </span>
                                 <h3 class="font-bold text-base text-white mb-2 group-hover:text-emerald-400 transition-colors">{{ $process->title }}</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">{{ Str::limit(strip_tags($process->description), 110) }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </section>
-    @endif
-
-    @if($section === 'testimonials' && $homepageSettings->testimonials_section_enabled && $testimonials->isNotEmpty())
-        <!-- Testimonials Section -->
-        <section class="py-20 sm:py-28 bg-[#080C14] border-b border-slate-800/80">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-14">
-                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded-full mb-3 shadow-xs">Client Feedback</span>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Testimonials</h2>
-                        <p class="text-slate-400 text-base mt-2 max-w-xl mx-auto">
-                            Endorsements from clients and engineering partners.
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($testimonials as $testimonial)
-                            <div class="bg-[#0F172A]/90 rounded-2xl p-6 sm:p-7 border border-slate-800 shadow-xl card-glow-hover flex flex-col justify-between group">
-                                <!-- 5 Stars -->
-                                <div class="flex items-center gap-1 mb-4 text-amber-400">
-                                    @for($i = 0; $i < 5; $i++)
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                                    @endfor
-                                </div>
-
-                                <p class="text-slate-300 text-sm italic mb-6 leading-relaxed">
-                                    "{{ Str::limit(strip_tags($testimonial->feedback), 190) }}"
-                                </p>
-                                <div class="flex items-center gap-3 pt-4 border-t border-slate-800">
-                                    @if($testimonial->image_url)
-                                        <img src="{{ $testimonial->image_url }}" alt="{{ $testimonial->name }}" loading="lazy" decoding="async" class="w-10 h-10 rounded-full object-cover">
-                                    @else
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold text-sm flex items-center justify-center shadow-md shadow-emerald-500/20">
-                                            {{ substr($testimonial->name, 0, 1) }}
-                                        </div>
-                                    @endif
-                                    <div>
-                                        <div class="font-bold text-sm text-white group-hover:text-emerald-400 transition-colors">{{ $testimonial->name }}</div>
-                                        <div class="text-xs text-slate-400">{{ $testimonial->role_company }}</div>
-                                    </div>
-                                </div>
+                                <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">{{ $process->description }}</p>
                             </div>
                         @endforeach
                     </div>
@@ -530,7 +490,7 @@
 
     @if($section === 'contact_cta' && $homepageSettings->contact_cta_section_enabled)
         <!-- Contact CTA Section with Ambient Glow -->
-        <section class="py-20 sm:py-28 bg-gradient-to-b from-[#0B101D] via-[#090E1A] to-[#05080E] text-white relative overflow-hidden border-b border-slate-800/80">
+        <section id="contact" class="py-20 sm:py-28 bg-gradient-to-b from-[#0B101D] via-[#090E1A] to-[#05080E] text-white relative overflow-hidden border-b border-slate-800/80">
             <div class="absolute inset-0 bg-grid-dots-dark opacity-35 pointer-events-none"></div>
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-emerald-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
 

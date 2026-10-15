@@ -3,38 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', $defaultSeoTitle ?? ($websiteName . ' - ' . $siteDescription))</title>
-    <meta name="description" content="@yield('meta_description', $defaultSeoDescription ?? $siteDescription)">
+    @php
+        $pageTitle = $__env->yieldContent('title') ?: ($defaultSeoTitle ?? ($websiteName . ' - ' . $siteDescription));
+        $pageDescription = $__env->yieldContent('meta_description') ?: ($defaultSeoDescription ?? $siteDescription);
+        $pageOgTitle = $__env->yieldContent('og_title') ?: $pageTitle;
+        $pageOgDescription = $__env->yieldContent('og_description') ?: $pageDescription;
+        $pageOgImage = $__env->yieldContent('og_image')
+            ?: (!empty($defaultOgImage) ? \Illuminate\Support\Facades\Storage::disk('public')->url($defaultOgImage) : (!empty($profile->profile_photo_url) ? $profile->profile_photo_url : null));
+    @endphp
+    <title>{{ $pageTitle }}</title>
+    <meta name="description" content="{{ $pageDescription }}">
     <meta name="robots" content="@yield('meta_robots', 'index, follow')">
     <link rel="canonical" href="@yield('canonical', url()->current())">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('og_title', View::yieldContent('title', $defaultSeoTitle ?? ($websiteName . ' - ' . $siteDescription)))">
-    <meta property="og:description" content="@yield('og_description', View::yieldContent('meta_description', $defaultSeoDescription ?? $siteDescription))">
-    @php
-        $ogImgYield = View::yieldContent('og_image');
-    @endphp
-    @if($ogImgYield)
-        <meta property="og:image" content="{{ $ogImgYield }}">
-    @elseif(!empty($defaultOgImage))
-        <meta property="og:image" content="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($defaultOgImage) }}">
-    @elseif(!empty($profile->profile_photo_url))
-        <meta property="og:image" content="{{ $profile->profile_photo_url }}">
+    <meta property="og:title" content="{{ $pageOgTitle }}">
+    <meta property="og:description" content="{{ $pageOgDescription }}">
+    @if($pageOgImage)
+        <meta property="og:image" content="{{ $pageOgImage }}">
     @endif
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ url()->current() }}">
-    <meta name="twitter:title" content="@yield('og_title', View::yieldContent('title', $defaultSeoTitle ?? ($websiteName . ' - ' . $siteDescription)))">
-    <meta name="twitter:description" content="@yield('og_description', View::yieldContent('meta_description', $defaultSeoDescription ?? $siteDescription))">
-    @if($ogImgYield)
-        <meta name="twitter:image" content="{{ $ogImgYield }}">
-    @elseif(!empty($defaultOgImage))
-        <meta name="twitter:image" content="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($defaultOgImage) }}">
-    @elseif(!empty($profile->profile_photo_url))
-        <meta name="twitter:image" content="{{ $profile->profile_photo_url }}">
+    <meta name="twitter:title" content="{{ $pageOgTitle }}">
+    <meta name="twitter:description" content="{{ $pageOgDescription }}">
+    @if($pageOgImage)
+        <meta name="twitter:image" content="{{ $pageOgImage }}">
     @endif
 
     @stack('meta')

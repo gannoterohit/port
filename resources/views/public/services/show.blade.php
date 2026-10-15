@@ -5,12 +5,8 @@
 @section('og_title', $service->og_title ?: $service->name)
 @section('og_description', $service->og_description ?: ($service->short_description ?? Str::limit(strip_tags($service->description), 160)))
 @section('og_image', $service->og_image_url ?: $service->icon_url)
-@if($service->canonical_url)
-    @section('canonical', $service->canonical_url)
-@endif
-@if($service->no_index)
-    @section('meta_robots', 'noindex, nofollow')
-@endif
+@section('canonical', $service->canonical_url ?: url()->current())
+@section('meta_robots', $service->no_index ? 'noindex, nofollow' : 'index, follow')
 
 @section('content')
 <section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#080C14] text-slate-100 relative overflow-hidden">

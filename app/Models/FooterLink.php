@@ -20,6 +20,12 @@ class FooterLink extends Model
         'display_order' => 'integer',
     ];
 
+    protected static function booted(): void
+    {
+        static::saved(fn () => cache()->forget('public_orphaned_footer_links'));
+        static::deleted(fn () => cache()->forget('public_orphaned_footer_links'));
+    }
+
     public function widget(): BelongsTo
     {
         return $this->belongsTo(FooterWidget::class, 'footer_widget_id');

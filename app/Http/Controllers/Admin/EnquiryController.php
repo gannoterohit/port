@@ -72,16 +72,18 @@ class EnquiryController extends Controller
             'status' => ['nullable', 'in:new,in_progress,contacted,converted,closed'],
         ]);
 
-        if (isset($data['status']) && $enquiry->status !== $data['status']) {
-            $enquiry->update(['status' => $data['status']]);
+        $targetStatus = !empty($data['status']) ? $data['status'] : $enquiry->status;
 
-            EnquiryStatusLog::create([
-                'enquiry_id' => $enquiry->id,
-                'status' => $data['status'],
-                'user_id' => Auth::id(),
-                'note' => $data['note'],
-            ]);
+        if ($enquiry->status !== $targetStatus) {
+            $enquiry->update(['status' => $targetStatus]);
         }
+
+        EnquiryStatusLog::create([
+            'enquiry_id' => $enquiry->id,
+            'status' => $targetStatus,
+            'user_id' => Auth::id(),
+            'note' => $data['note'],
+        ]);
 
         return back()->with('success', 'Note added successfully.');
     }
@@ -123,16 +125,30 @@ class EnquiryController extends Controller
 
         $callback = function () use ($enquiries) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, ['ID', 'Name', 'Email', 'Phone', 'Subject', 'Message', 'Status', 'Created At']);
+            fputcsv($file, ['ID', 'Name', 'Email', 'Phone', 'Project Type', 'Budget Range', 'Timeline', 'Subject', 'Message', 'Status', 'Created At']);
+
+            $sanitizeForCsv = function ($value) {
+                if ($value === null) {
+                    return '';
+                }
+                $str = (string) $value;
+                if (isset($str[0]) && in_array($str[0], ['=', '+', '-', '@', "\t", "\r"])) {
+                    return "'".$str;
+                }
+                return $str;
+            };
 
             foreach ($enquiries as $enquiry) {
                 fputcsv($file, [
                     $enquiry->id,
-                    $enquiry->name,
-                    $enquiry->email,
-                    $enquiry->phone,
-                    $enquiry->subject,
-                    $enquiry->message,
+                    $sanitizeForCsv($enquiry->name),
+                    $sanitizeForCsv($enquiry->email),
+                    $sanitizeForCsv($enquiry->phone),
+                    $sanitizeForCsv($enquiry->project_type),
+                    $sanitizeForCsv($enquiry->budget_range),
+                    $sanitizeForCsv($enquiry->timeline),
+                    $sanitizeForCsv($enquiry->subject),
+                    $sanitizeForCsv($enquiry->message),
                     $enquiry->status,
                     $enquiry->created_at->format('Y-m-d H:i:s'),
                 ]);

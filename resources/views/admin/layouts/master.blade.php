@@ -17,12 +17,12 @@
         aria-label="Admin navigation">
         <div class="flex min-h-[76px] items-center justify-between border-b border-[#E7EBE8] px-5">
             <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1B560B] text-white font-bold shadow-sm">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 text-white font-bold shadow-xs">
                     {{ substr(\App\Models\Setting::get('website_name', 'CMS'), 0, 1) }}
                 </div>
                 <div class="min-w-0">
-                    <span class="block truncate text-sm font-bold text-[#1F2937]">{{ \App\Models\Setting::get('website_name', 'Portfolio CMS') }}</span>
-                    <span class="mt-0.5 block text-xs text-[#84908A]">PORTFOLIO CONTROL PANEL</span>
+                    <span class="block truncate text-sm font-bold text-slate-800">{{ \App\Models\Setting::get('website_name', 'Portfolio CMS') }}</span>
+                    <span class="mt-0.5 block text-[10px] font-semibold tracking-wider text-slate-400">ADMIN CONTROL PANEL</span>
                 </div>
             </div>
             <button type="button" @click="sidebarOpen = false" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 lg:hidden" aria-label="Close navigation">
@@ -99,15 +99,7 @@
                         Services
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('admin.testimonials.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'testimonials') ? $activeClass : $inactiveClass }}">
-                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3v1a6 6 0 01-3-3V9z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4v4a4 4 0 10-8 0V7"></path>
-                        </svg>
-                        Testimonials
-                    </a>
-                </li>
+                {{-- Testimonials hidden until real client feedback exists --}}
                 <li>
                     <a href="{{ route('admin.pages.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'pages') ? $activeClass : $inactiveClass }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -215,16 +207,16 @@
             <div class="flex shrink-0 items-center gap-2 sm:gap-4">
                 <a href="{{ route('home') }}" target="_blank"
                    rel="noopener noreferrer"
-                   class="inline-flex items-center gap-1.5 rounded-xl border border-[#D8E5D4] bg-[#F2F7F0] px-3 py-2 text-xs font-semibold text-[#1B560B] transition-colors hover:bg-[#E8F1E5] sm:text-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   class="inline-flex items-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50/80 px-3 py-2 text-xs font-semibold text-emerald-800 transition-colors hover:bg-emerald-100 sm:text-sm">
+                    <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                     </svg>
-                    <span class="hidden sm:inline">View website</span>
+                    <span class="hidden sm:inline">View Website</span>
                 </a>
-                <div class="hidden h-8 w-px bg-gray-200 sm:block"></div>
+                <div class="hidden h-8 w-px bg-slate-200 sm:block"></div>
                 <div class="flex items-center gap-2">
-                    <span class="hidden max-w-32 truncate text-sm font-medium text-gray-700 md:block">{{ Auth::user()?->name ?? 'Admin' }}</span>
-                    <div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#1B560B] text-xs font-bold text-white ring-4 ring-[#EFF4ED]">
+                    <span class="hidden max-w-32 truncate text-sm font-medium text-slate-700 md:block">{{ Auth::user()?->name ?? 'Admin' }}</span>
+                    <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 text-xs font-bold text-white shadow-xs">
                         {{ substr(Auth::user()?->name ?? 'Admin', 0, 1) }}
                     </div>
                 </div>

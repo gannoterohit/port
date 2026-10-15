@@ -4,15 +4,9 @@
 @section('meta_description', $page->seo_description ?: ($page->meta_description ?? Str::limit(strip_tags($page->content), 160)))
 @section('og_title', $page->og_title ?: $page->title)
 @section('og_description', $page->og_description ?: ($page->seo_description ?? Str::limit(strip_tags($page->content), 160)))
-@if($page->og_image_url)
-    @section('og_image', $page->og_image_url)
-@endif
-@if($page->canonical_url)
-    @section('canonical', $page->canonical_url)
-@endif
-@if($page->no_index)
-    @section('meta_robots', 'noindex, nofollow')
-@endif
+@section('og_image', $page->og_image_url ?: '')
+@section('canonical', $page->canonical_url ?: url()->current())
+@section('meta_robots', $page->no_index ? 'noindex, nofollow' : 'index, follow')
 
 @section('content')
 <section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#080C14] text-slate-100 relative overflow-hidden">

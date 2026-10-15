@@ -195,41 +195,65 @@
                                 @enderror
                             </div>
 
-                            <!-- Service Type Dropdown -->
+                            <!-- Service / Project Type Dropdown -->
                             <div>
                                 <label for="service_type" class="block text-sm font-semibold text-white mb-1.5">
-                                    Service or Project Type
+                                    Project / Service Type
                                 </label>
                                 @php
                                     $selectedService = old('service_type', request('service'));
                                 @endphp
                                 <select id="service_type" name="service_type"
                                     class="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-900 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm">
-                                    <option value="">Select a project type...</option>
+                                    <option value="">Select project type...</option>
+                                    <option value="Custom Web App (Laravel / Full-Stack)" {{ $selectedService === 'Custom Web App (Laravel / Full-Stack)' ? 'selected' : '' }}>Custom Web App (Laravel / Full-Stack)</option>
+                                    <option value="ERP / CRM / School Management System" {{ $selectedService === 'ERP / CRM / School Management System' ? 'selected' : '' }}>ERP / CRM / School Management System</option>
+                                    <option value="RESTful API & Integration" {{ $selectedService === 'RESTful API & Integration' ? 'selected' : '' }}>RESTful API &amp; Integration</option>
+                                    <option value="Performance Optimization & Bug Fixing" {{ $selectedService === 'Performance Optimization & Bug Fixing' ? 'selected' : '' }}>Performance Optimization &amp; Bug Fixing</option>
                                     @foreach($services as $service)
                                         <option value="{{ $service->name }}"
                                             {{ $selectedService === $service->slug || $selectedService === $service->name ? 'selected' : '' }}>
                                             {{ $service->name }}
                                         </option>
                                     @endforeach
+                                    <option value="Monthly Developer Retainer" {{ $selectedService === 'Monthly Developer Retainer' ? 'selected' : '' }}>Monthly Developer Retainer</option>
                                     <option value="Other / Not listed" {{ $selectedService === 'Other / Not listed' ? 'selected' : '' }}>Other / Not listed</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div>
-                            <label for="timeline" class="block text-sm font-semibold text-white mb-1.5">
-                                Expected Timeline (Optional)
-                            </label>
-                            <select id="timeline" name="timeline"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-900 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm">
-                                <option value="">Select expected timeline...</option>
-                                <option value="Urgent (< 2 weeks)" {{ old('timeline') === 'Urgent (< 2 weeks)' ? 'selected' : '' }}>Urgent (&lt; 2 weeks)</option>
-                                <option value="1 - 4 weeks" {{ old('timeline') === '1 - 4 weeks' ? 'selected' : '' }}>1 - 4 weeks</option>
-                                <option value="1 - 3 months" {{ old('timeline') === '1 - 3 months' ? 'selected' : '' }}>1 - 3 months</option>
-                                <option value="3+ months" {{ old('timeline') === '3+ months' ? 'selected' : '' }}>3+ months</option>
-                                <option value="Flexible" {{ old('timeline') === 'Flexible' ? 'selected' : '' }}>Flexible</option>
-                            </select>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Budget Range -->
+                            <div>
+                                <label for="budget_range" class="block text-sm font-semibold text-white mb-1.5">
+                                    Approx. Budget Range
+                                </label>
+                                <select id="budget_range" name="budget_range"
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-900 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm">
+                                    <option value="">Select budget range...</option>
+                                    <option value="₹25,000 - ₹50,000 (~$300 - $600)" {{ old('budget_range') === '₹25,000 - ₹50,000 (~$300 - $600)' ? 'selected' : '' }}>₹25,000 - ₹50,000 (~$300 - $600)</option>
+                                    <option value="₹50,000 - ₹1,00,000 (~$600 - $1,200)" {{ old('budget_range') === '₹50,000 - ₹1,00,000 (~$600 - $1,200)' ? 'selected' : '' }}>₹50,000 - ₹1,00,000 (~$600 - $1,200)</option>
+                                    <option value="₹1,00,000 - ₹2,50,000 (~$1,200 - $3,000)" {{ old('budget_range') === '₹1,00,000 - ₹2,50,000 (~$1,200 - $3,000)' ? 'selected' : '' }}>₹1,00,000 - ₹2,50,000 (~$1,200 - $3,000)</option>
+                                    <option value="₹2,50,000+ ($3,000+)" {{ old('budget_range') === '₹2,50,000+ ($3,000+)' ? 'selected' : '' }}>₹2,50,000+ ($3,000+)</option>
+                                    <option value="Flexible / Needs Discussion" {{ old('budget_range') === 'Flexible / Needs Discussion' ? 'selected' : '' }}>Flexible / Needs Discussion</option>
+                                </select>
+                            </div>
+
+                            <!-- Timeline -->
+                            <div>
+                                <label for="timeline" class="block text-sm font-semibold text-white mb-1.5">
+                                    Expected Timeline
+                                </label>
+                                <select id="timeline" name="timeline"
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-900 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm">
+                                    <option value="">Select expected timeline...</option>
+                                    <option value="Urgent (< 2 weeks)" {{ old('timeline') === 'Urgent (< 2 weeks)' ? 'selected' : '' }}>Urgent (&lt; 2 weeks)</option>
+                                    <option value="1 - 4 weeks" {{ old('timeline') === '1 - 4 weeks' ? 'selected' : '' }}>1 - 4 weeks</option>
+                                    <option value="1 - 3 months" {{ old('timeline') === '1 - 3 months' ? 'selected' : '' }}>1 - 3 months</option>
+                                    <option value="3+ months" {{ old('timeline') === '3+ months' ? 'selected' : '' }}>3+ months</option>
+                                    <option value="Flexible" {{ old('timeline') === 'Flexible' ? 'selected' : '' }}>Flexible</option>
+                                </select>
+                            </div>
                         </div>
 
                         <!-- Project Message -->

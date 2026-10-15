@@ -92,6 +92,8 @@ class ProjectTest extends TestCase
 
     public function test_project_show_page_displays_client_name(): void
     {
+        $initialLevel = ob_get_level();
+
         Project::create([
             'title' => 'Test Project',
             'slug' => 'test-project',
@@ -108,5 +110,9 @@ class ProjectTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Acme Corp');
+
+        while (ob_get_level() > $initialLevel) {
+            ob_end_clean();
+        }
     }
 }

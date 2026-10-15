@@ -48,6 +48,33 @@ class ContactFormTest extends TestCase
         ]);
     }
 
+    public function test_contact_form_stores_freelance_qualification_fields(): void
+    {
+        Mail::fake();
+
+        $response = $this->post(route('contact.submit'), [
+            'name' => 'Sarah Client',
+            'email' => 'sarah@startup.com',
+            'phone' => '+91 9988776655',
+            'project_type' => 'Custom Web App (Laravel / Full-Stack)',
+            'budget_range' => '₹1,00,000 - ₹2,50,000 (~$1,200 - $3,000)',
+            'timeline' => '1 - 4 weeks',
+            'message' => 'Need a custom inventory management system with role-based access.',
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('enquiries', [
+            'name' => 'Sarah Client',
+            'email' => 'sarah@startup.com',
+            'project_type' => 'Custom Web App (Laravel / Full-Stack)',
+            'budget_range' => '₹1,00,000 - ₹2,50,000 (~$1,200 - $3,000)',
+            'timeline' => '1 - 4 weeks',
+            'status' => 'new',
+        ]);
+    }
+
     public function test_contact_form_validates_required_fields(): void
     {
         $response = $this->post(route('contact.submit'), [

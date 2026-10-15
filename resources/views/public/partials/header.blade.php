@@ -22,30 +22,22 @@
                 </div>
 
                 @php
-                    $effectiveNav = ($navItems && $navItems->isNotEmpty())
-                        ? $navItems
-                        : collect([
-                            (object)['label' => 'Home', 'url' => route('home')],
-                            (object)['label' => 'About', 'url' => route('about')],
-                            (object)['label' => 'Skills', 'url' => route('skills')],
-                            (object)['label' => 'Projects', 'url' => route('projects')],
-                            (object)['label' => 'Services', 'url' => route('services')],
-                            (object)['label' => 'Resume', 'url' => route('resume')],
-                            (object)['label' => 'Contact', 'url' => route('contact')],
-                        ]);
+                    $isHomePage = request()->routeIs('home');
 
-                    $effectiveNav = $effectiveNav->map(function ($item) {
-                        $parsedUrl = parse_url($item->url);
-                        $path = trim($parsedUrl['path'] ?? '', '/');
-                        $isInternal = ! isset($parsedUrl['host'])
-                            || strtolower($parsedUrl['host']) === strtolower(request()->getHost());
+                    $onePageNav = collect([
+                        (object)['label' => 'Home',     'url' => $isHomePage ? '#hero'     : route('home') . '#hero',     'hash' => '#hero'],
+                        (object)['label' => 'About',    'url' => $isHomePage ? '#about'    : route('home') . '#about',    'hash' => '#about'],
+                        (object)['label' => 'Skills',   'url' => $isHomePage ? '#skills'   : route('home') . '#skills',   'hash' => '#skills'],
+                        (object)['label' => 'Projects', 'url' => $isHomePage ? '#projects' : route('home') . '#projects', 'hash' => '#projects'],
+                        (object)['label' => 'Services', 'url' => $isHomePage ? '#services' : route('home') . '#services', 'hash' => '#services'],
+                        (object)['label' => 'Contact',  'url' => $isHomePage ? '#contact'  : route('home') . '#contact',  'hash' => '#contact'],
+                    ]);
 
+                    $effectiveNav = $onePageNav->map(function ($item) {
                         return (object) [
                             'label' => $item->label,
-                            'url' => url($item->url),
-                            'isActive' => $isInternal && ($path === ''
-                                ? request()->routeIs('home')
-                                : request()->is($path)),
+                            'url' => $item->url,
+                            'isActive' => false,
                         ];
                     });
                 @endphp
@@ -53,7 +45,7 @@
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-1.5">
                     @foreach($effectiveNav as $item)
                         <a href="{{ $item->url }}"
-                            class="px-3.5 py-2 text-sm font-medium rounded-lg transition-all duration-150 {{ $item->isActive ? 'text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/25 shadow-xs' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                            class="px-3.5 py-2 text-sm font-medium rounded-lg transition-all duration-150 text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60">
                             {{ $item->label }}
                         </a>
                     @endforeach

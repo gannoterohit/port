@@ -5,12 +5,8 @@
 @section('og_title', $project->og_title ?: $project->title)
 @section('og_description', $project->og_description ?: ($project->short_description ?? Str::limit(strip_tags($project->description), 160)))
 @section('og_image', $project->og_image_url ?: $project->thumbnail_url)
-@if($project->canonical_url)
-    @section('canonical', $project->canonical_url)
-@endif
-@if($project->no_index)
-    @section('meta_robots', 'noindex, nofollow')
-@endif
+@section('canonical', $project->canonical_url ?: url()->current())
+@section('meta_robots', $project->no_index ? 'noindex, nofollow' : 'index, follow')
 
 @section('content')
 <section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#080C14] text-slate-100 relative overflow-hidden">

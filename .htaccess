@@ -18,6 +18,20 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # Block direct access to sensitive files and dotfiles (.env, .git, etc.)
+    <FilesMatch "^(\.env|\.git|\.editorconfig|\.phpunit|composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml|artisan|vite\.config\.js)">
+        <IfModule mod_authz_core.c>
+            Require all denied
+        </IfModule>
+        <IfModule !mod_authz_core.c>
+            Order allow,deny
+            Deny from all
+        </IfModule>
+    </FilesMatch>
+
+    # Block direct access to storage logs and database files
+    RewriteRule ^(storage/logs|database|app|bootstrap|config|tests)/ - [F,L,NC]
+
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

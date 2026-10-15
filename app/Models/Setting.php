@@ -23,11 +23,29 @@ class Setting extends Model
         'sort_order' => 'integer',
     ];
 
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            cache()->forget('public_settings_cache');
+        });
+        static::deleted(function () {
+            cache()->forget('public_settings_cache');
+        });
+    }
+
     public static function get(string $key, mixed $default = null): mixed
     {
-        $setting = self::where('key', $key)->where('is_active', true)->first();
+        try {
+            $cached = cache()->remember('public_settings_cache', 3600, function () {
+                return self::where('is_active', true)->pluck('value', 'key')->toArray();
+            });
 
-        return $setting ? $setting->value : $default;
+            return array_key_exists($key, $cached) ? $cached[$key] : $default;
+        } catch (\Throwable $e) {
+            $setting = self::where('key', $key)->where('is_active', true)->first();
+
+            return $setting ? $setting->value : $default;
+        }
     }
 
     public static function set(string $key, mixed $value, string $group = 'general', string $type = 'text'): self

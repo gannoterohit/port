@@ -20,6 +20,12 @@ class NavigationItem extends Model
         'display_order' => 'integer',
     ];
 
+    protected static function booted(): void
+    {
+        static::saved(fn () => cache()->forget('public_nav_items'));
+        static::deleted(fn () => cache()->forget('public_nav_items'));
+    }
+
     public function scopeVisible($query)
     {
         return $query->where('is_visible', true);

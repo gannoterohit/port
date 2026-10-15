@@ -45,8 +45,9 @@ class PageController extends Controller
 
         $query = Skill::where('is_enabled', true)->with('category');
         $catIds = $categories->pluck('id')->filter()->toArray();
-        if (! empty($catIds) && config('database.default') !== 'sqlite') {
-            $query->orderByRaw('FIELD(category_id, '.implode(',', $catIds).')');
+        $dbDriver = config('database.connections.'.config('database.default').'.driver', config('database.default'));
+        if (! empty($catIds) && in_array($dbDriver, ['mysql', 'mariadb'])) {
+            $query->orderByRaw('FIELD(category_id, '.implode(',', array_map('intval', $catIds)).')');
         }
         $skills = $query->orderBy('display_order')->get();
 

@@ -22,6 +22,18 @@ class SettingController extends Controller
     {
         $settings = Setting::all();
 
+        // Dynamically build validation rules for any uploaded image files
+        $imageValidationRules = [];
+        foreach ($settings as $setting) {
+            if ($setting->type === 'image' && $request->hasFile($setting->key)) {
+                $imageValidationRules[$setting->key] = ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp,svg,ico', 'max:3072'];
+            }
+        }
+
+        if (! empty($imageValidationRules)) {
+            $request->validate($imageValidationRules);
+        }
+
         $presetColors = [
             'indigo_dark' => ['#6366F1', '#38BDF8'],
             'apple_light' => ['#2563EB', '#0D9488'],
@@ -36,8 +48,10 @@ class SettingController extends Controller
             $key = $setting->key;
 
             if ($setting->type === 'boolean') {
-                $setting->update(['value' => $request->has($key) ? '1' : '0']);
-
+                $newVal = $request->has($key) ? '1' : '0';
+                if ($setting->value !== $newVal) {
+                    $setting->update(['value' => $newVal]);
+                }
                 continue;
             }
 
@@ -48,18 +62,23 @@ class SettingController extends Controller
                     }
                     $setting->update(['value' => $request->file($key)->store('settings', 'public')]);
                 }
-
                 continue;
             }
 
             // Keep primary & secondary in sync with chosen theme preset
             if ($submittedPreset && isset($presetColors[$submittedPreset])) {
                 if ($key === 'primary_color') {
-                    $setting->update(['value' => $presetColors[$submittedPreset][0]]);
+                    $target = $presetColors[$submittedPreset][0];
+                    if ($setting->value !== $target) {
+                        $setting->update(['value' => $target]);
+                    }
                     continue;
                 }
                 if ($key === 'secondary_color') {
-                    $setting->update(['value' => $presetColors[$submittedPreset][1]]);
+                    $target = $presetColors[$submittedPreset][1];
+                    if ($setting->value !== $target) {
+                        $setting->update(['value' => $target]);
+                    }
                     continue;
                 }
             }
@@ -71,12 +90,15 @@ class SettingController extends Controller
                     continue;
                 }
 
-                $setting->update(['value' => $value]);
+                if ($setting->value !== $value) {
+                    $setting->update(['value' => $value]);
+                }
             }
         }
 
         Cache::forget('profile');
         Cache::forget('homepage_settings');
+        Cache::forget('public_settings_cache');
 
         return back()->with('success', 'Settings updated successfully.');
     }

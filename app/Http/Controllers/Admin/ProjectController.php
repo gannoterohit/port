@@ -70,6 +70,8 @@ class ProjectController extends Controller
             'og_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
             'canonical_url' => ['nullable', 'url', 'max:255'],
             'no_index' => ['boolean'],
+            'screenshots' => ['nullable', 'array'],
+            'screenshots.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
         ]);
 
         DB::beginTransaction();
@@ -95,7 +97,7 @@ class ProjectController extends Controller
                 $order = 1;
                 foreach ($request->file('screenshots') as $screenshot) {
                     if ($screenshot) {
-                        $path = $screenshot->store('projects/screenshots', 'public');
+                        $path = $this->uploadFile($screenshot, 'projects/screenshots');
                         $project->screenshots()->create([
                             'image' => $path,
                             'display_order' => $order++,
@@ -148,6 +150,8 @@ class ProjectController extends Controller
             'og_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
             'canonical_url' => ['nullable', 'url', 'max:255'],
             'no_index' => ['boolean'],
+            'screenshots' => ['nullable', 'array'],
+            'screenshots.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
         ]);
 
         $data['is_featured'] = $request->boolean('is_featured');
@@ -168,7 +172,7 @@ class ProjectController extends Controller
             $order = 1;
             foreach ($request->file('screenshots') as $screenshot) {
                 if ($screenshot) {
-                    $path = $screenshot->store('projects/screenshots', 'public');
+                    $path = $this->uploadFile($screenshot, 'projects/screenshots');
                     $project->screenshots()->create([
                         'image' => $path,
                         'display_order' => $order++,
