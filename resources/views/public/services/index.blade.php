@@ -69,9 +69,10 @@
                         @endif
 
                         <div class="pt-4 border-t border-slate-800 flex items-center justify-between mt-auto">
-                            <span class="text-xs text-slate-500">Free estimate</span>
+                            <span class="text-xs text-slate-400">Free estimate</span>
 
                             <a href="{{ route('contact', ['service' => $service->slug]) }}"
+                                aria-label="Get a quote for {{ $service->name }}"
                                 class="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-400 hover:text-emerald-300 group-hover:underline">
                                 Get a Quote
                                 <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

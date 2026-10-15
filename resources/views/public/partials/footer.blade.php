@@ -87,7 +87,7 @@
             @endif
         </div>
 
-        <div class="border-t border-slate-800/80 pt-6 text-center text-sm text-slate-500">
+        <div class="border-t border-slate-800/80 pt-6 text-center text-sm text-slate-400">
             <p>{{ \App\Models\Setting::get('copyright_text') ?: ('© ' . date('Y') . ' ' . ($websiteName ?? config('app.name')) . '. All rights reserved.') }}</p>
         </div>
     </div>

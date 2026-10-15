@@ -3,6 +3,16 @@
 @section('title', ($homepageSettings->hero_heading ? $homepageSettings->hero_heading . ' - ' : ($profile->full_name . ' - ')) . $websiteName)
 @section('meta_description', $homepageSettings->hero_description ?? (strip_tags($profile->bio) ?? ($profile->intro ?? 'Full Stack Web Developer portfolio specializing in Laravel, PHP, MySQL, and REST APIs.')))
 
+@php
+    $heroPreloadImg = $homepageSettings->hero_image_url ?: ($profile->profile_photo_url ?? null);
+@endphp
+
+@if($heroPreloadImg)
+@push('meta')
+    <link rel="preload" as="image" href="{{ $heroPreloadImg }}" fetchpriority="high">
+@endpush
+@endif
+
 @section('content')
 @php
     $order = $homepageSettings->section_order;
@@ -127,7 +137,7 @@
                             <div class="relative max-w-sm mx-auto group">
                                 <div class="absolute -inset-1.5 bg-gradient-to-r from-emerald-500/30 via-teal-500/20 to-cyan-500/30 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                                 <div class="relative rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-2xl shadow-emerald-950/50 bg-[#0D1526] transition-transform duration-300 group-hover:scale-[1.02]">
-                                    <img src="{{ $heroImg }}" alt="{{ $profile->full_name }}" class="w-full h-auto aspect-square object-cover">
+                                    <img src="{{ $heroImg }}" alt="{{ $profile->full_name }}" width="450" height="450" fetchpriority="high" decoding="async" class="w-full h-auto aspect-square object-cover">
                                 </div>
                                 <div class="absolute -bottom-4 -left-4 bg-[#0D1526]/95 backdrop-blur-md p-3.5 rounded-xl border border-slate-700 shadow-xl flex items-center gap-3 z-10">
                                     <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-sm shadow-xs">
@@ -163,10 +173,10 @@
                                     <!-- Card Content -->
                                     <div class="p-6 font-mono text-xs sm:text-[13px] leading-relaxed bg-[#0B1120] text-slate-200 overflow-x-auto">
                                         <div class="text-purple-400 font-semibold mb-1">namespace <span class="text-slate-300">App\Http\Controllers;</span></div>
-                                        <div class="text-slate-500 mb-2">// Full Stack Architecture</div>
+                                        <div class="text-slate-400 mb-2">// Full Stack Architecture</div>
                                         <div><span class="text-blue-400 font-bold">class</span> <span class="text-emerald-400 font-bold">ProjectController</span> <span class="text-blue-400 font-bold">extends</span> Controller</div>
                                         <div>{</div>
-                                        <div class="pl-4 text-slate-500">// High-performance production apps</div>
+                                        <div class="pl-4 text-slate-400">// High-performance production apps</div>
                                         <div class="pl-4"><span class="text-blue-400 font-bold">public function</span> <span class="text-amber-300 font-bold">deploy</span>(Client $client): WebApp</div>
                                         <div class="pl-4">{</div>
                                         <div class="pl-8"><span class="text-blue-400 font-bold">return</span> $this->projects->build([</div>
@@ -332,12 +342,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($featuredProjects as $project)
                             <div class="bg-[#0F172A]/90 rounded-2xl border border-slate-800 shadow-xl card-glow-hover flex flex-col overflow-hidden group">
-                                <a href="{{ route('projects.show', $project->slug) }}" class="relative block aspect-[16/9] overflow-hidden bg-slate-950">
+                                <a href="{{ route('projects.show', $project->slug) }}" aria-label="View {{ $project->title }} project details" class="relative block aspect-[16/9] overflow-hidden bg-slate-950">
                                     @if($project->thumbnail_url)
-                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" loading="lazy" decoding="async"
+                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" width="640" height="360" loading="lazy" decoding="async"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     @else
-                                        <div class="w-full h-full flex items-center justify-center text-slate-500 bg-gradient-to-br from-slate-900 to-slate-950">
+                                        <div class="w-full h-full flex items-center justify-center text-slate-400 bg-gradient-to-br from-slate-900 to-slate-950">
                                             <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                         </div>
                                     @endif
@@ -376,17 +386,17 @@
                                     @endif
 
                                     <div class="pt-4 border-t border-slate-800 flex items-center justify-between mt-auto">
-                                        <a href="{{ route('projects.show', $project->slug) }}" class="text-emerald-400 hover:text-emerald-300 font-semibold text-sm inline-flex items-center gap-1 group-hover:underline">
+                                        <a href="{{ route('projects.show', $project->slug) }}" aria-label="View details of {{ $project->title }}" class="text-emerald-400 hover:text-emerald-300 font-semibold text-sm inline-flex items-center gap-1 group-hover:underline">
                                             <span>View Details</span>
                                             <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                         </a>
 
                                         <div class="flex items-center gap-3">
                                             @if($project->github_url)
-                                                <a href="{{ $project->github_url }}" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-emerald-400 text-xs font-semibold" title="GitHub Source">GitHub ↗</a>
+                                                <a href="{{ $project->github_url }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub source for {{ $project->title }}" class="text-slate-400 hover:text-emerald-400 text-xs font-semibold" title="GitHub Source">GitHub ↗</a>
                                             @endif
                                             @if($project->public_demo_url)
-                                                <a href="{{ $project->public_demo_url }}" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-emerald-400 text-xs font-semibold" title="Live Demo">Live Demo ↗</a>
+                                                <a href="{{ $project->public_demo_url }}" target="_blank" rel="noopener noreferrer" aria-label="Live demo for {{ $project->title }}" class="text-slate-400 hover:text-emerald-400 text-xs font-semibold" title="Live Demo">Live Demo ↗</a>
                                             @endif
                                         </div>
                                     </div>
@@ -417,7 +427,7 @@
                             <div class="bg-[#0F172A]/85 hover:bg-[#131E35] rounded-2xl p-6 sm:p-7 border border-slate-800 hover:border-emerald-500/40 shadow-xl card-glow-hover flex flex-col group transition-all">
                                 <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 group-hover:bg-gradient-to-br group-hover:from-emerald-500 group-hover:to-teal-500 group-hover:text-white group-hover:scale-105 transition-all duration-300 flex items-center justify-center mb-5 font-bold text-lg shadow-sm">
                                     @if($service->icon_url)
-                                        <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" loading="lazy" decoding="async" class="w-7 h-7 object-contain">
+                                        <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" width="28" height="28" loading="lazy" decoding="async" class="w-7 h-7 object-contain">
                                     @else
                                         {{ substr($service->name, 0, 1) }}
                                     @endif
@@ -443,9 +453,10 @@
                                 @endif
 
                                 <div class="pt-4 border-t border-slate-800 flex items-center justify-between mt-auto">
-                                    <span class="text-xs text-slate-500">Free estimate</span>
+                                    <span class="text-xs text-slate-400">Free estimate</span>
 
                                     <a href="{{ route('contact', ['service' => $service->slug]) }}"
+                                        aria-label="Get a quote for {{ $service->name }}"
                                         class="inline-flex items-center gap-1 text-sm font-semibold text-emerald-400 hover:text-emerald-300 group-hover:underline">
                                         <span>Get a Quote</span>
                                         <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
