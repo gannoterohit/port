@@ -299,8 +299,8 @@
                                             <div class="text-emerald-400 font-bold">● Service Status: ALL SYSTEMS OPERATIONAL</div>
                                             <div class="text-slate-400">Developer: <span class="text-white font-bold">{{ $profile->full_name }}</span></div>
                                             <div class="text-slate-400">Commercial Experience: <span class="text-white font-bold">{{ \App\Models\Setting::get('years_experience') ?: '2.5+' }} Years</span></div>
-                                            <div class="text-slate-400">Status: <span class="text-emerald-400 font-bold">🟢 Open for Freelance &amp; Full-Time</span></div>
-                                            <div class="text-slate-400">Response SLA: <span class="text-teal-300 font-bold">&lt; 2 Hours</span></div>
+                                            <div class="text-slate-400">Status: <span class="text-emerald-400 font-bold">{{ \App\Models\Setting::get('terminal_status_text') ?: ($profile->available_for_hire ? '🟢 Open for Freelance & Full-Time' : '🔴 Currently Busy') }}</span></div>
+                                            <div class="text-slate-400">Response SLA: <span class="text-teal-300 font-bold">{{ \App\Models\Setting::get('terminal_sla_text') ?: '< 2 Hours' }}</span></div>
                                         </div>
                                     </div>
 
@@ -358,115 +358,42 @@
 
         <div class="marquee-mask relative w-full overflow-hidden">
             <div class="animate-marquee flex items-center gap-4 sm:gap-6">
-                <!-- Group 1 -->
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-red-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M23.64 12.2a1 1 0 00-.51-.87L13.8 6.1a1 1 0 00-1 0L3.48 11.45a1 1 0 00-.48.86v7.38a1 1 0 00.5.87l9.32 5.23a1 1 0 001 0l9.32-5.23a1 1 0 00.5-.87v-7.49zm-10.32-4.1l6.73 3.77-3.23 1.81-6.73-3.77 3.23-1.81zm-7.82 5.02l6.82 3.82v6.64l-6.82-3.82v-6.64zm8.82 10.46v-6.64l6.82-3.82v6.64l-6.82 3.82z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Laravel 12</span>
-                    <span class="text-[10px] text-emerald-400 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">MVC Core</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#8892BF] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.5H9.3l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7zm5.4 0h-1.5l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">PHP 8.2+</span>
-                    <span class="text-[10px] text-teal-400 font-semibold bg-teal-500/10 px-1.5 py-0.5 rounded">Backend</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#00758F] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 14.93V18h-2v-1.07A6 6 0 017 11h2a4 4 0 008 0h2a6 6 0 01-6 5.93z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">MySQL 8.0</span>
-                    <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-1.5 py-0.5 rounded">Indexed DB</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">RESTful APIs</span>
-                    <span class="text-[10px] text-emerald-300 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">JSON / Auth</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#DC382D] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 00-9 9c0 4.97 4.03 9 9 9s9-4.03 9-9a9 9 0 00-9-9zm4 11H8v-2h8v2zm0-4H8V8h8v2z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Redis</span>
-                    <span class="text-[10px] text-rose-400 font-semibold bg-rose-500/10 px-1.5 py-0.5 rounded">Cache &amp; Queues</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#38BDF8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.336 6.182 14.975 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.336 13.382 8.975 12 6.001 12z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Tailwind CSS</span>
-                    <span class="text-[10px] text-cyan-400 font-semibold bg-cyan-500/10 px-1.5 py-0.5 rounded">v4.0</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#77C1D8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19.9 12.5L13.8 2 7.7 12.5h12.2zm-12.2 0L1.6 22h12.2l-6.1-9.5zm6.1 0l6.1 9.5H7.7l6.1-9.5z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Alpine.js</span>
-                    <span class="text-[10px] text-teal-300 font-semibold bg-teal-500/10 px-1.5 py-0.5 rounded">Reactive UI</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#2496ED] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 10.5c-.3-2.1-1.8-3.7-3.8-4.2-.4-.1-.8-.1-1.2-.1-1 0-1.9.4-2.6 1-.3-.1-.7-.1-1.1-.1-2.3 0-4.2 1.8-4.4 4.1h-.9V9h-2v2.2H5V9H3v2.2H1.5v2h21v-2.7zm-11-2.5h2v2h-2V8zm3 0h2v2h-2V8z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Docker</span>
-                    <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-1.5 py-0.5 rounded">Containers</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-white shrink-0" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">GitHub Actions</span>
-                    <span class="text-[10px] text-slate-300 font-semibold bg-slate-800 px-1.5 py-0.5 rounded">CI / CD</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#FF6C37] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Postman</span>
-                    <span class="text-[10px] text-orange-400 font-semibold bg-orange-500/10 px-1.5 py-0.5 rounded">API Testing</span>
-                </div>
-
-                <!-- Group 2 (Duplicate for Seamless Endless Loop) -->
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-red-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M23.64 12.2a1 1 0 00-.51-.87L13.8 6.1a1 1 0 00-1 0L3.48 11.45a1 1 0 00-.48.86v7.38a1 1 0 00.5.87l9.32 5.23a1 1 0 001 0l9.32-5.23a1 1 0 00.5-.87v-7.49zm-10.32-4.1l6.73 3.77-3.23 1.81-6.73-3.77 3.23-1.81zm-7.82 5.02l6.82 3.82v6.64l-6.82-3.82v-6.64zm8.82 10.46v-6.64l6.82-3.82v6.64l-6.82 3.82z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Laravel 12</span>
-                    <span class="text-[10px] text-emerald-400 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">MVC Core</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#8892BF] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.5H9.3l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7zm5.4 0h-1.5l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">PHP 8.2+</span>
-                    <span class="text-[10px] text-teal-400 font-semibold bg-teal-500/10 px-1.5 py-0.5 rounded">Backend</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#00758F] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 14.93V18h-2v-1.07A6 6 0 017 11h2a4 4 0 008 0h2a6 6 0 01-6 5.93z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">MySQL 8.0</span>
-                    <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-1.5 py-0.5 rounded">Indexed DB</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">RESTful APIs</span>
-                    <span class="text-[10px] text-emerald-300 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">JSON / Auth</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#DC382D] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 00-9 9c0 4.97 4.03 9 9 9s9-4.03 9-9a9 9 0 00-9-9zm4 11H8v-2h8v2zm0-4H8V8h8v2z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Redis</span>
-                    <span class="text-[10px] text-rose-400 font-semibold bg-rose-500/10 px-1.5 py-0.5 rounded">Cache &amp; Queues</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#38BDF8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.336 6.182 14.975 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.336 13.382 8.975 12 6.001 12z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Tailwind CSS</span>
-                    <span class="text-[10px] text-cyan-400 font-semibold bg-cyan-500/10 px-1.5 py-0.5 rounded">v4.0</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#77C1D8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19.9 12.5L13.8 2 7.7 12.5h12.2zm-12.2 0L1.6 22h12.2l-6.1-9.5zm6.1 0l6.1 9.5H7.7l6.1-9.5z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Alpine.js</span>
-                    <span class="text-[10px] text-teal-300 font-semibold bg-teal-500/10 px-1.5 py-0.5 rounded">Reactive UI</span>
-                </div>
-
-                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
-                    <svg class="w-5 h-5 text-[#2496ED] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 10.5c-.3-2.1-1.8-3.7-3.8-4.2-.4-.1-.8-.1-1.2-.1-1 0-1.9.4-2.6 1-.3-.1-.7-.1-1.1-.1-2.3 0-4.2 1.8-4.4 4.1h-.9V9h-2v2.2H5V9H3v2.2H1.5v2h21v-2.7zm-11-2.5h2v2h-2V8zm3 0h2v2h-2V8z"/></svg>
-                    <span class="text-xs sm:text-sm font-bold text-white">Docker</span>
-                    <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-1.5 py-0.5 rounded">Containers</span>
-                </div>
+                @for($repeat = 0; $repeat < 2; $repeat++)
+                    @foreach($skills as $skill)
+                        @php
+                            $sName = strtolower(trim($skill->name));
+                        @endphp
+                        <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                            @if(str_contains($sName, 'laravel'))
+                                <svg class="w-5 h-5 text-red-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M23.64 12.2a1 1 0 00-.51-.87L13.8 6.1a1 1 0 00-1 0L3.48 11.45a1 1 0 00-.48.86v7.38a1 1 0 00.5.87l9.32 5.23a1 1 0 001 0l9.32-5.23a1 1 0 00.5-.87v-7.49zm-10.32-4.1l6.73 3.77-3.23 1.81-6.73-3.77 3.23-1.81zm-7.82 5.02l6.82 3.82v6.64l-6.82-3.82v-6.64zm8.82 10.46v-6.64l6.82-3.82v6.64l-6.82 3.82z"/></svg>
+                            @elseif(str_contains($sName, 'php'))
+                                <svg class="w-5 h-5 text-[#8892BF] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.5H9.3l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7zm5.4 0h-1.5l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7z"/></svg>
+                            @elseif(str_contains($sName, 'mysql'))
+                                <svg class="w-5 h-5 text-[#00758F] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 14.93V18h-2v-1.07A6 6 0 017 11h2a4 4 0 008 0h2a6 6 0 01-6 5.93z"/></svg>
+                            @elseif(str_contains($sName, 'redis'))
+                                <svg class="w-5 h-5 text-[#DC382D] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 00-9 9c0 4.97 4.03 9 9 9s9-4.03 9-9a9 9 0 00-9-9zm4 11H8v-2h8v2zm0-4H8V8h8v2z"/></svg>
+                            @elseif(str_contains($sName, 'tailwind'))
+                                <svg class="w-5 h-5 text-[#38BDF8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.336 6.182 14.975 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.336 13.382 8.975 12 6.001 12z"/></svg>
+                            @elseif(str_contains($sName, 'docker'))
+                                <svg class="w-5 h-5 text-[#2496ED] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 10.5c-.3-2.1-1.8-3.7-3.8-4.2-.4-.1-.8-.1-1.2-.1-1 0-1.9.4-2.6 1-.3-.1-.7-.1-1.1-.1-2.3 0-4.2 1.8-4.4 4.1h-.9V9h-2v2.2H5V9H3v2.2H1.5v2h21v-2.7zm-11-2.5h2v2h-2V8zm3 0h2v2h-2V8z"/></svg>
+                            @elseif(str_contains($sName, 'alpine') || str_contains($sName, 'vue') || str_contains($sName, 'react'))
+                                <svg class="w-5 h-5 text-[#77C1D8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19.9 12.5L13.8 2 7.7 12.5h12.2zm-12.2 0L1.6 22h12.2l-6.1-9.5zm6.1 0l6.1 9.5H7.7l6.1-9.5z"/></svg>
+                            @elseif(str_contains($sName, 'git'))
+                                <svg class="w-5 h-5 text-[#F05032] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M23.546 10.93L13.067.452a1.5 1.5 0 0 0-2.126 0L8.808 2.585l3.228 3.228a1.78 1.78 0 0 1 1.72 2.274l3.1 3.1a1.78 1.78 0 1 1-1.077 1.053l-2.88-2.88a1.78 1.78 0 0 1-1.942-.435L7.75 12.14a1.78 1.78 0 1 1-1.06-1.06l3.2-3.2a1.78 1.78 0 0 1 .442-1.943L7.1.708.452 7.356a1.5 1.5 0 0 0 0 2.126l10.479 10.478a1.5 1.5 0 0 0 2.126 0l10.489-10.49a1.5 1.5 0 0 0 0-2.54z"/></svg>
+                            @elseif(str_contains($sName, 'api') || str_contains($sName, 'rest'))
+                                <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            @else
+                                <span class="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-[10px] font-bold">
+                                    {{ strtoupper(substr($skill->name, 0, 2)) }}
+                                </span>
+                            @endif
+                            <span class="text-xs sm:text-sm font-bold text-white">{{ $skill->name }}</span>
+                            <span class="text-[10px] text-emerald-400 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">
+                                {{ $skill->category->name ?? 'Core' }}
+                            </span>
+                        </div>
+                    @endforeach
+                @endfor
             </div>
         </div>
     </section>
@@ -497,24 +424,23 @@
                             </div>
 
                             <div class="mt-6 pt-6 border-t border-slate-800 space-y-4 text-sm text-slate-300">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-6 h-6 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                    </div>
-                                    <span>Specialized in <strong class="text-white">Laravel, PHP &amp; MySQL</strong> database optimization</span>
-                                </div>
-                                <div class="flex items-start gap-3">
-                                    <div class="w-6 h-6 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                    </div>
-                                    <span>Robust <strong class="text-white">REST API</strong> architecture and third-party integrations</span>
-                                </div>
-                                <div class="flex items-start gap-3">
-                                    <div class="w-6 h-6 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                    </div>
-                                    <span>Clean code standards with reliable delivery and transparent communication</span>
-                                </div>
+                                @php
+                                    $aboutHighlights = [
+                                        \App\Models\Setting::get('about_highlight_1') ?: 'Specialized in <strong class="text-white">Laravel, PHP & MySQL</strong> database optimization',
+                                        \App\Models\Setting::get('about_highlight_2') ?: 'Robust <strong class="text-white">REST API</strong> architecture and third-party integrations',
+                                        \App\Models\Setting::get('about_highlight_3') ?: 'Clean code standards with reliable delivery and transparent communication',
+                                    ];
+                                @endphp
+                                @foreach($aboutHighlights as $highlight)
+                                    @if($highlight)
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-6 h-6 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                            </div>
+                                            <span>{!! $highlight !!}</span>
+                                        </div>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
 
@@ -542,6 +468,7 @@
                         </div>
                     </div>
 
+                    @if(\App\Models\Setting::get('architecture_section_enabled', '1') == '1')
                     <!-- Interactive Production System Architecture Pipeline -->
                     <div x-data="{
                         selected: 2,
@@ -657,6 +584,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </section>

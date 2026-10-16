@@ -13,7 +13,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-7xl mx-auto">
             <!-- Header Section -->
-            <div class="text-center mb-16">
+            <div class="text-center mb-10">
                 <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded-full mb-3.5 shadow-xs">
                     Portfolio Showcase
                 </span>
@@ -21,8 +21,28 @@
                     Featured Projects &amp; Case Studies
                 </h1>
                 <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                    A curated selection of robust full-stack web applications, APIs, and client platforms built with modern technology stacks.
+                    A curated selection of robust full-stack web applications, high-concurrency APIs, and production client platforms.
                 </p>
+            </div>
+
+            <!-- Quick Engineering Metrics Strip -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 max-w-4xl mx-auto mb-12">
+                <div class="p-3.5 rounded-2xl bg-[#0D1526]/90 border border-slate-800 text-center shadow-lg hover:border-emerald-500/30 transition-colors">
+                    <span class="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1">Architecture</span>
+                    <span class="text-base sm:text-lg font-bold text-white">Clean MVC &amp; APIs</span>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-[#0D1526]/90 border border-slate-800 text-center shadow-lg hover:border-emerald-500/30 transition-colors">
+                    <span class="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1">Avg Response</span>
+                    <span class="text-base sm:text-lg font-bold text-emerald-400">&lt; 50ms</span>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-[#0D1526]/90 border border-slate-800 text-center shadow-lg hover:border-emerald-500/30 transition-colors">
+                    <span class="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1">Production Uptime</span>
+                    <span class="text-base sm:text-lg font-bold text-teal-300">99.9% High Availability</span>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-[#0D1526]/90 border border-slate-800 text-center shadow-lg hover:border-emerald-500/30 transition-colors">
+                    <span class="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1">Engineering Quality</span>
+                    <span class="text-base sm:text-lg font-bold text-emerald-400">TDD &amp; PSR-12</span>
+                </div>
             </div>
 
             <!-- Search & Interactive Category Filter Pills -->
@@ -37,8 +57,8 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
                         <input type="search" name="search" value="{{ request('search') }}"
-                            placeholder="Search by project name, tech stack (Laravel, MySQL, API)..."
-                            class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-700 bg-[#0D1526]/90 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent shadow-lg transition-all">
+                            placeholder="Search by project name, tech stack (Laravel, MySQL, Redis)..."
+                            class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-800 bg-[#0D1526]/90 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent shadow-lg transition-all">
                     </div>
                     <button type="submit"
                         class="btn-shimmer-effect inline-flex items-center justify-center px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white text-sm font-semibold transition-all shadow-md shadow-emerald-500/25 shrink-0">

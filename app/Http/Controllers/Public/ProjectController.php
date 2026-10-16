@@ -53,6 +53,13 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        return view('public.projects.show', compact('project'));
+        $relatedProjects = Project::where('status', 'published')
+            ->where('published_at', '<=', now())
+            ->where('id', '!=', $project->id)
+            ->orderBy('display_order')
+            ->limit(2)
+            ->get();
+
+        return view('public.projects.show', compact('project', 'relatedProjects'));
     }
 }
