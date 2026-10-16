@@ -541,6 +541,122 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Interactive Production System Architecture Pipeline -->
+                    <div x-data="{
+                        selected: 2,
+                        steps: [
+                            {
+                                id: 0,
+                                label: 'Client / App',
+                                icon: '📱',
+                                tag: 'Transport',
+                                title: '01. Client & Frontend Layer',
+                                desc: 'Browsers, mobile apps, and third-party API clients making secure HTTP/2 requests with TLS 1.3 encryption, JSON payloads, and Bearer token headers.',
+                                highlight: 'HTTP/2 • TLS 1.3 • JWT / Session',
+                                metric: '&lt; 80ms First Byte'
+                            },
+                            {
+                                id: 1,
+                                label: 'Edge & Proxy',
+                                icon: '🛡️',
+                                tag: 'Security',
+                                title: '02. Edge Security & Nginx Reverse Proxy',
+                                desc: 'Cloudflare edge protection handling DDoS mitigation, SSL termination, Brotli/Gzip static asset compression, and IP rate limiting before reaching origin servers.',
+                                highlight: 'DDoS Shield • SSL Offload • Rate Limiting',
+                                metric: 'Zero-Downtime Edge'
+                            },
+                            {
+                                id: 2,
+                                label: 'Laravel 12 API',
+                                icon: '⚡',
+                                tag: 'Core Engine',
+                                title: '03. Laravel 12 Application Core',
+                                desc: 'Modular Service & Repository Architecture with strict Form Request validation, Route Model Binding, CORS middleware, and CSRF/Sanctum security hardening.',
+                                highlight: 'Service Layer • Clean Architecture • Strict Types',
+                                metric: 'Sub-30ms Execution'
+                            },
+                            {
+                                id: 3,
+                                label: 'Redis Cache',
+                                icon: '🚀',
+                                tag: 'In-Memory',
+                                title: '04. Redis High-Speed In-Memory Cache',
+                                desc: 'High-speed caching for expensive queries, session state persistence, and dynamic API rate limiting keys to prevent redundant database hits.',
+                                highlight: 'Key-Value Cache • Ephemeral Sessions • Throttle',
+                                metric: '&lt; 5ms Cache Response'
+                            },
+                            {
+                                id: 4,
+                                label: 'MySQL 8.0 DB',
+                                icon: '🗄️',
+                                tag: 'Relational DB',
+                                title: '05. MySQL 8.0 Indexed Database',
+                                desc: 'Engineered with 3NF relational integrity, foreign key constraints, composite B-Tree indexes, and eager loading to guarantee zero N+1 query overhead.',
+                                highlight: 'Composite Indexes • ACID Transactions • Zero N+1',
+                                metric: 'Optimized Query Plan'
+                            },
+                            {
+                                id: 5,
+                                label: 'Async Queues',
+                                icon: '⚙️',
+                                tag: 'Background Workers',
+                                title: '06. Asynchronous Queue Workers',
+                                desc: 'Laravel Queue workers processing non-blocking background jobs for PDF invoice rendering, transactional emails, and third-party webhook dispatches.',
+                                highlight: 'Redis Queues • Auto-Retry • Failed Job Monitor',
+                                metric: '100% Non-Blocking'
+                            }
+                        ]
+                    }" class="mt-16 pt-12 border-t border-slate-800/80 reveal-on-scroll">
+                        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8">
+                            <div>
+                                <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full mb-2.5 shadow-xs">System Design</span>
+                                <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Production Backend Architecture &amp; Data Flow</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-400 mt-2 sm:mt-0">
+                                Click any node below to inspect architectural implementation details
+                            </p>
+                        </div>
+
+                        <!-- Architecture Pipeline Steps Grid -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+                            <template x-for="step in steps" :key="step.id">
+                                <button type="button" @click="selected = step.id"
+                                    :class="selected === step.id ? 'bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border-emerald-500 text-white shadow-lg shadow-emerald-500/15' : 'bg-slate-900/80 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'"
+                                    class="p-3.5 rounded-xl border text-left transition-all duration-200 flex flex-col justify-between group">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xl" x-text="step.icon"></span>
+                                        <span class="text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-slate-950/80 border border-slate-800/60"
+                                            :class="selected === step.id ? 'text-emerald-300 border-emerald-500/40' : 'text-slate-500'"
+                                            x-text="step.tag"></span>
+                                    </div>
+                                    <div class="font-bold text-xs sm:text-sm truncate" x-text="step.label"></div>
+                                </button>
+                            </template>
+                        </div>
+
+                        <!-- Active Node Inspector Card -->
+                        <div class="bg-[#0F172A]/95 rounded-2xl p-6 sm:p-8 border border-emerald-500/30 shadow-2xl relative overflow-hidden card-glow-hover">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-800/80 mb-5">
+                                <div>
+                                    <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider" x-text="steps[selected].tag"></span>
+                                    <h4 class="text-xl sm:text-2xl font-extrabold text-white mt-1" x-text="steps[selected].title"></h4>
+                                </div>
+                                <div class="flex items-center gap-3 shrink-0">
+                                    <span class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30" x-html="steps[selected].metric"></span>
+                                </div>
+                            </div>
+
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" x-text="steps[selected].desc"></p>
+
+                            <div class="flex flex-wrap items-center gap-2 pt-2">
+                                <span class="text-xs text-slate-400 font-semibold mr-2">Core Competencies:</span>
+                                <span class="text-xs font-mono font-bold px-3 py-1 rounded-md bg-slate-900 border border-slate-700 text-teal-300" x-text="steps[selected].highlight"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -584,11 +700,15 @@
     @endif
 
     @if($section === 'projects' && $homepageSettings->projects_section_enabled && $featuredProjects->isNotEmpty())
+        @php
+            $projectCategories = $featuredProjects->pluck('category')->filter()->unique()->values();
+        @endphp
         <!-- Projects Section — Dynamic Cards with Glowing Hover -->
-        <section id="projects" class="py-20 sm:py-28 bg-[#0B101D] border-b border-slate-800/80 relative">
+        <section id="projects" class="py-20 sm:py-28 bg-[#0B101D] border-b border-slate-800/80 relative"
+            x-data="{ activeCategory: 'all' }">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-7xl mx-auto">
-                    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14 reveal-on-scroll">
+                    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 reveal-on-scroll">
                         <div>
                             <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded-full mb-3 shadow-xs">Portfolio Showcase</span>
                             <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Featured <span class="text-hover-gradient cursor-default">Projects</span></h2>
@@ -605,10 +725,44 @@
                         </div>
                     </div>
 
+                    <!-- Instant Category Filter Tabs (Zero Reload, 60fps) -->
+                    @if($projectCategories->isNotEmpty())
+                        <div class="flex flex-wrap items-center gap-2 mb-10 reveal-on-scroll" role="tablist" aria-label="Filter projects by category">
+                            <button type="button" @click="activeCategory = 'all'"
+                                :class="activeCategory === 'all'
+                                    ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold shadow-md shadow-emerald-500/25 border-emerald-400/40'
+                                    : 'bg-slate-900/90 text-slate-400 hover:text-white border-slate-800 hover:border-slate-700'"
+                                class="px-4 py-2 rounded-xl text-xs sm:text-sm border transition-all duration-200 flex items-center gap-2">
+                                <span>All Projects</span>
+                                <span class="px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold"
+                                    :class="activeCategory === 'all' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">
+                                    {{ $featuredProjects->count() }}
+                                </span>
+                            </button>
+                            @foreach($projectCategories as $cat)
+                                <button type="button" @click="activeCategory = '{{ Str::slug($cat) }}'"
+                                    :class="activeCategory === '{{ Str::slug($cat) }}'
+                                        ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold shadow-md shadow-emerald-500/25 border-emerald-400/40'
+                                        : 'bg-slate-900/90 text-slate-400 hover:text-white border-slate-800 hover:border-slate-700'"
+                                    class="px-4 py-2 rounded-xl text-xs sm:text-sm border transition-all duration-200 flex items-center gap-2">
+                                    <span>{{ $cat }}</span>
+                                    <span class="px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold"
+                                        :class="activeCategory === '{{ Str::slug($cat) }}' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">
+                                        {{ $featuredProjects->where('category', $cat)->count() }}
+                                    </span>
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
+
                     <!-- 3-Column Responsive Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($featuredProjects as $project)
-                            <div class="reveal-on-scroll stagger-{{ ($loop->index % 3) + 1 }} bg-[#0F172A]/90 rounded-2xl border border-slate-800 shadow-xl card-glow-hover card-spotlight flex flex-col overflow-hidden group">
+                            <div x-show="activeCategory === 'all' || activeCategory === '{{ Str::slug($project->category ?? '') }}'"
+                                x-transition:enter="transition ease-out duration-300"
+                                x-transition:enter-start="opacity-0 scale-95"
+                                x-transition:enter-end="opacity-100 scale-100"
+                                class="reveal-on-scroll stagger-{{ ($loop->index % 3) + 1 }} bg-[#0F172A]/90 rounded-2xl border border-slate-800 shadow-xl card-glow-hover card-spotlight flex flex-col overflow-hidden group">
                                 <a href="{{ route('projects.show', $project->slug) }}" aria-label="View {{ $project->title }} project details" class="relative block aspect-[16/9] overflow-hidden bg-slate-950">
                                     @if($project->thumbnail_url)
                                         <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" width="403" height="227" loading="lazy" decoding="async"
@@ -821,6 +975,19 @@
                             <span>Send Project Enquiry</span>
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </a>
+
+                        @php
+                            $contactDirectEmail = $profile->contact_email ?: ($profile->email ?: \App\Models\Setting::get('contact_email'));
+                        @endphp
+                        @if($contactDirectEmail)
+                            <button type="button"
+                                @click="window.copyPortfolioEmail('{{ $contactDirectEmail }}', $event)"
+                                class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700 hover:border-emerald-500/50 text-base font-semibold shadow-xl hover:-translate-y-0.5 transition-all"
+                                title="Click to copy email: {{ $contactDirectEmail }}">
+                                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                <span>Copy Direct Email</span>
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>

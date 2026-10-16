@@ -7,7 +7,10 @@
                 @if($profile)
                     <div class="flex space-x-4">
                         @if($profile->email)
-                            <a href="mailto:{{ $profile->email }}" class="text-gray-400 hover:text-white" title="Email me">
+                            <a href="mailto:{{ $profile->email }}"
+                                @click.prevent="window.copyPortfolioEmail('{{ $profile->email }}', $event)"
+                                class="text-gray-400 hover:text-emerald-400 transition-colors"
+                                title="Click to copy email: {{ $profile->email }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -86,12 +89,23 @@
                             @endphp
 
                             @if($footerEmail)
-                                <a href="mailto:{{ $footerEmail }}" class="flex items-center gap-2.5 text-slate-300 hover:text-emerald-400 transition-colors group">
-                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-all">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                    </div>
-                                    <span class="text-xs sm:text-sm truncate">{{ $footerEmail }}</span>
-                                </a>
+                                <div class="flex items-center justify-between gap-2 group">
+                                    <a href="mailto:{{ $footerEmail }}"
+                                        @click.prevent="window.copyPortfolioEmail('{{ $footerEmail }}', $event)"
+                                        class="flex items-center gap-2.5 text-slate-300 hover:text-emerald-400 transition-colors truncate"
+                                        title="Click to copy: {{ $footerEmail }}">
+                                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                        </div>
+                                        <span class="text-xs sm:text-sm truncate">{{ $footerEmail }}</span>
+                                    </a>
+                                    <button type="button"
+                                        @click="window.copyPortfolioEmail('{{ $footerEmail }}', $event)"
+                                        class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 text-slate-400 border border-slate-700/60 transition-colors shrink-0"
+                                        title="Copy to clipboard">
+                                        Copy
+                                    </button>
+                                </div>
                             @endif
 
                             @if($footerPhone)

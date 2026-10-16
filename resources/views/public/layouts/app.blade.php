@@ -95,6 +95,56 @@
         </div>
     @endif
 
+    <!-- 1-Click Copy Email Global Toast Notification -->
+    <div x-data="{
+        open: false,
+        email: '',
+        timer: null,
+        show(emailText) {
+            this.email = emailText;
+            this.open = true;
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => { this.open = false; }, 4500);
+        },
+        openGmail() {
+            window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(this.email), '_blank');
+            this.open = false;
+        }
+    }"
+    @copy-email-toast.window="show($event.detail.email)"
+    x-show="open"
+    x-cloak
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:translate-x-4 scale-95"
+    x-transition:enter-end="opacity-100 translate-y-0 sm:translate-x-0 scale-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 scale-100"
+    x-transition:leave-end="opacity-0 scale-95"
+    class="fixed bottom-24 right-4 sm:top-5 sm:bottom-auto sm:right-6 z-[9999] max-w-sm w-[calc(100%-2rem)] bg-[#0D1526]/95 border-2 border-emerald-500/50 backdrop-blur-xl p-4 rounded-2xl shadow-2xl shadow-black/80 text-white"
+    style="display: none;">
+        <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-white">Copied to Clipboard!</span>
+                    <button type="button" @click="open = false" class="text-slate-400 hover:text-white p-0.5 text-base font-bold leading-none">&times;</button>
+                </div>
+                <div class="text-[12px] text-emerald-300 font-mono truncate mt-0.5" x-text="email"></div>
+                <div class="mt-2.5 flex items-center gap-2">
+                    <button type="button" @click="openGmail()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-sm transition-colors">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+                        <span>Open in Gmail</span>
+                    </button>
+                    <button type="button" @click="open = false" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-colors">
+                        Dismiss
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @include('public.partials.header')
 
     <main class="flex-1 w-full">
@@ -126,6 +176,23 @@
             <span class="text-sm font-bold">Quick Chat</span>
         </a>
     @endif
+
+    <script>
+        window.copyPortfolioEmail = function(email, event) {
+            if (event && event.preventDefault) event.preventDefault();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email).catch(function() {});
+            } else {
+                var input = document.createElement('textarea');
+                input.value = email;
+                document.body.appendChild(input);
+                input.select();
+                try { document.execCommand('copy'); } catch(e) {}
+                document.body.removeChild(input);
+            }
+            window.dispatchEvent(new CustomEvent('copy-email-toast', { detail: { email: email } }));
+        };
+    </script>
 
     @stack('scripts')
 </body>
