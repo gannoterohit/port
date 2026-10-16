@@ -1,7 +1,7 @@
 <div x-data="{
     scrolled: false,
     mobileOpen: false
-}" @scroll.window="scrolled = window.scrollY > 20">
+}" @scroll.window.passive="scrolled = (window.scrollY || document.documentElement.scrollTop) > 20">
     <header class="fixed w-full top-0 z-40 bg-[#080C14]/85 backdrop-blur-md border-b border-slate-800/80 transition-all duration-300"
         :class="{ 'shadow-lg shadow-black/30 bg-[#080C14]/95': scrolled }">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">

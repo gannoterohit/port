@@ -42,13 +42,12 @@
         <link rel="icon" href="{{ asset('favicon.ico') }}">
     @endif
 
-    <!-- Google Fonts Fast & Asynchronous (Zero Render-Blocking) -->
+    <!-- Google Fonts Optimized (Zero CLS, Zero Render-Blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=optional" media="print" onload="this.media='all'">
     <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=optional">
     </noscript>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

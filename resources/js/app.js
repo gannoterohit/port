@@ -54,7 +54,7 @@ function initScrollProgress() {
 
 // Interactive 3D Card Mouse Tilt Effect & Spotlight Coordinates
 function initCard3DTilt() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 768) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 768 || !window.matchMedia('(hover: hover)').matches) {
         return;
     }
 
@@ -145,18 +145,27 @@ function initStatCounters() {
     counters.forEach(counter => observer.observe(counter));
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        initScrollReveal();
-        initScrollProgress();
-        initCard3DTilt();
-        initStatCounters();
-    });
-} else {
+function setupEnhancements() {
     initScrollReveal();
     initScrollProgress();
     initCard3DTilt();
     initStatCounters();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(setupEnhancements, { timeout: 1200 });
+        } else {
+            requestAnimationFrame(setupEnhancements);
+        }
+    });
+} else {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(setupEnhancements, { timeout: 1200 });
+    } else {
+        requestAnimationFrame(setupEnhancements);
+    }
 }
 
 // Expose globally if dynamic Alpine tabs or pagination need to re-scan

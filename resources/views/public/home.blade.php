@@ -143,19 +143,19 @@
 
                         <!-- 3 Sleek Stat Cards with Spotlight & Count-Up -->
                         <div class="pt-6 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-left">
-                            <div class="reveal-on-scroll stagger-1 p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] card-glow-hover card-spotlight transition-all duration-200 group">
+                            <div class="p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] card-glow-hover card-spotlight transition-all duration-200 group">
                                 <div class="stat-counter text-2xl sm:text-3xl font-extrabold text-emerald-400 mb-0.5 group-hover:scale-105 transition-transform origin-left"
                                      data-target="{{ floatval($yearsExp) ?: 2.5 }}" data-suffix="+ Years">{{ $yearsExp }} Years</div>
                                 <div class="text-xs font-semibold text-white">Commercial Exp</div>
                                 <div class="text-[11px] text-slate-400">Production software</div>
                             </div>
-                            <div class="reveal-on-scroll stagger-2 p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] card-glow-hover card-spotlight transition-all duration-200 group">
+                            <div class="p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] card-glow-hover card-spotlight transition-all duration-200 group">
                                 <div class="stat-counter text-2xl sm:text-3xl font-extrabold text-teal-400 mb-0.5 group-hover:scale-105 transition-transform origin-left"
                                      data-target="6" data-suffix=" Months">6 Months</div>
                                 <div class="text-xs font-semibold text-white">Intensive Training</div>
                                 <div class="text-[11px] text-slate-400">Advanced PHP &amp; DB</div>
                             </div>
-                            <div class="reveal-on-scroll stagger-3 p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] card-glow-hover card-spotlight transition-all duration-200 group">
+                            <div class="p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] card-glow-hover card-spotlight transition-all duration-200 group">
                                 <div class="stat-counter text-2xl sm:text-3xl font-extrabold text-cyan-400 mb-0.5 group-hover:scale-105 transition-transform origin-left"
                                      data-target="100" data-suffix="% Ready">Full Stack</div>
                                 <div class="text-xs font-semibold text-white">Laravel &amp; MySQL</div>

@@ -207,43 +207,44 @@
     -webkit-backdrop-filter: blur(12px);
   }
 
-  /* Interactive 3D Card Hover & Ambient Glow */
-  .card-glow-hover {
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.3s ease;
-    will-change: transform, box-shadow;
-    transform-style: preserve-3d;
-  }
+  /* Interactive 3D Card Hover & Ambient Glow (Active only on pointer devices) */
+  @media (hover: hover) and (pointer: fine) {
+    .card-glow-hover {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+      transform-style: preserve-3d;
+    }
 
-  .card-glow-hover:hover {
-    transform: translateY(-8px) scale(1.015);
-    box-shadow: 0 25px 45px -12px rgba(16, 185, 129, 0.28),
-                0 0 25px 2px rgba(16, 185, 129, 0.12),
-                0 12px 20px -8px rgba(0, 0, 0, 0.6);
-    border-color: rgba(52, 211, 153, 0.55);
-  }
+    .card-glow-hover:hover {
+      transform: translateY(-8px) scale(1.015);
+      box-shadow: 0 25px 45px -12px rgba(16, 185, 129, 0.28),
+                  0 0 25px 2px rgba(16, 185, 129, 0.12),
+                  0 12px 20px -8px rgba(0, 0, 0, 0.6);
+      border-color: rgba(52, 211, 153, 0.55);
+    }
 
-  /* Interactive Spotlight Torch Glow (Cursor following radial highlight) */
-  .card-spotlight {
-    position: relative;
-    overflow: hidden;
-  }
+    /* Interactive Spotlight Torch Glow (Cursor following radial highlight) */
+    .card-spotlight {
+      position: relative;
+      overflow: hidden;
+    }
 
-  .card-spotlight::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(16, 185, 129, 0.16), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
-  }
+    .card-spotlight::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(16, 185, 129, 0.16), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-  .card-spotlight:hover::before {
-    opacity: 1;
+    .card-spotlight:hover::before {
+      opacity: 1;
+    }
   }
 
   /* Interactive Text Hover Animations */
@@ -312,7 +313,6 @@
     transform: translateY(30px);
     transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
   }
 
   .reveal-on-scroll.reveal-visible {
