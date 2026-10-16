@@ -60,7 +60,7 @@
                             {{ $homepageSettings->hero_heading ?: ($profile->title ?: 'Full Stack Web Developer') }}
                         </h1>
 
-                        <!-- Dynamic Animated Typing Specialty -->
+                        <!-- Dynamic Animated Typing Specialty (Locked height & zero layout shift) -->
                         <div x-data="{
                             roles: [
                                 '{{ $homepageSettings->hero_title ?: 'Laravel & PHP Specialist' }}',
@@ -69,10 +69,10 @@
                                 'Custom Web Apps & ERP Panels'
                             ],
                             roleIndex: 0,
-                            text: '',
-                            isDeleting: false,
+                            text: '{{ $homepageSettings->hero_title ?: 'Laravel & PHP Specialist' }}',
+                            isDeleting: true,
                             init() {
-                                this.type();
+                                setTimeout(() => this.type(), 2200);
                             },
                             type() {
                                 const current = this.roles[this.roleIndex];
@@ -95,12 +95,12 @@
 
                                 setTimeout(() => this.type(), delta);
                             }
-                        }" class="min-h-[36px] sm:min-h-[42px] flex items-center mb-4">
-                            <span class="text-xl sm:text-2xl lg:text-3xl font-extrabold bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent animate-text-shimmer"
-                                  x-text="text || '{{ $homepageSettings->hero_title ?: 'Laravel & MySQL Specialist' }}'">
-                                {{ $homepageSettings->hero_title ?: 'Laravel & MySQL Specialist' }}
+                        }" class="h-10 sm:h-12 flex items-center mb-4 overflow-hidden">
+                            <span class="text-xl sm:text-2xl lg:text-3xl font-extrabold bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent animate-text-shimmer leading-none"
+                                  x-text="text">
+                                {{ $homepageSettings->hero_title ?: 'Laravel & PHP Specialist' }}
                             </span>
-                            <span class="inline-block w-[3px] h-6 sm:h-8 bg-emerald-400 ml-1.5 rounded-full cursor-blink"></span>
+                            <span class="inline-block w-[3px] h-6 sm:h-7 bg-emerald-400 ml-1.5 rounded-full cursor-blink shrink-0"></span>
                         </div>
 
                         <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-2xl font-normal">
@@ -191,8 +191,8 @@
                         @if($heroImg)
                             <div class="relative max-w-sm mx-auto group">
                                 <div class="absolute -inset-1.5 bg-gradient-to-r from-emerald-500/30 via-teal-500/20 to-cyan-500/30 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                                <div class="relative rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-2xl shadow-emerald-950/50 bg-[#0D1526] transition-transform duration-300 group-hover:scale-[1.02]">
-                                    <img src="{{ $heroImg }}" alt="{{ $profile->full_name }}" width="450" height="450" fetchpriority="high" decoding="async" class="w-full h-auto aspect-square object-cover">
+                                <div class="relative aspect-square w-full rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-2xl shadow-emerald-950/50 bg-[#0D1526] transition-transform duration-300 group-hover:scale-[1.02]">
+                                    <img src="{{ $heroImg }}" alt="{{ $profile->full_name }}" width="380" height="380" fetchpriority="high" decoding="async" sizes="(min-width: 1024px) 380px, 100vw" class="w-full h-full object-cover">
                                 </div>
                                 <div class="absolute -bottom-4 -left-4 bg-[#0D1526]/95 backdrop-blur-md p-3.5 rounded-xl border border-slate-700 shadow-xl flex items-center gap-3 z-10">
                                     <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-sm shadow-xs">
@@ -399,7 +399,8 @@
                             <div class="reveal-on-scroll stagger-{{ ($loop->index % 3) + 1 }} bg-[#0F172A]/90 rounded-2xl border border-slate-800 shadow-xl card-glow-hover card-spotlight flex flex-col overflow-hidden group">
                                 <a href="{{ route('projects.show', $project->slug) }}" aria-label="View {{ $project->title }} project details" class="relative block aspect-[16/9] overflow-hidden bg-slate-950">
                                     @if($project->thumbnail_url)
-                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" width="640" height="360" loading="lazy" decoding="async"
+                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" width="403" height="227" loading="lazy" decoding="async"
+                                            sizes="(min-width: 1024px) 403px, (min-width: 768px) 50vw, 100vw"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center text-slate-400 bg-gradient-to-br from-slate-900 to-slate-950">

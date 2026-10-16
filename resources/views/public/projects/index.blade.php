@@ -76,7 +76,8 @@
                     <div class="reveal-on-scroll stagger-{{ ($loop->index % 3) + 1 }} group bg-[#0F172A]/90 rounded-2xl overflow-hidden border border-slate-800 shadow-xl card-glow-hover flex flex-col">
                         <a href="{{ route('projects.show', ['project' => $project->slug]) }}" class="relative block overflow-hidden aspect-[16/9] bg-slate-950">
                             @if($project->thumbnail_url)
-                                <img src="{{ $project->thumbnail_url }}" alt="{{ $project->thumbnail_alt ?: $project->title }}" width="640" height="360" loading="lazy" decoding="async"
+                                <img src="{{ $project->thumbnail_url }}" alt="{{ $project->thumbnail_alt ?: $project->title }}" width="403" height="227" loading="lazy" decoding="async"
+                                    sizes="(min-width: 1024px) 403px, (min-width: 768px) 50vw, 100vw"
                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-slate-400 bg-gradient-to-br from-slate-900 to-slate-950">

@@ -297,10 +297,9 @@
     animation: shimmerPass 1s ease-in-out;
   }
 
-  /* Animated Text Shimmer */
+  /* Animated Text Gradient */
   .animate-text-shimmer {
-    background-size: 200% auto;
-    animation: textShimmer 5s ease-in-out infinite;
+    background-size: 100% auto;
   }
 
   .cursor-blink {
