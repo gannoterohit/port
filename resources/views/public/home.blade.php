@@ -46,15 +46,21 @@
                             $specialization = \App\Models\Setting::get('specialization_text') ?: 'Laravel & MySQL Specialist';
                         @endphp
 
-                        @if($isAvailable)
-                            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold text-xs sm:text-sm mb-6 shadow-xs backdrop-blur-md animate-fade-in">
-                                <span class="relative flex h-2.5 w-2.5">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                                </span>
-                                <span>Available for Freelance &amp; Contract Projects</span>
+                        <div class="flex flex-wrap items-center gap-2.5 mb-6">
+                            @if($isAvailable)
+                                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold text-xs sm:text-sm shadow-xs backdrop-blur-md animate-fade-in">
+                                    <span class="relative flex h-2.5 w-2.5">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                                    </span>
+                                    <span>Available for Hire &amp; Contract</span>
+                                </div>
+                            @endif
+                            <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300 font-mono text-xs shadow-xs">
+                                <span class="text-emerald-400">⚡</span>
+                                <span>IST (UTC+5:30) • Remote Ready</span>
                             </div>
-                        @endif
+                        </div>
 
                         <h1 class="text-4xl sm:text-5xl lg:text-[58px] font-extrabold tracking-tight text-white leading-[1.12] mb-3">
                             {{ $homepageSettings->hero_heading ?: ($profile->title ?: 'Full Stack Web Developer') }}
@@ -107,36 +113,37 @@
                             {{ $homepageSettings->hero_description ?: 'Specializing in Laravel, PHP, MySQL, and RESTful APIs to build secure, robust, and scalable custom web applications, ERPs, and administrative dashboards.' }}
                         </p>
 
-                        <div class="flex flex-wrap gap-4 items-center mb-10">
+                        <div class="flex flex-wrap gap-3.5 items-center mb-10">
                             <a href="#contact"
                                 class="btn-shimmer-effect inline-flex items-center justify-center gap-2 px-7 py-3.5 font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all duration-200 text-base">
                                 <span>Get in Touch</span>
                                 <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
                             <a href="#projects"
-                                class="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-medium rounded-xl bg-slate-900/90 text-slate-200 hover:text-white hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 hover:-translate-y-0.5 shadow-md transition-all duration-200 text-base backdrop-blur-md">
+                                class="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-medium rounded-xl bg-slate-900/90 text-slate-200 hover:text-white hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 hover:-translate-y-0.5 shadow-md transition-all duration-200 text-base backdrop-blur-md">
                                 View Projects
                             </a>
-                            @if($profile->resume_url && $profile->resume_button_visible)
-                                <a href="{{ $profile->resume_url }}" target="_blank" rel="noopener noreferrer" download
-                                    class="inline-flex items-center justify-center gap-2 px-5 py-3.5 font-medium rounded-xl text-slate-300 hover:text-emerald-400 bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-emerald-500/30 transition-all duration-200 text-sm">
-                                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path></svg>
-                                    Download CV
-                                </a>
-                            @endif
+                            @php
+                                $cvUrl = ($profile->resume_url && $profile->resume_button_visible) ? $profile->resume_url : '#contact';
+                            @endphp
+                            <a href="{{ $cvUrl }}" @if($profile->resume_url && $profile->resume_button_visible) target="_blank" rel="noopener noreferrer" download @endif
+                                class="inline-flex items-center justify-center gap-2 px-5 py-3.5 font-semibold rounded-xl text-slate-200 hover:text-white bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 shadow-md hover:-translate-y-0.5 transition-all duration-200 text-sm group"
+                                title="Download Rohit's CV / Resume">
+                                <svg class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path></svg>
+                                <span>Download CV</span>
+                                <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">PDF</span>
+                            </a>
 
                             @php
                                 $contactEmail = $profile->contact_email ?: ($profile->email ?: null);
                             @endphp
                             @if($contactEmail)
                                 <button type="button"
-                                    x-data="{ copied: false }"
-                                    @click="navigator.clipboard.writeText('{{ $contactEmail }}'); copied = true; setTimeout(() => copied = false, 2500)"
-                                    class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-slate-900/60 hover:bg-slate-900 text-slate-300 hover:text-white border border-slate-800 hover:border-emerald-500/40 transition-all duration-200 text-sm group"
-                                    title="Click to copy email">
-                                    <svg x-show="!copied" class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                    <svg x-show="copied" x-cloak class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                    <span x-text="copied ? 'Email Copied! ✓' : 'Copy Email'">Copy Email</span>
+                                    @click="window.copyPortfolioEmail('{{ $contactEmail }}', $event)"
+                                    class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-slate-900/60 hover:bg-slate-900 text-slate-300 hover:text-white border border-slate-800 hover:border-emerald-500/40 transition-all duration-200 text-sm group shadow-sm"
+                                    title="Click to copy email: {{ $contactEmail }}">
+                                    <svg class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                    <span>Copy Email</span>
                                 </button>
                             @endif
                         </div>

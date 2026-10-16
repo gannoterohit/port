@@ -83,11 +83,26 @@
                 </div>
             @endif
 
-            <!-- Main Thumbnail Card -->
+            <!-- Main Thumbnail Card with Browser Bezel Mockup -->
             @if($project->thumbnail_url)
-                <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl mb-10 bg-slate-950 relative group">
+                <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl mb-10 bg-[#0A0F1D] relative group">
+                    <!-- Browser Top Bar -->
+                    <div class="bg-slate-900/90 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+                        </div>
+                        <div class="flex-1 max-w-sm mx-4 bg-slate-950/80 px-3 py-1 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-400 flex items-center justify-center gap-1.5 truncate">
+                            <svg class="w-3 h-3 text-emerald-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+                            <span class="truncate">https://{{ $project->slug }}.app/dashboard</span>
+                        </div>
+                        <div class="text-[11px] font-mono text-emerald-400 font-bold hidden sm:inline">
+                            ● 200 OK
+                        </div>
+                    </div>
                     <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}"
-                        class="w-full h-auto aspect-video object-cover transition-transform duration-500 group-hover:scale-[1.02]">
+                        class="w-full h-auto aspect-video object-cover transition-transform duration-500 group-hover:scale-[1.01]">
                 </div>
             @endif
 
@@ -226,23 +241,66 @@
                 </div>
             @endif
 
-            <!-- Screenshots Gallery -->
+            <!-- Screenshots Gallery with Interactive Full-Screen Lightbox -->
             @if($project->screenshots && $project->screenshots->isNotEmpty())
-                <div class="mb-12">
+                <div x-data="{
+                    activeImage: null,
+                    activeCaption: '',
+                    openModal(url, caption) {
+                        this.activeImage = url;
+                        this.activeCaption = caption;
+                        document.body.classList.add('overflow-hidden');
+                    },
+                    closeModal() {
+                        this.activeImage = null;
+                        this.activeCaption = '';
+                        document.body.classList.remove('overflow-hidden');
+                    }
+                }"
+                @keydown.escape.window="closeModal()"
+                class="mb-12">
                     <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
                         <span>📸</span>
                         <span>Application Visuals &amp; User Flow</span>
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @foreach($project->screenshots as $screenshot)
-                            <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-xl bg-slate-950 group">
+                            <div @click="openModal('{{ $screenshot->image_url }}', '{{ addslashes($screenshot->caption ?? $project->title) }}')"
+                                class="rounded-2xl overflow-hidden border border-slate-800 hover:border-emerald-500/50 shadow-xl bg-slate-950 group cursor-pointer relative transition-all duration-300">
                                 <img src="{{ $screenshot->image_url }}" alt="{{ $screenshot->caption ?? $project->title }}" loading="lazy" decoding="async"
                                     class="w-full h-56 object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                                <div class="absolute inset-0 bg-slate-950/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <span class="px-3 py-1.5 rounded-xl bg-slate-900/95 text-white font-medium text-xs border border-emerald-500/40 shadow-xl flex items-center gap-1.5 backdrop-blur-md">
+                                        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                                        <span>Click to Zoom</span>
+                                    </span>
+                                </div>
                                 @if($screenshot->caption)
                                     <p class="p-3 text-xs text-slate-400 text-center border-t border-slate-800 bg-slate-900/80">{{ $screenshot->caption }}</p>
                                 @endif
                             </div>
                         @endforeach
+                    </div>
+
+                    <!-- Fullscreen Dark Lightbox Modal -->
+                    <div x-show="activeImage"
+                        x-cloak
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                        @click="closeModal()"
+                        class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
+                        style="display: none;">
+                        <button type="button" @click="closeModal()" class="absolute top-5 right-5 text-slate-300 hover:text-white p-2.5 rounded-full bg-slate-900/80 border border-slate-700 text-lg transition-colors shadow-xl" title="Close (Esc)">
+                            ✕
+                        </button>
+                        <div @click.stop class="max-w-5xl max-h-[90vh] flex flex-col items-center">
+                            <img :src="activeImage" :alt="activeCaption" class="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl border border-slate-800">
+                            <p x-show="activeCaption" x-text="activeCaption" class="mt-3 text-xs sm:text-sm text-slate-200 font-medium text-center bg-slate-900/90 px-4 py-1.5 rounded-full border border-slate-800 shadow-lg"></p>
+                        </div>
                     </div>
                 </div>
             @endif
