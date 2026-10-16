@@ -25,40 +25,55 @@
                 </p>
             </div>
 
-            <!-- Search & Category Filter -->
-            <form method="GET" action="{{ route('projects') }}" class="mb-10 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-                <div class="relative flex-1">
-                    <input type="search" name="search" value="{{ request('search') }}"
-                        placeholder="Search projects..."
-                        class="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-900/90 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent shadow-md">
-                </div>
+            <!-- Search & Interactive Category Filter Pills -->
+            <div class="mb-12 space-y-6">
+                <!-- Search Box -->
+                <form method="GET" action="{{ route('projects') }}" class="max-w-2xl mx-auto flex gap-3 items-center">
+                    @if(request('category'))
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                    @endif
+                    <div class="relative flex-1">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <input type="search" name="search" value="{{ request('search') }}"
+                            placeholder="Search by project name, tech stack (Laravel, MySQL, API)..."
+                            class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-700 bg-[#0D1526]/90 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent shadow-lg transition-all">
+                    </div>
+                    <button type="submit"
+                        class="btn-shimmer-effect inline-flex items-center justify-center px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white text-sm font-semibold transition-all shadow-md shadow-emerald-500/25 shrink-0">
+                        Search
+                    </button>
+                    @if(request()->filled('search') || request()->filled('category'))
+                        <a href="{{ route('projects') }}"
+                            class="inline-flex items-center justify-center px-4 py-3.5 rounded-2xl border border-slate-700 bg-slate-900/90 text-slate-300 hover:text-white text-sm font-medium transition-colors shadow-xs shrink-0"
+                            title="Reset filters">
+                            Clear
+                        </a>
+                    @endif
+                </form>
+
+                <!-- Category Filter Pills -->
                 @if(isset($categories) && $categories->isNotEmpty())
-                    <select name="category"
-                        class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-900/90 text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent sm:min-w-[180px] shadow-md">
-                        <option value="">All categories</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category }}" {{ request('category') === $category ? 'selected' : '' }}>
-                                {{ $category }}
-                            </option>
+                    <div class="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+                        <a href="{{ route('projects', array_filter(['search' => request('search')])) }}"
+                            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 border {{ !request('category') ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white border-emerald-500/50 shadow-md shadow-emerald-500/20' : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:border-slate-700 hover:text-white hover:bg-slate-800' }}">
+                            All Projects
+                        </a>
+                        @foreach($categories as $cat)
+                            <a href="{{ route('projects', array_filter(['category' => $cat, 'search' => request('search')])) }}"
+                                class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 border {{ request('category') === $cat ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white border-emerald-500/50 shadow-md shadow-emerald-500/20' : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:border-slate-700 hover:text-white hover:bg-slate-800' }}">
+                                {{ $cat }}
+                            </a>
                         @endforeach
-                    </select>
+                    </div>
                 @endif
-                <button type="submit"
-                    class="btn-shimmer-effect inline-flex items-center justify-center px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white text-sm font-semibold transition-all shadow-md shadow-emerald-500/25">
-                    Filter
-                </button>
-                @if(request()->filled('search') || request()->filled('category'))
-                    <a href="{{ route('projects') }}"
-                        class="inline-flex items-center justify-center px-5 py-3 rounded-xl border border-slate-700 bg-slate-900/90 text-slate-300 hover:text-white text-sm font-medium transition-colors shadow-xs">
-                        Clear
-                    </a>
-                @endif
-            </form>
+            </div>
 
             <!-- 3-Column Projects Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($projects as $project)
-                    <div class="group bg-[#0F172A]/90 rounded-2xl overflow-hidden border border-slate-800 shadow-xl card-glow-hover flex flex-col">
+                    <div class="reveal-on-scroll stagger-{{ ($loop->index % 3) + 1 }} group bg-[#0F172A]/90 rounded-2xl overflow-hidden border border-slate-800 shadow-xl card-glow-hover flex flex-col">
                         <a href="{{ route('projects.show', ['project' => $project->slug]) }}" class="relative block overflow-hidden aspect-[16/9] bg-slate-950">
                             @if($project->thumbnail_url)
                                 <img src="{{ $project->thumbnail_url }}" alt="{{ $project->thumbnail_alt ?: $project->title }}" width="640" height="360" loading="lazy" decoding="async"

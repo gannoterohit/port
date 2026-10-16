@@ -57,38 +57,86 @@
             @foreach($footerWidgets as $widget)
                 <div>
                     <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">{{ $widget->title }}</h4>
-                    <ul class="space-y-2">
-                        @foreach($widget->links as $link)
-                            <li>
-                                <a href="{{ url($link->url) }}" target="{{ $link->target }}"
-                                    class="text-sm text-gray-400 hover:text-white transition-colors">
-                                    {{ $link->label }}
+
+                    @if($widget->content)
+                        <div class="text-sm text-slate-400 space-y-2 leading-relaxed">
+                            {!! $widget->content !!}
+                        </div>
+                    @endif
+
+                    @if($widget->links && $widget->links->isNotEmpty())
+                        <ul class="space-y-2.5 {{ $widget->content ? 'mt-3' : '' }}">
+                            @foreach($widget->links as $link)
+                                <li>
+                                    <a href="{{ url($link->url) }}" target="{{ $link->target }}"
+                                        class="text-sm text-slate-400 hover:text-emerald-400 transition-colors inline-flex items-center gap-2 group">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-700 group-hover:bg-emerald-400 transition-colors"></span>
+                                        <span>{{ $link->label }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @elseif(!$widget->content && strtolower($widget->title) === 'contact')
+                        {{-- Rich Dynamic Contact Column Fallback --}}
+                        <div class="space-y-3.5 text-sm">
+                            @php
+                                $footerEmail = $profile->contact_email ?: ($profile->email ?: \App\Models\Setting::get('contact_email'));
+                                $footerPhone = $profile->contact_phone ?: \App\Models\Setting::get('contact_phone');
+                                $footerLocation = $profile->location ?: \App\Models\Setting::get('contact_address');
+                            @endphp
+
+                            @if($footerEmail)
+                                <a href="mailto:{{ $footerEmail }}" class="flex items-center gap-2.5 text-slate-300 hover:text-emerald-400 transition-colors group">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    </div>
+                                    <span class="text-xs sm:text-sm truncate">{{ $footerEmail }}</span>
                                 </a>
-                            </li>
-                        @endforeach
-                    </ul>
+                            @endif
+
+                            @if($footerPhone)
+                                <a href="tel:{{ $footerPhone }}" class="flex items-center gap-2.5 text-slate-300 hover:text-emerald-400 transition-colors group">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                    </div>
+                                    <span class="text-xs sm:text-sm">{{ $footerPhone }}</span>
+                                </a>
+                            @endif
+
+                            @if($footerLocation)
+                                <div class="flex items-center gap-2.5 text-slate-400">
+                                    <div class="w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-400 flex items-center justify-center shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    </div>
+                                    <span class="text-xs sm:text-sm">{{ $footerLocation }}</span>
+                                </div>
+                            @endif
+
+                            <div class="pt-1">
+                                <a href="{{ route('contact') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 hover:underline">
+                                    <span>Send Project Message</span>
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             @endforeach
-
-            @if($orphanedFooterLinks->isNotEmpty())
-                <div>
-                    <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Links</h4>
-                    <ul class="space-y-2">
-                        @foreach($orphanedFooterLinks as $link)
-                            <li>
-                                <a href="{{ url($link->url) }}" target="{{ $link->target }}"
-                                    class="text-sm text-gray-400 hover:text-white transition-colors">
-                                    {{ $link->label }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
         </div>
 
-        <div class="border-t border-slate-800/80 pt-6 text-center text-sm text-slate-400">
+        <div class="border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row items-center justify-between text-sm text-slate-400 gap-4">
             <p>{{ \App\Models\Setting::get('copyright_text') ?: ('© ' . date('Y') . ' ' . ($websiteName ?? config('app.name')) . '. All rights reserved.') }}</p>
+
+            @if($orphanedFooterLinks->isNotEmpty())
+                <div class="flex flex-wrap items-center gap-5 text-xs text-slate-400">
+                    @foreach($orphanedFooterLinks as $link)
+                        <a href="{{ url($link->url) }}" target="{{ $link->target }}"
+                            class="hover:text-emerald-400 transition-colors">
+                            {{ $link->label }}
+                        </a>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
 </footer>

@@ -60,11 +60,48 @@
                             {{ $homepageSettings->hero_heading ?: ($profile->title ?: 'Full Stack Web Developer') }}
                         </h1>
 
-                        @if($homepageSettings->hero_title)
-                            <p class="text-lg sm:text-2xl font-bold bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent mb-4">
-                                {{ $homepageSettings->hero_title }}
-                            </p>
-                        @endif
+                        <!-- Dynamic Animated Typing Specialty -->
+                        <div x-data="{
+                            roles: [
+                                '{{ $homepageSettings->hero_title ?: 'Laravel & PHP Specialist' }}',
+                                'High-Performance REST APIs',
+                                'MySQL Database Optimization',
+                                'Custom Web Apps & ERP Panels'
+                            ],
+                            roleIndex: 0,
+                            text: '',
+                            isDeleting: false,
+                            init() {
+                                this.type();
+                            },
+                            type() {
+                                const current = this.roles[this.roleIndex];
+                                if (this.isDeleting) {
+                                    this.text = current.substring(0, this.text.length - 1);
+                                } else {
+                                    this.text = current.substring(0, this.text.length + 1);
+                                }
+
+                                let delta = this.isDeleting ? 40 : 85;
+
+                                if (!this.isDeleting && this.text === current) {
+                                    delta = 2200;
+                                    this.isDeleting = true;
+                                } else if (this.isDeleting && this.text === '') {
+                                    this.isDeleting = false;
+                                    this.roleIndex = (this.roleIndex + 1) % this.roles.length;
+                                    delta = 400;
+                                }
+
+                                setTimeout(() => this.type(), delta);
+                            }
+                        }" class="min-h-[36px] sm:min-h-[42px] flex items-center mb-4">
+                            <span class="text-xl sm:text-2xl lg:text-3xl font-extrabold bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent animate-text-shimmer"
+                                  x-text="text || '{{ $homepageSettings->hero_title ?: 'Laravel & MySQL Specialist' }}'">
+                                {{ $homepageSettings->hero_title ?: 'Laravel & MySQL Specialist' }}
+                            </span>
+                            <span class="inline-block w-[3px] h-6 sm:h-8 bg-emerald-400 ml-1.5 rounded-full cursor-blink"></span>
+                        </div>
 
                         <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-2xl font-normal">
                             {{ $homepageSettings->hero_description ?: 'Specializing in Laravel, PHP, MySQL, and RESTful APIs to build secure, robust, and scalable custom web applications, ERPs, and administrative dashboards.' }}
@@ -87,22 +124,40 @@
                                     Download CV
                                 </a>
                             @endif
+
+                            @php
+                                $contactEmail = $profile->contact_email ?: ($profile->email ?: null);
+                            @endphp
+                            @if($contactEmail)
+                                <button type="button"
+                                    x-data="{ copied: false }"
+                                    @click="navigator.clipboard.writeText('{{ $contactEmail }}'); copied = true; setTimeout(() => copied = false, 2500)"
+                                    class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-slate-900/60 hover:bg-slate-900 text-slate-300 hover:text-white border border-slate-800 hover:border-emerald-500/40 transition-all duration-200 text-sm group"
+                                    title="Click to copy email">
+                                    <svg x-show="!copied" class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                    <svg x-show="copied" x-cloak class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                    <span x-text="copied ? 'Email Copied! ✓' : 'Copy Email'">Copy Email</span>
+                                </button>
+                            @endif
                         </div>
 
-                        <!-- 3 Sleek Stat Cards -->
+                        <!-- 3 Sleek Stat Cards with Spotlight & Count-Up -->
                         <div class="pt-6 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-left">
-                            <div class="p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] transition-all duration-200 group">
-                                <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 mb-0.5 group-hover:scale-105 transition-transform origin-left">{{ $yearsExp }} Years</div>
+                            <div class="reveal-on-scroll stagger-1 p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] card-glow-hover card-spotlight transition-all duration-200 group">
+                                <div class="stat-counter text-2xl sm:text-3xl font-extrabold text-emerald-400 mb-0.5 group-hover:scale-105 transition-transform origin-left"
+                                     data-target="{{ floatval($yearsExp) ?: 2.5 }}" data-suffix="+ Years">{{ $yearsExp }} Years</div>
                                 <div class="text-xs font-semibold text-white">Commercial Exp</div>
                                 <div class="text-[11px] text-slate-400">Production software</div>
                             </div>
-                            <div class="p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] transition-all duration-200 group">
-                                <div class="text-2xl sm:text-3xl font-extrabold text-teal-400 mb-0.5 group-hover:scale-105 transition-transform origin-left">6 Months</div>
+                            <div class="reveal-on-scroll stagger-2 p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] card-glow-hover card-spotlight transition-all duration-200 group">
+                                <div class="stat-counter text-2xl sm:text-3xl font-extrabold text-teal-400 mb-0.5 group-hover:scale-105 transition-transform origin-left"
+                                     data-target="6" data-suffix=" Months">6 Months</div>
                                 <div class="text-xs font-semibold text-white">Intensive Training</div>
                                 <div class="text-[11px] text-slate-400">Advanced PHP &amp; DB</div>
                             </div>
-                            <div class="p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] transition-all duration-200 group">
-                                <div class="text-2xl sm:text-3xl font-extrabold text-cyan-400 mb-0.5 group-hover:scale-105 transition-transform origin-left">Full Stack</div>
+                            <div class="reveal-on-scroll stagger-3 p-4 rounded-xl bg-[#0D1526]/80 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-[#111A2E] card-glow-hover card-spotlight transition-all duration-200 group">
+                                <div class="stat-counter text-2xl sm:text-3xl font-extrabold text-cyan-400 mb-0.5 group-hover:scale-105 transition-transform origin-left"
+                                     data-target="100" data-suffix="% Ready">Full Stack</div>
                                 <div class="text-xs font-semibold text-white">Laravel &amp; MySQL</div>
                                 <div class="text-[11px] text-slate-400">REST APIs &amp; Dashboards</div>
                             </div>
@@ -210,9 +265,9 @@
         <section id="about" class="py-20 sm:py-28 bg-[#0B101D] border-b border-slate-800/80 relative overflow-hidden">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-14">
+                    <div class="text-center mb-14 reveal-on-scroll">
                         <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded-full mb-3 shadow-xs">Professional Background</span>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">About &amp; Experience</h2>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">About &amp; <span class="text-hover-gradient cursor-default">Experience</span></h2>
                         <p class="text-slate-400 text-base mt-2 max-w-xl mx-auto">
                             Committed to building scalable software, dependable backend architecture, and intuitive user experiences.
                         </p>
@@ -220,7 +275,7 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                         <!-- Left Experience Card -->
-                        <div class="lg:col-span-5 bg-[#0F172A]/90 rounded-2xl p-7 sm:p-8 border border-slate-800 shadow-xl card-glow-hover">
+                        <div class="reveal-on-scroll stagger-1 lg:col-span-5 bg-[#0F172A]/90 rounded-2xl p-7 sm:p-8 border border-slate-800 shadow-xl card-glow-hover">
                             <div class="text-4xl sm:text-5xl font-extrabold text-emerald-400 mb-1">
                                 {{ \App\Models\Setting::get('years_experience') ?: '2.5+' }}
                             </div>
@@ -252,7 +307,7 @@
                         </div>
 
                         <!-- Right Details -->
-                        <div class="lg:col-span-7 bg-[#0F172A]/90 rounded-2xl p-7 sm:p-9 border border-slate-800 shadow-xl card-glow-hover space-y-5">
+                        <div class="reveal-on-scroll stagger-2 lg:col-span-7 bg-[#0F172A]/90 rounded-2xl p-7 sm:p-9 border border-slate-800 shadow-xl card-glow-hover space-y-5">
                             <h3 class="text-2xl font-bold text-white">{{ $profile->title ?: 'Full Stack Web Developer' }}</h3>
                             <div class="prose prose-invert max-w-none text-slate-300 text-base leading-relaxed">
                                 {!! $profile->intro ? nl2br(e($profile->intro)) : ($profile->biography ? Str::limit(strip_tags($profile->biography), 350) : 'With 2.5 years of commercial software development and 6 months of comprehensive training, I solve real business challenges by building robust backend architectures, custom web applications, and seamless administrative panels.') !!}
@@ -284,9 +339,9 @@
         <section id="skills" class="py-20 sm:py-28 bg-[#080C14] border-b border-slate-800/80 relative">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-14">
+                    <div class="text-center mb-14 reveal-on-scroll">
                         <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded-full mb-3 shadow-xs">Core Expertise</span>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Skills &amp; Technologies</h2>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Skills &amp; <span class="text-hover-gradient cursor-default">Technologies</span></h2>
                         <p class="text-slate-400 text-base mt-2 max-w-xl mx-auto">
                             Modern stack and tools applied in commercial web application engineering.
                         </p>
@@ -294,11 +349,11 @@
 
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         @foreach($skills as $skill)
-                            <div class="bg-[#0F172A]/80 hover:bg-[#131E35] rounded-xl p-4 text-center border border-slate-800 hover:border-emerald-500/40 card-glow-hover group transition-all">
+                            <div class="reveal-on-scroll stagger-{{ ($loop->index % 6) + 1 }} bg-[#0F172A]/80 hover:bg-[#131E35] rounded-xl p-4 text-center border border-slate-800 hover:border-emerald-500/40 card-glow-hover group transition-all">
                                 <div class="text-white font-bold text-base mb-1.5 group-hover:text-emerald-400 transition-colors">
                                     {{ $skill->name }}
                                 </div>
-                                <span class="inline-block text-[11px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/60 group-hover:border-emerald-500/40 group-hover:text-emerald-300 transition-colors">
+                                <span class="badge-hover-bounce inline-block text-[11px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/60 group-hover:border-emerald-500/40 group-hover:text-emerald-300 transition-all">
                                     {{ $skill->category->name ?? 'General' }}
                                 </span>
                             </div>
@@ -321,10 +376,10 @@
         <section id="projects" class="py-20 sm:py-28 bg-[#0B101D] border-b border-slate-800/80 relative">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-7xl mx-auto">
-                    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14">
+                    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14 reveal-on-scroll">
                         <div>
                             <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded-full mb-3 shadow-xs">Portfolio Showcase</span>
-                            <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Featured Projects</h2>
+                            <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Featured <span class="text-hover-gradient cursor-default">Projects</span></h2>
                             <p class="text-slate-400 text-base mt-2 max-w-xl">
                                 Real web applications, APIs, and business platforms built with high reliability.
                             </p>
@@ -341,7 +396,7 @@
                     <!-- 3-Column Responsive Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($featuredProjects as $project)
-                            <div class="bg-[#0F172A]/90 rounded-2xl border border-slate-800 shadow-xl card-glow-hover flex flex-col overflow-hidden group">
+                            <div class="reveal-on-scroll stagger-{{ ($loop->index % 3) + 1 }} bg-[#0F172A]/90 rounded-2xl border border-slate-800 shadow-xl card-glow-hover card-spotlight flex flex-col overflow-hidden group">
                                 <a href="{{ route('projects.show', $project->slug) }}" aria-label="View {{ $project->title }} project details" class="relative block aspect-[16/9] overflow-hidden bg-slate-950">
                                     @if($project->thumbnail_url)
                                         <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" width="640" height="360" loading="lazy" decoding="async"
@@ -359,7 +414,7 @@
                                 </a>
 
                                 <div class="p-6 sm:p-7 flex-1 flex flex-col">
-                                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">
+                                    <h3 class="text-xl font-bold text-white mb-2 text-hover-glow transition-colors">
                                         <a href="{{ route('projects.show', $project->slug) }}">{{ $project->title }}</a>
                                     </h3>
 
@@ -378,7 +433,7 @@
                                     @if($project->tech_stack && is_array($project->tech_stack))
                                         <div class="flex flex-wrap gap-1.5 mb-5">
                                             @foreach(array_slice($project->tech_stack, 0, 4) as $tech)
-                                                <span class="text-xs px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700/60 group-hover:border-emerald-500/30 transition-colors">
+                                                <span class="badge-hover-bounce text-xs px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700/60 group-hover:border-emerald-500/30 transition-all">
                                                     {{ $tech }}
                                                 </span>
                                             @endforeach
@@ -414,9 +469,9 @@
         <section id="services" class="py-20 sm:py-28 bg-[#080C14] border-b border-slate-800/80">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-7xl mx-auto">
-                    <div class="text-center mb-14">
+                    <div class="text-center mb-14 reveal-on-scroll">
                         <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded-full mb-3 shadow-xs">What I Offer</span>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Services &amp; Solutions</h2>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Services &amp; <span class="text-hover-gradient cursor-default">Solutions</span></h2>
                         <p class="text-slate-400 text-base mt-2 max-w-xl mx-auto">
                             Custom software engineering tailored to solve real technical and operational bottlenecks.
                         </p>
@@ -424,7 +479,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach($featuredServices as $service)
-                            <div class="bg-[#0F172A]/85 hover:bg-[#131E35] rounded-2xl p-6 sm:p-7 border border-slate-800 hover:border-emerald-500/40 shadow-xl card-glow-hover flex flex-col group transition-all">
+                            <div class="reveal-on-scroll stagger-{{ ($loop->index % 4) + 1 }} bg-[#0F172A]/85 hover:bg-[#131E35] rounded-2xl p-6 sm:p-7 border border-slate-800 hover:border-emerald-500/40 shadow-xl card-glow-hover flex flex-col group transition-all">
                                 <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 group-hover:bg-gradient-to-br group-hover:from-emerald-500 group-hover:to-teal-500 group-hover:text-white group-hover:scale-105 transition-all duration-300 flex items-center justify-center mb-5 font-bold text-lg shadow-sm">
                                     @if($service->icon_url)
                                         <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" width="28" height="28" loading="lazy" decoding="async" class="w-7 h-7 object-contain">
@@ -475,7 +530,7 @@
         <section class="py-20 sm:py-28 bg-[#0B101D] border-b border-slate-800/80">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-14">
+                    <div class="text-center mb-14 reveal-on-scroll">
                         <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded-full mb-3 shadow-xs">Structured Methodology</span>
                         <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">How I Work</h2>
                         <p class="text-slate-400 text-base mt-2 max-w-xl mx-auto">
@@ -485,7 +540,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($workProcesses as $index => $process)
-                            <div class="bg-[#0F172A]/90 rounded-2xl p-6 text-center border border-slate-800 shadow-xl card-glow-hover relative group">
+                            <div class="reveal-on-scroll stagger-{{ ($index % 3) + 1 }} bg-[#0F172A]/90 rounded-2xl p-6 text-center border border-slate-800 shadow-xl card-glow-hover relative group">
                                 <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold text-sm mb-4 shadow-md shadow-emerald-500/25 ring-4 ring-emerald-500/15 group-hover:scale-105 transition-all">
                                     {{ $index + 1 }}
                                 </span>
@@ -506,7 +561,7 @@
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-emerald-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="max-w-3xl mx-auto text-center">
+                <div class="max-w-3xl mx-auto text-center reveal-on-scroll">
                     <span class="inline-block text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-4 py-1.5 rounded-full mb-4 shadow-sm">Let's Connect</span>
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">
                         {{ $homepageSettings->contact_cta_heading ?: 'Have a Project in Mind?' }}
