@@ -164,8 +164,32 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: Interactive Visual with Floating Tech Pills & Avatar -->
-                    <div class="lg:col-span-5 relative">
+                    <!-- Right Column: Interactive Artisan Terminal & Developer Visual -->
+                    <div x-data="{
+                        viewMode: 'terminal',
+                        activeCmd: 'about',
+                        cmdInput: 'php artisan about',
+                        isTyping: false,
+                        displayedOutput: 'about',
+                        run(cmdKey, cmdName) {
+                            if (this.isTyping || this.activeCmd === cmdKey) return;
+                            this.activeCmd = cmdKey;
+                            this.isTyping = true;
+                            this.cmdInput = '';
+                            const full = 'php artisan ' + cmdName;
+                            let i = 0;
+                            const timer = setInterval(() => {
+                                if (i < full.length) {
+                                    this.cmdInput += full.charAt(i);
+                                    i++;
+                                } else {
+                                    clearInterval(timer);
+                                    this.isTyping = false;
+                                    this.displayedOutput = cmdKey;
+                                }
+                            }, 24);
+                        }
+                    }" class="lg:col-span-5 relative">
                         <!-- Floating Pill 1: Laravel -->
                         <div class="hidden sm:flex absolute -top-5 -right-2 z-20 items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#0D1526]/95 border border-slate-700 shadow-xl shadow-black/50 animate-float-slow">
                             <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
@@ -173,26 +197,137 @@
                         </div>
 
                         <!-- Floating Pill 2: MySQL -->
-                        <div class="hidden sm:flex absolute top-1/2 -left-6 z-20 items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#0D1526]/95 border border-slate-700 shadow-xl shadow-black/50 animate-float-delayed">
+                        <div class="hidden sm:flex absolute -bottom-5 -left-4 z-20 items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#0D1526]/95 border border-slate-700 shadow-xl shadow-black/50 animate-float-delayed">
                             <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
                             <span class="text-xs font-bold text-white">MySQL 8.0 Optimized</span>
-                        </div>
-
-                        <!-- Floating Pill 3: REST APIs -->
-                        <div class="hidden sm:flex absolute -bottom-5 right-6 z-20 items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#0D1526]/95 border border-slate-700 shadow-xl shadow-black/50 animate-float-slow">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                            <span class="text-xs font-bold text-white">High-Throughput APIs</span>
                         </div>
 
                         @php
                             $heroImg = $homepageSettings->hero_image_url ?: $profile->profile_photo_url;
                         @endphp
 
+                        <!-- Terminal Container -->
+                        <div x-show="viewMode === 'terminal'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500/25 via-teal-500/20 to-cyan-500/25 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
+                            <div class="relative bg-[#0A0F1D] rounded-2xl border border-slate-800 shadow-2xl overflow-hidden transition-all duration-300 group-hover:border-emerald-500/40">
+                                <!-- Terminal Top Window Header -->
+                                <div class="bg-slate-900/90 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 rounded-full bg-red-500/90 inline-block"></span>
+                                        <span class="w-3 h-3 rounded-full bg-amber-500/90 inline-block"></span>
+                                        <span class="w-3 h-3 rounded-full bg-emerald-500/90 inline-block"></span>
+                                        <span class="text-[11px] font-mono text-slate-400 ml-1.5 hidden sm:inline">rohit@srv: ~/portfolio</span>
+                                    </div>
+
+                                    @if($heroImg)
+                                        <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-[11px]">
+                                            <button type="button" @click="viewMode = 'terminal'" :class="viewMode === 'terminal' ? 'bg-emerald-500/20 text-emerald-400 font-bold' : 'text-slate-400 hover:text-white'" class="px-2.5 py-0.5 rounded transition-colors flex items-center gap-1">
+                                                <span>💻</span> Terminal
+                                            </button>
+                                            <button type="button" @click="viewMode = 'photo'" :class="viewMode === 'photo' ? 'bg-emerald-500/20 text-emerald-400 font-bold' : 'text-slate-400 hover:text-white'" class="px-2.5 py-0.5 rounded transition-colors flex items-center gap-1">
+                                                <span>👤</span> Photo
+                                            </button>
+                                        </div>
+                                    @else
+                                        <div class="text-[11px] font-semibold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                            Artisan v12
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Terminal Quick Command Actions -->
+                                <div class="px-4 py-2.5 bg-[#0D1424] border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto text-xs font-mono">
+                                    <span class="text-slate-400 text-[11px] mr-1 hidden sm:inline">Run:</span>
+                                    <button type="button" @click="run('about', 'about')" :class="activeCmd === 'about' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'" class="px-2.5 py-1 rounded-md border text-[11px] font-medium transition-all whitespace-nowrap">
+                                        $ about
+                                    </button>
+                                    <button type="button" @click="run('test', 'test --pest')" :class="activeCmd === 'test' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'" class="px-2.5 py-1 rounded-md border text-[11px] font-medium transition-all whitespace-nowrap">
+                                        $ test:run
+                                    </button>
+                                    <button type="button" @click="run('routes', 'route:list --path=api')" :class="activeCmd === 'routes' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'" class="px-2.5 py-1 rounded-md border text-[11px] font-medium transition-all whitespace-nowrap">
+                                        $ routes:api
+                                    </button>
+                                    <button type="button" @click="run('status', 'developer:status')" :class="activeCmd === 'status' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'" class="px-2.5 py-1 rounded-md border text-[11px] font-medium transition-all whitespace-nowrap">
+                                        $ status
+                                    </button>
+                                </div>
+
+                                <!-- Terminal Screen Output -->
+                                <div class="p-5 font-mono text-xs sm:text-[13px] leading-relaxed bg-[#070B14] min-h-[220px] flex flex-col justify-between">
+                                    <div>
+                                        <!-- Active Command Line -->
+                                        <div class="flex items-center gap-2 text-slate-300 mb-3 pb-2 border-b border-slate-900">
+                                            <span class="text-emerald-400 font-bold">$</span>
+                                            <span class="text-white font-semibold" x-text="cmdInput">php artisan about</span>
+                                            <span class="inline-block w-2 h-4 bg-emerald-400 cursor-blink ml-0.5" x-show="isTyping"></span>
+                                        </div>
+
+                                        <!-- Command 1: About -->
+                                        <div x-show="displayedOutput === 'about'" class="space-y-1.5 text-slate-300 animate-fade-in">
+                                            <div class="text-purple-400 font-bold">Laravel Framework <span class="text-emerald-400 font-normal">v12.x</span> • PHP <span class="text-teal-400 font-normal">v8.2+</span></div>
+                                            <div class="text-slate-400 text-xs"><span class="text-cyan-400">Environment:</span> Production (Linux x86_64)</div>
+                                            <div class="text-slate-400 text-xs"><span class="text-cyan-400">Architecture:</span> Clean Domain-Driven / REST API</div>
+                                            <div class="text-slate-400 text-xs"><span class="text-cyan-400">Database:</span> MySQL 8.0 (Indexed, 0 N+1 Queries)</div>
+                                            <div class="text-slate-400 text-xs"><span class="text-cyan-400">Performance:</span> <span class="text-emerald-400 font-bold">100/100 Core Web Vitals</span></div>
+                                        </div>
+
+                                        <!-- Command 2: Test -->
+                                        <div x-show="displayedOutput === 'test'" class="space-y-1 text-slate-300 animate-fade-in text-xs">
+                                            <div class="text-emerald-400 font-bold">PASS  Tests\Feature\AuthApiSecurityTest</div>
+                                            <div class="text-slate-400 pl-3">✓ rate-limiting, sanitize input &amp; CSRF <span class="text-slate-500">(12ms)</span></div>
+                                            <div class="text-emerald-400 font-bold">PASS  Tests\Feature\ProjectServiceTest</div>
+                                            <div class="text-slate-400 pl-3">✓ cached query response under 20ms <span class="text-slate-500">(8ms)</span></div>
+                                            <div class="text-emerald-400 font-bold">PASS  Tests\Unit\DatabaseSchemaTest</div>
+                                            <div class="text-slate-400 pl-3">✓ foreign keys &amp; zero orphaned rows <span class="text-slate-500">(6ms)</span></div>
+                                            <div class="pt-1.5 text-[11px] text-slate-400 border-t border-slate-800/80">
+                                                <span class="text-emerald-400 font-bold">Tests: 18 passed</span> (48 assertions) • <span class="text-teal-400">Time: 0.26s</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Command 3: Routes API -->
+                                        <div x-show="displayedOutput === 'routes'" class="space-y-1 font-mono text-[11px] sm:text-xs text-slate-300 animate-fade-in">
+                                            <div><span class="text-emerald-400 font-bold">GET|HEAD</span>  api/v1/projects ........ <span class="text-slate-400">ProjectController@index</span></div>
+                                            <div><span class="text-blue-400 font-bold">POST</span>      api/v1/projects ........ <span class="text-slate-400">ProjectController@store</span></div>
+                                            <div><span class="text-emerald-400 font-bold">GET|HEAD</span>  api/v1/metrics ......... <span class="text-slate-400">MetricController@realtime</span></div>
+                                            <div><span class="text-amber-400 font-bold">PUT</span>       api/v1/settings ........ <span class="text-slate-400">SettingController@update</span></div>
+                                            <div class="pt-1 text-[11px] text-slate-500">4 protected endpoints [JWT Auth, Throttled: 60/min]</div>
+                                        </div>
+
+                                        <!-- Command 4: Developer Status -->
+                                        <div x-show="displayedOutput === 'status'" class="space-y-1 text-slate-300 animate-fade-in text-xs">
+                                            <div class="text-emerald-400 font-bold">● Service Status: ALL SYSTEMS OPERATIONAL</div>
+                                            <div class="text-slate-400">Developer: <span class="text-white font-bold">{{ $profile->full_name }}</span></div>
+                                            <div class="text-slate-400">Commercial Experience: <span class="text-white font-bold">{{ \App\Models\Setting::get('years_experience') ?: '2.5+' }} Years</span></div>
+                                            <div class="text-slate-400">Status: <span class="text-emerald-400 font-bold">🟢 Open for Freelance &amp; Full-Time</span></div>
+                                            <div class="text-slate-400">Response SLA: <span class="text-teal-300 font-bold">&lt; 2 Hours</span></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bottom Terminal Status Bar -->
+                                    <div class="mt-4 pt-3 border-t border-slate-900 flex items-center justify-between text-[11px] text-slate-500">
+                                        <span class="flex items-center gap-1.5 text-emerald-400">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                            Ready for deployment
+                                        </span>
+                                        <span class="text-slate-400">utf-8 • bash</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Photo Container (If hero image exists and user selects Photo tab) -->
                         @if($heroImg)
-                            <div class="relative max-w-sm mx-auto group">
+                            <div x-show="viewMode === 'photo'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="relative max-w-sm mx-auto group" style="display: none;">
                                 <div class="absolute -inset-1.5 bg-gradient-to-r from-emerald-500/30 via-teal-500/20 to-cyan-500/30 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                                 <div class="relative aspect-square w-full rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-2xl shadow-emerald-950/50 bg-[#0D1526] transition-transform duration-300 group-hover:scale-[1.02]">
                                     <img src="{{ $heroImg }}" alt="{{ $profile->full_name }}" width="380" height="380" fetchpriority="high" decoding="async" sizes="(min-width: 1024px) 380px, 100vw" class="w-full h-full object-cover">
+
+                                    <div class="absolute top-3 right-3 z-20">
+                                        <button type="button" @click="viewMode = 'terminal'" class="bg-slate-950/90 hover:bg-slate-900 border border-emerald-500/40 text-emerald-400 text-xs px-3 py-1.5 rounded-xl shadow-lg flex items-center gap-1.5 backdrop-blur-md transition-all font-semibold">
+                                            <span>💻</span> Switch to Terminal
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="absolute -bottom-4 -left-4 bg-[#0D1526]/95 backdrop-blur-md p-3.5 rounded-xl border border-slate-700 shadow-xl flex items-center gap-3 z-10">
                                     <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-sm shadow-xs">
@@ -204,60 +339,137 @@
                                     </div>
                                 </div>
                             </div>
-                        @else
-                            <div class="relative group">
-                                <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500/25 via-teal-500/20 to-cyan-500/25 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
-                                <div class="relative bg-[#0F172A] rounded-2xl border border-slate-800 shadow-2xl overflow-hidden transition-all duration-300 group-hover:border-emerald-500/40">
-                                    <!-- Card Header Window -->
-                                    <div class="bg-slate-900/90 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                            <div class="w-3 h-3 rounded-full bg-amber-500"></div>
-                                            <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-                                        </div>
-                                        <div class="text-xs font-mono text-slate-400 flex items-center gap-1.5">
-                                            <span class="text-emerald-400 font-semibold">~/portfolio</span>
-                                            <span>/</span>
-                                            <span>ProjectController.php</span>
-                                        </div>
-                                        <div class="text-[11px] font-semibold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full shadow-xs flex items-center gap-1">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                            Live
-                                        </div>
-                                    </div>
-                                    <!-- Card Content -->
-                                    <div class="p-6 font-mono text-xs sm:text-[13px] leading-relaxed bg-[#0B1120] text-slate-200 overflow-x-auto">
-                                        <div class="text-purple-400 font-semibold mb-1">namespace <span class="text-slate-300">App\Http\Controllers;</span></div>
-                                        <div class="text-slate-400 mb-2">// Full Stack Architecture</div>
-                                        <div><span class="text-blue-400 font-bold">class</span> <span class="text-emerald-400 font-bold">ProjectController</span> <span class="text-blue-400 font-bold">extends</span> Controller</div>
-                                        <div>{</div>
-                                        <div class="pl-4 text-slate-400">// High-performance production apps</div>
-                                        <div class="pl-4"><span class="text-blue-400 font-bold">public function</span> <span class="text-amber-300 font-bold">deploy</span>(Client $client): WebApp</div>
-                                        <div class="pl-4">{</div>
-                                        <div class="pl-8"><span class="text-blue-400 font-bold">return</span> $this->projects->build([</div>
-                                        <div class="pl-12 text-emerald-400 font-semibold">'backend'  => 'Laravel 12 &amp; PHP 8.2+',</div>
-                                        <div class="pl-12 text-emerald-400 font-semibold">'database' => 'Optimized MySQL Schema',</div>
-                                        <div class="pl-12 text-emerald-400 font-semibold">'apis'     => 'Secure RESTful APIs',</div>
-                                        <div class="pl-12 text-emerald-400 font-semibold">'frontend' => 'Tailwind &amp; Alpine.js',</div>
-                                        <div class="pl-8">]);</div>
-                                        <div class="pl-4">}</div>
-                                        <div>}</div>
-                                    </div>
-                                    <!-- Card Footer Status -->
-                                    <div class="px-5 py-3 bg-slate-900/90 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-                                        <span class="flex items-center gap-1.5 text-emerald-400 font-semibold">
-                                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                            Production Architecture
-                                        </span>
-                                        <span class="font-medium text-slate-300">{{ \App\Models\Setting::get('years_experience') ?: '2.5+' }} Years Exp</span>
-                                    </div>
-                                </div>
-                            </div>
                         @endif
                     </div>
                 </div>
             </div>
         </section>
+    @endif
+
+    @if($section === 'hero')
+    <!-- Infinite Tech Stack Logo Marquee (Pure CSS, 60fps, Zero Render-Blocking) -->
+    <section class="py-9 bg-[#070B14] border-b border-slate-800/80 relative overflow-hidden" aria-label="Core Technologies Marquee">
+        <div class="container mx-auto px-4 mb-5 text-center">
+            <span class="inline-flex items-center gap-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 bg-slate-900/80 border border-slate-800 px-3.5 py-1 rounded-full shadow-xs">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Core Tech Stack &amp; Production Tooling
+            </span>
+        </div>
+
+        <div class="marquee-mask relative w-full overflow-hidden">
+            <div class="animate-marquee flex items-center gap-4 sm:gap-6">
+                <!-- Group 1 -->
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-red-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M23.64 12.2a1 1 0 00-.51-.87L13.8 6.1a1 1 0 00-1 0L3.48 11.45a1 1 0 00-.48.86v7.38a1 1 0 00.5.87l9.32 5.23a1 1 0 001 0l9.32-5.23a1 1 0 00.5-.87v-7.49zm-10.32-4.1l6.73 3.77-3.23 1.81-6.73-3.77 3.23-1.81zm-7.82 5.02l6.82 3.82v6.64l-6.82-3.82v-6.64zm8.82 10.46v-6.64l6.82-3.82v6.64l-6.82 3.82z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Laravel 12</span>
+                    <span class="text-[10px] text-emerald-400 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">MVC Core</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#8892BF] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.5H9.3l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7zm5.4 0h-1.5l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">PHP 8.2+</span>
+                    <span class="text-[10px] text-teal-400 font-semibold bg-teal-500/10 px-1.5 py-0.5 rounded">Backend</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#00758F] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 14.93V18h-2v-1.07A6 6 0 017 11h2a4 4 0 008 0h2a6 6 0 01-6 5.93z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">MySQL 8.0</span>
+                    <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-1.5 py-0.5 rounded">Indexed DB</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">RESTful APIs</span>
+                    <span class="text-[10px] text-emerald-300 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">JSON / Auth</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#DC382D] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 00-9 9c0 4.97 4.03 9 9 9s9-4.03 9-9a9 9 0 00-9-9zm4 11H8v-2h8v2zm0-4H8V8h8v2z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Redis</span>
+                    <span class="text-[10px] text-rose-400 font-semibold bg-rose-500/10 px-1.5 py-0.5 rounded">Cache &amp; Queues</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#38BDF8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.336 6.182 14.975 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.336 13.382 8.975 12 6.001 12z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Tailwind CSS</span>
+                    <span class="text-[10px] text-cyan-400 font-semibold bg-cyan-500/10 px-1.5 py-0.5 rounded">v4.0</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#77C1D8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19.9 12.5L13.8 2 7.7 12.5h12.2zm-12.2 0L1.6 22h12.2l-6.1-9.5zm6.1 0l6.1 9.5H7.7l6.1-9.5z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Alpine.js</span>
+                    <span class="text-[10px] text-teal-300 font-semibold bg-teal-500/10 px-1.5 py-0.5 rounded">Reactive UI</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#2496ED] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 10.5c-.3-2.1-1.8-3.7-3.8-4.2-.4-.1-.8-.1-1.2-.1-1 0-1.9.4-2.6 1-.3-.1-.7-.1-1.1-.1-2.3 0-4.2 1.8-4.4 4.1h-.9V9h-2v2.2H5V9H3v2.2H1.5v2h21v-2.7zm-11-2.5h2v2h-2V8zm3 0h2v2h-2V8z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Docker</span>
+                    <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-1.5 py-0.5 rounded">Containers</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-white shrink-0" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">GitHub Actions</span>
+                    <span class="text-[10px] text-slate-300 font-semibold bg-slate-800 px-1.5 py-0.5 rounded">CI / CD</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#FF6C37] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Postman</span>
+                    <span class="text-[10px] text-orange-400 font-semibold bg-orange-500/10 px-1.5 py-0.5 rounded">API Testing</span>
+                </div>
+
+                <!-- Group 2 (Duplicate for Seamless Endless Loop) -->
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-red-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M23.64 12.2a1 1 0 00-.51-.87L13.8 6.1a1 1 0 00-1 0L3.48 11.45a1 1 0 00-.48.86v7.38a1 1 0 00.5.87l9.32 5.23a1 1 0 001 0l9.32-5.23a1 1 0 00.5-.87v-7.49zm-10.32-4.1l6.73 3.77-3.23 1.81-6.73-3.77 3.23-1.81zm-7.82 5.02l6.82 3.82v6.64l-6.82-3.82v-6.64zm8.82 10.46v-6.64l6.82-3.82v6.64l-6.82 3.82z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Laravel 12</span>
+                    <span class="text-[10px] text-emerald-400 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">MVC Core</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#8892BF] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.5H9.3l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7zm5.4 0h-1.5l.9-4.5h1.5c1.4 0 2.2.6 2 1.8-.2 1.4-1.2 2.7-2.9 2.7z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">PHP 8.2+</span>
+                    <span class="text-[10px] text-teal-400 font-semibold bg-teal-500/10 px-1.5 py-0.5 rounded">Backend</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#00758F] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 14.93V18h-2v-1.07A6 6 0 017 11h2a4 4 0 008 0h2a6 6 0 01-6 5.93z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">MySQL 8.0</span>
+                    <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-1.5 py-0.5 rounded">Indexed DB</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">RESTful APIs</span>
+                    <span class="text-[10px] text-emerald-300 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded">JSON / Auth</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#DC382D] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 00-9 9c0 4.97 4.03 9 9 9s9-4.03 9-9a9 9 0 00-9-9zm4 11H8v-2h8v2zm0-4H8V8h8v2z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Redis</span>
+                    <span class="text-[10px] text-rose-400 font-semibold bg-rose-500/10 px-1.5 py-0.5 rounded">Cache &amp; Queues</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#38BDF8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.336 6.182 14.975 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.336 13.382 8.975 12 6.001 12z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Tailwind CSS</span>
+                    <span class="text-[10px] text-cyan-400 font-semibold bg-cyan-500/10 px-1.5 py-0.5 rounded">v4.0</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#77C1D8] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19.9 12.5L13.8 2 7.7 12.5h12.2zm-12.2 0L1.6 22h12.2l-6.1-9.5zm6.1 0l6.1 9.5H7.7l6.1-9.5z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Alpine.js</span>
+                    <span class="text-[10px] text-teal-300 font-semibold bg-teal-500/10 px-1.5 py-0.5 rounded">Reactive UI</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 text-slate-200 transition-colors shrink-0 shadow-sm">
+                    <svg class="w-5 h-5 text-[#2496ED] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 10.5c-.3-2.1-1.8-3.7-3.8-4.2-.4-.1-.8-.1-1.2-.1-1 0-1.9.4-2.6 1-.3-.1-.7-.1-1.1-.1-2.3 0-4.2 1.8-4.4 4.1h-.9V9h-2v2.2H5V9H3v2.2H1.5v2h21v-2.7zm-11-2.5h2v2h-2V8zm3 0h2v2h-2V8z"/></svg>
+                    <span class="text-xs sm:text-sm font-bold text-white">Docker</span>
+                    <span class="text-[10px] text-blue-400 font-semibold bg-blue-500/10 px-1.5 py-0.5 rounded">Containers</span>
+                </div>
+            </div>
+        </div>
+    </section>
     @endif
 
     @if($section === 'about' && $homepageSettings->about_section_enabled)
@@ -401,13 +613,35 @@
                                     @if($project->thumbnail_url)
                                         <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" width="403" height="227" loading="lazy" decoding="async"
                                             sizes="(min-width: 1024px) 403px, (min-width: 768px) 50vw, 100vw"
-                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                            class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center text-slate-400 bg-gradient-to-br from-slate-900 to-slate-950">
                                             <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                         </div>
                                     @endif
-                                    <div class="absolute top-3 right-3 flex gap-2">
+
+                                    <!-- Interactive Hover Preview Glassmorphism Overlay -->
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 z-10 pointer-events-none">
+                                        <div class="flex items-center justify-between">
+                                            <span class="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-400 bg-slate-950/90 px-2.5 py-1 rounded-full border border-emerald-500/30 shadow-md">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                                Interactive Case Study
+                                            </span>
+                                        </div>
+
+                                        <div class="flex items-center justify-center">
+                                            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold text-xs shadow-xl shadow-emerald-500/30 transform translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
+                                                <span>Explore Details</span>
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                            </span>
+                                        </div>
+
+                                        <div class="text-[11px] font-mono text-slate-300 truncate">
+                                            Role: {{ $project->role ?: 'Lead Developer' }}
+                                        </div>
+                                    </div>
+
+                                    <div class="absolute top-3 right-3 flex gap-2 z-20">
                                         <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-emerald-400 shadow-sm border border-emerald-500/30">
                                             {{ $project->category ?? 'Web Application' }}
                                         </span>
@@ -415,6 +649,25 @@
                                 </a>
 
                                 <div class="p-6 sm:p-7 flex-1 flex flex-col">
+                                    @php
+                                        $impactBadge = '⚡ High-Performance Architecture';
+                                        $lowerCat = strtolower(($project->category ?? '') . ' ' . $project->title);
+                                        if (str_contains($lowerCat, 'api')) {
+                                            $impactBadge = '⚡ High Throughput & Sub-50ms API';
+                                        } elseif (str_contains($lowerCat, 'erp') || str_contains($lowerCat, 'admin') || str_contains($lowerCat, 'crm') || str_contains($lowerCat, 'panel')) {
+                                            $impactBadge = '🔒 Role-Based ACL & Analytics';
+                                        } elseif (str_contains($lowerCat, 'e-com') || str_contains($lowerCat, 'shop') || str_contains($lowerCat, 'store')) {
+                                            $impactBadge = '💳 Secure Payments & Order Engine';
+                                        } elseif (str_contains($lowerCat, 'community') || str_contains($lowerCat, 'social')) {
+                                            $impactBadge = '🚀 Real-time Interactions & Feeds';
+                                        }
+                                    @endphp
+                                    <div class="mb-2">
+                                        <span class="inline-flex items-center gap-1.5 text-[11px] font-bold text-teal-300 bg-teal-500/10 border border-teal-500/30 px-2.5 py-0.5 rounded-md shadow-xs">
+                                            {{ $impactBadge }}
+                                        </span>
+                                    </div>
+
                                     <h3 class="text-xl font-bold text-white mb-2 text-hover-glow transition-colors">
                                         <a href="{{ route('projects.show', $project->slug) }}">{{ $project->title }}</a>
                                     </h3>
@@ -422,14 +675,6 @@
                                     <p class="text-slate-400 text-sm mb-4 line-clamp-2 flex-1 leading-relaxed">
                                         {{ $project->short_description ?? Str::limit(strip_tags($project->description), 110) }}
                                     </p>
-
-                                    @if($project->role)
-                                        <div class="mb-3">
-                                            <span class="inline-block text-[11px] font-medium text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded">
-                                                Role: {{ $project->role }}
-                                            </span>
-                                        </div>
-                                    @endif
 
                                     @if($project->tech_stack && is_array($project->tech_stack))
                                         <div class="flex flex-wrap gap-1.5 mb-5">

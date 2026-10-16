@@ -421,3 +421,27 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+/* Infinite Tech Logo Marquee Animation (Pure CSS, 60fps) */
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+  will-change: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%);
+}
