@@ -35,7 +35,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Default Social Sharing Image</label>
                 @if(isset($seoSettings['default_og_image']) && $seoSettings['default_og_image']->value)
-                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($seoSettings['default_og_image']->value) }}" alt="OG Image" class="w-24 h-24 object-cover rounded-lg mb-2">
+                    <img src="{{ asset('storage/' . $seoSettings['default_og_image']->value) }}" alt="OG Image" class="w-24 h-24 object-cover rounded-lg mb-2">
                 @endif
                 <input type="file" name="default_og_image" accept="image/*" class="admin-input">
                 <p class="text-xs text-gray-500 mt-1">1200x630px recommended for social sharing.</p>

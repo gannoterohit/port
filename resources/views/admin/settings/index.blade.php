@@ -179,7 +179,7 @@
                         @elseif($setting->type === 'image')
                             <div class="flex items-center gap-4">
                                 @if($setting->value)
-                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($setting->value) }}" alt="{{ $setting->label }}" class="w-16 h-16 object-cover rounded-lg">
+                                    <img src="{{ asset('storage/' . $setting->value) }}" alt="{{ $setting->label }}" class="w-16 h-16 object-cover rounded-lg">
                                 @endif
                                 <input type="file" name="{{ $setting->key }}" accept="image/*" class="admin-input">
                             </div>

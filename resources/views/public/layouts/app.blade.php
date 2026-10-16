@@ -9,7 +9,7 @@
         $pageOgTitle = $__env->yieldContent('og_title') ?: $pageTitle;
         $pageOgDescription = $__env->yieldContent('og_description') ?: $pageDescription;
         $pageOgImage = $__env->yieldContent('og_image')
-            ?: (!empty($defaultOgImage) ? \Illuminate\Support\Facades\Storage::disk('public')->url($defaultOgImage) : (!empty($profile->profile_photo_url) ? $profile->profile_photo_url : null));
+            ?: (!empty($defaultOgImage) ? asset('storage/' . $defaultOgImage) : (!empty($profile->profile_photo_url) ? $profile->profile_photo_url : null));
     @endphp
     <title>{{ $pageTitle }}</title>
     <meta name="description" content="{{ $pageDescription }}">
@@ -37,7 +37,7 @@
     @stack('meta')
 
     @if($favicon)
-        <link rel="icon" href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($favicon) }}">
+        <link rel="icon" href="{{ asset('storage/' . $favicon) }}">
     @else
         <link rel="icon" href="{{ asset('favicon.ico') }}">
     @endif

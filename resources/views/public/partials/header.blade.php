@@ -9,7 +9,7 @@
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center gap-2.5 group" aria-label="{{ $websiteName }} - Home">
                         @if($logo)
-                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($logo) }}" alt="{{ $websiteName }}" class="h-9 sm:h-10 w-auto object-contain">
+                            <img src="{{ asset('storage/' . $logo) }}" alt="{{ $websiteName }}" class="h-9 sm:h-10 w-auto object-contain">
                         @else
                             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg shadow-md shadow-emerald-500/25 group-hover:scale-105 transition-transform">
                                 {{ substr($websiteName, 0, 1) }}
