@@ -86,6 +86,10 @@
     @endif
 
 <body class="font-sans antialiased min-h-screen flex flex-col">
+    <!-- Awwwards-Style Magnetic Dot & Lag Ring Custom Cursor -->
+    <div id="cursor-dot" class="custom-cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-ring" class="custom-cursor-ring" aria-hidden="true"></div>
+
     <!-- Top Scroll Dynamic Progress Bar -->
     <div id="scroll-progress-bar" class="fixed top-0 left-0 h-[2.5px] bg-[#B85D19] dark:bg-[#E07A5F] z-[9999] pointer-events-none transition-all duration-75 ease-out" style="width: 0%"></div>
 

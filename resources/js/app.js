@@ -100,14 +100,127 @@ function initStatCounters() {
     counters.forEach(counter => observer.observe(counter));
 }
 
+// Awwwards-Style Magnetic Dot & Lag Ring Custom Cursor
+function initMagneticCursor() {
+    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) {
+        return;
+    }
+
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (!dot || !ring) return;
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
+    let isVisible = false;
+    let isHovering = false;
+    let isClicking = false;
+
+    // Silky smooth inertia lag (0.18 lerp factor)
+    const LERP_FACTOR = 0.18;
+
+    function render() {
+        if (isVisible) {
+            ringX += (mouseX - ringX) * LERP_FACTOR;
+            ringY += (mouseY - ringY) * LERP_FACTOR;
+
+            dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%) ${isClicking ? 'scale(1.6)' : (isHovering ? 'scale(0)' : 'scale(1)')}`;
+            ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) ${isClicking ? 'scale(0.8)' : 'scale(1)'}`;
+        }
+        requestAnimationFrame(render);
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        if (!isVisible) {
+            isVisible = true;
+            ringX = mouseX;
+            ringY = mouseY;
+            dot.classList.add('cursor-visible');
+            ring.classList.add('cursor-visible');
+        }
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+        isVisible = false;
+        dot.classList.remove('cursor-visible');
+        ring.classList.remove('cursor-visible');
+    });
+
+    document.addEventListener('mouseenter', () => {
+        isVisible = true;
+        dot.classList.add('cursor-visible');
+        ring.classList.add('cursor-visible');
+    });
+
+    window.addEventListener('mousedown', () => {
+        isClicking = true;
+        ring.classList.add('cursor-clicking');
+        dot.classList.add('cursor-clicking');
+    });
+
+    window.addEventListener('mouseup', () => {
+        isClicking = false;
+        ring.classList.remove('cursor-clicking');
+        dot.classList.remove('cursor-clicking');
+    });
+
+    // Delegation for interactive elements & text inputs
+    const interactiveSelector = 'a, button, [role="button"], summary, .hover-target, [data-cursor="pointer"]';
+    const textSelector = 'input[type="text"], input[type="email"], input[type="password"], input[type="search"], input[type="tel"], textarea';
+
+    document.addEventListener('mouseover', (e) => {
+        const textTarget = e.target.closest(textSelector);
+        if (textTarget) {
+            ring.classList.add('cursor-text-input');
+            return;
+        }
+
+        const interactiveTarget = e.target.closest(interactiveSelector);
+        if (interactiveTarget) {
+            isHovering = true;
+            ring.classList.add('cursor-hover');
+            dot.classList.add('cursor-hover');
+        }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        const textTarget = e.target.closest(textSelector);
+        if (textTarget) {
+            const related = e.relatedTarget ? e.relatedTarget.closest(textSelector) : null;
+            if (!related) {
+                ring.classList.remove('cursor-text-input');
+            }
+        }
+
+        const interactiveTarget = e.target.closest(interactiveSelector);
+        if (interactiveTarget) {
+            const related = e.relatedTarget ? e.relatedTarget.closest(interactiveSelector) : null;
+            if (!related) {
+                isHovering = false;
+                ring.classList.remove('cursor-hover');
+                dot.classList.remove('cursor-hover');
+            }
+        }
+    });
+
+    requestAnimationFrame(render);
+}
+
 function setupEnhancements() {
     initScrollReveal();
     initScrollProgress();
     initStatCounters();
 }
 
+// Cursor starts immediately on DOM ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
+        initMagneticCursor();
         if ('requestIdleCallback' in window) {
             requestIdleCallback(setupEnhancements, { timeout: 1200 });
         } else {
@@ -115,6 +228,7 @@ if (document.readyState === 'loading') {
         }
     });
 } else {
+    initMagneticCursor();
     if ('requestIdleCallback' in window) {
         requestIdleCallback(setupEnhancements, { timeout: 1200 });
     } else {
@@ -124,3 +238,4 @@ if (document.readyState === 'loading') {
 
 // Expose globally if dynamic Alpine tabs or pagination need to re-scan
 window.initScrollReveal = initScrollReveal;
+window.initMagneticCursor = initMagneticCursor;

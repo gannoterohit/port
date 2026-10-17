@@ -323,3 +323,104 @@ select:focus {
     background: var(--theme-accent) !important;
 }
 
+/* ========================================================
+   AWWWARDS-STYLE MAGNETIC DOT & RING CUSTOM CURSOR
+   ======================================================== */
+@media (hover: hover) and (pointer: fine) {
+    /* Hide standard cursor on clickable items to let custom cursor shine */
+    body, a, button, [role="button"], summary, .cursor-pointer {
+        cursor: none !important;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    input[type="tel"],
+    textarea {
+        cursor: text !important;
+    }
+
+    .custom-cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        background-color: var(--theme-accent);
+        border-radius: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        pointer-events: none;
+        z-index: 99999;
+        opacity: 0;
+        transition: opacity 0.2s ease, background-color 0.2s ease;
+        will-change: transform, opacity;
+        box-shadow: 0 0 10px var(--theme-accent);
+    }
+
+    .custom-cursor-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--theme-accent);
+        border-radius: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        pointer-events: none;
+        z-index: 99998;
+        opacity: 0;
+        transition: opacity 0.25s ease, width 0.22s cubic-bezier(0.16, 1, 0.3, 1), height 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.22s ease, border-color 0.22s ease, border-width 0.22s ease;
+        will-change: transform, opacity, width, height;
+        background-color: transparent;
+    }
+
+    .custom-cursor-dot.cursor-visible,
+    .custom-cursor-ring.cursor-visible {
+        opacity: 1;
+    }
+
+    /* Hover effect: Ring expands, subtle tinted backdrop glow, dot smoothly hides */
+    .custom-cursor-ring.cursor-hover {
+        width: 58px;
+        height: 58px;
+        background-color: var(--theme-accent-badge-bg);
+        border-color: var(--theme-accent);
+        border-width: 1.5px;
+        backdrop-filter: blur(1px);
+        box-shadow: 0 0 16px var(--theme-accent-badge-bg);
+    }
+
+    .custom-cursor-dot.cursor-hover {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) scale(0);
+    }
+
+    /* When user hovers on input / textarea, make ring subtle so text cursor is prioritized */
+    .custom-cursor-ring.cursor-text-input {
+        width: 20px;
+        height: 20px;
+        opacity: 0.3;
+        border-width: 1px;
+    }
+
+    /* Active click punch effect */
+    .custom-cursor-ring.cursor-clicking {
+        transform: translate3d(-50%, -50%, 0) scale(0.8);
+        background-color: var(--theme-accent-badge-border);
+    }
+
+    .custom-cursor-dot.cursor-clicking {
+        transform: translate3d(-50%, -50%, 0) scale(1.6);
+    }
+}
+
+/* Touchscreens / mobile devices: completely hide */
+@media (hover: none) or (pointer: coarse) {
+    .custom-cursor-dot,
+    .custom-cursor-ring {
+        display: none !important;
+    }
+}
+
+
