@@ -93,6 +93,22 @@
     <!-- Top Scroll Dynamic Progress Bar -->
     <div id="scroll-progress-bar" class="fixed top-0 left-0 h-[2.5px] bg-[#B85D19] dark:bg-[#E07A5F] z-[9999] pointer-events-none transition-all duration-75 ease-out" style="width: 0%"></div>
 
+    <!-- Interactive Copy Email Toast Notification -->
+    <div x-data="{ show: false, email: '' }"
+        @copy-email-toast.window="email = $event.detail.email; show = true; setTimeout(() => show = false, 3200)"
+        x-show="show"
+        x-cloak
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-6 scale-95"
+        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+        x-transition:leave-end="opacity-0 translate-y-6 scale-95"
+        class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[99990] bg-[var(--theme-bg-card)] text-[var(--theme-text-heading)] border border-[var(--theme-border)] px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-semibold backdrop-blur-xl">
+        <span class="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+        <span>Email Copied: <span class="font-mono text-brand" x-text="email"></span></span>
+    </div>
+
     @if(session('success'))
         <div x-data="{ show: true }" x-show="show" x-transition
             class="fixed top-4 right-4 z-50 bg-[#18191B] text-[#F6F4EE] dark:bg-[#F4F3EF] dark:text-[#121316] px-4 py-3 rounded-xl shadow-xl animate-slide-down text-sm font-semibold border border-black/10 dark:border-white/10">

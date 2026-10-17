@@ -54,10 +54,19 @@
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl 2xl:max-w-[1400px]">
                 <div class="max-w-2xl text-left">
-                    <!-- Greeting Pill Badge -->
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/10 border border-black/10 dark:border-white/15 text-xs sm:text-sm font-medium text-[var(--theme-text-heading)] mb-6 shadow-2xs">
-                        <span>Hello, I'm</span>
-                        <span>👋</span>
+                    <!-- Greeting Pill Badge & Live Availability -->
+                    <div class="flex items-center gap-2.5 mb-6 flex-wrap">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/10 border border-black/10 dark:border-white/15 text-xs sm:text-sm font-medium text-[var(--theme-text-heading)] shadow-2xs">
+                            <span>Hello, I'm</span>
+                            <span>👋</span>
+                        </div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold tracking-wide shadow-2xs">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            <span>Available for Work</span>
+                        </div>
                     </div>
 
                     <!-- Main Name Headline with Accent Color -->
@@ -102,17 +111,23 @@
                     <!-- Exact 3-Metric Row with Vertical Separators -->
                     <div class="flex items-center gap-3.5 sm:gap-6 lg:gap-8 text-left pt-2 flex-wrap sm:flex-nowrap">
                         <div>
-                            <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">{{ $yearsDisplay }}</div>
+                            <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
+                                <span class="stat-counter" data-target="{{ is_numeric(rtrim($yearsDisplay, '+')) ? rtrim($yearsDisplay, '+') : '2.5' }}" data-suffix="+">{{ $yearsDisplay }}</span>
+                            </div>
                             <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Years Experience</div>
                         </div>
                         <div class="h-8 sm:h-9 w-px bg-[var(--theme-border)]"></div>
                         <div>
-                            <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">10+</div>
+                            <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
+                                <span class="stat-counter" data-target="10" data-suffix="+">10+</span>
+                            </div>
                             <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Projects Completed</div>
                         </div>
                         <div class="h-8 sm:h-9 w-px bg-[var(--theme-border)]"></div>
                         <div>
-                            <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">100%</div>
+                            <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
+                                <span class="stat-counter" data-target="100" data-suffix="%">100%</span>
+                            </div>
                             <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Client Satisfaction</div>
                         </div>
                     </div>
@@ -172,7 +187,8 @@
                 <!-- Clean 2-Column Grid (No heavy nested mockup frames) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
                     @foreach($featuredProjects as $project)
-                        <article class="group flex flex-col justify-between rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden p-6 sm:p-7">
+                        <article class="tilt-card reveal-on-scroll group flex flex-col justify-between rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden p-6 sm:p-7"
+                            style="transition-delay: {{ $loop->index * 120 }}ms;">
                             <div>
                                 <!-- Project Preview Image -->
                                 <a href="{{ route('projects.show', $project->slug) }}" class="block aspect-[16/10] w-full rounded-2xl overflow-hidden bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] mb-6 relative">
@@ -390,7 +406,8 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                     @foreach($featuredServices as $service)
-                        <div class="p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all flex flex-col justify-between">
+                        <div class="tilt-card reveal-on-scroll p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all flex flex-col justify-between"
+                            style="transition-delay: {{ $loop->index * 120 }}ms;">
                             <div>
                                 <span class="text-xs font-mono text-brand font-semibold block mb-2">Capability 0{{ $loop->iteration }}</span>
                                 <h3 class="text-xl font-bold text-[var(--theme-text-heading)] mb-3">

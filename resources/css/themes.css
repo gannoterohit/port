@@ -423,4 +423,28 @@ select:focus {
     }
 }
 
+/* ========================================================
+   3D TILT CARDS & PARALLAX
+   ======================================================== */
+.tilt-card {
+    transform-style: preserve-3d;
+    will-change: transform;
+    perspective: 1000px;
+}
+
+/* ========================================================
+   STAGGERED SCROLL REVEAL SYSTEM
+   ======================================================== */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-on-scroll.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 

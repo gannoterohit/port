@@ -51,7 +51,7 @@ function initScrollProgress() {
     }, { passive: true });
 }
 
-// High-Performance Animated Number Counters
+// High-Performance Animated Number Counters (0 to Target with cubic easing)
 function initStatCounters() {
     const counters = document.querySelectorAll('.stat-counter');
     if (!counters.length) return;
@@ -65,6 +65,13 @@ function initStatCounters() {
         return;
     }
 
+    // Set initial 0 text before entering viewport
+    counters.forEach(el => {
+        const suffix = el.getAttribute('data-suffix') || '';
+        const decimals = (el.getAttribute('data-target') || '').includes('.') ? 1 : 0;
+        el.innerText = `0${decimals ? '.0' : ''}${suffix}`;
+    });
+
     const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -72,13 +79,13 @@ function initStatCounters() {
                 const target = parseFloat(el.getAttribute('data-target') || '0');
                 const suffix = el.getAttribute('data-suffix') || '';
                 const decimals = (el.getAttribute('data-target') || '').includes('.') ? 1 : 0;
-                const duration = 1400;
+                const duration = 1200;
                 const startTime = performance.now();
 
                 function updateCounter(currentTime) {
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-                    // Smooth cubic ease-out
+                    // Smooth cubic ease-out curve
                     const easeOut = 1 - Math.pow(1 - progress, 3);
                     const currentVal = easeOut * target;
 
@@ -95,10 +102,59 @@ function initStatCounters() {
                 obs.unobserve(el);
             }
         });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.15 });
 
     counters.forEach(counter => observer.observe(counter));
 }
+
+// Subtle 3D Card Tilt with Parallax Effect
+function initCardTilt() {
+    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) {
+        return;
+    }
+
+    const cards = document.querySelectorAll('.tilt-card');
+    if (!cards.length) return;
+
+    cards.forEach(card => {
+        let bounds = null;
+
+        function updateBounds() {
+            bounds = card.getBoundingClientRect();
+        }
+
+        function onMouseMove(e) {
+            if (!bounds) updateBounds();
+            const mouseX = e.clientX - bounds.left;
+            const mouseY = e.clientY - bounds.top;
+
+            const xPct = (mouseX / bounds.width) - 0.5;
+            const yPct = (mouseY / bounds.height) - 0.5;
+
+            // Subtle, luxurious 5-degree tilt
+            const tiltX = -(yPct * 6).toFixed(2);
+            const tiltY = (xPct * 6).toFixed(2);
+
+            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-4px)`;
+        }
+
+        function onMouseEnter() {
+            updateBounds();
+            card.style.transition = 'transform 0.15s ease-out, box-shadow 0.25s ease';
+        }
+
+        function onMouseLeave() {
+            card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease';
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+            bounds = null;
+        }
+
+        card.addEventListener('mouseenter', onMouseEnter);
+        card.addEventListener('mousemove', onMouseMove, { passive: true });
+        card.addEventListener('mouseleave', onMouseLeave);
+    });
+}
+
 
 // Awwwards-Style Magnetic Dot & Lag Ring Custom Cursor
 function initMagneticCursor() {
@@ -215,6 +271,7 @@ function setupEnhancements() {
     initScrollReveal();
     initScrollProgress();
     initStatCounters();
+    initCardTilt();
 }
 
 // Cursor starts immediately on DOM ready
@@ -239,3 +296,5 @@ if (document.readyState === 'loading') {
 // Expose globally if dynamic Alpine tabs or pagination need to re-scan
 window.initScrollReveal = initScrollReveal;
 window.initMagneticCursor = initMagneticCursor;
+window.initStatCounters = initStatCounters;
+window.initCardTilt = initCardTilt;
