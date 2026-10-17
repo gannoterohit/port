@@ -21,7 +21,7 @@ x-init="
 "
 @scroll.window.passive="scrolled = (window.scrollY || document.documentElement.scrollTop) > 20"
 class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:pt-4 transition-all duration-300">
-    <header class="max-w-6xl mx-auto pointer-events-auto transition-all duration-300">
+    <header class="max-w-7xl 2xl:max-w-[1400px] mx-auto pointer-events-auto transition-all duration-300">
         <nav class="specular-card flex items-center justify-between px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-full backdrop-blur-2xl border shadow-xl transition-all duration-300">
             
             <!-- Brand / Monogram with Live Indicator -->
@@ -60,7 +60,7 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
             @endphp
 
             <!-- Desktop Centered Navigation with Active Floating Pill Tracking -->
-            <div class="hidden md:flex items-center gap-1 bg-black/[0.04] dark:bg-white/[0.04] px-2 py-1 rounded-full border border-black/[0.06] dark:border-white/[0.06]">
+            <div class="hidden lg:flex items-center gap-1 bg-black/[0.04] dark:bg-white/[0.04] px-2 py-1 rounded-full border border-black/[0.06] dark:border-white/[0.06]">
                 @foreach($navItems as $item)
                     <a href="{{ $item->url }}"
                         :class="activeSection === '{{ $item->id }}' ? 'bg-black/10 dark:bg-white/10 shadow-xs font-semibold' : 'opacity-70 hover:opacity-100 hover:bg-black/[0.04] dark:hover:bg-white/[0.04]'"
@@ -80,18 +80,18 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
                     
                     <span x-show="currentTheme === 'warm_obsidian'" class="flex items-center gap-1.5 text-amber-300">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <span class="hidden lg:inline text-[11px] font-mono font-bold">Light</span>
+                        <span class="hidden xl:inline text-[11px] font-mono font-bold">Light</span>
                     </span>
 
                     <span x-show="currentTheme !== 'warm_obsidian'" class="flex items-center gap-1.5 text-slate-700">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                        <span class="hidden lg:inline text-[11px] font-mono font-bold">Dark</span>
+                        <span class="hidden xl:inline text-[11px] font-mono font-bold">Dark</span>
                     </span>
                 </button>
 
                 @if($profile && $profile->whatsapp_url)
                     <a href="{{ $profile->whatsapp_url }}" target="_blank" rel="noopener noreferrer"
-                        class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-black/[0.03] dark:bg-white/[0.03] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] border border-black/[0.06] dark:border-white/[0.06] transition-all"
+                        class="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-black/[0.03] dark:bg-white/[0.03] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] border border-black/[0.06] dark:border-white/[0.06] transition-all"
                         title="Direct WhatsApp Communication">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span>WhatsApp</span>
@@ -99,14 +99,14 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
                 @endif
 
                 <a href="{{ route('contact') }}"
-                    class="theme-btn-primary relative inline-flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 text-xs sm:text-[13px] font-semibold rounded-full shadow-sm hover:opacity-90 transition-all duration-200">
+                    class="theme-btn-primary relative inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-5 py-2 text-xs sm:text-[13px] font-semibold rounded-full shadow-sm hover:opacity-90 transition-all duration-200">
                     <span>Let's Talk</span>
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
 
-                <!-- Mobile Menu Button -->
+                <!-- Mobile & Tablet Menu Button (screens < 1024px) -->
                 <button @click="mobileOpen = true"
-                    class="md:hidden p-2 rounded-full hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-colors"
+                    class="lg:hidden p-2 rounded-full hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-colors"
                     aria-label="Open Navigation Menu">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -116,9 +116,9 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
         </nav>
     </header>
 
-    <!-- Mobile Drawer Modal -->
+    <!-- Mobile & Tablet Drawer Modal -->
     <div x-show="mobileOpen" x-cloak
-        class="fixed inset-0 z-50 md:hidden pointer-events-auto"
+        class="fixed inset-0 z-50 lg:hidden pointer-events-auto"
         style="display: none;">
         <div class="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity" @click="mobileOpen = false"></div>
         <div class="absolute top-0 right-0 h-full w-full max-w-xs bg-white dark:bg-[#121316] border-l border-black/10 dark:border-white/10 shadow-2xl p-6 flex flex-col justify-between overflow-y-auto">

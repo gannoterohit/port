@@ -29,6 +29,7 @@ Route::middleware(MaintenanceModeMiddleware::class)->group(function () {
     Route::get('/services/{service}', [PublicServiceController::class, 'show'])->name('services.show');
 
     Route::get('/resume', [PublicPageController::class, 'resume'])->name('resume');
+    Route::get('/resume/download', [PublicPageController::class, 'downloadResume'])->name('resume.download');
 
     Route::get('/contact', [ContactController::class, 'show'])->name('contact');
     Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');

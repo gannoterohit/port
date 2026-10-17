@@ -8,6 +8,7 @@ use App\Models\Profile;
 use App\Models\Skill;
 use App\Models\SkillCategory;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
@@ -59,6 +60,22 @@ class PageController extends Controller
         $profile = Cache::remember('profile', 3600, fn () => Profile::getInstance());
 
         return view('public.resume', compact('profile'));
+    }
+
+    public function downloadResume()
+    {
+        $profile = Profile::getInstance();
+
+        if ($profile && $profile->resume_pdf && Storage::disk('public')->exists($profile->resume_pdf)) {
+            $filename = str_replace(' ', '_', $profile->name ?: 'Rohit_Gannote') . '_Resume.pdf';
+            return Storage::disk('public')->download($profile->resume_pdf, $filename);
+        }
+
+        if (Storage::disk('public')->exists('resumes/rohit_gannote_resume.pdf')) {
+            return Storage::disk('public')->download('resumes/rohit_gannote_resume.pdf', 'Rohit_Gannote_Resume.pdf');
+        }
+
+        return redirect()->route('resume');
     }
 
     public function privacy()

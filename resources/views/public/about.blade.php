@@ -14,7 +14,7 @@
     <div class="absolute top-1/3 -right-20 w-[450px] h-[450px] bg-[#B85D19]/[0.03] dark:bg-[#E07A5F]/[0.04] rounded-full blur-3xl pointer-events-none"></div>
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="max-w-5xl mx-auto space-y-12">
+        <div class="max-w-6xl 2xl:max-w-7xl mx-auto space-y-12">
             <!-- Header Card -->
             <div class="bg-[#0F172A]/90 backdrop-blur-md rounded-2xl p-8 sm:p-12 border border-black/10 dark:border-white/10 shadow-2xl card-glow-hover">
                 <div class="flex flex-col md:flex-row gap-8 items-start md:items-center">
@@ -38,7 +38,7 @@
                         </p>
                         @if($profile->resume_url && $profile->resume_button_visible)
                             <div class="pt-2">
-                                <a href="{{ $profile->resume_url }}" target="_blank" rel="noopener noreferrer" download
+                                <a href="{{ route('resume.download') }}" target="_blank" rel="noopener noreferrer" download
                                     class="theme-btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-sm transition-all shadow-sm hover:scale-[1.02]">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

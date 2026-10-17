@@ -1,0 +1,292 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 5081 >>
+stream
+0.96 0.96 0.94 rg
+0.00 740.00 595.28 102.00 re f
+1.50 w
+0.72 0.36 0.10 RG
+0.00 740.00 m 595.28 740.00 l S
+0.09 0.10 0.11 rg
+BT
+/F2 26 Tf
+45.00 800.00 Td
+(Rohit Gannote) Tj
+ET
+0.72 0.36 0.10 rg
+BT
+/F2 13 Tf
+45.00 778.00 Td
+(Full Stack Web Developer) Tj
+ET
+0.35 0.35 0.38 rg
+BT
+/F1 10 Tf
+45.00 755.00 Td
+(Email: rohitgannote@gmail.com   |   Experience: 2.5+ Years   |   Role: Full Stack Web Developer) Tj
+ET
+0.09 0.10 0.11 rg
+BT
+/F2 14 Tf
+45.00 715.00 Td
+(PROFESSIONAL SUMMARY) Tj
+ET
+0.75 w
+0.85 0.85 0.85 RG
+45.00 707.00 m 550.00 707.00 l S
+0.25 0.25 0.28 rg
+BT
+/F1 10 Tf
+45.00 688.00 Td
+(Full Stack Web Developer with 2.5+ years of hands-on experience architecting scalable,) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 10 Tf
+45.00 673.00 Td
+(high-performance web applications using Laravel 11, PHP 8, MySQL, and modern frontend tools.) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 10 Tf
+45.00 658.00 Td
+(Demonstrated expertise in designing normalized relational schemas, RESTful API platforms,) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 10 Tf
+45.00 643.00 Td
+(asynchronous queue processing with Redis, and custom administrative enterprise systems.) Tj
+ET
+0.09 0.10 0.11 rg
+BT
+/F2 14 Tf
+45.00 610.00 Td
+(CORE TECHNICAL SKILLS) Tj
+ET
+0.75 w
+0.85 0.85 0.85 RG
+45.00 602.00 m 550.00 602.00 l S
+0.72 0.36 0.10 rg
+BT
+/F2 10 Tf
+45.00 582.00 Td
+(Backend & APIs:) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 10 Tf
+160.00 582.00 Td
+(Laravel 11/12, PHP 8.2+, RESTful API Design, Sanctum Auth, MVC Architecture) Tj
+ET
+0.72 0.36 0.10 rg
+BT
+/F2 10 Tf
+45.00 564.00 Td
+(Database & Cache:) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 10 Tf
+160.00 564.00 Td
+(MySQL 8.0, Redis 7 \\(Cache & Queues\\), Composite Indexing, Query Optimization) Tj
+ET
+0.72 0.36 0.10 rg
+BT
+/F2 10 Tf
+45.00 546.00 Td
+(Frontend & UI:) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 10 Tf
+160.00 546.00 Td
+(Tailwind CSS, Alpine.js, Blade Components, JavaScript \\(ES6+\\), Responsive UI) Tj
+ET
+0.72 0.36 0.10 rg
+BT
+/F2 10 Tf
+45.00 528.00 Td
+(DevOps & Tooling:) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 10 Tf
+160.00 528.00 Td
+(Git, GitHub Actions, Docker, Apache/Nginx, Linux Server Administration, Composer) Tj
+ET
+0.09 0.10 0.11 rg
+BT
+/F2 14 Tf
+45.00 495.00 Td
+(WORK EXPERIENCE & HIGHLIGHTS) Tj
+ET
+0.75 w
+0.85 0.85 0.85 RG
+45.00 487.00 m 550.00 487.00 l S
+0.09 0.10 0.11 rg
+BT
+/F2 11 Tf
+45.00 467.00 Td
+(Full Stack Web Developer  |  Commercial Projects & Client Solutions) Tj
+ET
+0.45 0.45 0.48 rg
+BT
+/F1 10 Tf
+450.00 467.00 Td
+(2023 - Present) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 9 Tf
+55.00 447.00 Td
+(* Engineered multi-vendor e-commerce platforms and real-time revenue analytics dashboards in Laravel.) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 9 Tf
+55.00 432.00 Td
+(* Designed robust RESTful APIs with sub-50ms response times, token authentication, and rate limiting.) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 9 Tf
+55.00 417.00 Td
+(* Implemented composite database indexing and query optimization, eliminating N+1 bottlenecks.) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 9 Tf
+55.00 402.00 Td
+(* Built role-based access control \\(RBAC\\), multi-tenant permissions, and automated email workflows.) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 9 Tf
+55.00 387.00 Td
+(* Deployed asynchronous background jobs via Redis queues for invoice generation and third-party sync.) Tj
+ET
+0.09 0.10 0.11 rg
+BT
+/F2 14 Tf
+45.00 355.00 Td
+(FEATURED COMMERCIAL PROJECTS) Tj
+ET
+0.75 w
+0.85 0.85 0.85 RG
+45.00 347.00 m 550.00 347.00 l S
+0.09 0.10 0.11 rg
+BT
+/F2 10 Tf
+45.00 327.00 Td
+(1. E-Commerce Analytics & Multi-Vendor Hub) Tj
+ET
+0.45 0.45 0.48 rg
+BT
+/F1 9 Tf
+45.00 312.00 Td
+(   Tech: Laravel 11, MySQL, Tailwind CSS, Redis  |  Role: Full Stack Lead Developer) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 9 Tf
+45.00 297.00 Td
+(   Live analytics dashboard, automated inventory tracking, and secure payment processing.) Tj
+ET
+0.09 0.10 0.11 rg
+BT
+/F2 10 Tf
+45.00 272.00 Td
+(2. TaskFlow - Agile Team Workspace & Kanban Platform) Tj
+ET
+0.45 0.45 0.48 rg
+BT
+/F1 9 Tf
+45.00 257.00 Td
+(   Tech: Laravel, Alpine.js, MySQL, Tailwind CSS  |  Role: Full Stack Developer) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 9 Tf
+242.00 242.00 Td
+(   Interactive Kanban boards, sprint burn-down charts, and granular role permissions.) Tj
+ET
+0.09 0.10 0.11 rg
+BT
+/F2 10 Tf
+45.00 217.00 Td
+(3. Nebula Gateway - High Throughput API Service) Tj
+ET
+0.45 0.45 0.48 rg
+BT
+/F1 9 Tf
+45.00 202.00 Td
+(   Tech: Laravel 11 REST APIs, Redis, MySQL  |  Role: Backend Systems Engineer) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 9 Tf
+45.00 187.00 Td
+(   Sub-50ms API response latency, Redis token caching, and automated audit logging.) Tj
+ET
+0.09 0.10 0.11 rg
+BT
+/F2 14 Tf
+45.00 155.00 Td
+(EDUCATION & PROFESSIONAL TRAINING) Tj
+ET
+0.75 w
+0.85 0.85 0.85 RG
+45.00 147.00 m 550.00 147.00 l S
+0.09 0.10 0.11 rg
+BT
+/F2 10 Tf
+45.00 127.00 Td
+(Intensive Full Stack Web Development Training \\(6 Months\\)) Tj
+ET
+0.25 0.25 0.28 rg
+BT
+/F1 9 Tf
+45.00 112.00 Td
+(Deep specialization in Modern PHP, Laravel architecture, database design, and production security.) Tj
+ET
+0.50 w
+0.85 0.85 0.85 RG
+45.00 65.00 m 550.00 65.00 l S
+0.45 0.45 0.48 rg
+BT
+/F1 8 Tf
+45.00 50.00 Td
+(Generated from Rohit Gannote's Portfolio  |  Online Portfolio: http://localhost/port/) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000257 00000 n 
+0000005389 00000 n 
+0000005459 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+5534
+%%EOF

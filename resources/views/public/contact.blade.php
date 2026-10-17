@@ -11,7 +11,7 @@
     <div class="absolute top-1/3 -right-20 w-[450px] h-[450px] bg-[#B85D19]/[0.03] dark:bg-[#E07A5F]/[0.04] rounded-full blur-3xl pointer-events-none"></div>
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="max-w-6xl mx-auto">
+        <div class="max-w-7xl 2xl:max-w-[1400px] mx-auto">
             <!-- Header Section -->
             <div class="text-center mb-16">
                 <span class="inline-block text-xs font-bold uppercase tracking-wider text-brand badge-brand px-3.5 py-1 rounded-full mb-3.5 shadow-xs">

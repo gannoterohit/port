@@ -25,7 +25,7 @@
                     <p class="text-sm sm:text-base text-slate-400 mt-1">{{ $profile->title ?: 'Laravel & MySQL Specialist' }}</p>
                 </div>
                 @if($profile->resume_url && $profile->resume_button_visible)
-                    <a href="{{ $profile->resume_url }}" target="_blank" rel="noopener noreferrer" download
+                    <a href="{{ route('resume.download') }}" target="_blank" rel="noopener noreferrer" download
                         class="btn-shimmer-effect inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white px-6 py-3.5 rounded-xl text-sm font-semibold shadow-lg shadow-emerald-500/25 transition-all shrink-0">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
