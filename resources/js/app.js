@@ -52,44 +52,23 @@ function initScrollProgress() {
     }, { passive: true });
 }
 
-// Interactive 3D Card Mouse Tilt Effect & Spotlight Coordinates
-function initCard3DTilt() {
+// Refined Subtle Spotlight Coordinates (Zero Jitter, Zero In-Your-Face 3D Wobble)
+function initCardSpotlight() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 768 || !window.matchMedia('(hover: hover)').matches) {
         return;
     }
 
-    const cards = document.querySelectorAll('.card-glow-hover, .card-spotlight');
+    const cards = document.querySelectorAll('.card-spotlight');
     cards.forEach(card => {
-        let isHovered = false;
-
-        card.addEventListener('mouseenter', () => {
-            isHovered = true;
-            card.style.transition = 'transform 0.12s ease-out, box-shadow 0.25s ease, border-color 0.25s ease';
-        });
-
         card.addEventListener('mousemove', (e) => {
-            if (!isHovered) return;
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            // Set dynamic spotlight coordinates
             card.style.setProperty('--mouse-x', `${x}px`);
             card.style.setProperty('--mouse-y', `${y}px`);
-
-            // Subtle 3D tilt angles
-            const rotateX = ((y - centerY) / centerY) * -5.5;
-            const rotateY = ((x - centerX) / centerX) * 5.5;
-
-            card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-8px) scale(1.015)`;
         });
 
         card.addEventListener('mouseleave', () => {
-            isHovered = false;
-            card.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease';
-            card.style.transform = '';
             card.style.setProperty('--mouse-x', `-999px`);
             card.style.setProperty('--mouse-y', `-999px`);
         });
@@ -148,7 +127,7 @@ function initStatCounters() {
 function setupEnhancements() {
     initScrollReveal();
     initScrollProgress();
-    initCard3DTilt();
+    initCardSpotlight();
     initStatCounters();
 }
 
