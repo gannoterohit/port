@@ -7,7 +7,7 @@ use App\Models\Enquiry;
 use App\Models\Page;
 use App\Models\Project;
 use App\Models\Service;
-use App\Models\Testimonial;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -23,8 +23,7 @@ class DashboardController extends Controller
             'total_enquiries' => Enquiry::count(),
             'new_enquiries' => Enquiry::where('status', 'new')->count(),
             'unread_enquiries' => Enquiry::whereNull('read_at')->count(),
-            'total_testimonials' => Testimonial::count(),
-            'published_testimonials' => Testimonial::where('is_published', true)->count(),
+            'total_skills' => Skill::count(),
             'total_pages' => Page::count(),
             'published_pages' => Page::where('status', 'published')->count(),
         ];

@@ -12,6 +12,10 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
+        if (Auth::check() && Auth::user()->is_admin) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('admin.auth.login');
     }
 

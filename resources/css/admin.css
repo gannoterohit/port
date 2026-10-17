@@ -12,15 +12,15 @@
 
 @layer components {
   .admin-sidebar-item {
-    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150;
+    @apply flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-150;
   }
 
   .admin-sidebar-item-active {
-    @apply bg-emerald-50 text-emerald-800 font-semibold border-r-2 border-emerald-600;
+    @apply bg-[#B85D19]/10 text-[#B85D19] font-semibold border-r-3 border-[#B85D19];
   }
 
   .admin-sidebar-item-inactive {
-    @apply text-slate-600 hover:bg-slate-50 hover:text-slate-900;
+    @apply text-stone-600 hover:bg-stone-100 hover:text-stone-900;
   }
 
   .admin-sidebar-icon {
@@ -38,31 +38,31 @@
   }
 
   .admin-sidebar-heading {
-    @apply px-3 pb-1.5 pt-5 text-[10px] font-bold tracking-[0.14em] text-slate-400;
+    @apply px-3.5 pb-1.5 pt-5 text-[10px] font-bold tracking-[0.14em] text-stone-400 uppercase;
   }
 
   .admin-card {
-    @apply rounded-2xl border border-slate-200/80 bg-white shadow-xs;
+    @apply rounded-2xl border border-[#E5E1D5] bg-white shadow-xs;
   }
 
   .admin-stat-card {
-    @apply rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-emerald-500/30;
+    @apply rounded-2xl border border-[#E5E1D5] bg-white p-5 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#B85D19]/40;
   }
 
   .admin-input {
-    @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10;
+    @apply w-full rounded-xl border border-[#E5E1D5] bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-[#B85D19] focus:ring-4 focus:ring-[#B85D19]/15;
   }
 
   .admin-textarea {
-    @apply w-full resize-y rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10;
+    @apply w-full resize-y rounded-xl border border-[#E5E1D5] bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-[#B85D19] focus:ring-4 focus:ring-[#B85D19]/15;
   }
 
   .admin-btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#18191B] px-4 py-2.5 text-sm font-semibold text-[#F6F4EE] shadow-xs transition hover:bg-[#2A2B2E] hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-[#B85D19]/20 active:scale-[0.98];
   }
 
   .admin-btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-xs transition hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-4 focus:ring-slate-100 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-[#E5E1D5] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 shadow-xs transition hover:bg-stone-50 hover:text-stone-900 focus:outline-none focus:ring-4 focus:ring-stone-100 active:scale-[0.98];
   }
 }
 
@@ -75,7 +75,7 @@ main :where(input, select, textarea):not([type='checkbox']):not([type='radio']):
 }
 
 main :where(input, select, textarea, button, a):focus-visible {
-  outline: 2px solid #4b7d3d;
+  outline: 2px solid #B85D19;
   outline-offset: 2px;
 }
 
@@ -85,8 +85,10 @@ main table {
 }
 
 main thead th {
-  background: #f8faf8;
+  background: #FAF9F5;
+  color: #18191B;
   letter-spacing: 0.06em;
+  border-bottom: 1px solid #E5E1D5;
 }
 
 main tbody tr:last-child {
@@ -95,10 +97,11 @@ main tbody tr:last-child {
 
 main tbody tr {
   transition: background-color 150ms ease;
+  border-bottom: 1px solid #E5E1D5;
 }
 
 main tbody tr:hover {
-  background-color: #f8faf8;
+  background-color: #FAF9F5;
 }
 
 main td,
@@ -108,10 +111,10 @@ main th {
 
 main .admin-content-wrap .overflow-x-auto {
   overflow-x: auto;
-  border: 1px solid #e6ebe7;
+  border: 1px solid #E5E1D5;
   border-radius: 1rem;
   background: #fff;
-  box-shadow: 0 1px 2px rgb(16 24 16 / 4%);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 3%);
 }
 
 main .admin-content-wrap .overflow-x-auto table {
@@ -155,7 +158,7 @@ main .admin-content-wrap .overflow-x-auto td:last-child button {
 
 main .admin-content-wrap .overflow-x-auto td:last-child a:hover,
 main .admin-content-wrap .overflow-x-auto td:last-child button:hover {
-  background-color: #f0f4f0;
+  background-color: #FAF9F5;
 }
 
 main .admin-content-wrap .overflow-x-auto td:last-child button[type='submit']:hover {
@@ -163,9 +166,9 @@ main .admin-content-wrap .overflow-x-auto td:last-child button[type='submit']:ho
 }
 
 main .admin-content-wrap .bg-white.rounded-xl.border {
-  border-color: #e6ebe7;
+  border-color: #E5E1D5;
   border-radius: 1rem;
-  box-shadow: 0 1px 2px rgb(16 24 16 / 4%);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 3%);
 }
 
 main .admin-content-wrap label {
@@ -174,7 +177,7 @@ main .admin-content-wrap label {
 
 main .admin-content-wrap input[type='checkbox'],
 main .admin-content-wrap input[type='radio'] {
-  accent-color: #1b560b;
+  accent-color: #B85D19;
 }
 
 main .admin-content-wrap input[type='file'] {
@@ -187,9 +190,9 @@ main .admin-content-wrap input[type='file']::file-selector-button {
   margin-right: 0.75rem;
   border: 0;
   border-radius: 0.55rem;
-  background: #eef4eb;
+  background: rgba(184, 93, 25, 0.08);
   padding: 0.5rem 0.75rem;
-  color: #1b560b;
+  color: #B85D19;
   font-weight: 600;
   cursor: pointer;
 }

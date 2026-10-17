@@ -3,16 +3,16 @@
 @section('title', 'Login')
 
 @section('content')
-<div class="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#F3F6F2] px-4 py-10">
-    <div class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#DCE8D6]/70 blur-3xl"></div>
-    <div class="pointer-events-none absolute -bottom-28 -right-20 h-80 w-80 rounded-full bg-[#E1EDE7]/80 blur-3xl"></div>
+<div class="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#F6F4EE] px-4 py-10">
+    <div class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#B85D19]/10 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-28 -right-20 h-80 w-80 rounded-full bg-[#E5E1D5]/80 blur-3xl"></div>
     <div class="w-full max-w-md">
-        <div class="relative rounded-3xl border border-white/80 bg-white p-7 shadow-[0_24px_80px_-32px_rgba(31,41,55,0.28)] sm:p-9">
+        <div class="relative rounded-3xl border border-[#E5E1D5] bg-white p-7 shadow-xl sm:p-9">
             <div class="mb-8 text-center">
-                <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1B560B] text-2xl font-bold text-white shadow-lg shadow-[#1B560B]/20">
+                <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#18191B] text-2xl font-bold text-[#F6F4EE] shadow-lg shadow-black/15 border border-black/10">
                     {{ substr(\App\Models\Setting::get('website_name', 'CMS'), 0, 1) }}
                 </div>
-                <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#62815B]">Portfolio control panel</p>
+                <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#B85D19]">Portfolio Control Panel</p>
                 <h1 class="text-2xl font-bold tracking-tight text-gray-900">{{ \App\Models\Setting::get('website_name', 'Portfolio CMS') }}</h1>
                 <p class="mt-2 text-sm text-gray-500">Sign in to manage your portfolio</p>
             </div>

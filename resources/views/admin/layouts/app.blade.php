@@ -7,7 +7,7 @@
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
     @yield('head')
 </head>
-<body class="bg-[#F6F8F7] font-sans antialiased text-[#1F2937]">
+<body class="bg-[#F6F4EE] font-sans antialiased text-[#18191B]">
     @if(session('success'))
         <div x-cloak x-data="{ show: true }" x-show="show" x-transition role="status" class="fixed right-4 top-4 z-[60] flex max-w-sm items-start gap-3 rounded-2xl border border-emerald-200 bg-white px-4 py-3 text-sm font-medium text-emerald-900 shadow-xl">
             {{ session('success') }}

@@ -35,6 +35,9 @@
         @endphp
 
         <section id="hero" class="relative pt-32 sm:pt-40 pb-20 sm:pb-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] overflow-hidden transition-colors duration-200 min-h-[640px] lg:min-h-[720px] flex items-center">
+            <!-- Ambient Spotlight Glow -->
+            <div class="absolute top-1/4 right-1/4 w-[460px] h-[460px] rounded-full bg-brand/10 dark:bg-brand/15 blur-[130px] pointer-events-none"></div>
+
             <!-- Background Cinematic Workspace Image with High-Definition Sharpness -->
             <div class="absolute inset-y-0 right-0 w-full lg:w-[52%] xl:w-[55%] pointer-events-none overflow-hidden">
                 <img src="{{ asset('images/hero-workspace.jpg') }}" 
@@ -69,9 +72,18 @@
                         </div>
                     </div>
 
-                    <!-- Main Name Headline with Accent Color -->
+                    @php
+                        $profileName = $profile->name ?: 'Rohit Gannote';
+                        $nameParts = explode(' ', $profileName, 2);
+                        $firstName = $nameParts[0];
+                        $lastName = $nameParts[1] ?? '';
+                        $completedProjectsCount = \App\Models\Project::where('status', 'published')->count() ?: 10;
+                        $satisfactionRate = \App\Models\Setting::get('client_satisfaction_percentage', '100');
+                    @endphp
+
+                    <!-- Main Name Headline with Accent Color (100% Dynamic) -->
                     <h1 class="text-3xl sm:text-5xl lg:text-6xl xl:text-[72px] font-extrabold tracking-tight text-[var(--theme-text-heading)] leading-[1.06] mb-2 sm:mb-3">
-                        Rohit <span class="text-brand">Gannote</span>
+                        {{ $firstName }} @if($lastName)<span class="text-brand">{{ $lastName }}</span>@endif
                     </h1>
 
                     <!-- Role Subtitle -->
@@ -94,7 +106,7 @@
 
                         <a href="{{ route('resume') }}"
                             class="theme-btn-secondary inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-3.5 font-medium rounded-full border transition-all duration-200 text-xs sm:text-sm lg:text-base group"
-                            title="View Rohit Gannote's Resume &amp; Curriculum Vitae">
+                            title="View Resume &amp; Curriculum Vitae">
                             <svg class="w-4 h-4 text-brand transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                             </svg>
@@ -119,14 +131,14 @@
                         <div class="h-8 sm:h-9 w-px bg-[var(--theme-border)]"></div>
                         <div>
                             <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
-                                <span class="stat-counter" data-target="10" data-suffix="+">10+</span>
+                                <span class="stat-counter" data-target="{{ $completedProjectsCount }}" data-suffix="+">{{ $completedProjectsCount }}+</span>
                             </div>
                             <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Projects Completed</div>
                         </div>
                         <div class="h-8 sm:h-9 w-px bg-[var(--theme-border)]"></div>
                         <div>
                             <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
-                                <span class="stat-counter" data-target="100" data-suffix="%">100%</span>
+                                <span class="stat-counter" data-target="{{ $satisfactionRate }}" data-suffix="%">{{ $satisfactionRate }}%</span>
                             </div>
                             <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Client Satisfaction</div>
                         </div>
@@ -142,7 +154,7 @@
     @if($section === 'skills_marquee' && isset($skills) && $skills->isNotEmpty())
         <section class="py-5 bg-[var(--theme-bg-alt)] border-b border-[var(--theme-border)] overflow-hidden" aria-label="Core Technologies">
             <div class="marquee-mask relative w-full overflow-hidden">
-                <div class="animate-marquee flex items-center gap-4 sm:gap-6">
+                <div class="animate-marquee hover:[animation-play-state:paused] flex items-center gap-4 sm:gap-6">
                     @for($repeat = 0; $repeat < 2; $repeat++)
                         @foreach($skills as $skill)
                             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--theme-bg-card)] border border-[var(--theme-border)] text-xs font-medium text-[var(--theme-text-body)] hover:text-[var(--theme-text-heading)] hover:border-brand/40 transition-all shrink-0">
@@ -284,11 +296,17 @@
                         </h2>
                         <div class="text-[var(--theme-text-body)] text-base leading-relaxed space-y-4 font-normal mb-8">
                             <p>
-                                {{ $profile->intro ? strip_tags($profile->intro) : 'Full Stack Developer with 2.5+ years of commercial software engineering experience. I specialize in designing scalable database architectures, high-performance RESTful APIs, and custom enterprise web applications.' }}
+                                {{ $profile->intro ? strip_tags($profile->intro) : 'Full Stack Developer with ' . $yearsDisplay . ' of commercial software engineering experience. I specialize in designing scalable database architectures, high-performance RESTful APIs, and custom enterprise web applications.' }}
                             </p>
-                            <p class="text-[var(--theme-text-muted)] text-sm">
-                                Every system I build adheres to strict type safety, modular domain separation, and comprehensive indexing — ensuring your application runs fast today and remains painless to maintain years down the line.
-                            </p>
+                            @if($profile->experience_text)
+                                <p class="text-[var(--theme-text-muted)] text-sm font-medium">
+                                    {{ $profile->experience_text }}
+                                </p>
+                            @else
+                                <p class="text-[var(--theme-text-muted)] text-sm">
+                                    Every system I build adheres to strict type safety, modular domain separation, and comprehensive indexing — ensuring your application runs fast today and remains painless to maintain years down the line.
+                                </p>
+                            @endif
                         </div>
 
                         <div class="flex flex-wrap gap-3">
@@ -367,15 +385,15 @@
                             </div>
                         </div>
 
-                        <!-- Highlights Banner -->
+                        <!-- Highlights Banner (Dynamic) -->
                         <div class="grid grid-cols-2 gap-4 pt-2">
                             <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold text-sm shrink-0">✓</div>
-                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">10+ Commercial Projects Delivered</div>
+                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">{{ $completedProjectsCount }}+ Commercial Projects Delivered</div>
                             </div>
                             <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0">★</div>
-                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">100% Production Quality &amp; Clean Code</div>
+                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">{{ $satisfactionRate }}% Production Quality &amp; Clean Code</div>
                             </div>
                         </div>
                     </div>

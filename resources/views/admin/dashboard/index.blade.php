@@ -5,15 +5,15 @@
 
 @section('admin-content')
 <div class="space-y-7">
-    <section class="flex flex-col gap-4 rounded-2xl border border-[#E2E9E3] bg-gradient-to-br from-white to-[#F2F7F0] p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6">
+    <section class="flex flex-col gap-4 rounded-2xl border border-[#E5E1D5] bg-gradient-to-br from-white to-[#FAF9F5] p-5 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div>
-            <p class="text-sm font-medium text-[#5F725F]">Welcome back, {{ Auth::user()?->name ?? 'Admin' }}</p>
-            <h2 class="mt-1 text-xl font-semibold tracking-tight text-[#1F2937] sm:text-2xl">Here’s your portfolio overview</h2>
-            <p class="mt-1 text-sm text-[#758078]">Keep your work, messages and website content up to date.</p>
+            <p class="text-xs font-mono uppercase tracking-wider text-[#B85D19] font-bold">Welcome back, {{ Auth::user()?->name ?? 'Admin' }}</p>
+            <h2 class="mt-1 text-xl font-bold tracking-tight text-stone-900 sm:text-2xl">Portfolio Control &amp; Analytics</h2>
+            <p class="mt-1 text-sm text-stone-500">Keep your projects, services, enquiries and resume up to date.</p>
         </div>
-        <div class="flex flex-wrap gap-2">
-            <a href="{{ route('admin.projects.create') }}" class="admin-btn-primary">Add a project</a>
-            <a href="{{ route('admin.enquiries.index') }}" class="inline-flex items-center justify-center rounded-xl border border-[#DDE4DE] bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">View messages</a>
+        <div class="flex flex-wrap gap-2.5">
+            <a href="{{ route('admin.projects.create') }}" class="admin-btn-primary">+ Add Project</a>
+            <a href="{{ route('admin.enquiries.index') }}" class="admin-btn-secondary">View Messages</a>
         </div>
     </section>
 
@@ -21,11 +21,11 @@
         <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 mb-1">Total Projects</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $stats['total_projects'] }}</p>
+                    <p class="text-xs font-medium text-stone-500 mb-1 uppercase tracking-wider">Total Projects</p>
+                    <p class="text-3xl font-bold text-stone-900">{{ $stats['total_projects'] }}</p>
                 </div>
-                <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-10 h-10 bg-[#B85D19]/10 rounded-xl flex items-center justify-center border border-[#B85D19]/20">
+                    <svg class="w-5 h-5 text-[#B85D19]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11V9a6 6 0 00-6-6H8a6 6 0 00-6 6v6l2 2v4a2 2 0 002 2h8a2 2 0 002-2v-4l2-2z"></path>
                     </svg>
                 </div>
@@ -122,12 +122,12 @@
         <div class="admin-stat-card">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 mb-1">Total Testimonials</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $stats['total_testimonials'] }}</p>
+                    <p class="text-xs font-medium text-stone-500 mb-1 uppercase tracking-wider">Active Skills</p>
+                    <p class="text-3xl font-bold text-stone-900">{{ $stats['total_skills'] }}</p>
                 </div>
-                <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3v1a6 6 0 01-3-3V9z"></path>
+                <div class="w-10 h-10 bg-[#B85D19]/10 rounded-xl flex items-center justify-center border border-[#B85D19]/20">
+                    <svg class="w-5 h-5 text-[#B85D19]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                     </svg>
                 </div>
             </div>
