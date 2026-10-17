@@ -24,7 +24,8 @@ class MaintenanceModeMiddleware
         }
 
         if ($maintenanceMode === '1' || $maintenanceMode === true || $maintenanceMode === 1) {
-            if (Auth::check() && Auth::user()->is_admin) {
+            // Allow admin to preview live site if explicitly requesting ?preview=1
+            if (($request->query('preview') === '1' || $request->query('preview') === 'true') && Auth::check() && Auth::user()->is_admin) {
                 return $next($request);
             }
 
