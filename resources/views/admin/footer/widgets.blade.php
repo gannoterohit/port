@@ -4,28 +4,23 @@
 @section('header', 'Footer Management')
 
 @section('admin-content')
-<ul class="flex gap-4 mb-6 border-b border-gray-200">
-    <li>
-        <a href="{{ route('admin.footer.widgets.index') }}"
-            class="border-b-2 border-emerald-700 text-emerald-700 pb-2 text-sm font-semibold">
-            Widgets
-        </a>
-    </li>
-    <li>
-        <a href="{{ route('admin.footer.links.index') }}"
-            class="text-gray-600 hover:text-gray-900 pb-2 text-sm font-medium">
-            Links
-        </a>
-    </li>
-</ul>
+<div class="flex gap-4 mb-6 border-b border-[#E5E1D5]">
+    <a href="{{ route('admin.footer.widgets.index') }}"
+        class="border-b-2 border-[#B85D19] text-[#B85D19] pb-3 text-sm font-bold">
+        Footer Widgets
+    </a>
+    <a href="{{ route('admin.footer.links.index') }}"
+        class="text-stone-500 hover:text-stone-900 pb-3 text-sm font-medium">
+        Footer Links
+    </a>
+</div>
 
-<div class="flex justify-between items-center mb-6">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
     <div>
-        <h2 class="text-xl font-semibold text-gray-900">Footer Widgets</h2>
-        <p class="text-xs text-gray-500 mt-0.5">Manage columns and text sections displayed in the site footer.</p>
+        <h2 class="text-xl font-bold text-stone-900">Footer Widgets</h2>
+        <p class="text-xs text-stone-500 mt-0.5">Manage columns and text sections displayed in the website footer.</p>
     </div>
-    <button type="button" onclick="openAddWidgetModal()"
-        class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+    <button type="button" onclick="openAddWidgetModal()" class="admin-btn-primary">
         + Add Widget
     </button>
 </div>
@@ -107,10 +102,9 @@
                     <label for="widgetEnabled" class="text-sm text-gray-700 select-none">Enabled</label>
                 </div>
             </div>
-            <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
-                <button type="button" onclick="closeWidgetModal()"
-                    class="text-gray-600 hover:text-gray-900 px-4 py-2 text-sm">Cancel</button>
-                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
+            <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#E5E1D5]">
+                <button type="button" onclick="closeWidgetModal()" class="admin-btn-secondary text-xs">Cancel</button>
+                <button type="submit" class="admin-btn-primary">
                     Save Widget
                 </button>
             </div>
