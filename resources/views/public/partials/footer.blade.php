@@ -1,9 +1,9 @@
-<footer class="bg-[#05080E] text-slate-300 pt-16 pb-10 mt-auto border-t border-black/10 dark:border-white/10">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<footer class="bg-[var(--theme-footer-bg)] text-[var(--theme-text-body)] pt-16 pb-10 mt-auto border-t border-[var(--theme-border)] transition-colors duration-200">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
-                <h3 class="text-xl font-bold text-white mb-3">{{ $websiteName ?? config('app.name') }}</h3>
-                <p class="text-sm text-slate-400 leading-relaxed mb-6">{{ \App\Models\Setting::get('footer_description') ?: ($profile->intro ?? ($profile->biography ? strip_tags(Str::limit($profile->biography, 200)) : 'Full Stack Web Developer crafting scalable applications.')) }}</p>
+                <h3 class="text-xl font-bold text-[var(--theme-text-heading)] mb-3">{{ $websiteName ?? config('app.name') }}</h3>
+                <p class="text-sm text-[var(--theme-text-muted)] leading-relaxed mb-6">{{ \App\Models\Setting::get('footer_description') ?: ($profile->intro ?? ($profile->biography ? strip_tags(Str::limit($profile->biography, 200)) : 'Full Stack Web Developer crafting scalable applications.')) }}</p>
                 @if($profile)
                     <div class="flex space-x-4">
                         @if($profile->email)
@@ -59,7 +59,7 @@
 
             @foreach($footerWidgets as $widget)
                 <div>
-                    <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">{{ $widget->title }}</h4>
+                    <h4 class="text-[var(--theme-text-heading)] font-semibold mb-4 text-sm uppercase tracking-wider">{{ $widget->title }}</h4>
 
                     @if($widget->content)
                         <div class="text-sm text-slate-400 space-y-2 leading-relaxed">
@@ -138,7 +138,7 @@
             @endforeach
         </div>
 
-        <div class="border-t border-black/10 dark:border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between text-sm text-slate-400 gap-4">
+        <div class="border-t border-[var(--theme-border)] pt-6 flex flex-col sm:flex-row items-center justify-between text-sm text-[var(--theme-text-muted)] gap-4">
             <p>{{ \App\Models\Setting::get('copyright_text') ?: ('© ' . date('Y') . ' ' . ($websiteName ?? config('app.name')) . '. All rights reserved.') }}</p>
 
             @if($orphanedFooterLinks->isNotEmpty())

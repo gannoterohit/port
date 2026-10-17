@@ -4,24 +4,23 @@
 @section('meta_description', 'The page you are looking for does not exist.')
 
 @section('content')
-<section class="min-h-screen flex items-center justify-center bg-[#080C14] text-slate-100 pt-28 sm:pt-36 pb-24 relative overflow-hidden">
-    <div class="absolute inset-0 bg-grid-dots-dark opacity-35 pointer-events-none"></div>
+<section class="min-h-screen flex items-center justify-center bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] pt-28 sm:pt-36 pb-24 relative overflow-hidden transition-colors duration-200">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="max-w-md mx-auto text-center bg-[#0F172A]/90 p-10 rounded-2xl border border-slate-800 shadow-2xl">
-            <div class="w-20 h-20 bg-emerald-500/15 border border-emerald-500/30 rounded-2xl flex items-center justify-center mx-auto mb-6 text-emerald-400 font-bold text-2xl shadow-md">
+        <div class="max-w-md mx-auto text-center bg-[var(--theme-bg-card)] p-10 rounded-3xl border border-[var(--theme-border)] shadow-xs">
+            <div class="w-20 h-20 bg-brand/10 border border-brand/20 rounded-2xl flex items-center justify-center mx-auto mb-6 text-brand font-bold text-2xl shadow-2xs">
                 404
             </div>
-            <h1 class="text-2xl font-bold text-white mb-3">Page Not Found</h1>
-            <p class="text-slate-400 text-sm mb-8 leading-relaxed">
+            <h1 class="text-2xl font-bold text-[var(--theme-text-heading)] mb-3">Page Not Found</h1>
+            <p class="text-[var(--theme-text-body)] text-sm mb-8 leading-relaxed">
                 The page you are looking for does not exist, has been moved, or is temporarily unavailable.
             </p>
             <a href="{{ route('home') }}"
-                class="btn-shimmer-effect inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white px-6 py-3 rounded-xl text-sm font-semibold transition-all shadow-lg shadow-emerald-500/25">
+                class="theme-btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-sm hover:scale-[1.02]">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 12l2-2v8a2 2 0 002 2h6m-4-10l4-4 4 4m-4-4v10"></path>
                 </svg>
-                Back to Homepage
+                <span>Back to Homepage</span>
             </a>
         </div>
     </div>

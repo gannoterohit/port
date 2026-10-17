@@ -15,8 +15,8 @@
 
 @section('content')
 @php
-    // Prioritize projects showcase right after hero for modern portfolio UX
-    $order = ['hero', 'skills_marquee', 'projects', 'about', 'skills', 'services', 'work_process', 'contact_cta'];
+    // High-converting sequence: Hero -> Marquee -> Projects -> About & Experience -> Services -> Delivery -> CTA
+    $order = ['hero', 'skills_marquee', 'projects', 'about', 'services', 'work_process', 'contact_cta'];
 @endphp
 
 @foreach($order as $section)
@@ -206,7 +206,7 @@
 
                                 <!-- Description -->
                                 <p class="text-[var(--theme-text-body)] text-sm leading-relaxed mb-6 font-normal">
-                                    {{ $project->short_description ?? Str::limit(strip_tags($project->description), 130) }}
+                                    {{ Str::limit($project->short_description ?: strip_tags($project->description), 110) }}
                                 </p>
                             </div>
 
@@ -251,7 +251,7 @@
     @endif
 
     {{-- ========================================================
-         ABOUT & ENGINEERING PRINCIPLES — CLEAN 2-COLUMN NARRATIVE
+         ABOUT & WORK EXPERIENCE TIMELINE — HIGH-TRUST EDITORIAL
          ======================================================== --}}
     @if($section === 'about' && $homepageSettings->about_section_enabled)
         <section id="about" class="py-20 sm:py-28 bg-[var(--theme-bg-alt)] border-b border-[var(--theme-border)] relative">
@@ -261,10 +261,10 @@
                     <!-- Left: Narrative & Background -->
                     <div class="lg:col-span-5">
                         <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-3 block">
-                            02 / Background &amp; Philosophy
+                            02 / Experience &amp; Track Record
                         </span>
                         <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight leading-tight mb-6">
-                            Code crafted for maintainability, speed, and real throughput.
+                            Engineering robust web applications with production reliability.
                         </h2>
                         <div class="text-[var(--theme-text-body)] text-base leading-relaxed space-y-4 font-normal mb-8">
                             <p>
@@ -275,177 +275,94 @@
                             </p>
                         </div>
 
-                        <a href="{{ route('about') }}" class="theme-btn-secondary inline-flex items-center gap-2 px-5 py-3 rounded-xl border text-sm font-semibold transition-all">
-                            <span>Read Full Journey &amp; Career</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
-                    </div>
-
-                    <!-- Right: 4 Clean Technical Pillars -->
-                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <div class="p-6 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)]">
-                            <div class="w-9 h-9 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-mono font-bold text-sm mb-4">
-                                01
-                            </div>
-                            <h3 class="text-base font-bold text-[var(--theme-text-heading)] mb-2">Domain-Driven Architecture</h3>
-                            <p class="text-xs text-[var(--theme-text-body)] leading-relaxed">
-                                Form Request input sanitization, dedicated service classes, and route model binding for clean, testable logic.
-                            </p>
-                        </div>
-
-                        <div class="p-6 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)]">
-                            <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-mono font-bold text-sm mb-4">
-                                02
-                            </div>
-                            <h3 class="text-base font-bold text-[var(--theme-text-heading)] mb-2">Relational Optimization</h3>
-                            <p class="text-xs text-[var(--theme-text-body)] leading-relaxed">
-                                Strict 3NF schema design, composite B-Tree indexing, and query plan analysis guaranteeing zero N+1 bottlenecks.
-                            </p>
-                        </div>
-
-                        <div class="p-6 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)]">
-                            <div class="w-9 h-9 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center font-mono font-bold text-sm mb-4">
-                                03
-                            </div>
-                            <h3 class="text-base font-bold text-[var(--theme-text-heading)] mb-2">Asynchronous Queues</h3>
-                            <p class="text-xs text-[var(--theme-text-body)] leading-relaxed">
-                                Offloading emails, invoice generation, and third-party API sync to Redis workers for instant UI responsiveness.
-                            </p>
-                        </div>
-
-                        <div class="p-6 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center font-mono font-bold text-sm mb-4">
-                                04
-                            </div>
-                            <h3 class="text-base font-bold text-[var(--theme-text-heading)] mb-2">Security &amp; Auth</h3>
-                            <p class="text-xs text-[var(--theme-text-body)] leading-relaxed">
-                                Laravel Sanctum bearer tokens, CSRF protection, rate limiting, and role-based permissions (RBAC) out of the box.
-                            </p>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="{{ route('resume') }}" class="theme-btn-primary inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold shadow-sm transition-all hover:scale-[1.02]">
+                                <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <span>View Resume &amp; CV</span>
+                            </a>
+                            <a href="{{ route('about') }}" class="theme-btn-secondary inline-flex items-center gap-2 px-5 py-3 rounded-xl border text-sm font-semibold transition-all">
+                                <span>Read Full Journey</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
                         </div>
                     </div>
-                </div>
 
-            </div>
-        </section>
-    @endif
+                    <!-- Right: Work Experience Timeline & Proven Milestones -->
+                    <div class="lg:col-span-7 space-y-4">
+                        <!-- Timeline Card 1 -->
+                        <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all shadow-xs">
+                            <div class="flex items-center justify-between gap-4 mb-2">
+                                <span class="text-xs font-mono font-bold text-brand uppercase tracking-wider">2023 — Present</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">Active Role</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-[var(--theme-text-heading)] mb-2">
+                                Full Stack Commercial Web Developer
+                            </h3>
+                            <p class="text-xs sm:text-sm text-[var(--theme-text-body)] leading-relaxed font-normal mb-3">
+                                Architecting and maintaining commercial web platforms using Laravel, PHP 8+, and MySQL. Engineering custom admin control panels, dynamic content management, and role-based access control systems.
+                            </p>
+                            <div class="flex flex-wrap gap-1.5">
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Laravel 11</span>
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">MySQL Optimization</span>
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">REST APIs</span>
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Tailwind CSS</span>
+                            </div>
+                        </div>
 
-    {{-- ========================================================
-         SKILLS MATRIX — CLEAN CATEGORIZED DOMAINS
-         ======================================================== --}}
-    @if($section === 'skills' && $homepageSettings->skills_section_enabled && $skills && $skills->isNotEmpty())
-        <section id="skills" class="py-20 sm:py-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] relative">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
-                
-                <div class="max-w-2xl mb-14">
-                    <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
-                        03 / Core Competencies
-                    </span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
-                        Technical Stack &amp; Tooling
-                    </h2>
-                    <p class="text-[var(--theme-text-muted)] text-base mt-2">
-                        Battle-tested production technologies leveraged across full-stack commercial projects.
-                    </p>
-                </div>
+                        <!-- Timeline Card 2 -->
+                        <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all shadow-xs">
+                            <div class="flex items-center justify-between gap-4 mb-2">
+                                <span class="text-xs font-mono font-bold text-brand uppercase tracking-wider">2022 — 2023</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-black/5 dark:bg-white/10 text-[var(--theme-text-muted)]">Commercial Delivery</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-[var(--theme-text-heading)] mb-2">
+                                Backend Systems &amp; Database Specialist
+                            </h3>
+                            <p class="text-xs sm:text-sm text-[var(--theme-text-body)] leading-relaxed font-normal mb-3">
+                                Designed 3NF relational schemas, tuned queries with composite B-Tree indexes, and eliminated N+1 query bottlenecks. Implemented secure token-based Sanctum authentication and rate-limited API endpoints.
+                            </p>
+                            <div class="flex flex-wrap gap-1.5">
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Schema Design</span>
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Sanctum Auth</span>
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Redis Caching</span>
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Blade Architecture</span>
+                            </div>
+                        </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Column 1: Backend -->
-                    <div class="p-6 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)]">
-                        <div class="text-xs font-mono text-brand font-semibold uppercase mb-3">Backend Core</div>
-                        <ul class="space-y-2 text-sm text-[var(--theme-text-heading)] font-medium">
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
-                                <span>Laravel 11 / 12</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
-                                <span>PHP 8.2 / 8.3</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
-                                <span>RESTful API Design</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
-                                <span>Sanctum Authentication</span>
-                            </li>
-                        </ul>
+                        <!-- Timeline Card 3 -->
+                        <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all shadow-xs">
+                            <div class="flex items-center justify-between gap-4 mb-2">
+                                <span class="text-xs font-mono font-bold text-brand uppercase tracking-wider">2022</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-brand/10 text-brand">Foundation</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-[var(--theme-text-heading)] mb-2">
+                                Intensive Software Engineering Training (6 Months)
+                            </h3>
+                            <p class="text-xs sm:text-sm text-[var(--theme-text-body)] leading-relaxed font-normal mb-3">
+                                Completed rigorous full-time software engineering training covering MVC design patterns, object-oriented PHP, PSR coding standards, database normalization, Git version control, and web security principles.
+                            </p>
+                            <div class="flex flex-wrap gap-1.5">
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">OOP PHP</span>
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">MVC Patterns</span>
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">PSR-12 Standards</span>
+                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Git &amp; GitHub</span>
+                            </div>
+                        </div>
+
+                        <!-- Highlights Banner -->
+                        <div class="grid grid-cols-2 gap-4 pt-2">
+                            <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold text-sm shrink-0">✓</div>
+                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">10+ Commercial Projects Delivered</div>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0">★</div>
+                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">100% Production Quality &amp; Clean Code</div>
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- Column 2: Database -->
-                    <div class="p-6 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)]">
-                        <div class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase mb-3">Database &amp; Cache</div>
-                        <ul class="space-y-2 text-sm text-[var(--theme-text-heading)] font-medium">
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                <span>MySQL 8.0</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                <span>Redis 7 (Cache &amp; Queues)</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                <span>Composite Indexing</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                <span>Query Plan Tuning</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Column 3: Frontend -->
-                    <div class="p-6 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)]">
-                        <div class="text-xs font-mono text-teal-600 dark:text-teal-400 font-semibold uppercase mb-3">Frontend &amp; UI</div>
-                        <ul class="space-y-2 text-sm text-[var(--theme-text-heading)] font-medium">
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
-                                <span>Tailwind CSS</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
-                                <span>Alpine.js</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
-                                <span>Blade Components</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
-                                <span>Vanilla JavaScript (ES6+)</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Column 4: DevOps & Standards -->
-                    <div class="p-6 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)]">
-                        <div class="text-xs font-mono text-[var(--theme-text-muted)] font-semibold uppercase mb-3">DevOps &amp; Tooling</div>
-                        <ul class="space-y-2 text-sm text-[var(--theme-text-heading)] font-medium">
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                                <span>Git &amp; GitHub Actions</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                                <span>Apache / Nginx</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                                <span>Linux Server Admin</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                                <span>PSR-12 Standards</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="text-center mt-10">
-                    <a href="{{ route('skills') }}" class="text-xs font-mono uppercase tracking-wider text-brand hover:underline inline-flex items-center gap-1 font-semibold">
-                        <span>View complete technical competency matrix →</span>
-                    </a>
                 </div>
 
             </div>
@@ -461,7 +378,7 @@
                 
                 <div class="max-w-2xl mb-14">
                     <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
-                        04 / Commercial Offerings
+                        03 / Commercial Capabilities
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
                         Specialized Engineering Solutions
@@ -482,7 +399,7 @@
                                     </a>
                                 </h3>
                                 <p class="text-[var(--theme-text-body)] text-sm leading-relaxed mb-6 font-normal">
-                                    {{ $service->short_description ?? Str::limit(strip_tags($service->description), 130) }}
+                                    {{ Str::limit($service->short_description ?: strip_tags($service->description), 110) }}
                                 </p>
 
                                 @if($service->features && is_array($service->features))
@@ -520,7 +437,7 @@
                 
                 <div class="max-w-2xl mb-14">
                     <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
-                        05 / Delivery Standards
+                        04 / Delivery Standards
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
                         Predictable, Reliable Delivery
@@ -555,7 +472,7 @@
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-3xl text-center">
                 <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-4 block">
-                    06 / Let's Connect
+                    05 / Let's Connect
                 </span>
                 <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-[var(--theme-text-heading)] mb-4 leading-tight">
                     {{ $homepageSettings->contact_cta_heading ?: 'Have a complex system or project in mind?' }}

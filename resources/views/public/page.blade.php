@@ -9,26 +9,22 @@
 @section('meta_robots', $page->no_index ? 'noindex, nofollow' : 'index, follow')
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[#080C14] text-slate-100 relative overflow-hidden">
-    <!-- Ambient Lighting & Dot Grid -->
-    <div class="absolute inset-0 bg-grid-dots-dark opacity-35 pointer-events-none"></div>
-    <div class="absolute -top-32 -left-20 w-[500px] h-[500px] bg-emerald-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
-
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] relative overflow-hidden transition-colors duration-200">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl 2xl:max-w-[1400px]">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-[#0F172A]/90 rounded-2xl border border-slate-800 p-8 sm:p-12 shadow-xl">
-                <header class="mb-8 pb-6 border-b border-slate-800">
-                    <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            <div class="bg-[var(--theme-bg-card)] rounded-3xl border border-[var(--theme-border)] p-8 sm:p-12 shadow-xs">
+                <header class="mb-8 pb-6 border-b border-[var(--theme-border)]">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
                         {{ $page->title }}
                     </h1>
                     @if($page->updated_at)
-                        <p class="text-xs text-slate-400 mt-2">
+                        <p class="text-xs text-[var(--theme-text-muted)] mt-2">
                             Last updated: {{ $page->updated_at->format('F d, Y') }}
                         </p>
                     @endif
                 </header>
 
-                <article class="prose prose-invert max-w-none text-slate-300 prose-headings:text-white prose-a:text-emerald-400 leading-relaxed">
+                <article class="prose max-w-none text-[var(--theme-text-body)] leading-relaxed">
                     {!! $page->content !!}
                 </article>
             </div>

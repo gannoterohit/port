@@ -51,9 +51,9 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
 
                 $navItems = collect([
                     (object)['id' => 'hero',     'label' => 'Home',     'url' => $isHomePage ? '#hero'     : route('home') . '#hero'],
-                    (object)['id' => 'about',    'label' => 'About',    'url' => $isHomePage ? '#about'    : route('home') . '#about'],
-                    (object)['id' => 'skills',   'label' => 'Skills',   'url' => $isHomePage ? '#skills'   : route('home') . '#skills'],
                     (object)['id' => 'projects', 'label' => 'Projects', 'url' => $isHomePage ? '#projects' : route('home') . '#projects'],
+                    (object)['id' => 'about',    'label' => 'About',    'url' => $isHomePage ? '#about'    : route('home') . '#about'],
+                    (object)['id' => 'skills',   'label' => 'Skills',   'url' => route('skills')],
                     (object)['id' => 'services', 'label' => 'Services', 'url' => $isHomePage ? '#services' : route('home') . '#services'],
                     (object)['id' => 'contact',  'label' => 'Contact',  'url' => $isHomePage ? '#contact'  : route('home') . '#contact'],
                 ]);
