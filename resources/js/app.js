@@ -20,13 +20,12 @@ function initScrollReveal() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('reveal-visible');
-                // Unobserve once revealed to keep scrolling fast and memory clean
                 obs.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px'
+        threshold: 0.01,
+        rootMargin: '250px 0px 250px 0px'
     });
 
     reveals.forEach(el => observer.observe(el));
@@ -50,29 +49,6 @@ function initScrollProgress() {
             ticking = true;
         }
     }, { passive: true });
-}
-
-// Refined Subtle Spotlight Coordinates (Zero Jitter, Zero In-Your-Face 3D Wobble)
-function initCardSpotlight() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 768 || !window.matchMedia('(hover: hover)').matches) {
-        return;
-    }
-
-    const cards = document.querySelectorAll('.card-spotlight');
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.setProperty('--mouse-x', `-999px`);
-            card.style.setProperty('--mouse-y', `-999px`);
-        });
-    });
 }
 
 // High-Performance Animated Number Counters
@@ -127,7 +103,6 @@ function initStatCounters() {
 function setupEnhancements() {
     initScrollReveal();
     initScrollProgress();
-    initCardSpotlight();
     initStatCounters();
 }
 

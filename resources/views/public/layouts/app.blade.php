@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" data-theme="{{ $themePreset ?? 'indigo_dark' }}">
+<html lang="en" class="scroll-smooth" data-theme="warm_stone">
 <head>
     <meta charset="UTF-8">
+    <script>
+        (function() {
+            var saved = localStorage.getItem('portfolio_theme');
+            if (saved === 'warm_obsidian' || saved === 'warm_stone') {
+                document.documentElement.setAttribute('data-theme', saved);
+            } else {
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', prefersDark ? 'warm_obsidian' : 'warm_stone');
+            }
+        })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @php
         $pageTitle = $__env->yieldContent('title') ?: ($defaultSeoTitle ?? ($websiteName . ' - ' . $siteDescription));
@@ -74,24 +85,23 @@
     </script>
     @endif
 
-</head>
-<body class="font-sans antialiased selection:bg-indigo-500/20 selection:text-indigo-400 min-h-screen flex flex-col">
+<body class="font-sans antialiased min-h-screen flex flex-col">
     <!-- Top Scroll Dynamic Progress Bar -->
-    <div id="scroll-progress-bar" class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 z-[9999] pointer-events-none transition-all duration-75 ease-out shadow-xs shadow-emerald-500/50" style="width: 0%"></div>
+    <div id="scroll-progress-bar" class="fixed top-0 left-0 h-[2.5px] bg-[#B85D19] dark:bg-[#E07A5F] z-[9999] pointer-events-none transition-all duration-75 ease-out" style="width: 0%"></div>
 
     @if(session('success'))
         <div x-data="{ show: true }" x-show="show" x-transition
-            class="fixed top-4 right-4 z-50 bg-emerald-500 text-white px-4 py-3 rounded-lg shadow-lg animate-slide-down">
+            class="fixed top-4 right-4 z-50 bg-[#18191B] text-[#F6F4EE] dark:bg-[#F4F3EF] dark:text-[#121316] px-4 py-3 rounded-xl shadow-xl animate-slide-down text-sm font-semibold border border-black/10 dark:border-white/10">
             {{ session('success') }}
-            <button @click="show = false" class="ml-2 text-white hover:text-slate-200">&times;</button>
+            <button @click="show = false" class="ml-2 opacity-70 hover:opacity-100">&times;</button>
         </div>
     @endif
 
     @if(session('error'))
         <div x-data="{ show: true }" x-show="show" x-transition
-            class="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg animate-slide-down">
+            class="fixed top-4 right-4 z-50 bg-red-600 text-white px-4 py-3 rounded-xl shadow-xl animate-slide-down text-sm font-semibold">
             {{ session('error') }}
-            <button @click="show = false" class="ml-2 text-white hover:text-slate-200">&times;</button>
+            <button @click="show = false" class="ml-2 text-white hover:opacity-80">&times;</button>
         </div>
     @endif
 
@@ -120,10 +130,10 @@
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 scale-100"
     x-transition:leave-end="opacity-0 scale-95"
-    class="fixed bottom-24 right-4 sm:top-5 sm:bottom-auto sm:right-6 z-[9999] max-w-sm w-[calc(100%-2rem)] bg-[#0D1526]/95 border-2 border-emerald-500/50 backdrop-blur-xl p-4 rounded-2xl shadow-2xl shadow-black/80 text-white"
+    class="fixed bottom-24 right-4 sm:top-5 sm:bottom-auto sm:right-6 z-[9999] max-w-sm w-[calc(100%-2rem)] bg-[#1A1B20] text-[#F4F3EF] border border-[#E07A5F]/40 backdrop-blur-xl p-4 rounded-2xl shadow-2xl shadow-black/80"
     style="display: none;">
         <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
+            <div class="w-8 h-8 rounded-xl bg-[#E07A5F]/15 text-[#E07A5F] border border-[#E07A5F]/30 flex items-center justify-center shrink-0 mt-0.5">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
             </div>
             <div class="flex-1 min-w-0">
@@ -131,13 +141,13 @@
                     <span class="text-xs font-bold text-white">Copied to Clipboard!</span>
                     <button type="button" @click="open = false" class="text-slate-400 hover:text-white p-0.5 text-base font-bold leading-none">&times;</button>
                 </div>
-                <div class="text-[12px] text-emerald-300 font-mono truncate mt-0.5" x-text="email"></div>
+                <div class="text-[12px] text-[#E07A5F] font-mono truncate mt-0.5" x-text="email"></div>
                 <div class="mt-2.5 flex items-center gap-2">
-                    <button type="button" @click="openGmail()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-sm transition-colors">
+                    <button type="button" @click="openGmail()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#E07A5F] hover:opacity-90 text-white font-bold text-xs shadow-sm transition-opacity">
                         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
                         <span>Open in Gmail</span>
                     </button>
-                    <button type="button" @click="open = false" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-colors">
+                    <button type="button" @click="open = false" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-slate-300 text-xs font-semibold transition-colors">
                         Dismiss
                     </button>
                 </div>
@@ -191,13 +201,13 @@
         x-transition:leave-end="opacity-0 translate-y-3"
         @click="window.scrollTo({top: 0, behavior: 'smooth'})"
         aria-label="Back to top"
-        class="fixed bottom-20 sm:bottom-6 sm:right-48 right-6 z-40 p-3 rounded-full bg-[#0D1526]/90 border border-slate-700/80 hover:border-emerald-500/50 text-slate-300 hover:text-white shadow-xl backdrop-blur-md transition-all duration-200 hover:-translate-y-1"
+        class="fixed bottom-20 sm:bottom-6 sm:right-48 right-6 z-40 p-3 rounded-full bg-white dark:bg-[#1A1B20] border border-black/10 dark:border-white/10 hover:border-[#B85D19]/50 text-slate-700 dark:text-slate-300 hover:text-[#B85D19] dark:hover:text-[#E07A5F] shadow-xl backdrop-blur-md transition-all duration-200 hover:-translate-y-1"
         title="Scroll to top">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
     </button>
 
     <!-- Mobile Floating Bottom Quick Action Dock -->
-    <div class="sm:hidden fixed bottom-3 left-3 right-3 z-40 bg-[#0D1526]/95 border border-slate-800/90 backdrop-blur-xl rounded-2xl py-2 px-3 shadow-2xl shadow-black/80 flex items-center justify-around">
+    <div class="sm:hidden fixed bottom-3 left-3 right-3 z-40 bg-white/95 dark:bg-[#1A1B20]/95 border border-black/10 dark:border-white/10 backdrop-blur-xl rounded-2xl py-2 px-3 shadow-2xl shadow-black/20 flex items-center justify-around">
         @if($whatsappLink)
             <a href="{{ $whatsappLink }}" target="_blank" rel="noopener noreferrer"
                 class="flex flex-col items-center gap-1 text-[#25D366] hover:opacity-80 transition-opacity">

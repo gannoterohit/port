@@ -30,11 +30,10 @@
              HERO SECTION — ULTRA-PREMIUM ARCHITECTURAL FOCUS
              ======================================================== -->
         <section id="hero" class="relative pt-32 sm:pt-40 pb-20 sm:pb-32 bg-[#06080F] border-b border-white/[0.08] overflow-hidden">
-            <!-- Ambient Mesh Glows (Deep Indigo & Emerald Specular Layers) -->
+            <!-- Ambient Warm Mesh Glows -->
             <div class="absolute inset-0 bg-grid-dots-dark opacity-20 pointer-events-none"></div>
-            <div class="absolute -top-36 left-1/4 w-[650px] h-[500px] bg-emerald-500/[0.08] rounded-full blur-[140px] pointer-events-none"></div>
-            <div class="absolute top-1/4 -right-20 w-[500px] h-[500px] bg-teal-500/[0.06] rounded-full blur-[140px] pointer-events-none"></div>
-            <div class="absolute bottom-0 left-1/3 w-[400px] h-[300px] bg-indigo-500/[0.05] rounded-full blur-[130px] pointer-events-none"></div>
+            <div class="absolute -top-36 left-1/4 w-[600px] h-[450px] bg-[#B85D19]/[0.05] dark:bg-[#E07A5F]/[0.05] rounded-full blur-[140px] pointer-events-none"></div>
+            <div class="absolute top-1/4 -right-20 w-[450px] h-[450px] bg-[#B85D19]/[0.03] dark:bg-[#E07A5F]/[0.04] rounded-full blur-[140px] pointer-events-none"></div>
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
@@ -50,7 +49,7 @@
                         <!-- Status & Telemetry Pill -->
                         <div class="flex flex-wrap items-center gap-2.5 mb-7">
                             @if($isAvailable)
-                                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 font-medium text-xs tracking-tight shadow-xs">
+                                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-600 dark:text-emerald-400 font-medium text-xs tracking-tight shadow-xs">
                                     <span class="relative flex h-2 w-2">
                                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                         <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -58,8 +57,8 @@
                                     <span>Available for Commercial Contracts &amp; Roles</span>
                                 </div>
                             @endif
-                            <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-slate-300 font-mono text-xs">
-                                <span class="text-emerald-400">⚡</span>
+                            <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-mono text-xs">
+                                <span class="text-amber-500">⚡</span>
                                 <span>IST (UTC+5:30) • Remote Worldwide</span>
                             </div>
                         </div>
@@ -71,7 +70,7 @@
 
                         <!-- Technical Specialty Eyebrow -->
                         <div class="flex items-center gap-3 mb-6">
-                            <span class="text-lg sm:text-xl font-semibold text-emerald-400 tracking-tight">
+                            <span class="text-lg sm:text-xl font-semibold text-brand tracking-tight">
                                 {{ $homepageSettings->hero_title ?: 'Laravel, MySQL & High-Throughput REST APIs' }}
                             </span>
                         </div>
@@ -83,13 +82,13 @@
                         <!-- Action Controls -->
                         <div class="flex flex-wrap gap-3.5 items-center mb-10">
                             <a href="#contact"
-                                class="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-semibold rounded-xl bg-white text-slate-950 hover:bg-slate-100 hover:scale-[1.02] shadow-xl shadow-white/5 transition-all duration-200 text-sm sm:text-base">
+                                class="theme-btn-primary inline-flex items-center justify-center gap-2 px-6 py-3.5 font-semibold rounded-xl hover:scale-[1.02] shadow-sm transition-all duration-200 text-sm sm:text-base">
                                 <span>Discuss Your Project</span>
                                 <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
 
                             <a href="#projects"
-                                class="inline-flex items-center justify-center gap-2 px-5 py-3.5 font-medium rounded-xl bg-white/[0.05] hover:bg-white/[0.09] text-white border border-white/[0.1] hover:border-white/[0.2] transition-all duration-200 text-sm sm:text-base">
+                                class="inline-flex items-center justify-center gap-2 px-5 py-3.5 font-medium rounded-xl bg-black/[0.04] dark:bg-white/[0.05] hover:bg-black/[0.07] dark:hover:bg-white/[0.09] text-inherit border border-black/10 dark:border-white/10 transition-all duration-200 text-sm sm:text-base">
                                 <span>View Case Studies</span>
                             </a>
 
@@ -97,9 +96,9 @@
                                 $cvUrl = ($profile->resume_url && $profile->resume_button_visible) ? $profile->resume_url : '#contact';
                             @endphp
                             <a href="{{ $cvUrl }}" @if($profile->resume_url && $profile->resume_button_visible) target="_blank" rel="noopener noreferrer" download @endif
-                                class="inline-flex items-center justify-center gap-2 px-4 py-3.5 font-medium rounded-xl text-slate-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] transition-all duration-200 text-sm"
+                                class="inline-flex items-center justify-center gap-2 px-4 py-3.5 font-medium rounded-xl bg-black/[0.03] dark:bg-white/[0.03] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] border border-black/10 dark:border-white/10 transition-all duration-200 text-sm"
                                 title="Download CV / Resume">
-                                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path></svg>
+                                <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V2m0 0l-4 4m4-4l4 4M5 14h14a2 2 0 010 4H5a2 2 0 010-4z"></path></svg>
                                 <span>Resume</span>
                             </a>
 
@@ -109,9 +108,9 @@
                             @if($contactEmail)
                                 <button type="button"
                                     @click="window.copyPortfolioEmail('{{ $contactEmail }}', $event)"
-                                    class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] text-slate-300 hover:text-white border border-white/[0.08] transition-all duration-200 text-sm"
+                                    class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] border border-black/10 dark:border-white/10 transition-all duration-200 text-sm"
                                     title="Copy email: {{ $contactEmail }}">
-                                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                                     <span>Copy Email</span>
                                 </button>
                             @endif
@@ -126,7 +125,7 @@
                                 <div class="text-[11px] text-slate-500">Commercial Production</div>
                             </div>
                             <div class="border-l border-white/[0.08] pl-6">
-                                <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 tracking-tight">&lt; 50ms</div>
+                                <div class="text-2xl sm:text-3xl font-extrabold text-brand tracking-tight">&lt; 50ms</div>
                                 <div class="text-xs font-semibold text-slate-300 mt-0.5">API Latency Target</div>
                                 <div class="text-[11px] text-slate-500">Indexed &amp; Cached</div>
                             </div>
@@ -205,15 +204,15 @@
                                         :class="activeNode === 'edge' ? 'bg-white/[0.07] border-emerald-500/40 text-white' : 'bg-white/[0.02] border-white/[0.06] text-slate-400 hover:text-slate-200'"
                                         class="p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all">
                                         <div class="flex items-center gap-2.5">
-                                            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                                            <span class="w-2 h-2 rounded-full bg-teal-400"></span>
                                             <span class="font-bold">01. Edge / Reverse Proxy</span>
                                         </div>
-                                        <span class="text-[11px] font-sans text-cyan-300">Cloudflare • TLS 1.3</span>
+                                        <span class="text-[11px] font-sans text-teal-700 dark:text-teal-300 font-medium">Cloudflare • TLS 1.3</span>
                                     </div>
 
                                     <!-- Connecting Data Pipe Indicator -->
                                     <div class="flex items-center justify-center -my-1 text-slate-600 text-xs select-none">
-                                        ↓ <span class="text-[10px] ml-1 text-emerald-400/80 animate-pulse-data">HTTP/2 Handshake (12ms)</span>
+                                        ↓ <span class="text-[10px] ml-1 text-emerald-700 dark:text-emerald-400/80 font-medium animate-pulse-data">HTTP/2 Handshake (12ms)</span>
                                     </div>
 
                                     <!-- Node 2: Laravel Core Service Engine -->
@@ -224,12 +223,12 @@
                                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                                             <span class="font-bold">02. Laravel 12 API Engine</span>
                                         </div>
-                                        <span class="text-[11px] font-sans text-emerald-300">Sanctum • DDD Service</span>
+                                        <span class="text-[11px] font-sans text-emerald-700 dark:text-emerald-300 font-medium">Sanctum • DDD Service</span>
                                     </div>
 
                                     <!-- Connecting Data Pipe Indicator -->
                                     <div class="flex items-center justify-center -my-1 text-slate-600 text-xs select-none">
-                                        ↓ <span class="text-[10px] ml-1 text-teal-400/80 animate-pulse-data">Dual Persistence Layer</span>
+                                        ↓ <span class="text-[10px] ml-1 text-teal-700 dark:text-teal-400/80 font-medium animate-pulse-data">Dual Persistence Layer</span>
                                     </div>
 
                                     <!-- Node 3: Storage (Redis & MySQL) -->
@@ -240,44 +239,44 @@
                                             <span class="w-2 h-2 rounded-full bg-amber-400"></span>
                                             <span class="font-bold">03. Redis 7 &amp; MySQL 8.0</span>
                                         </div>
-                                        <span class="text-[11px] font-sans text-amber-300">B-Tree • Sub-5ms Cache</span>
+                                        <span class="text-[11px] font-sans text-amber-700 dark:text-amber-300 font-medium">B-Tree • Sub-5ms Cache</span>
                                     </div>
                                 </div>
 
                                 <!-- Dynamic Telemetry Detail Card -->
-                                <div class="mt-4 p-3.5 rounded-xl bg-black/40 border border-white/[0.08] text-xs font-mono space-y-1">
+                                <div class="mt-4 p-3.5 rounded-xl bg-black/[0.04] dark:bg-black/40 border border-black/[0.08] dark:border-white/[0.08] text-xs font-mono space-y-1">
                                     <div x-show="activeNode === 'edge'" class="space-y-1">
-                                        <div class="text-cyan-400 font-bold">Edge Protection &amp; SSL Offload</div>
-                                        <div class="text-slate-300 text-[11px]">DDoS mitigation, Brotli compression, IP throttling, and zero-downtime routing.</div>
+                                        <div class="text-teal-400 font-bold">Edge Protection &amp; SSL Offload</div>
+                                        <div class="text-slate-600 dark:text-slate-300 text-[11px]">DDoS mitigation, Brotli compression, IP throttling, and zero-downtime routing.</div>
                                     </div>
                                     <div x-show="activeNode === 'api'" class="space-y-1">
-                                        <div class="text-emerald-400 font-bold">Laravel 12 Business Core</div>
-                                        <div class="text-slate-300 text-[11px]">Strict Type declarations, Form Request sanitization, Route Model Binding &amp; asynchronous jobs.</div>
+                                        <div class="text-emerald-500 dark:text-emerald-400 font-bold">Laravel 12 Business Core</div>
+                                        <div class="text-slate-600 dark:text-slate-300 text-[11px]">Strict Type declarations, Form Request sanitization, Route Model Binding &amp; asynchronous jobs.</div>
                                     </div>
                                     <div x-show="activeNode === 'db'" class="space-y-1">
-                                        <div class="text-amber-400 font-bold">Relational Integrity &amp; In-Memory Layer</div>
-                                        <div class="text-slate-300 text-[11px]">Strict 3NF schemas, foreign key cascade constraints, indexed query plans, and Redis session states.</div>
+                                        <div class="text-amber-500 dark:text-amber-400 font-bold">Relational Integrity &amp; In-Memory Layer</div>
+                                        <div class="text-slate-600 dark:text-slate-300 text-[11px]">Strict 3NF schemas, foreign key cascade constraints, indexed query plans, and Redis session states.</div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- TAB 2: LIVE SIMULATED API PLAYGROUND -->
                             <div x-show="activeTab === 'api'" style="display: none;" class="p-6 space-y-4 font-mono text-xs">
-                                <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
-                                    <span class="text-slate-400">Endpoint Simulation</span>
-                                    <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">HTTP/2 200 OK</span>
+                                <div class="flex items-center justify-between pb-3 border-b border-black/[0.06] dark:border-white/[0.06]">
+                                    <span class="text-slate-500 dark:text-slate-400">Endpoint Simulation</span>
+                                    <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold">HTTP/2 200 OK</span>
                                 </div>
 
-                                <div class="flex items-center gap-2 p-2.5 rounded-lg bg-black/50 border border-white/[0.08] text-[11px]">
-                                    <span class="text-emerald-400 font-bold">GET</span>
-                                    <span class="text-slate-300">/api/v1/health/telemetry</span>
+                                <div class="flex items-center gap-2 p-2.5 rounded-lg bg-black/[0.03] dark:bg-black/50 border border-black/[0.08] dark:border-white/[0.08] text-[11px]">
+                                    <span class="text-emerald-600 dark:text-emerald-400 font-bold">GET</span>
+                                    <span class="text-slate-700 dark:text-slate-300">/api/v1/health/telemetry</span>
                                     <button type="button" @click="runApiTest()"
-                                        class="ml-auto px-2.5 py-1 rounded bg-white text-slate-950 font-bold text-[10px] hover:bg-slate-200 transition-colors">
+                                        class="ml-auto px-2.5 py-1 rounded theme-btn-primary font-bold text-[10px] transition-colors">
                                         <span x-text="apiExecuting ? 'Executing...' : 'Run Test'">Run Test</span>
                                     </button>
                                 </div>
 
-                                <div class="p-3.5 rounded-xl bg-black/60 border border-white/[0.08] text-[11px] leading-relaxed text-slate-300 overflow-x-auto">
+                                <div class="p-3.5 rounded-xl bg-black/[0.04] dark:bg-black/60 border border-black/[0.08] dark:border-white/[0.08] text-[11px] leading-relaxed overflow-x-auto">
 <pre class="text-emerald-400">{
   <span class="text-slate-400">"status"</span>: <span class="text-teal-300">"operational"</span>,
   <span class="text-slate-400">"runtime"</span>: <span class="text-teal-300">"PHP 8.3 / Laravel 12"</span>,
@@ -340,7 +339,7 @@
                             @if(str_contains($sName, 'laravel'))
                                 <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
                             @elseif(str_contains($sName, 'php'))
-                                <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                             @elseif(str_contains($sName, 'mysql'))
                                 <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span>
                             @elseif(str_contains($sName, 'redis'))
@@ -365,7 +364,7 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 
                 <div class="max-w-3xl mb-12 reveal-on-scroll">
-                    <span class="text-xs font-mono uppercase tracking-widest text-emerald-400 font-semibold mb-3 block">
+                    <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-3 block">
                         01 / Engineering Standards &amp; Principles
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
@@ -396,7 +395,7 @@
                         </div>
 
                         <div class="mt-8 pt-6 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-4">
-                            <a href="{{ route('about') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-emerald-400 transition-colors group">
+                            <a href="{{ route('about') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-brand transition-colors group">
                                 <span>Read Comprehensive Background</span>
                                 <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
@@ -419,15 +418,15 @@
                             <p class="text-xs text-slate-400 mb-6">Available for freelance web application development, ERP panels &amp; API engineering.</p>
 
                             <div class="space-y-3 text-xs font-mono">
-                                <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
+                                <div class="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.06] flex items-center justify-between">
                                     <span class="text-slate-400">Timezone</span>
                                     <span class="text-white font-semibold">IST (UTC+5:30)</span>
                                 </div>
-                                <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
+                                <div class="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.06] flex items-center justify-between">
                                     <span class="text-slate-400">Communication SLA</span>
-                                    <span class="text-emerald-400 font-semibold">&lt; 2 Hours</span>
+                                    <span class="text-brand font-semibold">&lt; 2 Hours</span>
                                 </div>
-                                <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
+                                <div class="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.06] flex items-center justify-between">
                                     <span class="text-slate-400">Code Standards</span>
                                     <span class="text-white font-semibold">PSR-12 / Clean DDD</span>
                                 </div>
@@ -435,7 +434,7 @@
                         </div>
 
                         <div class="mt-6 pt-4 border-t border-white/[0.08]">
-                            <a href="#contact" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1">
+                            <a href="#contact" class="text-xs font-semibold text-brand hover:underline inline-flex items-center gap-1">
                                 <span>Schedule Discussion ↗</span>
                             </a>
                         </div>
@@ -444,7 +443,7 @@
                     <!-- Bento Tile 3 (4-col): Database Query Optimization Graphic -->
                     <div class="md:col-span-4 p-7 rounded-2xl bg-[#090D16] border border-white/[0.08] flex flex-col justify-between specular-card">
                         <div>
-                            <div class="text-xs font-mono text-amber-400 uppercase tracking-wider mb-2">Performance Tuning</div>
+                            <div class="text-xs font-mono text-brand uppercase tracking-wider mb-2">Performance Tuning</div>
                             <h4 class="text-base font-bold text-white mb-2">MySQL Indexing &amp; Query Optimization</h4>
                             <p class="text-xs text-slate-400 leading-relaxed mb-5">
                                 Eliminating slow table scans and complex joins using composite B-Tree indexing and query plan analysis.
@@ -452,11 +451,11 @@
 
                             <!-- Before vs After Telemetry Graphic -->
                             <div class="space-y-2 font-mono text-xs">
-                                <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-between">
+                                <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 font-medium flex items-center justify-between">
                                     <span>Unindexed Scan:</span>
                                     <span class="font-bold">380ms</span>
                                 </div>
-                                <div class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-between">
+                                <div class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-medium flex items-center justify-between">
                                     <span>Indexed Composite:</span>
                                     <span class="font-bold">18ms (95% Faster)</span>
                                 </div>
@@ -471,16 +470,16 @@
                     <!-- Bento Tile 4 (4-col): Security & Authentication -->
                     <div class="md:col-span-4 p-7 rounded-2xl bg-[#090D16] border border-white/[0.08] flex flex-col justify-between specular-card">
                         <div>
-                            <div class="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">Security Hardening</div>
+                            <div class="text-xs font-mono text-brand uppercase tracking-wider mb-2">Security Hardening</div>
                             <h4 class="text-base font-bold text-white mb-2">OWASP Hardened Architecture</h4>
                             <p class="text-xs text-slate-400 leading-relaxed mb-4">
                                 Strict Form Request input sanitization, CSRF token mitigation, and Laravel Sanctum bearer token rate limiting.
                             </p>
                             <div class="flex flex-wrap gap-1.5 text-[11px] font-mono text-slate-300">
-                                <span class="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">Sanctum JWT</span>
-                                <span class="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">Rate Limiting</span>
-                                <span class="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">RBAC Access</span>
-                                <span class="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">CORS Config</span>
+                                <span class="px-2 py-0.5 rounded bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-medium">Sanctum JWT</span>
+                                <span class="px-2 py-0.5 rounded bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-medium">Rate Limiting</span>
+                                <span class="px-2 py-0.5 rounded bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-medium">RBAC Access</span>
+                                <span class="px-2 py-0.5 rounded bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-medium">CORS Config</span>
                             </div>
                         </div>
 
@@ -492,15 +491,15 @@
                     <!-- Bento Tile 5 (4-col): Reliable Asynchronous Workers -->
                     <div class="md:col-span-4 p-7 rounded-2xl bg-[#090D16] border border-white/[0.08] flex flex-col justify-between specular-card">
                         <div>
-                            <div class="text-xs font-mono text-teal-400 uppercase tracking-wider mb-2">Asynchronous Jobs</div>
+                            <div class="text-xs font-mono text-brand uppercase tracking-wider mb-2">Asynchronous Jobs</div>
                             <h4 class="text-base font-bold text-white mb-2">Non-Blocking Queue Processing</h4>
                             <p class="text-xs text-slate-400 leading-relaxed mb-4">
                                 Redis queue workers processing transactional emails, PDF invoice generation, and third-party API sync in the background.
                             </p>
                             <div class="flex flex-wrap gap-1.5 text-[11px] font-mono text-slate-300">
-                                <span class="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">Redis Queues</span>
-                                <span class="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">Auto-Retry</span>
-                                <span class="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">Failed Job Monitors</span>
+                                <span class="px-2 py-0.5 rounded bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-medium">Redis Queues</span>
+                                <span class="px-2 py-0.5 rounded bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-medium">Auto-Retry</span>
+                                <span class="px-2 py-0.5 rounded bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-medium">Failed Job Monitors</span>
                             </div>
                         </div>
 
@@ -523,7 +522,7 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 
                 <div class="max-w-3xl mb-14 reveal-on-scroll">
-                    <span class="text-xs font-mono uppercase tracking-widest text-emerald-400 font-semibold mb-3 block">
+                    <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-3 block">
                         02 / Technical Domain Matrix
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
@@ -540,19 +539,19 @@
                     <div class="specular-card p-8 rounded-2xl bg-[#090D16] border border-white/[0.08] reveal-on-scroll">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-bold text-white">Backend Architecture &amp; APIs</h3>
-                            <span class="text-xs font-mono text-emerald-400 px-2.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">Primary Focus</span>
+                            <span class="text-xs font-mono text-emerald-700 dark:text-emerald-400 px-2.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/25 font-semibold">Primary Focus</span>
                         </div>
                         <p class="text-slate-400 text-xs sm:text-sm mb-5 leading-relaxed">
                             Robust server-side engineering utilizing Laravel 12, strict PHP 8.2+, Form Request validation, Service/Action patterns, and token-based API authentication.
                         </p>
                         <div class="flex flex-wrap gap-2">
                             @foreach($skills->filter(fn($s) => str_contains(strtolower($s->name . ' ' . ($s->category->name ?? '')), 'php') || str_contains(strtolower($s->name), 'laravel') || str_contains(strtolower($s->name), 'api') || str_contains(strtolower($s->name), 'rest')) as $skill)
-                                <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-xs font-medium">
+                                <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">
                                     {{ $skill->name }}
                                 </span>
                             @endforeach
-                            <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-slate-300 text-xs font-medium">Domain Services</span>
-                            <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-slate-300 text-xs font-medium">Job Queues</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">Domain Services</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">Job Queues</span>
                         </div>
                     </div>
 
@@ -560,19 +559,19 @@
                     <div class="specular-card p-8 rounded-2xl bg-[#090D16] border border-white/[0.08] reveal-on-scroll">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-bold text-white">Database &amp; Storage Optimization</h3>
-                            <span class="text-xs font-mono text-teal-400 px-2.5 py-0.5 rounded bg-teal-500/10 border border-teal-500/20">High Performance</span>
+                            <span class="text-xs font-mono text-teal-700 dark:text-teal-400 px-2.5 py-0.5 rounded bg-teal-500/10 border border-teal-500/25 font-semibold">High Performance</span>
                         </div>
                         <p class="text-slate-400 text-xs sm:text-sm mb-5 leading-relaxed">
                             Relational schema design with 3NF normalization, foreign key cascade policies, composite indexing, and query plan analysis to avoid slow tables.
                         </p>
                         <div class="flex flex-wrap gap-2">
                             @foreach($skills->filter(fn($s) => str_contains(strtolower($s->name . ' ' . ($s->category->name ?? '')), 'sql') || str_contains(strtolower($s->name), 'redis') || str_contains(strtolower($s->name), 'data')) as $skill)
-                                <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-xs font-medium">
+                                <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">
                                     {{ $skill->name }}
                                 </span>
                             @endforeach
-                            <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-slate-300 text-xs font-medium">B-Tree Indexing</span>
-                            <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-slate-300 text-xs font-medium">Query Tuning</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">B-Tree Indexing</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">Query Tuning</span>
                         </div>
                     </div>
 
@@ -580,19 +579,19 @@
                     <div class="specular-card p-8 rounded-2xl bg-[#090D16] border border-white/[0.08] reveal-on-scroll">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-bold text-white">DevOps, Security &amp; Workflow</h3>
-                            <span class="text-xs font-mono text-slate-400 px-2.5 py-0.5 rounded bg-white/[0.05] border border-white/[0.1]">Standard</span>
+                            <span class="text-xs font-mono text-slate-700 dark:text-slate-300 px-2.5 py-0.5 rounded bg-black/[0.04] dark:bg-white/[0.05] border border-black/10 dark:border-white/[0.1] font-semibold">Standard</span>
                         </div>
                         <p class="text-slate-400 text-xs sm:text-sm mb-5 leading-relaxed">
                             Continuous delivery workflows, semantic versioning with Git, Dockerized development environments, and Linux/Apache/Nginx production web server administration.
                         </p>
                         <div class="flex flex-wrap gap-2">
                             @foreach($skills->filter(fn($s) => str_contains(strtolower($s->name . ' ' . ($s->category->name ?? '')), 'git') || str_contains(strtolower($s->name), 'docker') || str_contains(strtolower($s->name), 'linux') || str_contains(strtolower($s->name), 'nginx')) as $skill)
-                                <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-xs font-medium">
+                                <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">
                                     {{ $skill->name }}
                                 </span>
                             @endforeach
-                            <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-slate-300 text-xs font-medium">Git Flow</span>
-                            <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-slate-300 text-xs font-medium">Apache / Nginx</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">Git Flow</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">Apache / Nginx</span>
                         </div>
                     </div>
 
@@ -600,19 +599,19 @@
                     <div class="specular-card p-8 rounded-2xl bg-[#090D16] border border-white/[0.08] reveal-on-scroll">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-bold text-white">Frontend &amp; Responsive UI</h3>
-                            <span class="text-xs font-mono text-cyan-400 px-2.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">Reactive</span>
+                            <span class="text-xs font-mono text-emerald-700 dark:text-emerald-400 px-2.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/25 font-semibold">Reactive</span>
                         </div>
                         <p class="text-slate-400 text-xs sm:text-sm mb-5 leading-relaxed">
                             Clean, accessible interfaces built with modern TailwindCSS, Alpine.js, Blade components, and zero layout shift for seamless user experiences.
                         </p>
                         <div class="flex flex-wrap gap-2">
                             @foreach($skills->filter(fn($s) => str_contains(strtolower($s->name . ' ' . ($s->category->name ?? '')), 'tail') || str_contains(strtolower($s->name), 'alpine') || str_contains(strtolower($s->name), 'js') || str_contains(strtolower($s->name), 'blade') || str_contains(strtolower($s->name), 'css')) as $skill)
-                                <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-xs font-medium">
+                                <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">
                                     {{ $skill->name }}
                                 </span>
                             @endforeach
-                            <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-slate-300 text-xs font-medium">Responsive Layout</span>
-                            <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-slate-300 text-xs font-medium">Core Web Vitals</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">Responsive Layout</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/[0.08] text-slate-800 dark:text-slate-200 text-xs font-medium hover:border-brand/40 transition-colors">Core Web Vitals</span>
                         </div>
                     </div>
                 </div>
@@ -636,7 +635,7 @@
                 
                 <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14 reveal-on-scroll">
                     <div>
-                        <span class="text-xs font-mono uppercase tracking-widest text-emerald-400 font-semibold mb-3 block">
+                        <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-3 block">
                             03 / Case Studies &amp; Systems
                         </span>
                         <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
@@ -703,7 +702,7 @@
                             <!-- Narrative & Technical Breakdown -->
                             <div class="lg:col-span-5 {{ $isEven ? 'lg:order-1' : 'lg:order-2' }} space-y-4">
                                 <div class="flex items-center gap-2.5">
-                                    <span class="text-xs font-mono text-emerald-400 uppercase tracking-wider font-semibold">
+                                    <span class="text-xs font-mono text-brand uppercase tracking-wider font-semibold">
                                         {{ $project->category ?? 'Production Application' }}
                                     </span>
                                     <span class="text-slate-600">•</span>
@@ -713,7 +712,7 @@
                                 </div>
 
                                 <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-                                    <a href="{{ route('projects.show', $project->slug) }}" class="hover:text-emerald-400 transition-colors">
+                                    <a href="{{ route('projects.show', $project->slug) }}" class="hover:text-brand transition-colors">
                                         {{ $project->title }}
                                     </a>
                                 </h3>
@@ -725,7 +724,7 @@
                                 @if($project->tech_stack && is_array($project->tech_stack))
                                     <div class="flex flex-wrap gap-2 pt-2">
                                         @foreach(array_slice($project->tech_stack, 0, 5) as $tech)
-                                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-white/[0.04] text-slate-300 border border-white/[0.07]">
+                                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-black/[0.03] dark:bg-white/[0.04] text-slate-700 dark:text-slate-300 border border-black/10 dark:border-white/[0.08] font-medium">
                                                 {{ $tech }}
                                             </span>
                                         @endforeach
@@ -733,7 +732,7 @@
                                 @endif
 
                                 <div class="pt-4 flex items-center gap-5">
-                                    <a href="{{ route('projects.show', $project->slug) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-emerald-400 transition-colors group">
+                                    <a href="{{ route('projects.show', $project->slug) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-brand transition-colors group">
                                         <span>Read Case Study</span>
                                         <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                     </a>
@@ -768,7 +767,7 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 
                 <div class="max-w-3xl mb-14 reveal-on-scroll">
-                    <span class="text-xs font-mono uppercase tracking-widest text-emerald-400 font-semibold mb-3 block">
+                    <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-3 block">
                         04 / Commercial Offerings
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
@@ -783,12 +782,12 @@
                     @foreach($featuredServices as $service)
                         <div class="specular-card p-8 rounded-2xl bg-[#090D16] border border-white/[0.08] hover:border-white/[0.15] transition-all flex flex-col justify-between reveal-on-scroll">
                             <div>
-                                <div class="text-xs font-mono text-emerald-400 mb-2 font-semibold">
+                                <div class="text-xs font-mono text-brand mb-2 font-semibold">
                                     Capability 0{{ $loop->iteration }}
                                 </div>
 
                                 <h3 class="text-xl font-bold text-white mb-3">
-                                    <a href="{{ route('services.show', $service->slug) }}" class="hover:text-emerald-400 transition-colors">
+                                    <a href="{{ route('services.show', $service->slug) }}" class="hover:text-brand transition-colors">
                                         {{ $service->name }}
                                     </a>
                                 </h3>
@@ -811,7 +810,7 @@
 
                             <div class="pt-5 border-t border-white/[0.08] flex items-center justify-between">
                                 <span class="text-xs text-slate-500 font-mono">Scope &amp; Architecture Delivery</span>
-                                <a href="{{ route('contact', ['service' => $service->slug]) }}" class="text-xs font-semibold text-white hover:text-emerald-400 transition-colors inline-flex items-center gap-1">
+                                <a href="{{ route('contact', ['service' => $service->slug]) }}" class="text-xs font-semibold text-white hover:text-brand transition-colors inline-flex items-center gap-1">
                                     <span>Inquire ↗</span>
                                 </a>
                             </div>
@@ -831,7 +830,7 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 
                 <div class="max-w-3xl mb-14 reveal-on-scroll">
-                    <span class="text-xs font-mono uppercase tracking-widest text-emerald-400 font-semibold mb-3 block">
+                    <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-3 block">
                         05 / Delivery Standards
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
@@ -845,7 +844,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($workProcesses as $index => $process)
                         <div class="border-t border-white/[0.1] pt-6 reveal-on-scroll">
-                            <span class="text-xs font-mono text-emerald-400 block mb-2 font-semibold">
+                            <span class="text-xs font-mono text-brand block mb-2 font-semibold">
                                 Stage 0{{ $index + 1 }}
                             </span>
                             <h3 class="text-lg font-bold text-white mb-2">{{ $process->title }}</h3>
@@ -864,10 +863,10 @@
              ======================================================== -->
         <section id="contact" class="py-24 sm:py-32 bg-[#05070D] text-white relative overflow-hidden border-b border-white/[0.07]">
             <div class="absolute inset-0 bg-grid-dots-dark opacity-20 pointer-events-none"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-emerald-500/[0.07] rounded-full blur-[140px] pointer-events-none"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-[#B85D19]/[0.05] dark:bg-[#E07A5F]/[0.06] rounded-full blur-[140px] pointer-events-none"></div>
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-4xl text-center reveal-on-scroll">
-                <span class="text-xs font-mono uppercase tracking-widest text-emerald-400 font-semibold mb-4 block">
+                <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-4 block">
                     06 / Let's Connect
                 </span>
                 <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4 leading-tight">
@@ -879,7 +878,7 @@
 
                 <div class="flex flex-wrap gap-4 justify-center items-center">
                     <a href="{{ route('contact') }}"
-                        class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white text-slate-950 hover:bg-slate-100 text-sm sm:text-base font-semibold shadow-xl shadow-white/5 transition-all">
+                        class="theme-btn-primary inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm sm:text-base font-semibold shadow-sm transition-all hover:scale-[1.02]">
                         <span>Initiate Project Inquiry</span>
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
@@ -890,9 +889,9 @@
                     @if($contactDirectEmail)
                         <button type="button"
                             @click="window.copyPortfolioEmail('{{ $contactDirectEmail }}', $event)"
-                            class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white border border-white/[0.1] text-sm sm:text-base font-medium transition-all"
+                            class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-black/[0.04] dark:bg-white/[0.04] hover:bg-black/[0.07] dark:hover:bg-white/[0.08] text-inherit border border-black/10 dark:border-white/[0.1] text-sm sm:text-base font-medium transition-all"
                             title="Copy email: {{ $contactDirectEmail }}">
-                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                             <span>Copy Direct Email</span>
                         </button>
                     @endif
