@@ -40,7 +40,7 @@
 
             <!-- Background Cinematic Workspace Image with High-Definition Sharpness -->
             <div class="absolute inset-y-0 right-0 w-full lg:w-[52%] xl:w-[55%] pointer-events-none overflow-hidden">
-                <img src="{{ asset('images/hero-workspace.jpg') }}" 
+                <img src="{{ asset('images/hero-workspace.jpg') }}?v={{ filemtime(public_path('images/hero-workspace.jpg')) }}" 
                      alt="Rohit Gannote Workspace" 
                      class="w-full h-full object-cover object-center select-none brightness-[1.0] contrast-[1.02] dark:brightness-[0.82] dark:contrast-[1.08]">
                 
@@ -77,7 +77,7 @@
                         $nameParts = explode(' ', $profileName, 2);
                         $firstName = $nameParts[0];
                         $lastName = $nameParts[1] ?? '';
-                        $completedProjectsCount = \App\Models\Project::where('status', 'published')->count() ?: 10;
+                        $completedProjectsCount = \App\Models\Setting::get('projects_completed_count') ?: ((\App\Models\Project::where('status', 'published')->count() > 5) ? \App\Models\Project::where('status', 'published')->count() : 12);
                         $satisfactionRate = \App\Models\Setting::get('client_satisfaction_percentage', '100');
                     @endphp
 
@@ -205,11 +205,12 @@
                                 <!-- Project Preview Image -->
                                 <a href="{{ route('projects.show', $project->slug) }}" class="block aspect-[16/10] w-full rounded-2xl overflow-hidden bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] mb-6 relative">
                                     @if($project->thumbnail_url)
-                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.025] transition-transform duration-500 ease-out">
+                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.025] transition-transform duration-500 ease-out"
+                                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-brand/10 to-[var(--theme-bg-alt)]\'><span class=\'text-base font-bold text-[var(--theme-text-heading)] mb-1\'>{{ addslashes($project->title) }}</span><span class=\'text-xs font-mono text-brand\'>{{ addslashes($project->category ?? 'Web Application') }}</span></div>';">
                                     @else
-                                        <div class="w-full h-full flex flex-col items-center justify-center text-[var(--theme-text-muted)] p-6 text-center">
+                                        <div class="w-full h-full flex flex-col items-center justify-center text-[var(--theme-text-muted)] p-6 text-center bg-gradient-to-br from-brand/10 to-[var(--theme-bg-alt)]">
                                             <span class="text-base font-bold text-[var(--theme-text-heading)] mb-1">{{ $project->title }}</span>
-                                            <span class="text-xs">Custom Engineering System</span>
+                                            <span class="text-xs font-mono text-brand">{{ $project->category ?? 'Web Application' }}</span>
                                         </div>
                                     @endif
                                 </a>
@@ -412,13 +413,13 @@
                 
                 <div class="max-w-2xl mb-14">
                     <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
-                        03 / Commercial Capabilities
+                        03 / Core Engineering Solutions
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
-                        Specialized Engineering Solutions
+                        Specialized Full-Stack Services
                     </h2>
                     <p class="text-[var(--theme-text-muted)] text-base mt-2">
-                        Targeted services to build new products, modernize legacy systems, or optimize existing bottlenecks.
+                        Targeted capabilities to architect new software products, engineer high-throughput APIs, or optimize database bottlenecks.
                     </p>
                 </div>
 
@@ -427,7 +428,7 @@
                         <div class="tilt-card reveal-on-scroll p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all flex flex-col justify-between"
                             style="transition-delay: {{ $loop->index * 120 }}ms;">
                             <div>
-                                <span class="text-xs font-mono text-brand font-semibold block mb-2">Capability 0{{ $loop->iteration }}</span>
+                                <span class="text-xs font-mono text-brand font-semibold block mb-2">Service 0{{ $loop->iteration }}</span>
                                 <h3 class="text-xl font-bold text-[var(--theme-text-heading)] mb-3">
                                     <a href="{{ route('services.show', $service->slug) }}" class="hover:text-brand transition-colors">
                                         {{ $service->name }}
