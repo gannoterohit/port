@@ -24,7 +24,8 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'profile' => cache()->remember('profile', 3600, fn () => Profile::getInstance()),
                 'websiteName' => Setting::get('website_name', 'Portfolio'),
-                'siteDescription' => Setting::get('site_description', 'Full Stack Web Developer'),
+                'siteDescription' => Setting::get('site_description', 'Laravel Backend Developer'),
+                'showCustomCursor' => Setting::get('show_custom_cursor', '0') === '1',
                 'logo' => Setting::get('website_logo'),
                 'favicon' => Setting::get('website_favicon'),
                 'defaultSeoTitle' => Setting::get('default_seo_title'),

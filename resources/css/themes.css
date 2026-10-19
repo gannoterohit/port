@@ -329,17 +329,22 @@ select:focus {
    AWWWARDS-STYLE MAGNETIC DOT & RING CUSTOM CURSOR
    ======================================================== */
 @media (hover: hover) and (pointer: fine) {
-    /* Hide standard cursor on clickable items to let custom cursor shine */
-    body, a, button, [role="button"], summary, .cursor-pointer {
+    /* Only hide the system cursor when the custom cursor is enabled (see layout body data attribute) */
+    body[data-custom-cursor="1"],
+    body[data-custom-cursor="1"] a,
+    body[data-custom-cursor="1"] button,
+    body[data-custom-cursor="1"] [role="button"],
+    body[data-custom-cursor="1"] summary,
+    body[data-custom-cursor="1"] .cursor-pointer {
         cursor: none !important;
     }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="search"],
-    input[type="tel"],
-    textarea {
+    body[data-custom-cursor="1"] input[type="text"],
+    body[data-custom-cursor="1"] input[type="email"],
+    body[data-custom-cursor="1"] input[type="password"],
+    body[data-custom-cursor="1"] input[type="search"],
+    body[data-custom-cursor="1"] input[type="tel"],
+    body[data-custom-cursor="1"] textarea {
         cursor: text !important;
     }
 
@@ -447,6 +452,63 @@ select:focus {
 .reveal-on-scroll.reveal-visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* ========================================================
+   MOBILE-FIRST PUBLIC UI (home section order, dock, chips)
+   ======================================================== */
+.mobile-scroll-chips {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.mobile-scroll-chips::-webkit-scrollbar {
+    display: none;
+}
+
+.mobile-dock-safe {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+}
+
+/* Theme toggle icons follow html[data-theme] (no Alpine x-show — avoids hidden icons) */
+.theme-toggle-btn .theme-icon-sun,
+.theme-toggle-btn .theme-icon-moon {
+    display: none;
+}
+
+html[data-theme="warm_obsidian"] .theme-toggle-btn .theme-icon-sun {
+    display: inline-flex;
+}
+
+html[data-theme="warm_obsidian"] .theme-toggle-btn .theme-icon-moon {
+    display: none;
+}
+
+html[data-theme="warm_stone"] .theme-toggle-btn .theme-icon-moon,
+html:not([data-theme="warm_obsidian"]) .theme-toggle-btn .theme-icon-moon {
+    display: inline-flex;
+}
+
+html[data-theme="warm_stone"] .theme-toggle-btn .theme-icon-sun,
+html:not([data-theme="warm_obsidian"]) .theme-toggle-btn .theme-icon-sun {
+    display: none;
+}
+
+@media (max-width: 639px) {
+    .home-section-stack {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .home-section-stack .home-section[data-home-section="hero"] { order: 1; }
+    .home-section-stack .home-section[data-home-section="projects"] { order: 2; }
+    .home-section-stack .home-section[data-home-section="services"] { order: 3; }
+    .home-section-stack .home-section[data-home-section="contact_cta"] { order: 4; }
+    .home-section-stack .home-section[data-home-section="about"] { order: 5; }
+    .home-section-stack .home-section[data-home-section="skills_marquee"] { order: 6; }
+    .home-section-stack .home-section[data-home-section="tech_stack_grid"] { order: 7; }
+    .home-section-stack .home-section[data-home-section="work_process"] { order: 8; }
+    .home-section-stack .home-section[data-home-section="testimonials"] { order: 9; }
 }
 
 

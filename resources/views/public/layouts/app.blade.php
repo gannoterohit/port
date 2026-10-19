@@ -84,30 +84,16 @@
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
     @endif
+</head>
 
-<body class="font-sans antialiased min-h-screen flex flex-col">
-    <!-- Awwwards-Style Magnetic Dot & Lag Ring Custom Cursor -->
+<body class="font-sans antialiased min-h-screen flex flex-col pb-[5.75rem] sm:pb-0" @if(!empty($showCustomCursor)) data-custom-cursor="1" @endif>
+    @if(!empty($showCustomCursor))
     <div id="cursor-dot" class="custom-cursor-dot" aria-hidden="true"></div>
     <div id="cursor-ring" class="custom-cursor-ring" aria-hidden="true"></div>
+    @endif
 
     <!-- Top Scroll Dynamic Progress Bar -->
     <div id="scroll-progress-bar" class="fixed top-0 left-0 h-[2.5px] bg-[#B85D19] dark:bg-[#E07A5F] z-[9999] pointer-events-none transition-all duration-75 ease-out" style="width: 0%"></div>
-
-    <!-- Interactive Copy Email Toast Notification -->
-    <div x-data="{ show: false, email: '' }"
-        @copy-email-toast.window="email = $event.detail.email; show = true; setTimeout(() => show = false, 3200)"
-        x-show="show"
-        x-cloak
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-y-6 scale-95"
-        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-        x-transition:leave-end="opacity-0 translate-y-6 scale-95"
-        class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[99990] bg-[var(--theme-bg-card)] text-[var(--theme-text-heading)] border border-[var(--theme-border)] px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-semibold backdrop-blur-xl">
-        <span class="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
-        <span>Email Copied: <span class="font-mono text-brand" x-text="email"></span></span>
-    </div>
 
     @if(session('success'))
         <div x-data="{ show: true }" x-show="show" x-transition
@@ -150,7 +136,7 @@
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 scale-100"
     x-transition:leave-end="opacity-0 scale-95"
-    class="fixed bottom-24 right-4 sm:top-5 sm:bottom-auto sm:right-6 z-[9999] max-w-sm w-[calc(100%-2rem)] bg-[#1A1B20] text-[#F4F3EF] border border-[#E07A5F]/40 backdrop-blur-xl p-4 rounded-2xl shadow-2xl shadow-black/80"
+    class="fixed bottom-[5.75rem] right-4 sm:top-5 sm:bottom-auto sm:right-6 z-[9999] max-w-sm w-[calc(100%-2rem)] bg-[#1A1B20] text-[#F4F3EF] border border-[#E07A5F]/40 backdrop-blur-xl p-4 rounded-2xl shadow-2xl shadow-black/80"
     style="display: none;">
         <div class="flex items-start gap-3">
             <div class="w-8 h-8 rounded-xl bg-[#E07A5F]/15 text-[#E07A5F] border border-[#E07A5F]/30 flex items-center justify-center shrink-0 mt-0.5">
@@ -221,7 +207,7 @@
         x-transition:leave-end="opacity-0 translate-y-3"
         @click="window.scrollTo({top: 0, behavior: 'smooth'})"
         aria-label="Back to top"
-        class="fixed bottom-20 sm:bottom-6 sm:right-48 right-6 z-40 p-3 rounded-full bg-white dark:bg-[#1A1B20] border border-black/10 dark:border-white/10 hover:border-[#B85D19]/50 text-slate-700 dark:text-slate-300 hover:text-[#B85D19] dark:hover:text-[#E07A5F] shadow-xl backdrop-blur-md transition-all duration-200 hover:-translate-y-1"
+        class="fixed bottom-[5.75rem] sm:bottom-6 sm:right-48 right-4 z-40 p-3 min-h-[44px] min-w-[44px] rounded-full bg-white dark:bg-[#1A1B20] border border-black/10 dark:border-white/10 hover:border-[#B85D19]/50 text-slate-700 dark:text-slate-300 hover:text-[#B85D19] dark:hover:text-[#E07A5F] shadow-xl backdrop-blur-md transition-all duration-200 hover:-translate-y-1"
         title="Scroll to top">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
     </button>
@@ -258,8 +244,8 @@
     @endphp
 
     <!-- Mobile Floating Bottom Quick Action Dock (Strict 2-Tab: WhatsApp & Email Redirect) -->
-    <div class="sm:hidden fixed bottom-3 inset-x-3 z-40">
-        <div class="bg-[var(--theme-bg-card)]/95 backdrop-blur-2xl border border-[var(--theme-border)] rounded-2xl p-2 shadow-2xl shadow-black/20 grid grid-cols-2 gap-2">
+    <div class="sm:hidden fixed bottom-0 inset-x-0 z-40 mobile-dock-safe px-3 pb-3 pt-1">
+        <div class="bg-[var(--theme-bg-card)]/95 backdrop-blur-2xl border border-[var(--theme-border)] rounded-2xl p-2 shadow-2xl shadow-black/20 grid grid-cols-2 gap-2 max-w-lg mx-auto">
             <!-- 1. WhatsApp Redirect -->
             <a href="{{ $mobileWhatsappUrl }}" target="_blank" rel="noopener noreferrer"
                 class="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 active:scale-[0.98] border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-semibold text-xs transition-all shadow-2xs">

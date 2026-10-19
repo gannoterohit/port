@@ -4,7 +4,7 @@
 @section('meta_description', 'Have a project in mind? Contact me to discuss custom Laravel applications, RESTful APIs, ERPs, dashboards, and freelance web development.')
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] relative overflow-hidden transition-colors duration-200">
+<section class="min-h-0 sm:min-h-screen pt-24 sm:pt-36 pb-28 sm:pb-24 bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] relative overflow-hidden transition-colors duration-200">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl 2xl:max-w-[1400px]">
         <div class="max-w-7xl 2xl:max-w-[1400px] mx-auto">
             <!-- Header Section -->
@@ -41,7 +41,7 @@
                                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                         <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                                     </span>
-                                    Average response time: &lt; 24h
+                                    Response SLA: {{ \App\Models\Setting::get('terminal_sla_text') ?: '< 24 Hours' }}
                                 </span>
                             </div>
                         </div>

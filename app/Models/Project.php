@@ -21,6 +21,7 @@ class Project extends Model
         'purpose',
         'key_features',
         'role',
+        'architecture_label',
         'challenges',
         'solutions',
         'demo_url',

@@ -27,6 +27,7 @@ class SkillCategoryController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'color' => ['nullable', 'string', 'max:50'],
+            'description' => ['nullable', 'string', 'max:2000'],
             'display_order' => ['nullable', 'integer', 'min:0'],
             'is_enabled' => ['boolean'],
         ]);
@@ -36,6 +37,7 @@ class SkillCategoryController extends Controller
         $data['is_enabled'] = $request->boolean('is_enabled', true);
 
         SkillCategory::create($data);
+        Cache::forget('homepage_skill_categories');
 
         return redirect()->route('admin.skill-categories.index')->with('success', 'Category created successfully.');
     }
@@ -50,6 +52,7 @@ class SkillCategoryController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'color' => ['nullable', 'string', 'max:50'],
+            'description' => ['nullable', 'string', 'max:2000'],
             'display_order' => ['nullable', 'integer', 'min:0'],
             'is_enabled' => ['boolean'],
         ]);
@@ -58,6 +61,7 @@ class SkillCategoryController extends Controller
 
         $skillCategory->update($data);
         Cache::forget('homepage_skills');
+        Cache::forget('homepage_skill_categories');
         Cache::forget('about_featured_skills');
 
         return redirect()->route('admin.skill-categories.index')->with('success', 'Category updated successfully.');

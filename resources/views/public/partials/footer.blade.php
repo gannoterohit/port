@@ -1,9 +1,9 @@
-<footer class="bg-[var(--theme-footer-bg)] text-[var(--theme-text-body)] pt-16 pb-10 mt-auto border-t border-[var(--theme-border)] transition-colors duration-200">
+<footer class="bg-[var(--theme-footer-bg)] text-[var(--theme-text-body)] pt-12 sm:pt-16 pb-28 sm:pb-10 mt-auto border-t border-[var(--theme-border)] transition-colors duration-200">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
                 <h3 class="text-xl font-bold text-[var(--theme-text-heading)] mb-3">{{ $websiteName ?? config('app.name') }}</h3>
-                <p class="text-sm text-[var(--theme-text-muted)] leading-relaxed mb-6">{{ \App\Models\Setting::get('footer_description') ?: ($profile->intro ?? ($profile->biography ? strip_tags(Str::limit($profile->biography, 200)) : 'Full Stack Web Developer crafting scalable applications.')) }}</p>
+                <p class="text-sm text-[var(--theme-text-muted)] leading-relaxed mb-6">{{ \App\Models\Setting::get('footer_description') ?: ($profile->intro ?? ($profile->biography ? strip_tags(Str::limit($profile->biography, 200)) : 'Laravel Backend Developer building scalable web applications, REST APIs, and admin panels.')) }}</p>
                 @if($profile)
                     <div class="flex space-x-4">
                         @if($profile->email)

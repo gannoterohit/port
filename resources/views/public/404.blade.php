@@ -4,7 +4,7 @@
 @section('meta_description', 'The page you are looking for does not exist.')
 
 @section('content')
-<section class="min-h-screen flex items-center justify-center bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] pt-28 sm:pt-36 pb-24 relative overflow-hidden transition-colors duration-200">
+<section class="min-h-0 sm:min-h-screen flex items-center justify-center bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] pt-24 sm:pt-36 pb-28 sm:pb-24 relative overflow-hidden transition-colors duration-200">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-md mx-auto text-center bg-[var(--theme-bg-card)] p-10 rounded-3xl border border-[var(--theme-border)] shadow-xs">
             <div class="w-20 h-20 bg-brand/10 border border-brand/20 rounded-2xl flex items-center justify-center mx-auto mb-6 text-brand font-bold text-2xl shadow-2xs">

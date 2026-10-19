@@ -259,7 +259,12 @@
 
                             <div>
                                 <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Your Engineering Role</label>
-                                <textarea name="role" rows="3" class="admin-textarea" placeholder="Full-Stack Developer, Database Design &amp; API Integration...">{{ old('role') }}</textarea>
+                                <textarea name="role" rows="3" class="admin-textarea" placeholder="Lead Backend Developer, API &amp; database architecture...">{{ old('role') }}</textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Architecture Label (Case Study Card)</label>
+                                <input type="text" name="architecture_label" value="{{ old('architecture_label') }}" class="admin-input" placeholder="e.g. Laravel MVC + REST API">
                             </div>
 
                             <div class="md:col-span-2">

@@ -102,8 +102,12 @@ class ContactController extends Controller
         $this->configureMailFromSettings();
 
         if (Setting::get('notify_admin_on_enquiry', '1') === '1' || Setting::get('notify_admin_on_enquiry', true) === true) {
-            $adminEmail = Setting::get('contact_email', config('mail.from.address'));
-            if ($adminEmail) {
+            $adminEmail = Setting::get('contact_email');
+            if (empty($adminEmail) || $adminEmail === 'hello@example.com') {
+                $adminEmail = Setting::get('mail_from_address') ?: config('mail.from.address');
+            }
+
+            if ($adminEmail && $adminEmail !== 'hello@example.com') {
                 try {
                     Mail::to($adminEmail)->send(new EnquiryNotification($enquiry));
                 } catch (\Exception $e) {
@@ -171,6 +175,12 @@ class ContactController extends Controller
 
         if (! empty($fromName)) {
             config()->set('mail.from.name', $fromName);
+        }
+
+        try {
+            Mail::purge('smtp');
+        } catch (\Throwable) {
+            // Ignored if mailer instance not yet resolved
         }
     }
 }

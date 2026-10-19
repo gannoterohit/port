@@ -205,8 +205,19 @@
 
                             <div class="md:col-span-2">
                                 <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Footer Description / Bio</label>
-                                <textarea name="footer_description" rows="3" class="admin-textarea" placeholder="Crafting high-performance web systems and digital experiences.">{{ old('footer_description', $byKey['footer_description']->value ?? '') }}</textarea>
+                                <textarea name="footer_description" rows="3" class="admin-textarea" placeholder="Laravel Backend Developer building scalable web applications, REST APIs, and admin panels.">{{ old('footer_description', $byKey['footer_description']->value ?? '') }}</textarea>
                                 <p class="text-[11px] text-stone-400 mt-1">Displayed in the footer column under your logo.</p>
+                            </div>
+
+                            <div class="md:col-span-2 rounded-xl border border-[#E5E1D5] bg-[#FAF9F5] p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div>
+                                    <span class="text-sm font-bold text-stone-900">Enable Custom Desktop Cursor</span>
+                                    <p class="text-xs text-stone-500 mt-0.5">Off by default for a cleaner, professional feel on client-facing pages.</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                                    <input type="checkbox" name="show_custom_cursor" value="1" {{ ($byKey->get('show_custom_cursor')?->value ?? '0') == '1' ? 'checked' : '' }} class="sr-only peer">
+                                    <div class="w-11 h-6 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#B85D19]"></div>
+                                </label>
                             </div>
 
                             <div class="md:col-span-2">
@@ -323,36 +334,56 @@
                                 </label>
                             </div>
 
-                            @if(isset($byKey['terminal_status_text']))
                             <div>
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Terminal System Status</label>
-                                <input type="text" name="terminal_status_text" value="{{ old('terminal_status_text', $byKey['terminal_status_text']->value ?? 'PRODUCTION READY') }}" class="admin-input font-mono text-xs" placeholder="PRODUCTION READY">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Hero Availability Badge Text</label>
+                                <input type="text" name="terminal_status_text" value="{{ old('terminal_status_text', $byKey->get('terminal_status_text')?->value ?? 'Available for Work & Remote Roles') }}" class="admin-input text-xs" placeholder="Available for Work & Remote Roles">
                             </div>
-                            @endif
 
-                            @if(isset($byKey['terminal_sla_text']))
                             <div>
                                 <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Response SLA Commitment</label>
-                                <input type="text" name="terminal_sla_text" value="{{ old('terminal_sla_text', $byKey['terminal_sla_text']->value ?? '< 24H RESPONSE') }}" class="admin-input font-mono text-xs" placeholder="< 24H RESPONSE">
+                                <input type="text" name="terminal_sla_text" value="{{ old('terminal_sla_text', $byKey->get('terminal_sla_text')?->value ?? '< 24 Hours Response') }}" class="admin-input text-xs" placeholder="< 24 Hours Response">
                             </div>
-                            @endif
 
-                            @if(isset($byKey['about_highlight_1']))
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Projects Delivered (Hero Stat #2)</label>
+                                <input type="text" name="projects_completed_count" value="{{ old('projects_completed_count', $byKey->get('projects_completed_count')?->value ?? '') }}" class="admin-input" placeholder="Leave empty = published project count">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Hero Metric #3 Value</label>
+                                <input type="text" name="client_satisfaction_percentage" value="{{ old('client_satisfaction_percentage', $byKey->get('client_satisfaction_percentage')?->value ?? '') }}" class="admin-input" placeholder="e.g. 98 or 98%">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Hero Metric #3 Label</label>
+                                <input type="text" name="stat_3_label" value="{{ old('stat_3_label', $byKey->get('stat_3_label')?->value ?? 'Client Satisfaction') }}" class="admin-input text-xs">
+                            </div>
+
+                            <div class="md:col-span-2 rounded-xl border border-[#E5E1D5] bg-[#FAF9F5] p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div>
+                                    <span class="text-sm font-bold text-stone-900">Show Hero Metric #3</span>
+                                    <p class="text-xs text-stone-500 mt-0.5">Only enable when you have a verified metric value above.</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                                    <input type="checkbox" name="show_hero_stat_3" value="1" {{ ($byKey->get('show_hero_stat_3')?->value ?? '0') == '1' ? 'checked' : '' }} class="sr-only peer">
+                                    <div class="w-11 h-6 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#B85D19]"></div>
+                                </label>
+                            </div>
+
                             <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 border-t border-[#E5E1D5]">
                                 <div>
-                                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">Highlight Point #1</label>
-                                    <input type="text" name="about_highlight_1" value="{{ old('about_highlight_1', $byKey['about_highlight_1']->value ?? '') }}" class="admin-input text-xs" placeholder="Full-Stack Engineering">
+                                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">About Highlight #1</label>
+                                    <input type="text" name="about_highlight_1" value="{{ old('about_highlight_1', $byKey->get('about_highlight_1')?->value ?? '') }}" class="admin-input text-xs" placeholder="Production Laravel Backends">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">Highlight Point #2</label>
-                                    <input type="text" name="about_highlight_2" value="{{ old('about_highlight_2', $byKey['about_highlight_2']->value ?? '') }}" class="admin-input text-xs" placeholder="Scalable Database Schema">
+                                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">About Highlight #2</label>
+                                    <input type="text" name="about_highlight_2" value="{{ old('about_highlight_2', $byKey->get('about_highlight_2')?->value ?? '') }}" class="admin-input text-xs" placeholder="REST APIs & Admin Panels">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">Highlight Point #3</label>
-                                    <input type="text" name="about_highlight_3" value="{{ old('about_highlight_3', $byKey['about_highlight_3']->value ?? '') }}" class="admin-input text-xs" placeholder="API & Performance Optimization">
+                                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">About Highlight #3</label>
+                                    <input type="text" name="about_highlight_3" value="{{ old('about_highlight_3', $byKey->get('about_highlight_3')?->value ?? '') }}" class="admin-input text-xs" placeholder="Milestone-based delivery">
                                 </div>
                             </div>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -512,6 +543,7 @@
                                     <div>
                                         <span class="text-sm font-bold text-stone-900">Admin Email Notifications</span>
                                         <p class="text-xs text-stone-500 mt-0.5">Send instant email alert to admin when a new enquiry is submitted on the contact form.</p>
+                                        <p class="text-[11px] text-[#B85D19] font-medium mt-1">Recipient Email: <span class="font-mono bg-white px-1.5 py-0.5 rounded border border-[#E5E1D5]">{{ $byKey['contact_email']->value ?? 'gannoterohit@gmail.com' }}</span> (Change in "Contact &amp; Location" tab)</p>
                                     </div>
                                     <label class="relative inline-flex items-center cursor-pointer shrink-0">
                                         <input type="checkbox" name="notify_admin_on_enquiry" value="1" {{ ($byKey['notify_admin_on_enquiry']->value ?? '1') == '1' ? 'checked' : '' }} class="sr-only peer">

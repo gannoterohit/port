@@ -274,23 +274,21 @@ function setupEnhancements() {
     initCardTilt();
 }
 
-// Cursor starts immediately on DOM ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+function bootPublicEnhancements() {
+    if (document.body && document.body.dataset.customCursor === '1') {
         initMagneticCursor();
-        if ('requestIdleCallback' in window) {
-            requestIdleCallback(setupEnhancements, { timeout: 1200 });
-        } else {
-            requestAnimationFrame(setupEnhancements);
-        }
-    });
-} else {
-    initMagneticCursor();
+    }
     if ('requestIdleCallback' in window) {
         requestIdleCallback(setupEnhancements, { timeout: 1200 });
     } else {
         requestAnimationFrame(setupEnhancements);
     }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootPublicEnhancements);
+} else {
+    bootPublicEnhancements();
 }
 
 // Expose globally if dynamic Alpine tabs or pagination need to re-scan

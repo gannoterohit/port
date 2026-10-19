@@ -29,6 +29,11 @@
         </div>
 
         <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Category Description</label>
+            <textarea name="description" rows="3" class="admin-textarea" placeholder="Short summary for the homepage skills grid...">{{ old('description') }}</textarea>
+        </div>
+
+        <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Display Order</label>
             <input type="number" name="display_order" value="{{ old('display_order', \App\Models\SkillCategory::max('display_order') + 1) }}"
                 class="admin-input w-20">

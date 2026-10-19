@@ -49,6 +49,11 @@ class HomepageController extends Controller
             $data['hero_image'] = $this->uploadFile($request->file('hero_image'), 'homepage', $settings->hero_image);
         }
 
+        if ($request->filled('section_order_text')) {
+            $lines = preg_split("/\r\n|\n|\r/", (string) $request->input('section_order_text'));
+            $data['section_order'] = array_values(array_filter(array_map('trim', $lines ?: [])));
+        }
+
         $settings->update($data);
 
         Cache::forget('homepage_settings');

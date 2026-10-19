@@ -15,10 +15,10 @@
 
 @section('content')
 @php
-    // Strategic High-Converting Sequence for an Elite Backend Engineer
-    $order = ['hero', 'skills_marquee', 'tech_stack_grid', 'projects', 'about', 'services', 'work_process', 'testimonials', 'contact_cta'];
+    $order = $homepageSettings->resolveSectionOrder();
 @endphp
 
+<div class="home-section-stack flex flex-col">
 @foreach($order as $section)
     {{-- ========================================================
          HERO SECTION — MINIMALIST & MODERN EDITORIAL (LINEAR / APPLE STYLE)
@@ -34,12 +34,12 @@
             $cvUrl = ($profile->resume_url && $profile->resume_button_visible) ? $profile->resume_url : '#contact';
         @endphp
 
-        <section id="hero" class="relative pt-32 sm:pt-40 pb-20 sm:pb-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] overflow-hidden transition-colors duration-200 min-h-[640px] lg:min-h-[720px] flex items-center">
+        <section id="hero" data-home-section="hero" class="home-section relative pt-24 sm:pt-40 pb-14 sm:pb-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] overflow-hidden transition-colors duration-200 min-h-0 sm:min-h-[600px] lg:min-h-[720px] flex items-center">
             <!-- Ambient Spotlight Glow -->
             <div class="absolute top-1/4 right-1/4 w-[460px] h-[460px] rounded-full bg-brand/10 dark:bg-brand/15 blur-[130px] pointer-events-none"></div>
 
             <!-- Background Cinematic Workspace Image with High-Definition Sharpness -->
-            <div class="absolute inset-y-0 right-0 w-full lg:w-[52%] xl:w-[55%] pointer-events-none overflow-hidden">
+            <div class="hidden sm:block absolute inset-y-0 right-0 w-full lg:w-[52%] xl:w-[55%] pointer-events-none overflow-hidden">
                 <div class="w-full h-full animate-float">
                     <img src="{{ $homepageSettings->hero_image_url ?: (asset('images/hero-workspace.jpg') . '?v=' . (file_exists(public_path('images/hero-workspace.jpg')) ? filemtime(public_path('images/hero-workspace.jpg')) : time())) }}" 
                          alt="{{ $profile->name ?: 'Rohit Gannote' }} Workspace" 
@@ -66,12 +66,12 @@
                             <span>👋</span>
                         </div>
                         @if($isAvailable)
-                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold tracking-wide shadow-2xs">
-                            <span class="relative flex h-2 w-2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold tracking-wide shadow-2xs max-w-full">
+                            <span class="relative flex h-2 w-2 shrink-0">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
-                            <span>{{ \App\Models\Setting::get('terminal_status_text') ?: 'Available for Work & Remote Roles' }}</span>
+                            <span class="truncate max-sm:max-w-[11rem] sm:max-w-none">{{ \App\Models\Setting::get('terminal_status_text') ?: 'Available for Work & Remote Roles' }}</span>
                         </div>
                         @endif
                     </div>
@@ -81,8 +81,10 @@
                         $nameParts = explode(' ', $profileName, 2);
                         $firstName = $nameParts[0];
                         $lastName = $nameParts[1] ?? '';
-                        $completedProjectsCount = \App\Models\Setting::get('projects_completed_count') ?: ((\App\Models\Project::where('status', 'published')->count() > 5) ? \App\Models\Project::where('status', 'published')->count() : 12);
-                        $satisfactionRate = \App\Models\Setting::get('client_satisfaction_percentage', '99.9');
+                        $publishedProjectsCount = \App\Models\Project::where('status', 'published')->where('published_at', '<=', now())->count();
+                        $completedProjectsCount = \App\Models\Setting::get('projects_completed_count') ?: ($publishedProjectsCount > 0 ? (string) $publishedProjectsCount : null);
+                        $satisfactionRate = \App\Models\Setting::get('client_satisfaction_percentage');
+                        $showHeroStatThree = \App\Models\Setting::get('show_hero_stat_3', '0') === '1' && filled($satisfactionRate);
                     @endphp
 
                     <!-- Main Name Headline with Accent Color -->
@@ -142,7 +144,7 @@
                                 }, this.speed);
                             }
                         }"
-                        class="text-lg sm:text-2xl md:text-3xl lg:text-3xl xl:text-[34px] font-bold text-[var(--theme-text-heading)] mb-2 tracking-tight leading-snug min-h-[56px] sm:min-h-[72px] lg:min-h-[80px]">
+                        class="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-[34px] font-bold text-[var(--theme-text-heading)] mb-2 tracking-tight leading-snug min-h-[44px] sm:min-h-[72px] lg:min-h-[80px]">
                         <span class="break-words" x-text="part || '{{ addslashes($profile->title ?: 'Laravel Backend Developer') }}'">{{ $profile->title ?: 'Laravel Backend Developer' }}</span><span class="inline-block w-0.5 h-5 sm:h-7 bg-brand ml-1 align-baseline animate-pulse"></span>
                     </div>
 
@@ -153,7 +155,7 @@
                     @endif
 
                     <!-- Description -->
-                    <p class="text-sm sm:text-base lg:text-lg text-[var(--theme-text-body)] max-w-xl lg:max-w-[520px] xl:max-w-xl leading-relaxed mb-8 sm:mb-10 font-normal">
+                    <p class="text-base sm:text-base lg:text-lg text-[var(--theme-text-body)] max-w-xl lg:max-w-[520px] xl:max-w-xl leading-relaxed mb-6 sm:mb-10 font-normal">
                         {{ $homepageSettings->hero_description ?: 'Engineering scalable, high-performance web backends using Laravel 11, PHP 8+, MySQL, and Redis. Specializing in query optimization, robust REST API architectures, asynchronous queues, and production reliability.' }}
                     </p>
 
@@ -178,15 +180,15 @@
                     @endphp
 
                     <!-- Action Buttons (100% Dynamic from Admin Panel) -->
-                    <div class="flex flex-wrap items-center gap-2.5 sm:gap-4 mb-10 sm:mb-14">
+                    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4 mb-8 sm:mb-14 w-full max-w-md sm:max-w-none">
                         <a href="{{ $primaryCtaUrl }}"
-                            class="theme-btn-primary inline-flex items-center justify-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 font-semibold rounded-full hover:scale-[1.02] shadow-md transition-all duration-200 text-xs sm:text-sm lg:text-base">
+                            class="theme-btn-primary inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 sm:px-7 py-3.5 sm:py-3.5 min-h-[48px] font-semibold rounded-full hover:scale-[1.02] shadow-md transition-all duration-200 text-sm sm:text-sm lg:text-base">
                             <span>{{ $primaryCtaText }}</span>
                             <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </a>
 
                         <a href="{{ $secondaryCtaUrl }}"
-                            class="theme-btn-secondary inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-3.5 font-medium rounded-full border transition-all duration-200 text-xs sm:text-sm lg:text-base group"
+                            class="theme-btn-secondary inline-flex items-center justify-center gap-2 w-full sm:w-auto px-4 sm:px-6 py-3.5 sm:py-3.5 min-h-[48px] font-medium rounded-full border transition-all duration-200 text-sm sm:text-sm lg:text-base group"
                             title="{{ $secondaryCtaText }}">
                             @if($isResumeCta)
                                 <svg class="w-4 h-4 text-brand transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,15 +201,10 @@
                             @endif
                             <span>{{ $secondaryCtaText }}</span>
                         </a>
-
-                        <a href="#contact"
-                            class="theme-btn-secondary inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-3.5 font-medium rounded-full border transition-all duration-200 text-xs sm:text-sm lg:text-base">
-                            <span>Get In Touch</span>
-                            <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        </a>
                     </div>
 
-                    <!-- 3-Metric Row with Clean Standards -->
+                    @if($completedProjectsCount || $showHeroStatThree)
+                    <!-- Hero metrics (honest counts only) -->
                     <div class="flex items-center gap-3.5 sm:gap-6 lg:gap-8 text-left pt-2 flex-wrap sm:flex-nowrap">
                         <div>
                             <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
@@ -215,21 +212,41 @@
                             </div>
                             <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Years Experience</div>
                         </div>
+                        @if($completedProjectsCount)
                         <div class="h-8 sm:h-9 w-px bg-[var(--theme-border)]"></div>
                         <div>
                             <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
-                                <span class="stat-counter" data-target="{{ $completedProjectsCount }}" data-suffix="+">{{ $completedProjectsCount }}+</span>
+                                <span class="stat-counter" data-target="{{ preg_replace('/\D/', '', (string) $completedProjectsCount) ?: $completedProjectsCount }}" data-suffix="+">{{ $completedProjectsCount }}+</span>
                             </div>
-                            <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Projects Completed</div>
+                            <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Projects Delivered</div>
                         </div>
+                        @endif
+                        @if($showHeroStatThree)
                         <div class="h-8 sm:h-9 w-px bg-[var(--theme-border)]"></div>
                         <div>
                             <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
-                                <span class="stat-counter" data-target="{{ $satisfactionRate }}" data-suffix="%">{{ $satisfactionRate }}%</span>
+                                <span class="stat-counter" data-target="{{ preg_replace('/[^0-9.]/', '', (string) $satisfactionRate) ?: $satisfactionRate }}" data-suffix="{{ str_contains((string) $satisfactionRate, '%') ? '' : (is_numeric($satisfactionRate) ? '%' : '') }}">{{ $satisfactionRate }}{{ is_numeric($satisfactionRate) ? '%' : '' }}</span>
                             </div>
-                            <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">{{ \App\Models\Setting::get('stat_3_label', 'Production Reliability') }}</div>
+                            <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">{{ \App\Models\Setting::get('stat_3_label', 'Client Satisfaction') }}</div>
                         </div>
+                        @endif
                     </div>
+                    @else
+                    <div class="pt-2">
+                        <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
+                            <span class="stat-counter" data-target="{{ is_numeric(rtrim($yearsDisplay, '+')) ? rtrim($yearsDisplay, '+') : '3' }}" data-suffix="+">{{ $yearsDisplay }}</span>
+                        </div>
+                        <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Years Professional Experience</div>
+                    </div>
+                    @endif
+
+                    <nav class="sm:hidden mt-8 -mx-1 flex gap-2 overflow-x-auto mobile-scroll-chips pb-1" aria-label="Jump to section">
+                        <a href="#projects" class="shrink-0 snap-start px-4 py-2 rounded-full text-xs font-semibold bg-[var(--theme-bg-card)] border border-[var(--theme-border)] text-[var(--theme-text-heading)]">Projects</a>
+                        <a href="#services" class="shrink-0 snap-start px-4 py-2 rounded-full text-xs font-semibold bg-[var(--theme-bg-card)] border border-[var(--theme-border)] text-[var(--theme-text-heading)]">Services</a>
+                        <a href="#tech-stack" class="shrink-0 snap-start px-4 py-2 rounded-full text-xs font-semibold bg-[var(--theme-bg-card)] border border-[var(--theme-border)] text-[var(--theme-text-heading)]">Tech Stack</a>
+                        <a href="#about" class="shrink-0 snap-start px-4 py-2 rounded-full text-xs font-semibold bg-[var(--theme-bg-card)] border border-[var(--theme-border)] text-[var(--theme-text-heading)]">About</a>
+                        <a href="#contact" class="shrink-0 snap-start px-4 py-2 rounded-full text-xs font-semibold bg-brand/10 border border-brand/30 text-brand">Contact</a>
+                    </nav>
                 </div>
             </div>
         </section>
@@ -239,7 +256,7 @@
          TECH STACK MARQUEE — QUIET & CLEAN
          ======================================================== --}}
     @if($section === 'skills_marquee' && isset($skills) && $skills->isNotEmpty())
-        <section class="py-5 bg-[var(--theme-bg-alt)] border-b border-[var(--theme-border)] overflow-hidden" aria-label="Core Technologies">
+        <section data-home-section="skills_marquee" class="home-section py-4 sm:py-5 bg-[var(--theme-bg-alt)] border-b border-[var(--theme-border)] overflow-hidden" aria-label="Core Technologies">
             <div class="marquee-mask relative w-full overflow-hidden">
                 <div class="animate-marquee hover:[animation-play-state:paused] flex items-center gap-4 sm:gap-6">
                     @for($repeat = 0; $repeat < 2; $repeat++)
@@ -259,9 +276,9 @@
          CORE BACKEND ARCHITECTURE & TECH STACK GRID (HIGH-IMPACT)
          ======================================================== --}}
     @if($section === 'tech_stack_grid' && $homepageSettings->skills_section_enabled)
-        <section id="tech-stack" class="py-20 sm:py-24 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] relative">
+        <section id="tech-stack" data-home-section="tech_stack_grid" class="home-section py-14 sm:py-24 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] relative">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
-                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-14">
                     <div>
                         <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
                             01 / Technical Competencies
@@ -275,8 +292,9 @@
                     </div>
                     <div class="mt-4 sm:mt-0">
                         <a href="{{ route('skills') }}"
-                            class="theme-btn-secondary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border transition-all">
-                            <span>Browse Comprehensive Matrix ({{ \App\Models\Skill::where('is_enabled', true)->count() }} Skills)</span>
+                            class="theme-btn-secondary inline-flex items-center justify-center gap-2 w-full sm:w-auto px-4 py-3 sm:py-2 rounded-xl text-xs sm:text-sm font-medium border transition-all min-h-[44px]">
+                            <span class="sm:hidden">All Skills ({{ \App\Models\Skill::where('is_enabled', true)->count() }})</span>
+                            <span class="hidden sm:inline">Browse Comprehensive Matrix ({{ \App\Models\Skill::where('is_enabled', true)->count() }} Skills)</span>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </a>
                     </div>
@@ -286,7 +304,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     @forelse($skillCategories as $cat)
                         @if($cat->skills->isNotEmpty())
-                            <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-xs hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+                            <div class="p-6 sm:p-7 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-xs transition-all duration-300 flex flex-col justify-between">
                                 <div>
                                     <div class="w-10 h-10 rounded-2xl bg-brand/10 text-brand flex items-center justify-center font-mono font-bold text-sm mb-4">
                                         0{{ $loop->iteration }}
@@ -323,10 +341,10 @@
          PROJECTS SECTION — CLEAN 2-COLUMN EDITORIAL SHOWCASE
          ======================================================== --}}
     @if($section === 'projects' && $homepageSettings->projects_section_enabled && $featuredProjects->isNotEmpty())
-        <section id="projects" class="py-20 sm:py-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] relative">
+        <section id="projects" data-home-section="projects" class="home-section py-14 sm:py-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] relative">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
                 
-                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-14">
                     <div>
                         <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
                             02 / Featured Case Studies
@@ -340,17 +358,17 @@
                     </div>
                     <div class="mt-4 sm:mt-0">
                         <a href="{{ route('projects') }}"
-                            class="theme-btn-secondary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border transition-all">
-                            <span>Browse All Projects ({{ \App\Models\Project::where('status', 'published')->count() }})</span>
+                            class="theme-btn-secondary inline-flex items-center justify-center gap-2 w-full sm:w-auto px-4 py-3 sm:py-2 rounded-xl text-xs sm:text-sm font-medium border transition-all min-h-[44px]">
+                            <span>All Projects ({{ \App\Models\Project::where('status', 'published')->count() }})</span>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </a>
                     </div>
                 </div>
 
                 <!-- Clean 2-Column Grid with Equal Height -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 items-stretch">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-10 items-stretch">
                     @foreach($featuredProjects as $project)
-                        <article class="tilt-card reveal-on-scroll group flex flex-col justify-between h-full rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden p-6 sm:p-7"
+                        <article class="reveal-on-scroll group flex flex-col justify-between h-full rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden p-5 sm:p-7 active:scale-[0.99]"
                             style="transition-delay: {{ $loop->index * 120 }}ms;">
                             <div class="flex-1 flex flex-col">
                                 <!-- Project Preview Image -->
@@ -378,19 +396,19 @@
                                 </div>
 
                                 <!-- Title (Always visible, min-height to guarantee parallel alignment) -->
-                                <h3 class="text-xl sm:text-2xl font-bold text-[var(--theme-text-heading)] mb-3 leading-snug line-clamp-2 min-h-[3.25rem]">
+                                <h3 class="text-lg sm:text-2xl font-bold text-[var(--theme-text-heading)] mb-3 leading-snug line-clamp-2 sm:min-h-[3.25rem]">
                                     <a href="{{ route('projects.show', $project->slug) }}" class="group-hover:text-brand transition-colors">
                                         {{ $project->title }}
                                     </a>
                                 </h3>
 
                                 <!-- Description (Readable font size & line clamp) -->
-                                <p class="text-[var(--theme-text-body)] text-sm sm:text-[15px] leading-relaxed mb-6 font-normal line-clamp-3 min-h-[4.2rem]">
+                                <p class="text-[var(--theme-text-body)] text-sm sm:text-[15px] leading-relaxed mb-4 sm:mb-6 font-normal line-clamp-3 sm:min-h-[4.2rem]">
                                     {{ Str::limit($project->short_description ?: strip_tags($project->description), 140) }}
                                 </p>
 
                                 @if($project->challenges || $project->solutions)
-                                    <div class="mb-5 p-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-xs space-y-1.5">
+                                    <div class="hidden sm:block mb-5 p-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-xs space-y-1.5">
                                         @if($project->challenges)
                                             <div class="text-[var(--theme-text-muted)]">
                                                 <strong class="text-[var(--theme-text-heading)] font-semibold">Challenge:</strong> {{ Str::limit($project->challenges, 80) }}
@@ -417,9 +435,9 @@
                                     </div>
                                 @endif
 
-                                <div class="pt-4 border-t border-[var(--theme-border)] flex items-center justify-between text-xs sm:text-sm font-medium">
-                                    <a href="{{ route('projects.show', $project->slug) }}" class="text-[var(--theme-text-heading)] hover:text-brand transition-colors inline-flex items-center gap-1.5 font-semibold group/btn">
-                                        <span>Read Case Study</span>
+                                <div class="pt-4 border-t border-[var(--theme-border)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs sm:text-sm font-medium">
+                                    <a href="{{ route('projects.show', $project->slug) }}" class="text-[var(--theme-text-heading)] hover:text-brand transition-colors inline-flex items-center justify-center gap-1.5 font-semibold group/btn min-h-[44px] px-3 rounded-xl bg-[var(--theme-bg-alt)] sm:bg-transparent sm:min-h-0 sm:px-0">
+                                        <span>View Case Study</span>
                                         <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                     </a>
 
@@ -431,7 +449,7 @@
                                         @endif
                                         @if($project->github_url)
                                             <a href="{{ $project->github_url }}" target="_blank" rel="noopener noreferrer" class="hover:text-brand transition-colors">
-                                                Code ↗
+                                                GitHub ↗
                                             </a>
                                         @endif
                                     </div>
@@ -449,7 +467,7 @@
          ABOUT & WORK EXPERIENCE TIMELINE — HIGH-TRUST EDITORIAL
          ======================================================== --}}
     @if($section === 'about' && $homepageSettings->about_section_enabled)
-        <section id="about" class="py-20 sm:py-28 bg-[var(--theme-bg-alt)] border-b border-[var(--theme-border)] relative">
+        <section id="about" data-home-section="about" class="home-section py-14 sm:py-28 bg-[var(--theme-bg-alt)] border-b border-[var(--theme-border)] relative">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
                 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
@@ -459,7 +477,7 @@
                             03 / Engineering Journey &amp; Milestones
                         </span>
                         <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight leading-tight mb-6">
-                            Engineering resilient backend architectures with production reliability.
+                            {{ $profile->subtitle ? strip_tags($profile->subtitle) : 'Backend systems built for reliability, security, and long-term maintenance.' }}
                         </h2>
                         <div class="text-[var(--theme-text-body)] text-base leading-relaxed space-y-4 font-normal mb-8">
                             <p>
@@ -532,15 +550,23 @@
                         @php
                             $hl1 = \App\Models\Setting::get('about_highlight_1');
                             $hl2 = \App\Models\Setting::get('about_highlight_2');
+                            $hl3 = \App\Models\Setting::get('about_highlight_3');
+                            $defaultHl1 = $completedProjectsCount ? ($completedProjectsCount . '+ Delivered Projects') : 'Production-Ready Laravel Backends';
+                            $defaultHl2 = 'REST APIs, Admin Panels & Integrations';
+                            $defaultHl3 = 'Clear Communication & Milestone Delivery';
                         @endphp
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                             <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold text-sm shrink-0">✓</div>
-                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">{{ $hl1 ?: ($completedProjectsCount . '+ Commercial Deliveries') }}</div>
+                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">{{ $hl1 ?: $defaultHl1 }}</div>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold text-sm shrink-0">⚙</div>
+                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">{{ $hl2 ?: $defaultHl2 }}</div>
                             </div>
                             <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0">★</div>
-                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">{{ $hl2 ?: ($satisfactionRate . '% Production Quality Guarantee') }}</div>
+                                <div class="text-xs font-bold text-[var(--theme-text-heading)]">{{ $hl3 ?: $defaultHl3 }}</div>
                             </div>
                         </div>
                     </div>
@@ -554,25 +580,25 @@
          SERVICES SECTION — CLEAN SOLUTIONS LIST
          ======================================================== --}}
     @if($section === 'services' && $homepageSettings->services_section_enabled && $featuredServices->isNotEmpty())
-        <section id="services" class="py-20 sm:py-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)]">
+        <section id="services" data-home-section="services" class="home-section py-14 sm:py-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
                 
-                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-14">
                     <div>
                         <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
                             04 / Core Engineering Solutions
                         </span>
                         <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
-                            Specialized Full-Stack Services
+                            Backend &amp; Application Services
                         </h2>
                         <p class="text-[var(--theme-text-muted)] text-base mt-2 max-w-xl">
-                            Targeted capabilities to architect new software products, engineer high-throughput APIs, or optimize database bottlenecks.
+                            Laravel web apps, REST APIs, admin panels, ERP-style systems, integrations, and performance-focused backend work.
                         </p>
                     </div>
                     <div class="mt-4 sm:mt-0">
                         <a href="{{ route('services') }}"
-                            class="theme-btn-secondary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border transition-all">
-                            <span>Browse All Services ({{ \App\Models\Service::where('is_enabled', true)->count() }})</span>
+                            class="theme-btn-secondary inline-flex items-center justify-center gap-2 w-full sm:w-auto px-4 py-3 sm:py-2 rounded-xl text-xs sm:text-sm font-medium border transition-all min-h-[44px]">
+                            <span>All Services ({{ \App\Models\Service::where('is_enabled', true)->count() }})</span>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </a>
                     </div>
@@ -580,7 +606,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                     @foreach($featuredServices as $service)
-                        <div class="tilt-card reveal-on-scroll p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all flex flex-col justify-between"
+                        <div class="reveal-on-scroll p-5 sm:p-7 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all flex flex-col justify-between"
                             style="transition-delay: {{ $loop->index * 120 }}ms;">
                             <div>
                                 <span class="text-xs font-mono text-brand font-semibold block mb-2">Service 0{{ $loop->iteration }}</span>
@@ -623,10 +649,10 @@
          WORK PROCESS — CLEAN ROADMAP
          ======================================================== --}}
     @if($section === 'work_process' && $homepageSettings->work_process_section_enabled && $workProcesses->isNotEmpty())
-        <section class="py-20 sm:py-28 bg-[var(--theme-bg-alt)] border-b border-[var(--theme-border)]">
+        <section data-home-section="work_process" class="home-section py-14 sm:py-28 bg-[var(--theme-bg-alt)] border-b border-[var(--theme-border)]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
                 
-                <div class="max-w-2xl mb-14">
+                <div class="max-w-2xl mb-8 sm:mb-14">
                     <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
                         05 / Delivery Standards
                     </span>
@@ -658,7 +684,7 @@
          TESTIMONIALS SECTION — SOCIAL PROOF & CLIENT TRUST
          ======================================================== --}}
     @if($section === 'testimonials' && $homepageSettings->testimonials_section_enabled && isset($testimonials) && $testimonials->isNotEmpty())
-        <section id="testimonials" class="py-20 sm:py-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] relative">
+        <section id="testimonials" data-home-section="testimonials" class="home-section py-14 sm:py-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)] relative">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
                 
                 <div class="max-w-2xl mb-14">
@@ -718,12 +744,12 @@
             $contactWhatsapp = $profile->whatsapp_url ?: (\App\Models\Setting::get('contact_whatsapp') ? 'https://wa.me/' . preg_replace('/\D+/', '', \App\Models\Setting::get('contact_whatsapp')) : null);
         @endphp
 
-        <section id="contact" class="py-20 sm:py-28 bg-[var(--theme-bg-alt)] text-[var(--theme-text-heading)] relative overflow-hidden border-b border-[var(--theme-border)]">
+        <section id="contact" data-home-section="contact_cta" class="home-section py-14 sm:py-28 bg-[var(--theme-bg-alt)] text-[var(--theme-text-heading)] relative overflow-hidden border-b border-[var(--theme-border)]">
             <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-[550px] h-[350px] bg-brand/5 dark:bg-brand/10 rounded-full blur-[140px] pointer-events-none"></div>
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-5xl">
                 <!-- Section Header -->
-                <div class="text-center max-w-2xl mx-auto mb-14">
+                <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
                     <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-3 block">
                         07 / Direct Collaboration
                     </span>
@@ -751,7 +777,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     
                     <!-- Direct Form Card -->
-                    <div class="lg:col-span-7 p-7 sm:p-9 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] shadow-xs">
+                    <div class="lg:col-span-7 p-5 sm:p-9 rounded-2xl sm:rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] shadow-xs">
                         <div class="mb-6">
                             <h3 class="text-lg font-bold text-[var(--theme-text-heading)]">Send a Direct Project Inquiry</h3>
                             <p class="text-xs text-[var(--theme-text-muted)] mt-1">Fill out the quick details below and I'll review your project scope.</p>
@@ -765,15 +791,15 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Your Name *</label>
-                                    <input type="text" name="name" required
+                                    <input type="text" name="name" required autocomplete="name"
                                         placeholder="e.g. John Doe"
-                                        class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
+                                        class="w-full px-4 py-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-base sm:text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors min-h-[48px]">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Your Email *</label>
-                                    <input type="email" name="email" required
+                                    <input type="email" name="email" required autocomplete="email" inputmode="email"
                                         placeholder="e.g. john@company.com"
-                                        class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
+                                        class="w-full px-4 py-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-base sm:text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors min-h-[48px]">
                                 </div>
                             </div>
 
@@ -792,9 +818,36 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Phone / WhatsApp (Optional)</label>
-                                    <input type="text" name="phone"
+                                    <input type="tel" name="phone" inputmode="tel" autocomplete="tel"
                                         placeholder="+91 98765 43210"
-                                        class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
+                                        class="w-full px-4 py-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-base sm:text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors min-h-[48px]">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Approx. Budget (Optional)</label>
+                                    <select name="budget_range"
+                                        class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
+                                        <option value="">Select budget range...</option>
+                                        <option value="₹25,000 - ₹50,000 (~$300 - $600)">₹25,000 - ₹50,000 (~$300 - $600)</option>
+                                        <option value="₹50,000 - ₹1,00,000 (~$600 - $1,200)">₹50,000 - ₹1,00,000 (~$600 - $1,200)</option>
+                                        <option value="₹1,00,000 - ₹2,50,000 (~$1,200 - $3,000)">₹1,00,000 - ₹2,50,000 (~$1,200 - $3,000)</option>
+                                        <option value="₹2,50,000+ ($3,000+)">₹2,50,000+ ($3,000+)</option>
+                                        <option value="Flexible / Needs Discussion">Flexible / Needs Discussion</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Expected Timeline (Optional)</label>
+                                    <select name="timeline"
+                                        class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
+                                        <option value="">Select timeline...</option>
+                                        <option value="Urgent (< 2 weeks)">Urgent (&lt; 2 weeks)</option>
+                                        <option value="1 - 4 weeks">1 - 4 weeks</option>
+                                        <option value="1 - 3 months">1 - 3 months</option>
+                                        <option value="3+ months">3+ months</option>
+                                        <option value="Flexible">Flexible</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -802,11 +855,11 @@
                                 <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Project Overview &amp; Requirements *</label>
                                 <textarea name="message" rows="4" required minlength="10"
                                     placeholder="Briefly describe what you are looking to build, optimize, or resolve..."
-                                    class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors"></textarea>
+                                    class="w-full px-4 py-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-base sm:text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors"></textarea>
                             </div>
 
                             <button type="submit"
-                                class="theme-btn-primary w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm transition-all hover:scale-[1.01] shadow-sm">
+                                class="theme-btn-primary w-full inline-flex items-center justify-center gap-2 px-6 py-4 sm:py-3.5 min-h-[48px] rounded-xl font-semibold text-sm transition-all hover:scale-[1.01] shadow-sm">
                                 <span>Send Project Inquiry</span>
                                 <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </button>
@@ -895,5 +948,6 @@
         </section>
     @endif
 @endforeach
+</div>
 
 @endsection

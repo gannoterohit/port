@@ -1,18 +1,18 @@
 @extends('public.layouts.app')
 
 @section('title', 'About & Professional Experience - ' . $websiteName)
-@section('meta_description', strip_tags($profile->bio ?? '') ?: 'Full Stack Web Developer with 2.5 years of professional experience and 6 months intensive training specializing in Laravel, PHP, and MySQL.')
+@section('meta_description', Str::limit(strip_tags($profile->intro ?? $profile->bio ?? ''), 160) ?: 'Laravel backend developer Rohit Gannote — admin panels, REST APIs, MySQL, and business web applications. Based in Indore, India.')
 @if(!empty($profile->og_image_url))
     @section('og_image', $profile->og_image_url)
 @endif
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] relative overflow-hidden transition-colors duration-200">
+<section class="min-h-0 sm:min-h-screen pt-24 sm:pt-36 pb-28 sm:pb-24 bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] relative overflow-hidden transition-colors duration-200">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl 2xl:max-w-[1400px]">
         <div class="max-w-6xl 2xl:max-w-7xl mx-auto space-y-10">
             
             <!-- Header Card -->
-            <div class="bg-[var(--theme-bg-card)] rounded-3xl p-8 sm:p-12 border border-[var(--theme-border)] shadow-xs">
+            <div class="bg-[var(--theme-bg-card)] rounded-2xl sm:rounded-3xl p-6 sm:p-12 border border-[var(--theme-border)] shadow-xs">
                 <div class="flex flex-col md:flex-row gap-8 items-start md:items-center">
                     @if($profile->profile_photo_url)
                         <img src="{{ $profile->profile_photo_url }}" alt="{{ $profile->full_name }}"
@@ -92,7 +92,7 @@
                         </div>
                         <div class="text-base font-bold text-[var(--theme-text-heading)]">Professional Experience</div>
                         <p class="text-xs text-[var(--theme-text-body)] leading-relaxed">
-                            Developing full-stack web applications, business management tools, and APIs in active team and freelance environments.
+                            Building Laravel backends, admin panels, REST APIs, and database-driven business tools in professional and freelance projects.
                         </p>
                     </div>
 

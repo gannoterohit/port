@@ -9,7 +9,7 @@
 @section('meta_robots', $project->no_index ? 'noindex, nofollow' : 'index, follow')
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] relative overflow-hidden transition-colors duration-200">
+<section class="min-h-0 sm:min-h-screen pt-24 sm:pt-36 pb-28 sm:pb-24 bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] relative overflow-hidden transition-colors duration-200">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl 2xl:max-w-[1400px]">
         <div class="max-w-4xl mx-auto">
             <!-- Top Navigation & Breadcrumbs -->
@@ -114,7 +114,7 @@
                 </div>
                 <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] shadow-xs">
                     <span class="text-[11px] font-mono uppercase tracking-wider text-[var(--theme-text-muted)] block mb-1">Architecture</span>
-                    <span class="text-sm font-bold text-brand">Clean MVC / REST</span>
+                    <span class="text-sm font-bold text-brand">{{ $project->architecture_label ?: 'Laravel MVC + REST API' }}</span>
                 </div>
                 <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] shadow-xs">
                     <span class="text-[11px] font-mono uppercase tracking-wider text-[var(--theme-text-muted)] block mb-1">Delivery Status</span>

@@ -164,6 +164,22 @@
         </div>
     </div>
 
+    <div class="bg-white rounded-xl border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Homepage Section Order</h3>
+        <p class="text-xs text-gray-500 mb-3">One section key per line. Use <code class="font-mono bg-gray-100 px-1 rounded">skills</code> for the marquee + stack grid. Keys: <code class="font-mono">hero</code>, <code class="font-mono">services</code>, <code class="font-mono">projects</code>, <code class="font-mono">about</code>, <code class="font-mono">work_process</code>, <code class="font-mono">skills</code>, <code class="font-mono">testimonials</code>, <code class="font-mono">contact_cta</code>.</p>
+        @php
+            $orderLines = old('section_order_text');
+            if ($orderLines === null) {
+                $rawOrder = $settings->section_order;
+                if (is_string($rawOrder)) {
+                    $rawOrder = json_decode($rawOrder, true);
+                }
+                $orderLines = is_array($rawOrder) ? implode("\n", $rawOrder) : "hero\nservices\nprojects\nabout\nwork_process\nskills\ntestimonials\ncontact_cta";
+            }
+        @endphp
+        <textarea name="section_order_text" rows="10" class="admin-textarea font-mono text-xs">{{ $orderLines }}</textarea>
+    </div>
+
     <div class="flex justify-end pt-4">
         <button type="submit" class="admin-btn-primary">
             Save Homepage Settings

@@ -139,44 +139,40 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
                 @endforeach
             </div>
 
-            <!-- Action Controls -->
-            <div class="flex items-center gap-2 sm:gap-2.5">
-                <!-- Theme Toggle Button (☀️ Warm Stone <-> 🌙 Warm Obsidian) -->
-                <button type="button" @click="toggleTheme()"
-                    class="p-2 sm:px-3 sm:py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] hover:bg-black/[0.06] dark:hover:bg-white/[0.08] text-xs font-semibold flex items-center gap-1.5 transition-all duration-200"
-                    :title="currentTheme === 'warm_obsidian' ? 'Switch to Warm Stone (Light)' : 'Switch to Warm Obsidian (Dark)'"
-                    aria-label="Toggle Light and Dark Mode">
-                    
-                    <span x-show="currentTheme === 'warm_obsidian'" class="flex items-center gap-1.5 text-amber-300">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <span class="hidden xl:inline text-[11px] font-mono font-bold">Light</span>
-                    </span>
-
-                    <span x-show="currentTheme !== 'warm_obsidian'" class="flex items-center gap-1.5 text-slate-700">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                        <span class="hidden xl:inline text-[11px] font-mono font-bold">Dark</span>
-                    </span>
-                </button>
-
+            <!-- Action Controls (flex order: mobile = Talk → Theme → Menu; desktop = Theme → WhatsApp → Talk) -->
+            <div class="flex items-center gap-1.5 sm:gap-2.5">
                 @if($profile && $profile->whatsapp_url)
                     <a href="{{ $profile->whatsapp_url }}" target="_blank" rel="noopener noreferrer"
-                        class="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-black/[0.03] dark:bg-white/[0.03] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] border border-black/[0.06] dark:border-white/[0.06] transition-all"
+                        class="hidden xl:inline-flex order-3 lg:order-2 items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-black/[0.03] dark:bg-white/[0.03] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] border border-black/[0.06] dark:border-white/[0.06] transition-all shrink-0"
                         title="Direct WhatsApp Communication">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span>WhatsApp</span>
                     </a>
                 @endif
 
-                <!-- Direct Action CTA Button (Scrolls straight to Contact section) -->
                 <a href="{{ request()->routeIs('home') ? '#contact' : (rtrim(route('home'), '/') . '/#contact') }}"
-                    class="theme-btn-primary relative inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-5 py-2 text-xs sm:text-[13px] font-semibold rounded-full shadow-sm hover:scale-[1.02] transition-all duration-200">
-                    <span>Let's Talk</span>
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    class="theme-btn-primary order-1 lg:order-3 relative inline-flex items-center justify-center gap-1 sm:gap-1.5 px-3 sm:px-5 py-2 min-h-[40px] text-xs sm:text-[13px] font-semibold rounded-full shadow-sm hover:scale-[1.02] transition-all duration-200 shrink min-w-0">
+                    <span class="max-[380px]:hidden truncate">Let's Talk</span>
+                    <span class="hidden max-[380px]:inline truncate">Contact</span>
+                    <svg class="w-3.5 h-3.5 shrink-0 max-[380px]:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
 
-                <!-- Mobile & Tablet Menu Button (screens < 1024px) -->
+                <button type="button" @click="toggleTheme()"
+                    class="theme-toggle-btn order-2 lg:order-1 inline-flex shrink-0 items-center justify-center p-2 lg:px-3 lg:py-1.5 min-h-[40px] min-w-[40px] rounded-full border border-black/10 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] hover:bg-black/[0.06] dark:hover:bg-white/[0.08] text-xs font-semibold gap-1.5 transition-all duration-200 text-[var(--theme-text-heading)]"
+                    title="Switch light / dark mode"
+                    aria-label="Toggle light and dark mode">
+                    <span class="theme-icon-sun items-center gap-1.5 text-amber-500">
+                        <svg class="w-[18px] h-[18px] lg:w-4 lg:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <span class="hidden xl:inline text-[11px] font-mono font-bold">Light</span>
+                    </span>
+                    <span class="theme-icon-moon items-center gap-1.5">
+                        <svg class="w-[18px] h-[18px] lg:w-4 lg:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <span class="hidden xl:inline text-[11px] font-mono font-bold">Dark</span>
+                    </span>
+                </button>
+
                 <button @click="mobileOpen = true"
-                    class="lg:hidden p-2 rounded-full border border-black/10 dark:border-white/10 hover:bg-black/[0.06] dark:hover:bg-white/[0.06] text-[var(--theme-text-heading)] transition-colors"
+                    class="order-3 lg:hidden p-2 min-h-[40px] min-w-[40px] inline-flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:bg-black/[0.06] dark:hover:bg-white/[0.06] text-[var(--theme-text-heading)] transition-colors shrink-0"
                     aria-label="Open Navigation Menu">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -250,9 +246,9 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
 
             <div class="pt-6 border-t border-[var(--theme-border)] space-y-2.5">
                 <button type="button" @click="toggleTheme()"
-                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-bg-alt)] text-sm font-semibold text-[var(--theme-text-heading)]">
-                    <span x-show="currentTheme === 'warm_obsidian'">☀️ Switch to Light Mode</span>
-                    <span x-show="currentTheme !== 'warm_obsidian'">🌙 Switch to Dark Mode</span>
+                    class="theme-toggle-btn w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-bg-alt)] text-sm font-semibold text-[var(--theme-text-heading)]">
+                    <span class="theme-icon-sun items-center gap-2">☀️ Switch to Light Mode</span>
+                    <span class="theme-icon-moon items-center gap-2">🌙 Switch to Dark Mode</span>
                 </button>
 
                 @if($profile && $profile->whatsapp_url)

@@ -69,4 +69,46 @@ class HomepageSetting extends Model
     {
         return $this->hero_image ? Storage::disk('public')->url($this->hero_image) : null;
     }
+
+    /**
+     * Resolve homepage section keys for the public template loop.
+     *
+     * @return list<string>
+     */
+    public function resolveSectionOrder(): array
+    {
+        $fallback = ['hero', 'services', 'projects', 'about', 'work_process', 'skills_marquee', 'tech_stack_grid', 'testimonials', 'contact_cta'];
+
+        $raw = $this->section_order;
+        if (! is_array($raw) || $raw === []) {
+            return $fallback;
+        }
+
+        $order = [];
+        foreach ($raw as $key) {
+            $key = is_string($key) ? trim($key) : '';
+            if ($key === '') {
+                continue;
+            }
+
+            if ($key === 'skills') {
+                $order[] = 'skills_marquee';
+                $order[] = 'tech_stack_grid';
+                continue;
+            }
+
+            if ($key === 'contact' || $key === 'contact_cta') {
+                $order[] = 'contact_cta';
+                continue;
+            }
+
+            $order[] = $key;
+        }
+
+        if (! in_array('hero', $order, true)) {
+            array_unshift($order, 'hero');
+        }
+
+        return array_values(array_unique($order));
+    }
 }

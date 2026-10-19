@@ -293,6 +293,12 @@
                                 <textarea name="role" rows="3" class="admin-textarea">{{ old('role', $project->role) }}</textarea>
                             </div>
 
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Architecture Label (Case Study Card)</label>
+                                <input type="text" name="architecture_label" value="{{ old('architecture_label', $project->architecture_label) }}" class="admin-input" placeholder="e.g. Laravel MVC + REST API">
+                                <p class="text-[11px] text-stone-400 mt-1">Shown on the project detail quick specs row.</p>
+                            </div>
+
                             <div class="md:col-span-2">
                                 <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Key Features Implemented</label>
                                 <textarea name="key_features" rows="3" class="admin-textarea">{{ old('key_features', $project->key_features) }}</textarea>

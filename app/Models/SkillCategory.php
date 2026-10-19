@@ -11,6 +11,7 @@ class SkillCategory extends Model
         'name',
         'slug',
         'color',
+        'description',
         'display_order',
         'is_enabled',
     ];

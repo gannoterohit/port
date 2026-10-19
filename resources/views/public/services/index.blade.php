@@ -4,7 +4,7 @@
 @section('meta_description', 'Professional full-stack web development services including Laravel applications, RESTful APIs, modern frontend, database architecture, and performance optimization.')
 
 @section('content')
-<section class="min-h-screen pt-28 sm:pt-36 pb-24 bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] relative overflow-hidden transition-colors duration-200">
+<section class="min-h-0 sm:min-h-screen pt-24 sm:pt-36 pb-28 sm:pb-24 bg-[var(--theme-bg-canvas)] text-[var(--theme-text-heading)] relative overflow-hidden transition-colors duration-200">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl 2xl:max-w-[1400px]">
         <div class="max-w-7xl 2xl:max-w-[1400px] mx-auto">
             <!-- Header Section -->
