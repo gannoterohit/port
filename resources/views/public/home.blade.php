@@ -40,9 +40,11 @@
 
             <!-- Background Cinematic Workspace Image with High-Definition Sharpness -->
             <div class="absolute inset-y-0 right-0 w-full lg:w-[52%] xl:w-[55%] pointer-events-none overflow-hidden">
-                <img src="{{ $homepageSettings->hero_image_url ?: (asset('images/hero-workspace.jpg') . '?v=' . (file_exists(public_path('images/hero-workspace.jpg')) ? filemtime(public_path('images/hero-workspace.jpg')) : time())) }}" 
-                     alt="{{ $profile->name ?: 'Rohit Gannote' }} Workspace" 
-                     class="w-full h-full object-cover object-center select-none brightness-[1.0] contrast-[1.02] dark:brightness-[0.82] dark:contrast-[1.08]">
+                <div class="w-full h-full animate-float">
+                    <img src="{{ $homepageSettings->hero_image_url ?: (asset('images/hero-workspace.jpg') . '?v=' . (file_exists(public_path('images/hero-workspace.jpg')) ? filemtime(public_path('images/hero-workspace.jpg')) : time())) }}" 
+                         alt="{{ $profile->name ?: 'Rohit Gannote' }} Workspace" 
+                         class="w-full h-full object-cover object-center select-none brightness-[1.0] contrast-[1.02] dark:brightness-[0.82] dark:contrast-[1.08]">
+                </div>
                 
                 <!-- Gentle Left Feather: seamlessly merges into background canvas without hazing the laptop -->
                 <div class="hidden lg:block absolute inset-y-0 left-0 w-44 xl:w-60 bg-gradient-to-r from-[var(--theme-bg-canvas)] via-[var(--theme-bg-canvas)]/75 to-transparent"></div>
@@ -88,14 +90,57 @@
                         {{ $firstName }} @if($lastName)<span class="text-brand">{{ $lastName }}</span>@endif
                     </h1>
 
-                    <!-- Role Subtitle (Sharp Backend Position) -->
-                    <div class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-[var(--theme-text-heading)] mb-2 tracking-tight flex items-center gap-2">
-                        <span>{{ $profile->title ?: 'PHP / Laravel Backend Developer' }}</span>
+                    <!-- Role Subtitle (Sharp Backend Position) with Snappy Typewriter Animation -->
+                    <div x-data="{
+                            words: [
+                                '{{ addslashes($profile->title ?: 'PHP / Laravel Backend Developer') }}',
+                                'Scalable REST API Architect',
+                                'MySQL & Database Optimization Specialist',
+                                'Distributed Queues & Redis Engineer'
+                            ],
+                            part: '',
+                            i: 0,
+                            offset: 0,
+                            forwards: true,
+                            skipCount: 0,
+                            skipDelay: 22,
+                            speed: 55,
+                            init() {
+                                setInterval(() => {
+                                    if (this.forwards) {
+                                        if (this.offset >= this.words[this.i].length) {
+                                            ++this.skipCount;
+                                            if (this.skipCount === this.skipDelay) {
+                                                this.forwards = false;
+                                                this.skipCount = 0;
+                                            }
+                                        }
+                                    } else {
+                                        if (this.offset === 0) {
+                                            this.forwards = true;
+                                            this.i = (this.i + 1) % this.words.length;
+                                            this.skipCount = 0;
+                                        }
+                                    }
+                                    this.part = this.words[this.i].substring(0, this.offset);
+                                    if (this.skipCount === 0) {
+                                        if (this.forwards) {
+                                            this.offset++;
+                                        } else {
+                                            this.offset--;
+                                        }
+                                    }
+                                }, this.speed);
+                            }
+                        }"
+                        class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-[var(--theme-text-heading)] mb-2 tracking-tight flex items-center min-h-[44px]">
+                        <span x-text="part || '{{ addslashes($profile->title ?: 'PHP / Laravel Backend Developer') }}'">{{ $profile->title ?: 'PHP / Laravel Backend Developer' }}</span>
+                        <span class="inline-block w-0.5 h-6 sm:h-8 bg-brand ml-1.5 animate-pulse"></span>
                     </div>
 
                     @if($homepageSettings->hero_title || $profile->subtitle)
                         <div class="text-xs sm:text-sm lg:text-base font-mono text-brand font-semibold mb-4 sm:mb-6 tracking-wide">
-                            // {{ $homepageSettings->hero_title ?: $profile->subtitle }}
+                            {{ $homepageSettings->hero_title ?: $profile->subtitle }}
                         </div>
                     @endif
 
@@ -233,7 +278,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     @forelse($skillCategories as $cat)
                         @if($cat->skills->isNotEmpty())
-                            <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+                            <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-xs hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
                                 <div>
                                     <div class="w-10 h-10 rounded-2xl bg-brand/10 text-brand flex items-center justify-center font-mono font-bold text-sm mb-4">
                                         0{{ $loop->iteration }}
@@ -244,7 +289,7 @@
                                     </p>
                                     <div class="flex flex-wrap gap-1.5 mb-4">
                                         @foreach($cat->skills as $sk)
-                                            <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] {{ $sk->is_featured ? 'font-semibold text-[var(--theme-text-heading)]' : 'text-[var(--theme-text-body)]' }}">
+                                            <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] hover:border-brand/40 hover:scale-105 transition-all duration-150 cursor-default {{ $sk->is_featured ? 'font-semibold text-[var(--theme-text-heading)]' : 'text-[var(--theme-text-body)]' }}">
                                                 {{ $sk->name }}
                                             </span>
                                         @endforeach
@@ -297,13 +342,13 @@
                 <!-- Clean 2-Column Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
                     @foreach($featuredProjects as $project)
-                        <article class="tilt-card reveal-on-scroll group flex flex-col justify-between rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden p-6 sm:p-7"
+                        <article class="tilt-card reveal-on-scroll group flex flex-col justify-between rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden p-6 sm:p-7"
                             style="transition-delay: {{ $loop->index * 120 }}ms;">
                             <div>
                                 <!-- Project Preview Image -->
                                 <a href="{{ route('projects.show', $project->slug) }}" class="block aspect-[16/10] w-full rounded-2xl overflow-hidden bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] mb-6 relative">
                                     @if($project->thumbnail_url)
-                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.025] transition-transform duration-500 ease-out"
+                                        <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                                              onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-brand/10 to-[var(--theme-bg-alt)]\'><span class=\'text-base font-bold text-[var(--theme-text-heading)] mb-1\'>{{ addslashes($project->title) }}</span><span class=\'text-xs font-mono text-brand\'>{{ addslashes($project->category ?? 'Web Application') }}</span></div>';">
                                     @else
                                         <div class="w-full h-full flex flex-col items-center justify-center text-[var(--theme-text-muted)] p-6 text-center bg-gradient-to-br from-brand/10 to-[var(--theme-bg-alt)]">
@@ -365,9 +410,9 @@
                                 @endif
 
                                 <div class="pt-4 border-t border-[var(--theme-border)] flex items-center justify-between text-xs font-medium">
-                                    <a href="{{ route('projects.show', $project->slug) }}" class="text-[var(--theme-text-heading)] hover:text-brand transition-colors inline-flex items-center gap-1 font-semibold">
+                                    <a href="{{ route('projects.show', $project->slug) }}" class="text-[var(--theme-text-heading)] hover:text-brand transition-colors inline-flex items-center gap-1.5 font-semibold group/btn">
                                         <span>Read Case Study</span>
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                        <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                     </a>
 
                                     <div class="flex items-center gap-3 text-[var(--theme-text-muted)]">
@@ -806,13 +851,21 @@
                                         <span class="text-[11px] text-[var(--theme-text-muted)] block">Email</span>
                                         <span class="text-xs sm:text-sm font-semibold text-[var(--theme-text-heading)] truncate block">{{ $contactDirectEmail }}</span>
                                     </div>
-                                    <button type="button"
-                                        @click="window.copyPortfolioEmail('{{ $contactDirectEmail }}', $event)"
-                                        class="theme-btn-secondary px-3 py-1.5 rounded-lg text-xs font-medium border shrink-0 inline-flex items-center gap-1"
-                                        title="Copy direct email address">
-                                        <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                        <span>Copy</span>
-                                    </button>
+                                    <div x-data="{ copied: false }" class="shrink-0">
+                                        <button type="button"
+                                            @click="window.copyPortfolioEmail('{{ $contactDirectEmail }}', $event); copied = true; setTimeout(() => copied = false, 2000)"
+                                            class="theme-btn-secondary px-3 py-1.5 rounded-lg text-xs font-medium border inline-flex items-center gap-1.5 transition-all duration-200"
+                                            :class="copied ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-600 dark:text-emerald-400 font-semibold' : ''"
+                                            title="Copy direct email address">
+                                            <template x-if="!copied">
+                                                <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                            </template>
+                                            <template x-if="copied">
+                                                <svg class="w-3.5 h-3.5 text-emerald-500 animate-scale-in" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                            </template>
+                                            <span x-text="copied ? 'Copied! ✓' : 'Copy'">Copy</span>
+                                        </button>
+                                    </div>
                                 </div>
                             @endif
 

@@ -378,3 +378,25 @@
 .animate-pulse-data {
   animation: pulseData 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* Subtle Floating Animation for Ambient Visuals */
+.animate-float {
+  animation: floatSlow 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Accessible Reduced Motion Guarantee */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-marquee,
+  .animate-float,
+  .animate-pulse-data {
+    animation: none !important;
+    transform: none !important;
+  }
+}
