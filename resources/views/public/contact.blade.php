@@ -201,18 +201,14 @@
                                 <select id="service_type" name="service_type"
                                     class="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-bg-alt)] text-[var(--theme-text-heading)] transition-colors focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-transparent text-sm">
                                     <option value="">Select project type...</option>
-                                    <option value="Custom Web App (Laravel / Full-Stack)" {{ $selectedService === 'Custom Web App (Laravel / Full-Stack)' ? 'selected' : '' }}>Custom Web App (Laravel / Full-Stack)</option>
-                                    <option value="ERP / CRM / School Management System" {{ $selectedService === 'ERP / CRM / School Management System' ? 'selected' : '' }}>ERP / CRM / School Management System</option>
-                                    <option value="RESTful API & Integration" {{ $selectedService === 'RESTful API & Integration' ? 'selected' : '' }}>RESTful API &amp; Integration</option>
-                                    <option value="Performance Optimization & Bug Fixing" {{ $selectedService === 'Performance Optimization & Bug Fixing' ? 'selected' : '' }}>Performance Optimization &amp; Bug Fixing</option>
                                     @foreach($services as $service)
                                         <option value="{{ $service->name }}"
                                             {{ $selectedService === $service->slug || $selectedService === $service->name ? 'selected' : '' }}>
                                             {{ $service->name }}
                                         </option>
                                     @endforeach
-                                    <option value="Monthly Developer Retainer" {{ $selectedService === 'Monthly Developer Retainer' ? 'selected' : '' }}>Monthly Developer Retainer</option>
-                                    <option value="Other / Not listed" {{ $selectedService === 'Other / Not listed' ? 'selected' : '' }}>Other / Not listed</option>
+                                    <option value="Full-Time / Contract Backend Role" {{ $selectedService === 'Full-Time / Contract Backend Role' ? 'selected' : '' }}>Full-Time / Contract Backend Role</option>
+                                    <option value="Other / Custom Inquiry" {{ in_array($selectedService, ['Other / Custom Inquiry', 'Other / Not listed']) ? 'selected' : '' }}>Other / Custom Inquiry</option>
                                 </select>
                             </div>
                         </div>

@@ -100,6 +100,12 @@ class HomeController extends Controller
                 ->get();
         });
 
+        $experiences = Cache::remember('homepage_experiences', 3600, function () {
+            return \App\Models\Experience::where('is_enabled', true)
+                ->orderBy('display_order')
+                ->get();
+        });
+
         return view('public.home', compact(
             'homepageSettings',
             'profile',
@@ -108,7 +114,8 @@ class HomeController extends Controller
             'featuredProjects',
             'featuredServices',
             'workProcesses',
-            'testimonials'
+            'testimonials',
+            'experiences'
         ));
     }
 }

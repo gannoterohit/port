@@ -58,8 +58,13 @@ class PageController extends Controller
     public function resume()
     {
         $profile = Cache::remember('profile', 3600, fn () => Profile::getInstance());
+        $experiences = Cache::remember('homepage_experiences', 3600, function () {
+            return \App\Models\Experience::where('is_enabled', true)
+                ->orderBy('display_order')
+                ->get();
+        });
 
-        return view('public.resume', compact('profile'));
+        return view('public.resume', compact('profile', 'experiences'));
     }
 
     public function downloadResume()

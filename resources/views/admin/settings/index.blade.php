@@ -302,6 +302,12 @@
                                 <p class="text-[11px] text-stone-400 mt-1">Secondary experience badge shown alongside your experience years.</p>
                             </div>
 
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Hero Rotating Typewriter Titles (One per line)</label>
+                                <textarea name="typewriter_titles" rows="4" class="admin-input font-mono text-xs" placeholder="PHP / Laravel Backend Developer&#10;Scalable REST API Architect&#10;MySQL &amp; Database Optimization Specialist&#10;Distributed Queues &amp; Redis Engineer">{{ old('typewriter_titles', $byKey['typewriter_titles']->value ?? '') }}</textarea>
+                                <p class="text-[11px] text-stone-400 mt-1">Each line is a role/title that rotates smoothly with the typewriter animation under your name on the homepage hero.</p>
+                            </div>
+
                             <!-- Available for Freelance Switch -->
                             <div class="md:col-span-2 rounded-xl border border-[#E5E1D5] bg-[#FAF9F5] p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                                 <div>

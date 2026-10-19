@@ -45,7 +45,7 @@
                     <p class="text-xs text-[var(--theme-text-body)] mt-2 leading-relaxed">Active commercial web development specializing in Laravel, PHP, MySQL, and full-stack software architecture.</p>
                 </div>
                 <div class="bg-[var(--theme-bg-card)] rounded-3xl p-6 sm:p-7 border border-[var(--theme-border)] shadow-xs">
-                    <div class="text-2xl sm:text-3xl font-extrabold text-brand mb-1">6 Months</div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-brand mb-1">{{ ltrim(\App\Models\Setting::get('training_text') ?: '6 Months Intensive Training', '+ ') }}</div>
                     <div class="font-bold text-sm text-[var(--theme-text-heading)]">Intensive Training</div>
                     <p class="text-xs text-[var(--theme-text-body)] mt-2 leading-relaxed">Specialized training in software engineering fundamentals, database optimization, and API engineering.</p>
                 </div>
@@ -63,7 +63,34 @@
                 </div>
             </div>
 
-            @if($profile->experience_text)
+            @if(isset($experiences) && $experiences->isNotEmpty())
+                <div class="bg-[var(--theme-bg-card)] rounded-3xl p-8 border border-[var(--theme-border)] shadow-xs space-y-6">
+                    <h2 class="text-xl font-bold text-[var(--theme-text-heading)]">Work Experience</h2>
+                    <div class="space-y-6">
+                        @foreach($experiences as $exp)
+                            <div class="border-b border-[var(--theme-border)] pb-6 last:border-b-0 last:pb-0">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+                                    <h3 class="text-base font-bold text-[var(--theme-text-heading)]">{{ $exp->role }}</h3>
+                                    <span class="text-xs font-mono font-semibold text-brand">{{ $exp->period }}</span>
+                                </div>
+                                @if($exp->company)
+                                    <div class="text-xs font-mono text-[var(--theme-text-muted)] mb-2 font-medium">{{ $exp->company }}</div>
+                                @endif
+                                <p class="text-xs sm:text-sm text-[var(--theme-text-body)] leading-relaxed mb-3">
+                                    {{ $exp->description }}
+                                </p>
+                                @if(!empty($exp->technologies) && is_array($exp->technologies))
+                                    <div class="flex flex-wrap gap-1.5">
+                                        @foreach($exp->technologies as $tech)
+                                            <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">{{ $tech }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @elseif($profile->experience_text)
                 <div class="bg-[var(--theme-bg-card)] rounded-3xl p-8 border border-[var(--theme-border)] shadow-xs space-y-4">
                     <h2 class="text-xl font-bold text-[var(--theme-text-heading)]">Work Experience</h2>
                     <div class="text-[var(--theme-text-body)] text-sm sm:text-base leading-relaxed space-y-2">

@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\SitemapController;
 use App\Http\Controllers\Admin\SkillCategoryController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\WorkProcessController;
 use Illuminate\Support\Facades\Route;
 
@@ -85,6 +86,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('work-processes/{id}', [WorkProcessController::class, 'update'])->name('work-processes.update');
         Route::delete('work-processes/{id}', [WorkProcessController::class, 'destroy'])->name('work-processes.destroy');
         Route::post('work-processes/reorder', [WorkProcessController::class, 'reorder'])->name('work-processes.reorder');
+
+        Route::resource('experiences', ExperienceController::class);
+        Route::post('experiences/reorder', [ExperienceController::class, 'reorder'])->name('experiences.reorder');
 
         Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');

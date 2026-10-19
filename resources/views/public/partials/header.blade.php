@@ -40,8 +40,8 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
                             <span class="text-sm font-bold tracking-tight leading-tight text-[var(--theme-text-heading)] group-hover:text-brand transition-colors">
                                 {{ $websiteName }}
                             </span>
-                            <span class="hidden sm:inline text-[10px] font-mono text-[var(--theme-text-muted)] tracking-wider">
-                                BACKEND &amp; SYSTEMS
+                            <span class="hidden sm:inline text-[10px] font-mono text-[var(--theme-text-muted)] tracking-wider uppercase">
+                                {{ \App\Models\Setting::get('specialization_text') ?: 'BACKEND & SYSTEMS' }}
                             </span>
                         </div>
                     @endif

@@ -90,14 +90,23 @@
                         {{ $firstName }} @if($lastName)<span class="text-brand">{{ $lastName }}</span>@endif
                     </h1>
 
-                    <!-- Role Subtitle (Sharp Backend Position) with Snappy Typewriter Animation -->
-                    <div x-data="{
-                            words: [
-                                '{{ addslashes($profile->title ?: 'PHP / Laravel Backend Developer') }}',
+                    @php
+                        $twRaw = \App\Models\Setting::get('typewriter_titles');
+                        if (!empty($twRaw)) {
+                            $typewriterWords = array_values(array_filter(array_map('trim', preg_split("/\r\n|\n|\r/", $twRaw))));
+                        } else {
+                            $typewriterWords = [
+                                $profile->title ?: 'PHP / Laravel Backend Developer',
                                 'Scalable REST API Architect',
                                 'MySQL & Database Optimization Specialist',
-                                'Distributed Queues & Redis Engineer'
-                            ],
+                                'Distributed Queues & Redis Engineer',
+                            ];
+                        }
+                    @endphp
+
+                    <!-- Role Subtitle (Sharp Backend Position) with Dynamic Typewriter Animation from Database -->
+                    <div x-data="{
+                            words: {{ Js::from($typewriterWords) }},
                             part: '',
                             i: 0,
                             offset: 0,
@@ -485,67 +494,39 @@
                     </div>
 
                     <!-- Right: Work Experience Timeline & Proven Milestones -->
-                    <div class="lg:col-span-7 space-y-4">
-                        <!-- Timeline Card 1 -->
-                        <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all shadow-xs">
-                            <div class="flex items-center justify-between gap-4 mb-2">
-                                <span class="text-xs font-mono font-bold text-brand uppercase tracking-wider">2023 — Present</span>
-                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">Active Role</span>
+                        <!-- Dynamic Work Experience Timeline from Database -->
+                        @forelse($experiences as $exp)
+                            <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all shadow-xs">
+                                <div class="flex items-center justify-between gap-4 mb-2">
+                                    <span class="text-xs font-mono font-bold text-brand uppercase tracking-wider">{{ $exp->period }}</span>
+                                    @if($exp->badge_text)
+                                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold {{ Str::contains(strtolower($exp->badge_text), 'active') ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' : 'bg-black/5 dark:bg-white/10 text-[var(--theme-text-muted)]' }}">
+                                            {{ $exp->badge_text }}
+                                        </span>
+                                    @endif
+                                </div>
+                                <h3 class="text-lg sm:text-xl font-bold text-[var(--theme-text-heading)] mb-1">
+                                    {{ $exp->role }}
+                                </h3>
+                                @if($exp->company)
+                                    <div class="text-xs font-mono text-brand mb-2">{{ $exp->company }}</div>
+                                @endif
+                                <p class="text-xs sm:text-sm text-[var(--theme-text-body)] leading-relaxed font-normal mb-3">
+                                    {{ $exp->description }}
+                                </p>
+                                @if(!empty($exp->technologies) && is_array($exp->technologies))
+                                    <div class="flex flex-wrap gap-1.5">
+                                        @foreach($exp->technologies as $tech)
+                                            <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">{{ $tech }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
-                            <h3 class="text-lg sm:text-xl font-bold text-[var(--theme-text-heading)] mb-2">
-                                {{ $profile->title ?: 'Senior PHP & Laravel Backend Developer' }}
-                            </h3>
-                            <p class="text-xs sm:text-sm text-[var(--theme-text-body)] leading-relaxed font-normal mb-3">
-                                Architecting and maintaining scalable commercial web platforms and API gateways using PHP 8.2+, Laravel 11, and MySQL. Engineering asynchronous queue workers, Redis caching, webhook pipelines, and role-based access control.
-                            </p>
-                            <div class="flex flex-wrap gap-1.5">
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Laravel 11</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">PHP 8.2+</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">MySQL Indexing</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Redis Queues</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">REST APIs</span>
+                        @empty
+                            <div class="p-6 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] text-center text-sm text-[var(--theme-text-muted)]">
+                                No experience records published yet. Manage them via Admin Panel.
                             </div>
-                        </div>
-
-                        <!-- Timeline Card 2 -->
-                        <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all shadow-xs">
-                            <div class="flex items-center justify-between gap-4 mb-2">
-                                <span class="text-xs font-mono font-bold text-brand uppercase tracking-wider">2022 — 2023</span>
-                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-black/5 dark:bg-white/10 text-[var(--theme-text-muted)]">Commercial Delivery</span>
-                            </div>
-                            <h3 class="text-lg sm:text-xl font-bold text-[var(--theme-text-heading)] mb-2">
-                                Backend Systems &amp; Database Specialist
-                            </h3>
-                            <p class="text-xs sm:text-sm text-[var(--theme-text-body)] leading-relaxed font-normal mb-3">
-                                Designed 3NF relational schemas, tuned SQL queries with composite B-Tree indexes, and eliminated N+1 query bottlenecks. Implemented secure token-based Sanctum authentication and rate-limited API endpoints.
-                            </p>
-                            <div class="flex flex-wrap gap-1.5">
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Schema Design</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Sanctum Auth</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Query Optimization</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Postman Testing</span>
-                            </div>
-                        </div>
-
-                        <!-- Timeline Card 3 -->
-                        <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all shadow-xs">
-                            <div class="flex items-center justify-between gap-4 mb-2">
-                                <span class="text-xs font-mono font-bold text-brand uppercase tracking-wider">2022</span>
-                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-brand/10 text-brand">Foundation</span>
-                            </div>
-                            <h3 class="text-lg sm:text-xl font-bold text-[var(--theme-text-heading)] mb-2">
-                                {{ \App\Models\Setting::get('training_text') ? 'Intensive Backend Engineering & Architecture Training (' . ltrim(\App\Models\Setting::get('training_text'), '+ ') . ')' : 'Intensive Backend Engineering & Architecture Training (6 Months)' }}
-                            </h3>
-                            <p class="text-xs sm:text-sm text-[var(--theme-text-body)] leading-relaxed font-normal mb-3">
-                                Completed rigorous full-time software engineering training covering MVC design patterns, object-oriented PHP, PSR-12 coding standards, database normalization, Git version control, and web security principles.
-                            </p>
-                            <div class="flex flex-wrap gap-1.5">
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">OOP PHP</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Design Patterns</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">PSR-12 Standards</span>
-                                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-alt)] text-[var(--theme-text-muted)] font-medium">Git &amp; GitHub</span>
-                            </div>
-                        </div>
+                        @endforelse
 
                         <!-- Highlights Banner -->
                         @php
@@ -801,12 +782,12 @@
                                     <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Service / Interest</label>
                                     <select name="service_type"
                                         class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
-                                        <option value="Custom Backend &amp; APIs">Custom Backend &amp; REST APIs</option>
-                                        <option value="Laravel Application Development">Laravel Application Development</option>
-                                        <option value="Database Tuning &amp; Schema Optimization">Database Tuning &amp; Schema Optimization</option>
-                                        <option value="Queues, Redis &amp; Background Workers">Queues, Redis &amp; Background Workers</option>
-                                        <option value="Codebase Audit &amp; Bug Fixing">Codebase Audit &amp; Bug Fixing</option>
+                                        <option value="">Select Service / Project Type...</option>
+                                        @foreach(($featuredServices ?? collect()) as $srv)
+                                            <option value="{{ $srv->name }}">{{ $srv->name }}</option>
+                                        @endforeach
                                         <option value="Full-Time / Contract Backend Role">Full-Time / Contract Backend Role</option>
+                                        <option value="Other / Custom Inquiry">Other / Custom Inquiry</option>
                                     </select>
                                 </div>
                                 <div>
