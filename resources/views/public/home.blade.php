@@ -494,6 +494,7 @@
                     </div>
 
                     <!-- Right: Work Experience Timeline & Proven Milestones -->
+                    <div class="lg:col-span-7 space-y-4">
                         <!-- Dynamic Work Experience Timeline from Database -->
                         @forelse($experiences as $exp)
                             <div class="p-6 sm:p-7 rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 transition-all shadow-xs">
