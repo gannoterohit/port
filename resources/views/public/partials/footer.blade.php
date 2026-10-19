@@ -68,10 +68,29 @@
                     @endif
 
                     @if($widget->links && $widget->links->isNotEmpty())
+                        @php
+                            $resolveFooterLink = function ($rawUrl) {
+                                if (blank($rawUrl)) return route('home');
+                                if (str_starts_with($rawUrl, 'http://') || str_starts_with($rawUrl, 'https://')) return $rawUrl;
+                                $slug = trim($rawUrl, '/#');
+                                if (empty($slug) || $rawUrl === '/') return route('home');
+                                $secMap = [
+                                    'about' => 'about',
+                                    'skills' => 'tech-stack',
+                                    'projects' => 'projects',
+                                    'services' => 'services',
+                                    'contact' => 'contact',
+                                ];
+                                if (isset($secMap[$slug])) {
+                                    return request()->routeIs('home') ? ('#' . $secMap[$slug]) : (rtrim(route('home'), '/') . '/#' . $secMap[$slug]);
+                                }
+                                return url(ltrim($rawUrl, '/'));
+                            };
+                        @endphp
                         <ul class="space-y-2.5 {{ $widget->content ? 'mt-3' : '' }}">
                             @foreach($widget->links as $link)
                                 <li>
-                                    <a href="{{ url($link->url) }}" target="{{ $link->target }}"
+                                    <a href="{{ $resolveFooterLink($link->url) }}" target="{{ $link->target }}"
                                         class="text-sm text-slate-400 hover:text-brand transition-colors inline-flex items-center gap-2 group">
                                         <span class="w-1.5 h-1.5 rounded-full bg-slate-700 group-hover:bg-brand transition-colors"></span>
                                         <span>{{ $link->label }}</span>
@@ -85,7 +104,7 @@
                             @php
                                 $footerEmail = $profile->contact_email ?: ($profile->email ?: \App\Models\Setting::get('contact_email'));
                                 $footerPhone = $profile->contact_phone ?: \App\Models\Setting::get('contact_phone');
-                                $footerLocation = $profile->location ?: \App\Models\Setting::get('contact_address');
+                                $footerLocation = ($profile->location_visible && $profile->location) ? $profile->location : \App\Models\Setting::get('website_address');
                             @endphp
 
                             @if($footerEmail)
@@ -127,7 +146,7 @@
                             @endif
 
                             <div class="pt-1">
-                                <a href="{{ route('contact') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand hover:text-emerald-300 hover:underline">
+                                <a href="{{ request()->routeIs('home') ? '#contact' : route('home') . '#contact' }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand hover:text-emerald-300 hover:underline">
                                     <span>Send Project Message</span>
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </a>

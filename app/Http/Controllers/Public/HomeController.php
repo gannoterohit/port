@@ -86,13 +86,29 @@ class HomeController extends Controller
                 ->get();
         });
 
+        $skillCategories = Cache::remember('homepage_skill_categories', 3600, function () {
+            return \App\Models\SkillCategory::where('is_enabled', true)
+                ->with(['skills' => fn ($query) => $query->where('is_enabled', true)->orderBy('display_order')])
+                ->orderBy('display_order')
+                ->get();
+        });
+
+        $testimonials = Cache::remember('homepage_testimonials', 3600, function () {
+            return \App\Models\Testimonial::where('is_published', true)
+                ->orderBy('display_order')
+                ->limit(6)
+                ->get();
+        });
+
         return view('public.home', compact(
             'homepageSettings',
             'profile',
             'skills',
+            'skillCategories',
             'featuredProjects',
             'featuredServices',
-            'workProcesses'
+            'workProcesses',
+            'testimonials'
         ));
     }
 }

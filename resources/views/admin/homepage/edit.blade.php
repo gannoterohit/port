@@ -71,7 +71,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Primary CTA URL</label>
                 <input type="text" name="primary_cta_url" value="{{ old('primary_cta_url', $settings->primary_cta_url) }}"
-                    class="admin-input" placeholder="/contact">
+                    class="admin-input" placeholder="#contact or /contact">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Secondary CTA Text (outline button)</label>
@@ -81,7 +81,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Secondary CTA URL</label>
                 <input type="text" name="secondary_cta_url" value="{{ old('secondary_cta_url', $settings->secondary_cta_url) }}"
-                    class="admin-input" placeholder="/projects">
+                    class="admin-input" placeholder="#projects or /projects">
             </div>
         </div>
     </div>

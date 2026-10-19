@@ -52,7 +52,7 @@
                                 $contactEmail = $profile->contact_email ?: ($profile->email ?: \App\Models\Setting::get('contact_email'));
                                 $contactPhone = $profile->contact_phone ?: ($profile->phone ?: \App\Models\Setting::get('contact_phone'));
                                 $contactWhatsapp = $profile->whatsapp_url ?: (\App\Models\Setting::get('contact_whatsapp') ? 'https://wa.me/' . preg_replace('/\D+/', '', \App\Models\Setting::get('contact_whatsapp')) : null);
-                                $contactLocation = ($profile->location_visible && $profile->location) ? $profile->location : \App\Models\Setting::get('contact_location');
+                                $contactLocation = ($profile->location_visible && $profile->location) ? $profile->location : (\App\Models\Setting::get('website_address') ?: \App\Models\Setting::get('contact_location'));
                             @endphp
 
                             @if($contactEmail)

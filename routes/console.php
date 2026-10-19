@@ -63,9 +63,9 @@ Artisan::command('portfolio:seed-rich-data', function () {
     $homeSetting->hero_title = 'Architecting High-Performance Web Applications & REST APIs';
     $homeSetting->hero_description = 'Crafting robust, scalable web applications using Laravel 11, PHP 8, and MySQL. From high-throughput APIs to complex admin portals and bespoke SaaS platforms.';
     $homeSetting->primary_cta_text = 'Hire Me';
-    $homeSetting->primary_cta_url = '/contact';
+    $homeSetting->primary_cta_url = '#contact';
     $homeSetting->secondary_cta_text = 'View My Projects';
-    $homeSetting->secondary_cta_url = '/projects';
+    $homeSetting->secondary_cta_url = '#projects';
     $homeSetting->hero_section_enabled = true;
     $homeSetting->about_section_enabled = true;
     $homeSetting->skills_section_enabled = true;

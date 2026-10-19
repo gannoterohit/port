@@ -226,35 +226,85 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
     </button>
 
-    <!-- Mobile Floating Bottom Quick Action Dock -->
-    <div class="sm:hidden fixed bottom-3 left-3 right-3 z-40 bg-white/95 dark:bg-[#1A1B20]/95 border border-black/10 dark:border-white/10 backdrop-blur-xl rounded-2xl py-2 px-3 shadow-2xl shadow-black/20 flex items-center justify-around">
-        @if($whatsappLink)
-            <a href="{{ $whatsappLink }}" target="_blank" rel="noopener noreferrer"
-                class="flex flex-col items-center gap-1 text-[#25D366] hover:opacity-80 transition-opacity">
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+    @php
+        $mobileDirectEmail = null;
+        if (!empty($profile)) {
+            $mobileDirectEmail = $profile->contact_email ?: ($profile->email ?: null);
+        }
+        if (!$mobileDirectEmail) {
+            $mobileDirectEmail = \App\Models\Setting::get('contact_email', 'rohitgannote@gmail.com');
+        }
+
+        $mobileWaRaw = null;
+        if (!empty($profile)) {
+            $mobileWaRaw = $profile->contact_whatsapp ?: ($profile->contact_phone ?: null);
+        }
+        if (!$mobileWaRaw) {
+            $mobileWaRaw = \App\Models\Setting::get('contact_whatsapp')
+                ?: (\App\Models\Setting::get('social_whatsapp')
+                    ?: \App\Models\Setting::get('contact_phone'));
+        }
+
+        if ($mobileWaRaw) {
+            $mobileWaDigits = preg_replace('/\D+/', '', $mobileWaRaw);
+            $mobileWhatsappUrl = 'https://wa.me/' . $mobileWaDigits;
+        } else {
+            $mobileWhatsappUrl = 'https://wa.me/?text=' . urlencode('Hello Rohit, I saw your portfolio and would like to discuss a project.');
+        }
+
+        $mobileEmailSubject = rawurlencode('Project Inquiry - Backend Development');
+        $mobileGmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' . rawurlencode($mobileDirectEmail) . '&su=' . $mobileEmailSubject;
+        $mobileMailtoUrl = 'mailto:' . $mobileDirectEmail . '?subject=' . $mobileEmailSubject;
+    @endphp
+
+    <!-- Mobile Floating Bottom Quick Action Dock (Strict 2-Tab: WhatsApp & Email Redirect) -->
+    <div class="sm:hidden fixed bottom-3 inset-x-3 z-40">
+        <div class="bg-[var(--theme-bg-card)]/95 backdrop-blur-2xl border border-[var(--theme-border)] rounded-2xl p-2 shadow-2xl shadow-black/20 grid grid-cols-2 gap-2">
+            <!-- 1. WhatsApp Redirect -->
+            <a href="{{ $mobileWhatsappUrl }}" target="_blank" rel="noopener noreferrer"
+                class="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 active:scale-[0.98] border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-semibold text-xs transition-all shadow-2xs">
+                <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
-                <span class="text-[10px] font-bold">WhatsApp</span>
+                <span>WhatsApp</span>
             </a>
-        @endif
-        @if($profile && ($profile->contact_email ?: $profile->email))
-            <button type="button" @click="window.copyPortfolioEmail('{{ $profile->contact_email ?: $profile->email }}', $event)"
-                class="flex flex-col items-center gap-1 text-emerald-400 hover:text-emerald-300">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                <span class="text-[10px] font-bold">Email</span>
-            </button>
-        @endif
-        <a href="{{ route('projects') }}" class="flex flex-col items-center gap-1 text-slate-300 hover:text-white">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-            <span class="text-[10px] font-bold">Projects</span>
-        </a>
-        <a href="{{ route('home') }}#contact" class="flex flex-col items-center gap-1 text-teal-300 hover:text-teal-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-            <span class="text-[10px] font-bold">Contact</span>
-        </a>
+
+            <!-- 2. Email Redirect -->
+            <a href="{{ $mobileGmailUrl }}"
+                data-mailto="{{ $mobileMailtoUrl }}"
+                onclick="window.handleSendEmail(this, '{{ $mobileDirectEmail }}', event)"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-brand/10 hover:bg-brand/20 active:scale-[0.98] border border-brand/25 text-brand font-semibold text-xs transition-all shadow-2xs">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 01-2-2v12a2 2 0 002 2z"/>
+                </svg>
+                <span>Send Email</span>
+            </a>
+        </div>
     </div>
 
     <script>
+        window.handleSendEmail = function(el, email, event) {
+            // Optional copy to clipboard for convenience
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email).catch(function() {});
+            }
+
+            // Detect if this is an actual mobile handheld device (not desktop)
+            var isHandheld = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && !/Win|Windows/i.test(navigator.platform || navigator.userAgent);
+
+            if (isHandheld) {
+                // On real mobile phones, trigger native mailto to launch installed Mail / Gmail app
+                var mailtoUrl = el ? el.getAttribute('data-mailto') : ('mailto:' + email);
+                if (event && event.preventDefault) event.preventDefault();
+                window.location.href = mailtoUrl;
+            } else {
+                // On desktop, PC, or browser testing: let the standard <a href="https://mail.google.com/..." target="_blank"> work natively!
+                // No preventDefault needed - native browser link click handles opening Gmail compose in new tab seamlessly!
+            }
+        };
+
         window.copyPortfolioEmail = function(email, event) {
             if (event && event.preventDefault) event.preventDefault();
             if (navigator.clipboard && navigator.clipboard.writeText) {
