@@ -346,9 +346,10 @@ class DatabaseSeeder extends Seeder
             ['footer_widget_id' => $widgetIds['Quick Links'], 'label' => 'Projects', 'url' => '/projects', 'target' => '_self', 'display_order' => 3],
             ['footer_widget_id' => $widgetIds['Quick Links'], 'label' => 'Contact', 'url' => '/contact', 'target' => '_self', 'display_order' => 4],
 
-            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'Web Application Development', 'url' => '/services/web-application-development', 'target' => '_self', 'display_order' => 1],
-            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'UI/UX Design', 'url' => '/services/ui-ux-design', 'target' => '_self', 'display_order' => 2],
-            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'Technical Consulting', 'url' => '/services/technical-consulting', 'target' => '_self', 'display_order' => 3],
+            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'Custom Web Applications', 'url' => '/#services', 'target' => '_self', 'display_order' => 1],
+            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'RESTful APIs & Integrations', 'url' => '/#services', 'target' => '_self', 'display_order' => 2],
+            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'Database Optimization', 'url' => '/#services', 'target' => '_self', 'display_order' => 3],
+            ['footer_widget_id' => $widgetIds['Services'], 'label' => 'Queues & High-Concurrency Systems', 'url' => '/#services', 'target' => '_self', 'display_order' => 4],
 
             ['footer_widget_id' => null, 'label' => 'Privacy Policy', 'url' => '/privacy-policy', 'target' => '_self', 'display_order' => 1],
             ['footer_widget_id' => null, 'label' => 'Terms of Service', 'url' => '/terms', 'target' => '_self', 'display_order' => 2],

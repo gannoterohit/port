@@ -82,7 +82,7 @@
                         $firstName = $nameParts[0];
                         $lastName = $nameParts[1] ?? '';
                         $completedProjectsCount = \App\Models\Setting::get('projects_completed_count') ?: ((\App\Models\Project::where('status', 'published')->count() > 5) ? \App\Models\Project::where('status', 'published')->count() : 12);
-                        $satisfactionRate = \App\Models\Setting::get('client_satisfaction_percentage', '100');
+                        $satisfactionRate = \App\Models\Setting::get('client_satisfaction_percentage', '99.9');
                     @endphp
 
                     <!-- Main Name Headline with Accent Color -->
@@ -112,8 +112,8 @@
                             offset: 0,
                             forwards: true,
                             skipCount: 0,
-                            skipDelay: 22,
-                            speed: 55,
+                            skipDelay: 36,
+                            speed: 50,
                             init() {
                                 setInterval(() => {
                                     if (this.forwards) {
@@ -142,9 +142,8 @@
                                 }, this.speed);
                             }
                         }"
-                        class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-[var(--theme-text-heading)] mb-2 tracking-tight flex items-center min-h-[44px]">
-                        <span x-text="part || '{{ addslashes($profile->title ?: 'PHP / Laravel Backend Developer') }}'">{{ $profile->title ?: 'PHP / Laravel Backend Developer' }}</span>
-                        <span class="inline-block w-0.5 h-6 sm:h-8 bg-brand ml-1.5 animate-pulse"></span>
+                        class="text-lg sm:text-2xl md:text-3xl lg:text-3xl xl:text-[34px] font-bold text-[var(--theme-text-heading)] mb-2 tracking-tight leading-snug min-h-[56px] sm:min-h-[72px] lg:min-h-[80px]">
+                        <span class="break-words" x-text="part || '{{ addslashes($profile->title ?: 'Laravel Backend Developer') }}'">{{ $profile->title ?: 'Laravel Backend Developer' }}</span><span class="inline-block w-0.5 h-5 sm:h-7 bg-brand ml-1 align-baseline animate-pulse"></span>
                     </div>
 
                     @if($homepageSettings->hero_title || $profile->subtitle)
@@ -228,7 +227,7 @@
                             <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
                                 <span class="stat-counter" data-target="{{ $satisfactionRate }}" data-suffix="%">{{ $satisfactionRate }}%</span>
                             </div>
-                            <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">Production Reliability</div>
+                            <div class="text-[11px] sm:text-xs text-[var(--theme-text-muted)] mt-0.5 font-medium">{{ \App\Models\Setting::get('stat_3_label', 'Production Reliability') }}</div>
                         </div>
                     </div>
                 </div>
@@ -348,14 +347,14 @@
                     </div>
                 </div>
 
-                <!-- Clean 2-Column Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+                <!-- Clean 2-Column Grid with Equal Height -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 items-stretch">
                     @foreach($featuredProjects as $project)
-                        <article class="tilt-card reveal-on-scroll group flex flex-col justify-between rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden p-6 sm:p-7"
+                        <article class="tilt-card reveal-on-scroll group flex flex-col justify-between h-full rounded-3xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] hover:border-brand/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden p-6 sm:p-7"
                             style="transition-delay: {{ $loop->index * 120 }}ms;">
-                            <div>
+                            <div class="flex-1 flex flex-col">
                                 <!-- Project Preview Image -->
-                                <a href="{{ route('projects.show', $project->slug) }}" class="block aspect-[16/10] w-full rounded-2xl overflow-hidden bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] mb-6 relative">
+                                <a href="{{ route('projects.show', $project->slug) }}" class="block aspect-[16/10] w-full rounded-2xl overflow-hidden bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] mb-6 relative shrink-0">
                                     @if($project->thumbnail_url)
                                         <img src="{{ $project->thumbnail_url }}" alt="{{ $project->title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                                              onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-brand/10 to-[var(--theme-bg-alt)]\'><span class=\'text-base font-bold text-[var(--theme-text-heading)] mb-1\'>{{ addslashes($project->title) }}</span><span class=\'text-xs font-mono text-brand\'>{{ addslashes($project->category ?? 'Web Application') }}</span></div>';">
@@ -369,25 +368,25 @@
 
                                 <!-- Metadata & Category -->
                                 <div class="flex items-center gap-2 mb-3">
-                                    <span class="text-[11px] font-mono uppercase tracking-wider text-brand font-semibold">
+                                    <span class="text-xs font-mono uppercase tracking-wider text-brand font-semibold">
                                         {{ $project->category ?? 'Backend System' }}
                                     </span>
                                     <span class="text-[var(--theme-text-muted)]">•</span>
-                                    <span class="text-[11px] text-[var(--theme-text-muted)] font-medium">
+                                    <span class="text-xs text-[var(--theme-text-muted)] font-medium">
                                         {{ $project->role ?: 'Lead Backend Engineer' }}
                                     </span>
                                 </div>
 
-                                <!-- Title -->
-                                <h3 class="text-xl sm:text-2xl font-bold text-[var(--theme-text-heading)] mb-3 leading-snug">
+                                <!-- Title (Always visible, min-height to guarantee parallel alignment) -->
+                                <h3 class="text-xl sm:text-2xl font-bold text-[var(--theme-text-heading)] mb-3 leading-snug line-clamp-2 min-h-[3.25rem]">
                                     <a href="{{ route('projects.show', $project->slug) }}" class="group-hover:text-brand transition-colors">
                                         {{ $project->title }}
                                     </a>
                                 </h3>
 
-                                <!-- Description -->
-                                <p class="text-[var(--theme-text-body)] text-sm leading-relaxed mb-6 font-normal">
-                                    {{ Str::limit($project->short_description ?: strip_tags($project->description), 110) }}
+                                <!-- Description (Readable font size & line clamp) -->
+                                <p class="text-[var(--theme-text-body)] text-sm sm:text-[15px] leading-relaxed mb-6 font-normal line-clamp-3 min-h-[4.2rem]">
+                                    {{ Str::limit($project->short_description ?: strip_tags($project->description), 140) }}
                                 </p>
 
                                 @if($project->challenges || $project->solutions)
@@ -406,19 +405,19 @@
                                 @endif
                             </div>
 
-                            <!-- Tech Stack & Action Links -->
-                            <div>
+                            <!-- Tech Stack & Action Links (Pinned to bottom) -->
+                            <div class="mt-auto">
                                 @if($project->tech_stack && is_array($project->tech_stack))
-                                    <div class="flex flex-wrap gap-1.5 mb-6">
+                                    <div class="flex flex-wrap gap-1.5 mb-5">
                                         @foreach(array_slice($project->tech_stack, 0, 4) as $tech)
-                                            <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[var(--theme-bg-alt)] text-[var(--theme-text-body)] border border-[var(--theme-border)] font-medium">
+                                            <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-[var(--theme-bg-alt)] text-[var(--theme-text-body)] border border-[var(--theme-border)] font-medium">
                                                 {{ $tech }}
                                             </span>
                                         @endforeach
                                     </div>
                                 @endif
 
-                                <div class="pt-4 border-t border-[var(--theme-border)] flex items-center justify-between text-xs font-medium">
+                                <div class="pt-4 border-t border-[var(--theme-border)] flex items-center justify-between text-xs sm:text-sm font-medium">
                                     <a href="{{ route('projects.show', $project->slug) }}" class="text-[var(--theme-text-heading)] hover:text-brand transition-colors inline-flex items-center gap-1.5 font-semibold group/btn">
                                         <span>Read Case Study</span>
                                         <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>

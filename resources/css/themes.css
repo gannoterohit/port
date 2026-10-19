@@ -20,10 +20,10 @@
     --theme-border: #E5E1D5;
     --theme-border-subtle: rgba(229, 225, 213, 0.7);
     
-    /* Typography */
-    --theme-text-heading: #18191B;
-    --theme-text-body: #525257;
-    --theme-text-muted: #74747B;
+    /* Typography - High Contrast & Crisp Readability */
+    --theme-text-heading: #111214;
+    --theme-text-body: #37383D;
+    --theme-text-muted: #5A5A62;
     
     /* Accent: Rich Warm Terracotta */
     --theme-accent: #B85D19;
@@ -62,10 +62,10 @@
     --theme-border: rgba(255, 255, 255, 0.08);
     --theme-border-subtle: rgba(255, 255, 255, 0.05);
     
-    /* Typography */
-    --theme-text-heading: #F4F3EF;
-    --theme-text-body: #A3A3A8;
-    --theme-text-muted: #73737A;
+    /* Typography - High Contrast & Crisp Readability */
+    --theme-text-heading: #F8F7F4;
+    --theme-text-body: #D1D1D6;
+    --theme-text-muted: #9E9EA6;
     
     /* Accent: Glowing Warm Terracotta */
     --theme-accent: #E07A5F;
@@ -96,6 +96,8 @@
 body {
     background-color: var(--theme-bg-canvas);
     color: var(--theme-text-body);
+    font-size: 1rem;
+    line-height: 1.65;
     transition: background-color 0.25s ease, color 0.25s ease;
 }
 
