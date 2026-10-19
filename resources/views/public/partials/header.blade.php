@@ -262,7 +262,7 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
                     </a>
                 @endif
 
-                <a href="{{ request()->routeIs('home') ? '#contact' : route('home') . '#contact' }}" @click="mobileOpen = false"
+                <a href="{{ request()->routeIs('home') ? '#contact' : (rtrim(route('home'), '/') . '/#contact') }}" @click="mobileOpen = false"
                     class="theme-btn-primary inline-flex items-center justify-center w-full px-4 py-2.5 font-semibold rounded-xl shadow-sm text-sm text-center">
                     Let's Talk
                 </a>

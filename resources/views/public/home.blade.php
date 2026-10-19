@@ -576,16 +576,25 @@
         <section id="services" class="py-20 sm:py-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border)]">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl 2xl:max-w-[1400px]">
                 
-                <div class="max-w-2xl mb-14">
-                    <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
-                        03 / Core Engineering Solutions
-                    </span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
-                        Specialized Full-Stack Services
-                    </h2>
-                    <p class="text-[var(--theme-text-muted)] text-base mt-2">
-                        Targeted capabilities to architect new software products, engineer high-throughput APIs, or optimize database bottlenecks.
-                    </p>
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14">
+                    <div>
+                        <span class="text-xs font-mono uppercase tracking-widest text-brand font-semibold mb-2 block">
+                            04 / Core Engineering Solutions
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--theme-text-heading)] tracking-tight">
+                            Specialized Full-Stack Services
+                        </h2>
+                        <p class="text-[var(--theme-text-muted)] text-base mt-2 max-w-xl">
+                            Targeted capabilities to architect new software products, engineer high-throughput APIs, or optimize database bottlenecks.
+                        </p>
+                    </div>
+                    <div class="mt-4 sm:mt-0">
+                        <a href="{{ route('services') }}"
+                            class="theme-btn-secondary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border transition-all">
+                            <span>Browse All Services ({{ \App\Models\Service::where('is_enabled', true)->count() }})</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
