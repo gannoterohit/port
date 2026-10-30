@@ -27,6 +27,39 @@
     <meta name="robots" content="@yield('meta_robots', 'index, follow')">
     <link rel="canonical" href="@yield('canonical', url()->current())">
 
+    @php
+        $gscCode = \App\Models\Setting::get('google_search_console_code');
+        if (!empty($gscCode)) {
+            if (preg_match('/content=[\'"]([^\'"]+)[\'"]/i', $gscCode, $m)) {
+                $gscCode = $m[1];
+            } else {
+                $gscCode = trim(strip_tags($gscCode));
+            }
+        }
+        $ga4Id = trim((string) \App\Models\Setting::get('google_analytics_id'));
+        $customHead = \App\Models\Setting::get('custom_head_scripts');
+        $customBody = \App\Models\Setting::get('custom_body_scripts');
+    @endphp
+
+    @if(!empty($gscCode))
+        <meta name="google-site-verification" content="{{ $gscCode }}">
+    @endif
+
+    @if(!empty($ga4Id))
+        <!-- Google Analytics GA4 (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $ga4Id }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ $ga4Id }}');
+        </script>
+    @endif
+
+    @if(!empty($customHead))
+        {!! $customHead !!}
+    @endif
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
@@ -306,6 +339,10 @@
             window.dispatchEvent(new CustomEvent('copy-email-toast', { detail: { email: email } }));
         };
     </script>
+
+    @if(!empty($customBody))
+        {!! $customBody !!}
+    @endif
 
     @stack('scripts')
 </body>

@@ -115,7 +115,7 @@
                     </a>
                 </li>
 
-                <li class="admin-sidebar-heading">COMMUNICATIONS</li>
+                <li class="admin-sidebar-heading">COMMUNICATIONS &amp; TRAFFIC</li>
                 <li>
                     <a href="{{ route('admin.enquiries.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'enquiries') ? $activeClass : $inactiveClass }}">
                         <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,6 +125,18 @@
                         @php($unreadEnquiryCount = \App\Models\Enquiry::whereNull('read_at')->count())
                         @if($unreadEnquiryCount > 0)
                             <span class="admin-nav-badge">{{ $unreadEnquiryCount > 99 ? '99+' : $unreadEnquiryCount }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.analytics.index') }}" class="admin-sidebar-item {{ str_contains($currentRoute, 'analytics') ? $activeClass : $inactiveClass }}">
+                        <svg class="admin-sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <span>Visitor Analytics</span>
+                        @php($todayVisitsCount = \App\Models\VisitorLog::whereDate('created_at', today())->count())
+                        @if($todayVisitsCount > 0)
+                            <span class="admin-nav-badge !bg-emerald-500/15 !text-emerald-700 !border-emerald-500/30">+{{ $todayVisitsCount }}</span>
                         @endif
                     </a>
                 </li>

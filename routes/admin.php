@@ -96,6 +96,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('seo', [SeoController::class, 'edit'])->name('seo.edit');
         Route::put('seo', [SeoController::class, 'update'])->name('seo.update');
 
+        Route::get('analytics', [\App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('analytics.index');
+        Route::post('analytics/clear', [\App\Http\Controllers\Admin\AnalyticsController::class, 'clearOld'])->name('analytics.clear');
+
         Route::get('sitemap', [SitemapController::class, '__invoke'])->name('sitemap');
 
         Route::get('maintenance', [MaintenanceController::class, 'edit'])->name('maintenance.edit');

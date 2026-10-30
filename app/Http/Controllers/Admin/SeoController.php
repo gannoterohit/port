@@ -19,7 +19,16 @@ class SeoController extends Controller
 
     public function update(Request $request)
     {
-        $seoKeys = ['default_seo_title', 'default_seo_description', 'default_og_image', 'sitemap_enabled'];
+        $seoKeys = [
+            'default_seo_title',
+            'default_seo_description',
+            'default_og_image',
+            'sitemap_enabled',
+            'google_analytics_id',
+            'google_search_console_code',
+            'custom_head_scripts',
+            'custom_body_scripts',
+        ];
 
         foreach ($seoKeys as $key) {
             $setting = Setting::where('key', $key)->first();
@@ -36,11 +45,13 @@ class SeoController extends Controller
                     }
                     $setting->update(['value' => $request->file($key)->store('settings/seo', 'public')]);
                 }
-            } elseif ($request->has($key)) {
+            } else {
                 $setting->update(['value' => $request->input($key)]);
             }
         }
 
-        return back()->with('success', 'SEO settings updated successfully.');
+        \Illuminate\Support\Facades\Cache::forget('public_settings_cache');
+
+        return back()->with('success', 'SEO & Analytics settings updated successfully.');
     }
 }

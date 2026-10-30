@@ -99,6 +99,57 @@
             </div>
         </div>
 
+        <!-- Google Analytics & Google Search Console Card -->
+        <div class="admin-form-card space-y-5">
+            <div class="admin-form-header">
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                    <h3 class="text-base font-bold text-stone-900">Google Analytics &amp; Search Console</h3>
+                </div>
+                <p class="text-xs text-stone-500">Connect Google tracking and domain verification directly without editing any code.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Google Analytics (GA4) Measurement ID
+                    </label>
+                    <input type="text" name="google_analytics_id" value="{{ old('google_analytics_id', $seoSettings['google_analytics_id']->value ?? '') }}" class="admin-input font-mono text-sm" placeholder="G-XXXXXXXXXX">
+                    <p class="text-[11px] text-stone-400 mt-1">Found in Google Analytics ➔ Admin ➔ Data Streams ➔ Measurement ID. Injects the official Google tag (gtag.js).</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Google Search Console Verification
+                    </label>
+                    <input type="text" name="google_search_console_code" value="{{ old('google_search_console_code', $seoSettings['google_search_console_code']->value ?? '') }}" class="admin-input font-mono text-sm" placeholder="e.g. google-site-verification code or meta tag">
+                    <p class="text-[11px] text-stone-400 mt-1">Paste your verification string or HTML tag from Search Console. Injects &lt;meta name="google-site-verification"&gt; in &lt;head&gt;.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Head & Footer Tracking Scripts -->
+        <div class="admin-form-card space-y-5">
+            <div class="admin-form-header">
+                <h3 class="text-base font-bold text-stone-900">Custom Tracking &amp; Head/Body Scripts</h3>
+                <p class="text-xs text-stone-500">Optional custom scripts for Microsoft Clarity (session recording), Meta Pixel, Google Tag Manager, etc.</p>
+            </div>
+
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Custom Header Scripts (&lt;head&gt;)</label>
+                    <textarea name="custom_head_scripts" rows="3" class="admin-textarea font-mono text-xs" placeholder="<script>...your tracking code...</script>">{{ old('custom_head_scripts', $seoSettings['custom_head_scripts']->value ?? '') }}</textarea>
+                    <p class="text-[11px] text-stone-400 mt-1">Raw scripts or styles injected right before the closing &lt;/head&gt; tag on every public page.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">Custom Footer / Body Scripts (&lt;/body&gt;)</label>
+                    <textarea name="custom_body_scripts" rows="3" class="admin-textarea font-mono text-xs" placeholder="<script>...chat widget or footer analytics...</script>">{{ old('custom_body_scripts', $seoSettings['custom_body_scripts']->value ?? '') }}</textarea>
+                    <p class="text-[11px] text-stone-400 mt-1">Raw scripts injected right before the closing &lt;/body&gt; tag on every public page.</p>
+                </div>
+            </div>
+        </div>
+
         <div class="flex justify-end pt-2">
             <button type="submit" class="admin-btn-primary">
                 Save SEO Settings

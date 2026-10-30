@@ -7,6 +7,7 @@ use App\Http\Controllers\Public\ProjectController as PublicProjectController;
 use App\Http\Controllers\Public\ServiceController as PublicServiceController;
 use App\Http\Controllers\Public\SitemapController;
 use App\Http\Middleware\MaintenanceModeMiddleware;
+use App\Http\Middleware\TrackVisitorMiddleware;
 use Illuminate\Support\Facades\Route;
 
 // Redirect 'login' route to admin login
@@ -15,7 +16,7 @@ Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');
 // Include admin routes
 require __DIR__.'/admin.php';
 
-Route::middleware(MaintenanceModeMiddleware::class)->group(function () {
+Route::middleware([MaintenanceModeMiddleware::class, TrackVisitorMiddleware::class])->group(function () {
     Route::get('/', [HomeController::class, '__invoke'])->name('home');
 
     Route::get('/about', [PublicPageController::class, 'about'])->name('about');
