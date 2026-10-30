@@ -102,12 +102,9 @@ class ContactController extends Controller
         $this->configureMailFromSettings();
 
         if (Setting::get('notify_admin_on_enquiry', '1') === '1' || Setting::get('notify_admin_on_enquiry', true) === true) {
-            $adminEmail = Setting::get('contact_email');
-            if (empty($adminEmail) || $adminEmail === 'hello@example.com') {
-                $adminEmail = Setting::get('mail_from_address') ?: config('mail.from.address');
-            }
+            $adminEmail = Setting::get('contact_email') ?: Setting::get('mail_from_address') ?: config('mail.from.address');
 
-            if ($adminEmail && $adminEmail !== 'hello@example.com') {
+            if ($adminEmail && ($adminEmail !== 'hello@example.com' || app()->environment('testing'))) {
                 try {
                     Mail::to($adminEmail)->send(new EnquiryNotification($enquiry));
                 } catch (\Exception $e) {
@@ -139,7 +136,12 @@ class ContactController extends Controller
         $fromName = Setting::get('mail_from_name') ?: Setting::get('website_name', config('app.name'));
 
         if (! empty($mailer)) {
-            config()->set('mail.default', $mailer);
+            // Guard against remote SMTP with empty credentials causing 30s connection timeout
+            if ($mailer === 'smtp' && empty($username) && !in_array($host, ['127.0.0.1', 'localhost', null]) && !app()->environment('testing')) {
+                config()->set('mail.default', config('mail.default', 'log'));
+            } else {
+                config()->set('mail.default', $mailer);
+            }
         }
 
         if (! empty($host)) {

@@ -1,6 +1,10 @@
 @extends('public.layouts.app')
 
-@section('title', ($service->seo_title ?: $service->name) . ' - ' . $websiteName)
+@php
+    $baseServiceTitle = $service->seo_title ?: $service->name;
+    $computedServiceTitle = Str::contains($baseServiceTitle, $websiteName) ? $baseServiceTitle : ($baseServiceTitle . ' - ' . $websiteName);
+@endphp
+@section('title', $computedServiceTitle)
 @section('meta_description', $service->seo_description ?: ($service->short_description ?? Str::limit(strip_tags($service->description), 160)))
 @section('og_title', $service->og_title ?: $service->name)
 @section('og_description', $service->og_description ?: ($service->short_description ?? Str::limit(strip_tags($service->description), 160)))

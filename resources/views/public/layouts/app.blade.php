@@ -22,7 +22,7 @@
         $pageOgImage = $__env->yieldContent('og_image')
             ?: (!empty($defaultOgImage) ? asset('storage/' . $defaultOgImage) : (!empty($profile->profile_photo_url) ? $profile->profile_photo_url : null));
     @endphp
-    <title>{{ $pageTitle }}</title>
+    <title>{!! $pageTitle !!}</title>
     <meta name="description" content="{{ $pageDescription }}">
     <meta name="robots" content="@yield('meta_robots', 'index, follow')">
     <link rel="canonical" href="@yield('canonical', url()->current())">

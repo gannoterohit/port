@@ -1,6 +1,10 @@
 @extends('public.layouts.app')
 
-@section('title', ($project->seo_title ?: $project->title) . ' - ' . $websiteName)
+@php
+    $baseTitle = $project->seo_title ?: $project->title;
+    $computedProjectTitle = Str::contains($baseTitle, $websiteName) ? $baseTitle : ($baseTitle . ' - ' . $websiteName);
+@endphp
+@section('title', $computedProjectTitle)
 @section('meta_description', $project->seo_description ?: ($project->short_description ?? Str::limit(strip_tags($project->description), 160)))
 @section('og_title', $project->og_title ?: $project->title)
 @section('og_description', $project->og_description ?: ($project->short_description ?? Str::limit(strip_tags($project->description), 160)))
@@ -35,6 +39,12 @@
                 <span class="text-xs px-3.5 py-1 badge-brand text-brand font-bold rounded-full shadow-2xs">
                     {{ $project->category ?? 'Case Study' }}
                 </span>
+                @if($project->client_name)
+                    <span class="text-xs px-3.5 py-1 bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-[var(--theme-text-heading)] rounded-full font-medium inline-flex items-center gap-1.5 shadow-2xs">
+                        <span class="text-[var(--theme-text-muted)] font-mono text-[10px] uppercase">Client:</span>
+                        <strong class="font-bold text-brand">{{ $project->client_name }}</strong>
+                    </span>
+                @endif
                 @if($project->is_featured)
                     <span class="text-xs px-3.5 py-1 badge-brand text-brand font-bold rounded-full shadow-2xs">
                         ★ Featured Engineering Case Study
@@ -103,7 +113,13 @@
             @endif
 
             <!-- Quick Specs Matrix -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+            <div class="grid grid-cols-2 {{ $project->client_name ? 'sm:grid-cols-5' : 'sm:grid-cols-4' }} gap-4 mb-10">
+                @if($project->client_name)
+                    <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] shadow-xs">
+                        <span class="text-[11px] font-mono uppercase tracking-wider text-[var(--theme-text-muted)] block mb-1">Client / Partner</span>
+                        <span class="text-sm font-bold text-brand truncate block">{{ $project->client_name }}</span>
+                    </div>
+                @endif
                 <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] shadow-xs">
                     <span class="text-[11px] font-mono uppercase tracking-wider text-[var(--theme-text-muted)] block mb-1">Engineering Role</span>
                     <span class="text-sm font-bold text-[var(--theme-text-heading)]">{{ $project->role ?: 'Lead Full Stack' }}</span>

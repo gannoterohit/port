@@ -93,6 +93,18 @@ class Profile extends Model
 
     public function getProfilePhotoUrlAttribute(): ?string
     {
+        if ($this->profile_photo && Storage::disk('public')->exists($this->profile_photo)) {
+            return Storage::disk('public')->url($this->profile_photo);
+        }
+
+        if (Storage::disk('public')->exists('profile/avatar.webp')) {
+            return Storage::disk('public')->url('profile/avatar.webp');
+        }
+
+        if (Storage::disk('public')->exists('profile/avatar.jpg')) {
+            return Storage::disk('public')->url('profile/avatar.jpg');
+        }
+
         return $this->profile_photo ? Storage::disk('public')->url($this->profile_photo) : null;
     }
 
