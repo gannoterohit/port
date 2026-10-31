@@ -10,10 +10,10 @@ function initScrollReveal() {
     const reveals = document.querySelectorAll('.reveal-on-scroll:not(.reveal-visible)');
     if (!reveals.length) return;
 
-    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || (navigator.maxTouchPoints > 0);
+    const isMobileOrTouch = window.innerWidth < 768 || window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || (navigator.maxTouchPoints > 0);
 
     // On touch mobile screens or reduced motion, instantly show all content to avoid layout thrashing during scroll
-    if (isTouch || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (isMobileOrTouch || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         reveals.forEach(el => el.classList.add('reveal-visible'));
         return;
     }
@@ -38,6 +38,9 @@ function initScrollProgress() {
     const progressBar = document.getElementById('scroll-progress-bar');
     if (!progressBar) return;
 
+    const isMobileOrTouch = window.innerWidth < 768 || window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || (navigator.maxTouchPoints > 0);
+    if (isMobileOrTouch) return;
+
     let ticking = false;
     window.addEventListener('scroll', () => {
         if (!ticking) {
@@ -58,10 +61,10 @@ function initStatCounters() {
     const counters = document.querySelectorAll('.stat-counter');
     if (!counters.length) return;
 
-    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || (navigator.maxTouchPoints > 0);
+    const isMobileOrTouch = window.innerWidth < 768 || window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || (navigator.maxTouchPoints > 0);
 
     // On touch mobile devices or reduced motion, keep server-rendered final values directly (0 RAF, 0 forced reflows)
-    if (isTouch || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (isMobileOrTouch || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         counters.forEach(el => {
             const target = el.getAttribute('data-target');
             const suffix = el.getAttribute('data-suffix') || '';
@@ -117,7 +120,7 @@ function initStatCounters() {
 
 // Subtle 3D Card Tilt with Parallax Effect
 function initCardTilt() {
-    if (window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    if (window.innerWidth < 768 || window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0) {
         return;
     }
 

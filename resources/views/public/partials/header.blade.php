@@ -21,7 +21,7 @@ x-init="
         document.querySelectorAll('section[id]').forEach(sec => observer.observe(sec));
     }
 "
-@scroll.window.passive="scrolled = (window.scrollY || document.documentElement.scrollTop) > 20"
+@scroll.window.passive.debounce.100ms="scrolled = (window.scrollY || document.documentElement.scrollTop) > 20"
 class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:pt-4 transition-all duration-300">
     <header class="max-w-7xl 2xl:max-w-[1400px] mx-auto pointer-events-auto transition-all duration-300">
         <nav :class="scrolled ? 'bg-[var(--theme-bg-card)]/90 backdrop-blur-2xl border-[var(--theme-border)] shadow-xl py-2 sm:py-2.5' : 'bg-[var(--theme-bg-card)]/75 backdrop-blur-xl border-[var(--theme-border)]/70 shadow-lg py-2.5 sm:py-3'"

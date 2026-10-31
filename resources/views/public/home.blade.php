@@ -3,16 +3,6 @@
 @section('title', ($homepageSettings->hero_heading ? $homepageSettings->hero_heading . ' - ' : ($profile->full_name . ' - ')) . $websiteName)
 @section('meta_description', $homepageSettings->hero_description ?? (strip_tags($profile->bio) ?? ($profile->intro ?? 'Senior PHP & Laravel Backend Developer specializing in scalable REST APIs, MySQL query optimization, Redis queues, and resilient system architecture.')))
 
-@php
-    $heroPreloadImg = $homepageSettings->hero_image_url ?: ($profile->profile_photo_url ?? null);
-@endphp
-
-@if($heroPreloadImg)
-@push('meta')
-    <link rel="preload" as="image" href="{{ $heroPreloadImg }}" fetchpriority="high">
-@endpush
-@endif
-
 @section('content')
 @php
     $order = $homepageSettings->resolveSectionOrder();
@@ -29,7 +19,6 @@
                 || \App\Models\Setting::get('available_for_freelance', true) === true;
             $rawYears = \App\Models\Setting::get('years_experience') ?: '3+';
             $yearsDisplay = str_ends_with(trim($rawYears), '+') ? trim($rawYears) : trim($rawYears) . '+';
-            $heroImg = $homepageSettings->hero_image_url ?: $profile->profile_photo_url;
             $contactEmail = $profile->contact_email ?: ($profile->email ?: null);
             $cvUrl = ($profile->resume_url && $profile->resume_button_visible) ? $profile->resume_url : '#contact';
         @endphp
@@ -38,11 +27,24 @@
             <!-- Ambient Spotlight Glow -->
             <div class="absolute top-1/4 right-1/4 w-[460px] h-[460px] rounded-full bg-brand/10 dark:bg-brand/15 blur-[130px] pointer-events-none"></div>
 
-            <!-- Background Cinematic Workspace Image with High-Definition Sharpness -->
+            <!-- Background Cinematic Workspace Image with High-Definition Sharpness (Next-Gen WebP Optimized) -->
+            @php
+                $heroImgWebp = public_path('images/hero-workspace.webp');
+                $heroImgJpg = public_path('images/hero-workspace.jpg');
+                $heroImgUrl = $homepageSettings->hero_image_url 
+                    ?: (file_exists($heroImgWebp) 
+                        ? (asset('images/hero-workspace.webp') . '?v=' . filemtime($heroImgWebp))
+                        : (asset('images/hero-workspace.jpg') . '?v=' . (file_exists($heroImgJpg) ? filemtime($heroImgJpg) : time())));
+            @endphp
             <div class="hidden sm:block absolute inset-y-0 right-0 w-full lg:w-[52%] xl:w-[55%] pointer-events-none overflow-hidden">
                 <div class="w-full h-full animate-float">
-                    <img src="{{ $homepageSettings->hero_image_url ?: (asset('images/hero-workspace.jpg') . '?v=' . (file_exists(public_path('images/hero-workspace.jpg')) ? filemtime(public_path('images/hero-workspace.jpg')) : time())) }}" 
+                    <img src="{{ $heroImgUrl }}" 
                          alt="{{ $profile->name ?: 'Rohit Gannote' }} Workspace" 
+                         fetchpriority="high"
+                         loading="eager"
+                         decoding="async"
+                         width="1920"
+                         height="1080"
                          class="w-full h-full object-cover object-center select-none brightness-[1.0] contrast-[1.02] dark:brightness-[0.82] dark:contrast-[1.08]">
                 </div>
                 
@@ -117,7 +119,7 @@
                             skipDelay: 25,
                             speed: 85,
                             init() {
-                                if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                                if (window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
                                     return;
                                 }
                                 setTimeout(() => {

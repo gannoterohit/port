@@ -96,6 +96,18 @@
 
     <!-- High-Priority Critical Stylesheet Preload -->
     <link rel="preload" href="{{ Vite::asset('resources/css/app.css') }}" as="style">
+
+    @if(request()->routeIs('home'))
+        @php
+            $preloadHeroWebp = public_path('images/hero-workspace.webp');
+            $preloadHeroUrl = file_exists($preloadHeroWebp) 
+                ? (asset('images/hero-workspace.webp') . '?v=' . filemtime($preloadHeroWebp))
+                : asset('images/hero-workspace.jpg');
+        @endphp
+        <!-- Immediate High-Priority LCP Hero Image Preload -->
+        <link rel="preload" as="image" href="{{ $preloadHeroUrl }}" fetchpriority="high">
+    @endif
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
@@ -231,7 +243,7 @@
     <!-- Smooth Back to Top Floating Button -->
     <button type="button"
         x-data="{ show: false }"
-        @scroll.window="show = (window.pageYOffset > 400)"
+        @scroll.window.passive.debounce.150ms="show = (window.pageYOffset > 400)"
         x-show="show"
         x-cloak
         x-transition:enter="transition ease-out duration-200"

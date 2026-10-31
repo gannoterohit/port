@@ -165,30 +165,55 @@
   
   .animate-fade-in {
     animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
   }
   
   .animate-slide-up {
     animation: slideUp 0.6s ease-out;
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
   }
   
   .animate-slide-down {
     animation: slideDown 0.6s ease-out;
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
   }
   
   .animate-scale-in {
     animation: scaleIn 0.4s ease-out;
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
   }
   
   .animate-float-slow {
     animation: floatSlow 5s ease-in-out infinite;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
   }
   
   .animate-float-delayed {
     animation: floatDelayed 6s ease-in-out 1.2s infinite;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
   }
   
   .animate-pulse-glow {
     animation: pulseGlow 4s ease-in-out infinite;
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+
+  .animate-pulse {
+    will-change: opacity;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
   }
 
   .bg-grid-dots {
@@ -301,18 +326,18 @@
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translate3d(0, 20px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translate3d(0, -20px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: scale3d(0.95, 0.95, 1); }
+  to { opacity: 1; transform: scale3d(1, 1, 1); }
 }
 
 @keyframes floatSlow {
@@ -426,6 +451,12 @@
   will-change: opacity !important;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden !important;
+}
+
+/* Off-Screen Section Style & Layout Optimization (Skips off-screen layout work on load) */
+.home-section:not(#hero) {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 750px;
 }
 
 /* Accessible Reduced Motion Guarantee */
