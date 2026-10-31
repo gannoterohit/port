@@ -81,8 +81,16 @@
     @stack('meta')
 
     @if($favicon)
-        <link rel="icon" href="{{ asset('storage/' . $favicon) }}">
+        @if(str_ends_with($favicon, '.svg'))
+            <link rel="icon" type="image/svg+xml" href="{{ asset('storage/' . $favicon) }}">
+        @elseif(str_ends_with($favicon, '.png'))
+            <link rel="icon" type="image/png" href="{{ asset('storage/' . $favicon) }}">
+        @else
+            <link rel="icon" href="{{ asset('storage/' . $favicon) }}">
+        @endif
+        <link rel="apple-touch-icon" href="{{ asset('storage/' . $favicon) }}">
     @else
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
         <link rel="icon" href="{{ asset('favicon.ico') }}">
     @endif
 

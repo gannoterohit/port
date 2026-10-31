@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E1F24" />
+      <stop offset="100%" stop-color="#101114" />
+    </linearGradient>
+    <linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F28E74" />
+      <stop offset="100%" stop-color="#B85D19" />
+    </linearGradient>
+  </defs>
+  <!-- Squircle Base -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#bgGrad)" stroke="#B85D19" stroke-width="4" stroke-opacity="0.45"/>
+  <!-- Inner Rim -->
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.12"/>
+  <!-- Bold Modern 'R' Monogram -->
+  <path d="M 38 28 L 68 28 C 84 28 94 37 94 51 C 94 63 86 71 73 73 L 95 100 L 76 100 L 57 75 L 54 75 L 54 100 L 38 100 Z M 54 42 L 54 62 L 67 62 C 75 62 79 58 79 52 C 79 46 75 42 67 42 Z" fill="url(#rGrad)" />
+  <!-- Developer Live Green Dot -->
+  <circle cx="94" cy="32" r="5.5" fill="#10B981" stroke="#121316" stroke-width="1.5" />
+</svg>

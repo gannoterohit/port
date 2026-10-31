@@ -26,7 +26,7 @@ class SettingController extends Controller
         $imageValidationRules = [];
         foreach ($settings as $setting) {
             if ($setting->type === 'image' && $request->hasFile($setting->key)) {
-                $imageValidationRules[$setting->key] = ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp,svg,ico', 'max:3072'];
+                $imageValidationRules[$setting->key] = ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,webp,svg,ico', 'max:3072'];
             }
         }
 

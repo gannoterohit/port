@@ -185,20 +185,32 @@
 
                             <!-- Favicon Upload -->
                             <div class="rounded-xl border border-[#E5E1D5] bg-[#FAF9F5] p-4">
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Browser Favicon</label>
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600">Browser Favicon</label>
+                                    @if(!empty($byKey['website_favicon']->value))
+                                        <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Live Active</span>
+                                    @endif
+                                </div>
                                 <div class="flex items-center gap-4">
                                     @if(!empty($byKey['website_favicon']->value))
-                                        <div class="h-14 w-14 rounded-xl border border-[#E5E1D5] bg-white p-2 flex items-center justify-center shrink-0 shadow-xs">
-                                            <img src="{{ asset('storage/' . $byKey['website_favicon']->value) }}" alt="Favicon" class="max-h-full max-w-full object-contain">
+                                        <div class="flex items-center gap-2 shrink-0">
+                                            <!-- Light tab simulator -->
+                                            <div class="h-12 w-12 rounded-xl border border-[#E5E1D5] bg-white p-2 flex items-center justify-center shadow-2xs" title="Preview on light tab">
+                                                <img src="{{ asset('storage/' . $byKey['website_favicon']->value) }}" alt="Favicon" class="max-h-full max-w-full object-contain">
+                                            </div>
+                                            <!-- Dark tab simulator -->
+                                            <div class="h-12 w-12 rounded-xl border border-stone-800 bg-[#18191B] p-2 flex items-center justify-center shadow-2xs" title="Preview on dark tab">
+                                                <img src="{{ asset('storage/' . $byKey['website_favicon']->value) }}" alt="Favicon" class="max-h-full max-w-full object-contain">
+                                            </div>
                                         </div>
                                     @else
-                                        <div class="h-14 w-14 rounded-xl border border-dashed border-stone-300 bg-white flex items-center justify-center shrink-0 text-stone-400 text-xs">
+                                        <div class="h-12 w-12 rounded-xl border border-dashed border-stone-300 bg-white flex items-center justify-center shrink-0 text-stone-400 text-xs">
                                             No Icon
                                         </div>
                                     @endif
                                     <div class="flex-1 min-w-0">
-                                        <input type="file" name="website_favicon" accept="image/*" class="admin-input text-xs">
-                                        <p class="text-[11px] text-stone-400 mt-1">Square image (32x32px or 64x64px), PNG/ICO.</p>
+                                        <input type="file" name="website_favicon" accept="image/png,image/x-icon,image/svg+xml,image/webp" class="admin-input text-xs">
+                                        <p class="text-[11px] text-stone-400 mt-1">Square monogram icon (64x64px or 128x128px), PNG, SVG or ICO.</p>
                                     </div>
                                 </div>
                             </div>
