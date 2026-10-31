@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Panel') - {{ \App\Models\Setting::get('website_name', 'Portfolio CMS') }}</title>
+    
+    @php
+        $adminFavicon = \App\Models\Setting::get('website_favicon');
+    @endphp
+    @if($adminFavicon)
+        @if(str_ends_with($adminFavicon, '.svg'))
+            <link rel="icon" type="image/svg+xml" href="{{ asset('storage/' . $adminFavicon) }}">
+        @elseif(str_ends_with($adminFavicon, '.png'))
+            <link rel="icon" type="image/png" href="{{ asset('storage/' . $adminFavicon) }}">
+        @else
+            <link rel="icon" href="{{ asset('storage/' . $adminFavicon) }}">
+        @endif
+        <link rel="apple-touch-icon" href="{{ asset('storage/' . $adminFavicon) }}">
+    @else
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
+    @endif
+
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
     @yield('head')
 </head>
