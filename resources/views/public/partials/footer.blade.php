@@ -9,7 +9,8 @@
                         @if($profile->email)
                             <a href="mailto:{{ $profile->email }}"
                                 @click.prevent="window.copyPortfolioEmail('{{ $profile->email }}', $event)"
-                                class="text-gray-400 hover:text-brand transition-colors"
+                                class="text-[var(--theme-text-muted)] dark:text-[#A1A1AA] hover:text-[var(--theme-accent)] transition-colors"
+                                aria-label="Send email to {{ $profile->email }}"
                                 title="Click to copy email: {{ $profile->email }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -62,7 +63,7 @@
                     <h4 class="text-[var(--theme-text-heading)] font-semibold mb-4 text-sm uppercase tracking-wider">{{ $widget->title }}</h4>
 
                     @if($widget->content)
-                        <div class="text-sm text-slate-400 space-y-2 leading-relaxed">
+                        <div class="text-sm text-[var(--theme-text-muted)] dark:text-[#A1A1AA] space-y-2 leading-relaxed">
                             {!! $widget->content !!}
                         </div>
                     @endif
@@ -91,8 +92,8 @@
                             @foreach($widget->links as $link)
                                 <li>
                                     <a href="{{ $resolveFooterLink($link->url) }}" target="{{ $link->target }}"
-                                        class="text-sm text-slate-400 hover:text-brand transition-colors inline-flex items-center gap-2 group">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-700 group-hover:bg-brand transition-colors"></span>
+                                        class="text-sm text-[var(--theme-text-muted)] dark:text-[#A1A1AA] hover:text-brand transition-colors inline-flex items-center gap-2 group">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-stone-400 dark:bg-stone-600 group-hover:bg-brand transition-colors"></span>
                                         <span>{{ $link->label }}</span>
                                     </a>
                                 </li>
@@ -111,7 +112,8 @@
                                 <div class="flex items-center justify-between gap-2 group">
                                     <a href="mailto:{{ $footerEmail }}"
                                         @click.prevent="window.copyPortfolioEmail('{{ $footerEmail }}', $event)"
-                                        class="flex items-center gap-2.5 text-slate-300 hover:text-brand transition-colors truncate"
+                                        class="flex items-center gap-2.5 text-[var(--theme-text-heading)] hover:text-brand transition-colors truncate"
+                                        aria-label="Email {{ $footerEmail }}"
                                         title="Click to copy: {{ $footerEmail }}">
                                         <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-brand flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-white transition-all">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -120,7 +122,7 @@
                                     </a>
                                     <button type="button"
                                         @click="window.copyPortfolioEmail('{{ $footerEmail }}', $event)"
-                                        class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-black/5 dark:bg-white/10 hover:bg-[#B85D19] dark:hover:bg-[#E07A5F] hover:text-white dark:hover:text-black text-slate-600 dark:text-slate-300 border border-black/10 dark:border-white/10 transition-colors shrink-0"
+                                        class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-black/5 dark:bg-white/10 hover:bg-[#B85D19] dark:hover:bg-[#E07A5F] hover:text-white dark:hover:text-black text-slate-700 dark:text-slate-200 border border-black/10 dark:border-white/10 transition-colors shrink-0"
                                         title="Copy to clipboard">
                                         Copy
                                     </button>
@@ -128,7 +130,7 @@
                             @endif
 
                             @if($footerPhone)
-                                <a href="tel:{{ $footerPhone }}" class="flex items-center gap-2.5 text-slate-300 hover:text-brand transition-colors group">
+                                <a href="tel:{{ $footerPhone }}" class="flex items-center gap-2.5 text-[var(--theme-text-heading)] hover:text-brand transition-colors group" aria-label="Call {{ $footerPhone }}">
                                     <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-brand flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-white transition-all">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                     </div>
@@ -137,8 +139,8 @@
                             @endif
 
                             @if($footerLocation)
-                                <div class="flex items-center gap-2.5 text-slate-400">
-                                    <div class="w-8 h-8 rounded-lg bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 text-slate-600 dark:text-slate-400 flex items-center justify-center shrink-0">
+                                <div class="flex items-center gap-2.5 text-[var(--theme-text-muted)] dark:text-[#A1A1AA]">
+                                    <div class="w-8 h-8 rounded-lg bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 text-[var(--theme-text-heading)] flex items-center justify-center shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                     </div>
                                     <span class="text-xs sm:text-sm">{{ $footerLocation }}</span>
@@ -146,7 +148,7 @@
                             @endif
 
                             <div class="pt-1">
-                                <a href="{{ request()->routeIs('home') ? '#contact' : (rtrim(route('home'), '/') . '/#contact') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand hover:text-emerald-300 hover:underline">
+                                <a href="{{ request()->routeIs('home') ? '#contact' : (rtrim(route('home'), '/') . '/#contact') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand hover:underline">
                                     <span>Send Project Message</span>
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </a>
@@ -161,7 +163,7 @@
             <p>{{ \App\Models\Setting::get('copyright_text') ?: ('© ' . date('Y') . ' ' . ($websiteName ?? config('app.name')) . '. All rights reserved.') }}</p>
 
             @if($orphanedFooterLinks->isNotEmpty())
-                <div class="flex flex-wrap items-center gap-5 text-xs text-slate-400">
+                <div class="flex flex-wrap items-center gap-5 text-xs text-[var(--theme-text-muted)] dark:text-[#A1A1AA]">
                     @foreach($orphanedFooterLinks as $link)
                         <a href="{{ url($link->url) }}" target="{{ $link->target }}"
                             class="hover:text-brand transition-colors">

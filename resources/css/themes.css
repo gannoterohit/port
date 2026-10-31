@@ -22,12 +22,12 @@
     
     /* Typography - High Contrast & Crisp Readability */
     --theme-text-heading: #111214;
-    --theme-text-body: #37383D;
-    --theme-text-muted: #5A5A62;
+    --theme-text-body: #2B2C30;
+    --theme-text-muted: #4A4B52;
     
-    /* Accent: Rich Warm Terracotta */
-    --theme-accent: #B85D19;
-    --theme-accent-hover: #9E4D12;
+    /* Accent: Rich Warm Terracotta (WCAG AA Crisp Contrast > 4.98:1) */
+    --theme-accent: #A95012;
+    --theme-accent-hover: #8D410C;
     --theme-accent-badge-bg: rgba(184, 93, 25, 0.08);
     --theme-accent-badge-border: rgba(184, 93, 25, 0.22);
     

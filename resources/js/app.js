@@ -10,8 +10,10 @@ function initScrollReveal() {
     const reveals = document.querySelectorAll('.reveal-on-scroll:not(.reveal-visible)');
     if (!reveals.length) return;
 
-    // Graceful fallback for reduced motion or older browsers
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || (navigator.maxTouchPoints > 0);
+
+    // On touch mobile screens or reduced motion, instantly show all content to avoid layout thrashing during scroll
+    if (isTouch || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         reveals.forEach(el => el.classList.add('reveal-visible'));
         return;
     }
@@ -56,20 +58,23 @@ function initStatCounters() {
     const counters = document.querySelectorAll('.stat-counter');
     if (!counters.length) return;
 
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || (navigator.maxTouchPoints > 0);
+
+    // On touch mobile devices or reduced motion, keep server-rendered final values directly (0 RAF, 0 forced reflows)
+    if (isTouch || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         counters.forEach(el => {
             const target = el.getAttribute('data-target');
             const suffix = el.getAttribute('data-suffix') || '';
-            if (target) el.innerText = `${target}${suffix}`;
+            if (target) el.textContent = `${target}${suffix}`;
         });
         return;
     }
 
-    // Set initial 0 text before entering viewport
+    // Set initial 0 text before entering viewport (using textContent to prevent synchronous layout reflows)
     counters.forEach(el => {
         const suffix = el.getAttribute('data-suffix') || '';
         const decimals = (el.getAttribute('data-target') || '').includes('.') ? 1 : 0;
-        el.innerText = `0${decimals ? '.0' : ''}${suffix}`;
+        el.textContent = `0${decimals ? '.0' : ''}${suffix}`;
     });
 
     const observer = new IntersectionObserver((entries, obs) => {
@@ -79,22 +84,25 @@ function initStatCounters() {
                 const target = parseFloat(el.getAttribute('data-target') || '0');
                 const suffix = el.getAttribute('data-suffix') || '';
                 const decimals = (el.getAttribute('data-target') || '').includes('.') ? 1 : 0;
-                const duration = 1200;
+                const duration = 1000;
                 const startTime = performance.now();
+                let lastPaint = 0;
 
                 function updateCounter(currentTime) {
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-                    // Smooth cubic ease-out curve
-                    const easeOut = 1 - Math.pow(1 - progress, 3);
-                    const currentVal = easeOut * target;
 
-                    el.innerText = `${currentVal.toFixed(decimals)}${suffix}`;
+                    // Throttle DOM text mutations to every 30ms (~30fps) to eliminate main-thread layout thrashing
+                    if (currentTime - lastPaint >= 30 || progress >= 1) {
+                        lastPaint = currentTime;
+                        const easeOut = 1 - Math.pow(1 - progress, 3);
+                        const currentVal = easeOut * target;
+                        // Use textContent instead of innerText: textContent never forces synchronous layout
+                        el.textContent = `${progress >= 1 ? target.toFixed(decimals) : currentVal.toFixed(decimals)}${suffix}`;
+                    }
 
                     if (progress < 1) {
                         requestAnimationFrame(updateCounter);
-                    } else {
-                        el.innerText = `${target.toFixed(decimals)}${suffix}`;
                     }
                 }
 
@@ -109,7 +117,7 @@ function initStatCounters() {
 
 // Subtle 3D Card Tilt with Parallax Effect
 function initCardTilt() {
-    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) {
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0) {
         return;
     }
 
@@ -158,7 +166,7 @@ function initCardTilt() {
 
 // Awwwards-Style Magnetic Dot & Lag Ring Custom Cursor
 function initMagneticCursor() {
-    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) {
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0) {
         return;
     }
 
@@ -173,19 +181,36 @@ function initMagneticCursor() {
     let isVisible = false;
     let isHovering = false;
     let isClicking = false;
+    let rafId = null;
 
     // Silky smooth inertia lag (0.18 lerp factor)
     const LERP_FACTOR = 0.18;
 
     function render() {
         if (isVisible) {
-            ringX += (mouseX - ringX) * LERP_FACTOR;
-            ringY += (mouseY - ringY) * LERP_FACTOR;
+            const dx = mouseX - ringX;
+            const dy = mouseY - ringY;
+            ringX += dx * LERP_FACTOR;
+            ringY += dy * LERP_FACTOR;
 
             dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%) ${isClicking ? 'scale(1.6)' : (isHovering ? 'scale(0)' : 'scale(1)')}`;
             ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) ${isClicking ? 'scale(0.8)' : 'scale(1)'}`;
+
+            // Idle check: stop animation frame when cursor stops to free main-thread
+            if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+                rafId = requestAnimationFrame(render);
+            } else {
+                rafId = null;
+            }
+        } else {
+            rafId = null;
         }
-        requestAnimationFrame(render);
+    }
+
+    function wakeLoop() {
+        if (!rafId) {
+            rafId = requestAnimationFrame(render);
+        }
     }
 
     window.addEventListener('mousemove', (e) => {
@@ -199,6 +224,7 @@ function initMagneticCursor() {
             dot.classList.add('cursor-visible');
             ring.classList.add('cursor-visible');
         }
+        wakeLoop();
     }, { passive: true });
 
     document.addEventListener('mouseleave', () => {
@@ -217,12 +243,14 @@ function initMagneticCursor() {
         isClicking = true;
         ring.classList.add('cursor-clicking');
         dot.classList.add('cursor-clicking');
+        wakeLoop();
     });
 
     window.addEventListener('mouseup', () => {
         isClicking = false;
         ring.classList.remove('cursor-clicking');
         dot.classList.remove('cursor-clicking');
+        wakeLoop();
     });
 
     // Delegation for interactive elements & text inputs
@@ -241,6 +269,7 @@ function initMagneticCursor() {
             isHovering = true;
             ring.classList.add('cursor-hover');
             dot.classList.add('cursor-hover');
+            wakeLoop();
         }
     });
 
@@ -260,11 +289,10 @@ function initMagneticCursor() {
                 isHovering = false;
                 ring.classList.remove('cursor-hover');
                 dot.classList.remove('cursor-hover');
+                wakeLoop();
             }
         }
     });
-
-    requestAnimationFrame(render);
 }
 
 function setupEnhancements() {

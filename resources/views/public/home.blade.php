@@ -66,7 +66,7 @@
                             <span>👋</span>
                         </div>
                         @if($isAvailable)
-                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold tracking-wide shadow-2xs max-w-full">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20 text-xs font-semibold tracking-wide shadow-2xs max-w-full">
                             <span class="relative flex h-2 w-2 shrink-0">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -114,34 +114,39 @@
                             offset: 0,
                             forwards: true,
                             skipCount: 0,
-                            skipDelay: 36,
-                            speed: 50,
+                            skipDelay: 25,
+                            speed: 85,
                             init() {
-                                setInterval(() => {
-                                    if (this.forwards) {
-                                        if (this.offset >= this.words[this.i].length) {
-                                            ++this.skipCount;
-                                            if (this.skipCount === this.skipDelay) {
-                                                this.forwards = false;
+                                if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                                    return;
+                                }
+                                setTimeout(() => {
+                                    setInterval(() => {
+                                        if (this.forwards) {
+                                            if (this.offset >= this.words[this.i].length) {
+                                                ++this.skipCount;
+                                                if (this.skipCount >= this.skipDelay) {
+                                                    this.forwards = false;
+                                                    this.skipCount = 0;
+                                                }
+                                            }
+                                        } else {
+                                            if (this.offset === 0) {
+                                                this.forwards = true;
+                                                this.i = (this.i + 1) % this.words.length;
                                                 this.skipCount = 0;
                                             }
                                         }
-                                    } else {
-                                        if (this.offset === 0) {
-                                            this.forwards = true;
-                                            this.i = (this.i + 1) % this.words.length;
-                                            this.skipCount = 0;
+                                        this.part = this.words[this.i].substring(0, this.offset);
+                                        if (this.skipCount === 0) {
+                                            if (this.forwards) {
+                                                this.offset++;
+                                            } else {
+                                                this.offset--;
+                                            }
                                         }
-                                    }
-                                    this.part = this.words[this.i].substring(0, this.offset);
-                                    if (this.skipCount === 0) {
-                                        if (this.forwards) {
-                                            this.offset++;
-                                        } else {
-                                            this.offset--;
-                                        }
-                                    }
-                                }, this.speed);
+                                    }, this.speed);
+                                }, 1200);
                             }
                         }"
                         class="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-[34px] font-bold text-[var(--theme-text-heading)] mb-2 tracking-tight leading-snug min-h-[44px] sm:min-h-[72px] lg:min-h-[80px]">
@@ -415,7 +420,7 @@
                                             </div>
                                         @endif
                                         @if($project->solutions)
-                                            <div class="text-emerald-600 dark:text-emerald-400">
+                                            <div class="text-emerald-800 dark:text-emerald-300">
                                                 <strong class="font-semibold">Architecture:</strong> {{ Str::limit($project->solutions, 80) }}
                                             </div>
                                         @endif
@@ -436,19 +441,19 @@
                                 @endif
 
                                 <div class="pt-4 border-t border-[var(--theme-border)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs sm:text-sm font-medium">
-                                    <a href="{{ route('projects.show', $project->slug) }}" class="text-[var(--theme-text-heading)] hover:text-brand transition-colors inline-flex items-center justify-center gap-1.5 font-semibold group/btn min-h-[44px] px-3 rounded-xl bg-[var(--theme-bg-alt)] sm:bg-transparent sm:min-h-0 sm:px-0">
+                                    <a href="{{ route('projects.show', $project->slug) }}" aria-label="View case study for {{ $project->title }}" class="text-[var(--theme-text-heading)] hover:text-brand transition-colors inline-flex items-center justify-center gap-1.5 font-semibold group/btn min-h-[44px] px-3 rounded-xl bg-[var(--theme-bg-alt)] sm:bg-transparent sm:min-h-0 sm:px-0">
                                         <span>View Case Study</span>
                                         <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                     </a>
 
                                     <div class="flex items-center gap-3 text-[var(--theme-text-muted)]">
                                         @if($project->public_demo_url)
-                                            <a href="{{ $project->public_demo_url }}" target="_blank" rel="noopener noreferrer" class="hover:text-brand transition-colors">
+                                            <a href="{{ $project->public_demo_url }}" target="_blank" rel="noopener noreferrer" aria-label="View live demo for {{ $project->title }}" class="hover:text-brand transition-colors">
                                                 Live ↗
                                             </a>
                                         @endif
                                         @if($project->github_url)
-                                            <a href="{{ $project->github_url }}" target="_blank" rel="noopener noreferrer" class="hover:text-brand transition-colors">
+                                            <a href="{{ $project->github_url }}" target="_blank" rel="noopener noreferrer" aria-label="View GitHub repository for {{ $project->title }}" class="hover:text-brand transition-colors">
                                                 GitHub ↗
                                             </a>
                                         @endif
@@ -518,7 +523,7 @@
                                 <div class="flex items-center justify-between gap-4 mb-2">
                                     <span class="text-xs font-mono font-bold text-brand uppercase tracking-wider">{{ $exp->period }}</span>
                                     @if($exp->badge_text)
-                                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold {{ Str::contains(strtolower($exp->badge_text), 'active') ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' : 'bg-black/5 dark:bg-white/10 text-[var(--theme-text-muted)]' }}">
+                                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold {{ Str::contains(strtolower($exp->badge_text), 'active') ? 'bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20' : 'bg-black/5 dark:bg-white/10 text-[var(--theme-text-muted)]' }}">
                                             {{ $exp->badge_text }}
                                         </span>
                                     @endif
@@ -565,7 +570,7 @@
                                 <div class="text-xs font-bold text-[var(--theme-text-heading)]">{{ $hl2 ?: $defaultHl2 }}</div>
                             </div>
                             <div class="p-4 rounded-2xl bg-[var(--theme-bg-card)] border border-[var(--theme-border)] flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0">★</div>
+                                <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 flex items-center justify-center font-bold text-sm shrink-0">★</div>
                                 <div class="text-xs font-bold text-[var(--theme-text-heading)]">{{ $hl3 ?: $defaultHl3 }}</div>
                             </div>
                         </div>
@@ -790,14 +795,14 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Your Name *</label>
-                                    <input type="text" name="name" required autocomplete="name"
+                                    <label for="home_name" class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Your Name *</label>
+                                    <input type="text" id="home_name" name="name" required autocomplete="name"
                                         placeholder="e.g. John Doe"
                                         class="w-full px-4 py-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-base sm:text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors min-h-[48px]">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Your Email *</label>
-                                    <input type="email" name="email" required autocomplete="email" inputmode="email"
+                                    <label for="home_email" class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Your Email *</label>
+                                    <input type="email" id="home_email" name="email" required autocomplete="email" inputmode="email"
                                         placeholder="e.g. john@company.com"
                                         class="w-full px-4 py-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-base sm:text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors min-h-[48px]">
                                 </div>
@@ -805,8 +810,8 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Service / Interest</label>
-                                    <select name="service_type"
+                                    <label for="home_service_type" class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Service / Interest</label>
+                                    <select id="home_service_type" name="service_type"
                                         class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
                                         <option value="">Select Service / Project Type...</option>
                                         @foreach(($featuredServices ?? collect()) as $srv)
@@ -817,8 +822,8 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Phone / WhatsApp (Optional)</label>
-                                    <input type="tel" name="phone" inputmode="tel" autocomplete="tel"
+                                    <label for="home_phone" class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Phone / WhatsApp (Optional)</label>
+                                    <input type="tel" id="home_phone" name="phone" inputmode="tel" autocomplete="tel"
                                         placeholder="+91 98765 43210"
                                         class="w-full px-4 py-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-base sm:text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors min-h-[48px]">
                                 </div>
@@ -826,8 +831,8 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Approx. Budget (Optional)</label>
-                                    <select name="budget_range"
+                                    <label for="home_budget_range" class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Approx. Budget (Optional)</label>
+                                    <select id="home_budget_range" name="budget_range"
                                         class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
                                         <option value="">Select budget range...</option>
                                         <option value="₹25,000 - ₹50,000 (~$300 - $600)">₹25,000 - ₹50,000 (~$300 - $600)</option>
@@ -838,8 +843,8 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Expected Timeline (Optional)</label>
-                                    <select name="timeline"
+                                    <label for="home_timeline" class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Expected Timeline (Optional)</label>
+                                    <select id="home_timeline" name="timeline"
                                         class="w-full px-4 py-3 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-sm text-[var(--theme-text-heading)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
                                         <option value="">Select timeline...</option>
                                         <option value="Urgent (< 2 weeks)">Urgent (&lt; 2 weeks)</option>
@@ -852,8 +857,8 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Project Overview &amp; Requirements *</label>
-                                <textarea name="message" rows="4" required minlength="10"
+                                <label for="home_message" class="block text-xs font-semibold uppercase tracking-wider text-[var(--theme-text-muted)] mb-1.5">Project Overview &amp; Requirements *</label>
+                                <textarea id="home_message" name="message" rows="4" required minlength="10"
                                     placeholder="Briefly describe what you are looking to build, optimize, or resolve..."
                                     class="w-full px-4 py-3.5 rounded-xl bg-[var(--theme-bg-alt)] border border-[var(--theme-border)] text-base sm:text-sm text-[var(--theme-text-heading)] placeholder-[var(--theme-text-muted)] focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors"></textarea>
                             </div>
@@ -876,7 +881,7 @@
                                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                     <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                                 </span>
-                                <span class="text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Response Commitment</span>
+                                <span class="text-xs font-mono font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300">Response Commitment</span>
                             </div>
                             <h4 class="text-base font-bold text-[var(--theme-text-heading)] mb-1">Direct Technical Consultation</h4>
                             <p class="text-xs text-[var(--theme-text-body)] leading-relaxed">
@@ -898,7 +903,7 @@
                                         <button type="button"
                                             @click="window.copyPortfolioEmail('{{ $contactDirectEmail }}', $event); copied = true; setTimeout(() => copied = false, 2000)"
                                             class="theme-btn-secondary px-3 py-1.5 rounded-lg text-xs font-medium border inline-flex items-center gap-1.5 transition-all duration-200"
-                                            :class="copied ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-600 dark:text-emerald-400 font-semibold' : ''"
+                                            :class="copied ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-800 dark:text-emerald-300 font-semibold' : ''"
                                             title="Copy direct email address">
                                             <template x-if="!copied">
                                                 <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -919,7 +924,7 @@
                                         <span class="text-[11px] text-[var(--theme-text-muted)] block">WhatsApp</span>
                                         <span class="text-xs sm:text-sm font-semibold text-[var(--theme-text-heading)]">Direct Chat &amp; Voice</span>
                                     </div>
-                                    <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                                    <span class="text-xs text-emerald-800 dark:text-emerald-300 font-semibold flex items-center gap-1">
                                         Open ↗
                                     </span>
                                 </a>

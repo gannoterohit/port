@@ -49,7 +49,7 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
 
                 <!-- Header Live Available Pulsing Badge (Visible on Tablet, Laptop & Desktop) -->
                 @if(\App\Models\Setting::get('available_for_freelance', '1') == '1')
-                <div class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[11px] font-semibold tracking-wide">
+                <div class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20 text-[11px] font-semibold tracking-wide">
                     <span class="relative flex h-2 w-2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -132,7 +132,7 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
                     <a href="{{ $item->url }}" target="{{ $item->target }}"
                         :class="{{ $isActiveCond }} 
                             ? 'bg-brand/10 text-brand font-bold shadow-xs' 
-                            : 'text-[var(--theme-text-body)] opacity-75 hover:opacity-100 hover:bg-black/[0.04] dark:hover:bg-white/[0.05]'"
+                            : 'text-[var(--theme-text-muted)] hover:text-[var(--theme-text-heading)] hover:bg-black/[0.04] dark:hover:bg-white/[0.05]'"
                         class="px-3.5 py-1.5 text-xs lg:text-[13px] font-medium rounded-full transition-all duration-150">
                         {{ $item->label }}
                     </a>
@@ -161,8 +161,8 @@ class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:
                     class="theme-toggle-btn order-2 lg:order-1 inline-flex shrink-0 items-center justify-center p-2 lg:px-3 lg:py-1.5 min-h-[40px] min-w-[40px] rounded-full border border-black/10 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] hover:bg-black/[0.06] dark:hover:bg-white/[0.08] text-xs font-semibold gap-1.5 transition-all duration-200 text-[var(--theme-text-heading)]"
                     title="Switch light / dark mode"
                     aria-label="Toggle light and dark mode">
-                    <span class="theme-icon-sun items-center gap-1.5 text-amber-500">
-                        <svg class="w-[18px] h-[18px] lg:w-4 lg:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <span class="theme-icon-sun items-center gap-1.5 text-[var(--theme-text-heading)]">
+                        <svg class="w-[18px] h-[18px] lg:w-4 lg:h-4 shrink-0 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                         <span class="hidden xl:inline text-[11px] font-mono font-bold">Light</span>
                     </span>
                     <span class="theme-icon-moon items-center gap-1.5">

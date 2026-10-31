@@ -316,31 +316,33 @@
 }
 
 @keyframes floatSlow {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -8px, 0); }
 }
 
 @keyframes floatDelayed {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(8px); }
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, 8px, 0); }
 }
 
 @keyframes pulseGlow {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.06); }
+  0%, 100% { opacity: 0.5; transform: scale3d(1, 1, 1); }
+  50% { opacity: 0.85; transform: scale3d(1.06, 1.06, 1); }
 }
 
-/* Infinite Tech Logo Marquee Animation (Pure CSS, 60fps) */
+/* Infinite Tech Logo Marquee Animation (Pure CSS, 60fps Composited) */
 @keyframes marqueeScroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
 
 .animate-marquee {
   display: flex;
   width: max-content;
   animation: marqueeScroll 28s linear infinite;
-  will-change: auto;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -383,6 +385,15 @@
 .animate-float {
   animation: floatSlow 7s ease-in-out infinite;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+@media (max-width: 768px), (hover: none), (pointer: coarse) {
+  .animate-float {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 /* Accessible Reduced Motion Guarantee */
