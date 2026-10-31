@@ -52,8 +52,8 @@
                     </div>
 
                     <div class="flex items-center justify-between">
-                        <label class="flex items-center gap-2 text-sm text-gray-700">
-                            <input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded border-gray-300 text-[#1B560B] focus:ring-[#1B560B]">
+                        <label class="flex items-center gap-2 text-sm text-stone-700 cursor-pointer">
+                            <input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded border-[#E5E0D5] text-[#B85D19] focus:ring-[#B85D19]">
                             Remember me
                         </label>
                     </div>

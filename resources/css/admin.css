@@ -6,97 +6,170 @@
 @source '../**/*.js';
 
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --color-brand: #B85D19;
+  --color-brand-hover: #9E4F14;
+  --color-brand-light: rgba(184, 93, 25, 0.08);
+  --color-surface-dark: #18191B;
+  --color-canvas: #F8F7F4;
+  --color-border: #E5E0D5;
 }
 
 @layer components {
+  /* ==========================================================
+     SIDEBAR NAVIGATION (SaaS Pro Dark Slate Theme)
+     ========================================================== */
+  .admin-sidebar {
+    @apply flex flex-col bg-[#161719] text-[#E4E4E7] border-r border-[#27282D] select-none;
+  }
+
   .admin-sidebar-item {
-    @apply flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-150;
+    @apply flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium transition-all duration-150 relative;
   }
 
   .admin-sidebar-item-active {
-    @apply bg-[#B85D19]/10 text-[#B85D19] font-semibold border-r-3 border-[#B85D19];
+    @apply bg-gradient-to-r from-[#B85D19]/25 to-[#B85D19]/10 text-white font-semibold shadow-xs border-l-[3px] border-[#B85D19] pl-[9px];
   }
 
   .admin-sidebar-item-inactive {
-    @apply text-stone-600 hover:bg-stone-100 hover:text-stone-900;
+    @apply text-[#9E9EA4] hover:bg-[#222428] hover:text-[#FAFAFA];
   }
 
   .admin-sidebar-icon {
-    @apply h-5 w-5 shrink-0 text-current opacity-75 transition-opacity;
-    stroke-width: 1.8;
+    @apply h-[18px] w-[18px] shrink-0 transition-all duration-150 text-[#82848C];
+    stroke-width: 1.85;
   }
 
-  .admin-sidebar-item:hover .admin-sidebar-icon,
+  .admin-sidebar-item:hover .admin-sidebar-icon {
+    @apply text-white scale-105;
+  }
+
   .admin-sidebar-item-active .admin-sidebar-icon {
-    opacity: 1;
+    @apply text-[#FF9E54];
   }
 
   .admin-nav-badge {
-    @apply ml-auto inline-flex min-w-5 items-center justify-center rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-bold leading-none text-rose-700 border border-rose-200;
+    @apply ml-auto inline-flex items-center justify-center rounded-full bg-[#B85D19] px-2 py-0.5 text-[10px] font-bold text-white shadow-xs;
   }
 
   .admin-sidebar-heading {
-    @apply px-3.5 pb-1.5 pt-5 text-[10px] font-bold tracking-[0.14em] text-stone-400 uppercase;
+    @apply px-3 pb-1.5 pt-4 text-[10px] font-bold tracking-[0.14em] text-[#63656D] uppercase select-none;
   }
 
+  /* ==========================================================
+     CARDS & PANELS
+     ========================================================== */
   .admin-card {
-    @apply rounded-2xl border border-[#E5E1D5] bg-white shadow-xs;
+    @apply rounded-2xl border border-[#E5E0D5] bg-white shadow-[0_1px_3px_0_rgba(0,0,0,0.03),0_1px_2px_-1px_rgba(0,0,0,0.03)];
   }
 
   .admin-stat-card {
-    @apply rounded-2xl border border-[#E5E1D5] bg-white p-5 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#B85D19]/40;
+    @apply relative overflow-hidden rounded-2xl border border-[#E5E0D5] bg-white p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.03)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#B85D19]/35;
+  }
+
+  .admin-page-header {
+    @apply flex flex-col gap-4 rounded-2xl border border-[#E5E0D5] bg-gradient-to-br from-white via-white to-[#FAF9F5] p-5 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-6;
+  }
+
+  .admin-form-card {
+    @apply rounded-2xl border border-[#E5E0D5] bg-white p-6 sm:p-8 shadow-[0_1px_3px_0_rgba(0,0,0,0.03)];
+  }
+
+  .admin-form-header {
+    @apply mb-6 border-b border-[#F0ECE1] pb-4;
+  }
+
+  /* ==========================================================
+     FORM ELEMENTS
+     ========================================================== */
+  .admin-label {
+    @apply block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5;
+  }
+
+  .admin-hint {
+    @apply text-[11px] text-stone-500 mt-1.5 leading-relaxed;
   }
 
   .admin-input {
-    @apply w-full rounded-xl border border-[#E5E1D5] bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-[#B85D19] focus:ring-4 focus:ring-[#B85D19]/15;
+    @apply w-full rounded-xl border border-[#E5E0D5] bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-[#B85D19] focus:ring-4 focus:ring-[#B85D19]/15 shadow-2xs;
   }
 
   .admin-textarea {
-    @apply w-full resize-y rounded-xl border border-[#E5E1D5] bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-[#B85D19] focus:ring-4 focus:ring-[#B85D19]/15;
+    @apply w-full resize-y rounded-xl border border-[#E5E0D5] bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-[#B85D19] focus:ring-4 focus:ring-[#B85D19]/15 shadow-2xs;
   }
 
+  .admin-select {
+    @apply w-full rounded-xl border border-[#E5E0D5] bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none transition focus:border-[#B85D19] focus:ring-4 focus:ring-[#B85D19]/15 shadow-2xs;
+  }
+
+  /* ==========================================================
+     BUTTONS
+     ========================================================== */
   .admin-btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#18191B] px-5 py-2.5 text-sm font-semibold text-[#F6F4EE] shadow-xs transition-all hover:bg-[#2A2B2E] hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-[#B85D19]/20 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#18191B] px-4.5 py-2.5 text-xs sm:text-sm font-semibold text-[#F6F4EE] shadow-xs transition-all hover:bg-[#2A2B2E] hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-[#B85D19]/20 active:scale-[0.98] cursor-pointer;
+  }
+
+  .admin-btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#B85D19] px-4.5 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-xs transition-all hover:bg-[#9E4F14] hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-[#B85D19]/25 active:scale-[0.98] cursor-pointer;
   }
 
   .admin-btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-[#E5E1D5] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 shadow-xs transition hover:bg-stone-50 hover:text-stone-900 focus:outline-none focus:ring-4 focus:ring-stone-100 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-[#E5E0D5] bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-stone-700 shadow-2xs transition hover:bg-[#FAF9F5] hover:text-stone-900 hover:border-stone-400 focus:outline-none focus:ring-4 focus:ring-stone-100 active:scale-[0.98] cursor-pointer;
   }
 
+  .admin-btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50/60 px-3.5 py-2 text-xs font-semibold text-rose-700 transition hover:bg-rose-100 hover:border-rose-300 focus:outline-none focus:ring-4 focus:ring-rose-100 active:scale-[0.98] cursor-pointer;
+  }
+
+  .admin-btn-icon {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#E5E0D5] bg-white text-stone-600 transition hover:bg-[#FAF9F5] hover:text-stone-900 hover:border-stone-400 focus:outline-none shadow-2xs cursor-pointer;
+  }
+
+  /* ==========================================================
+     BADGES & STATUS PILLS
+     ========================================================== */
+  .admin-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold border;
+  }
+
+  .admin-badge-brand {
+    @apply bg-[#B85D19]/10 text-[#B85D19] border-[#B85D19]/25;
+  }
+
+  .admin-badge-success {
+    @apply bg-emerald-50 text-emerald-700 border-emerald-200;
+  }
+
+  .admin-badge-warning {
+    @apply bg-amber-50 text-amber-800 border-amber-200;
+  }
+
+  .admin-badge-danger {
+    @apply bg-rose-50 text-rose-700 border-rose-200;
+  }
+
+  .admin-badge-neutral {
+    @apply bg-stone-100 text-stone-700 border-stone-200;
+  }
+
+  /* ==========================================================
+     TABS
+     ========================================================== */
   .admin-tab-btn {
-    @apply flex w-full items-center gap-3.5 rounded-xl px-4 py-3 text-left text-sm font-medium transition-all duration-150;
+    @apply flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-xs sm:text-sm font-medium transition-all duration-150 cursor-pointer;
   }
 
   .admin-tab-btn-active {
-    @apply bg-white text-[#B85D19] font-bold shadow-xs border border-[#E5E1D5] ring-1 ring-[#B85D19]/20;
+    @apply bg-white text-[#B85D19] font-bold shadow-xs border border-[#E5E0D5] ring-1 ring-[#B85D19]/20;
   }
 
   .admin-tab-btn-inactive {
     @apply text-stone-600 hover:bg-white/60 hover:text-stone-900;
   }
-
-  .admin-form-card {
-    @apply rounded-2xl border border-[#E5E1D5] bg-white p-6 shadow-xs;
-  }
-
-  .admin-form-header {
-    @apply mb-5 border-b border-[#F0ECE1] pb-4;
-  }
 }
 
 [x-cloak] {
   display: none !important;
-}
-
-main :where(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='file']) {
-  border-radius: 0.75rem;
-}
-
-main :where(input, select, textarea, button, a):focus-visible {
-  outline: 2px solid #B85D19;
-  outline-offset: 2px;
 }
 
 main table {
@@ -106,22 +179,25 @@ main table {
 
 main thead th {
   background: #FAF9F5;
-  color: #18191B;
-  letter-spacing: 0.06em;
-  border-bottom: 1px solid #E5E1D5;
-}
-
-main tbody tr:last-child {
-  border-bottom: 0;
+  color: #57534E;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid #E5E0D5;
 }
 
 main tbody tr {
   transition: background-color 150ms ease;
-  border-bottom: 1px solid #E5E1D5;
+  border-bottom: 1px solid #E5E0D5;
 }
 
 main tbody tr:hover {
   background-color: #FAF9F5;
+}
+
+main tbody tr:last-child {
+  border-bottom: 0;
 }
 
 main td,
@@ -129,177 +205,32 @@ main th {
   vertical-align: middle;
 }
 
-main .admin-content-wrap .overflow-x-auto {
-  overflow-x: auto;
-  border: 1px solid #E5E1D5;
-  border-radius: 1rem;
-  background: #fff;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 3%);
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D6D0C2;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B85D19;
 }
 
-main .admin-content-wrap .overflow-x-auto table {
-  min-width: 680px;
+.custom-dark-scrollbar::-webkit-scrollbar {
+  width: 5px;
 }
-
-main .admin-content-wrap form[method='GET'] {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  gap: 0.875rem;
+.custom-dark-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
 }
-
-main .admin-content-wrap form[method='GET'] > div {
-  min-width: 150px;
-  flex: 1 1 150px;
+.custom-dark-scrollbar::-webkit-scrollbar-thumb {
+  background: #2D3036;
+  border-radius: 9999px;
 }
-
-main .admin-content-wrap form[method='GET'] > div:first-child {
-  flex-basis: 220px;
-}
-
-main .admin-content-wrap form[method='GET'] > button {
-  min-height: 42px;
-  border-radius: 0.75rem;
-  padding: 0.625rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: background-color 150ms ease, color 150ms ease;
-}
-
-main .admin-content-wrap .overflow-x-auto td:last-child a,
-main .admin-content-wrap .overflow-x-auto td:last-child button {
-  display: inline-grid;
-  min-height: 36px;
-  min-width: 36px;
-  place-items: center;
-  border-radius: 0.625rem;
-  transition: background-color 150ms ease, color 150ms ease;
-}
-
-main .admin-content-wrap .overflow-x-auto td:last-child a:hover,
-main .admin-content-wrap .overflow-x-auto td:last-child button:hover {
-  background-color: #FAF9F5;
-}
-
-main .admin-content-wrap .overflow-x-auto td:last-child button[type='submit']:hover {
-  background-color: #fef2f2;
-}
-
-main .admin-content-wrap .bg-white.rounded-xl.border {
-  border-color: #E5E1D5;
-  border-radius: 1rem;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 3%);
-}
-
-/* Theme overrides for legacy emerald utility classes across all admin views */
-main button[class*="bg-emerald"],
-main a[class*="bg-emerald"],
-main input[type="submit"][class*="bg-emerald"] {
-  background-color: #18191B !important;
-  color: #F6F4EE !important;
-  border-color: #18191B !important;
-  border-radius: 0.75rem !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: all 150ms ease;
-}
-
-main button[class*="bg-emerald"]:hover,
-main a[class*="bg-emerald"]:hover,
-main input[type="submit"][class*="bg-emerald"]:hover {
-  background-color: #2A2B2E !important;
-  color: #FFFFFF !important;
-  transform: translateY(-1px);
-}
-
-main a[class*="text-emerald"],
-main button[class*="text-emerald"] {
-  color: #B85D19 !important;
-}
-
-main a[class*="text-emerald"]:hover,
-main button[class*="text-emerald"]:hover {
-  color: #934610 !important;
-}
-
-main [class*="focus:ring-emerald"] {
-  --tw-ring-color: rgba(184, 93, 25, 0.25) !important;
-}
-
-main .admin-content-wrap label {
-  line-height: 1.45;
-}
-
-main .admin-content-wrap input[type='checkbox'],
-main .admin-content-wrap input[type='radio'] {
-  accent-color: #B85D19;
-}
-
-main .admin-content-wrap input[type='file'] {
-  height: auto;
-  min-height: 44px;
-  padding: 0.45rem;
-}
-
-main .admin-content-wrap input[type='file']::file-selector-button {
-  margin-right: 0.75rem;
-  border: 0;
-  border-radius: 0.55rem;
-  background: rgba(184, 93, 25, 0.08);
-  padding: 0.5rem 0.75rem;
-  color: #B85D19;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-main .admin-content-wrap > form > div[class*='bg-white'],
-main .admin-content-wrap > div > form > div[class*='bg-white'] {
-  border-radius: 1rem;
-}
-
-main .admin-content-wrap .pagination {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-}
-
-@media (max-width: 639px) {
-  .admin-content-wrap {
-    padding-top: 1.25rem;
-    padding-bottom: 1.5rem;
-  }
-
-  main .admin-content-wrap > div > .flex.justify-between.items-center {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 0.875rem;
-  }
-
-  main .admin-content-wrap > div > .flex.justify-between.items-center > div:last-child,
-  main .admin-content-wrap > div > .flex.justify-between.items-center > a,
-  main .admin-content-wrap > div > .flex.justify-between.items-center > button {
-    width: 100%;
-  }
-
-  main .admin-content-wrap form[method='GET'] {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  main .admin-content-wrap form[method='GET'] > div,
-  main .admin-content-wrap form[method='GET'] > button {
-    width: 100%;
-  }
-
-  main .admin-content-wrap form[method='GET'] > div {
-    flex-basis: auto;
-  }
-
-  main .admin-content-wrap form:not([method='GET']) .flex.justify-end {
-    flex-wrap: wrap;
-  }
-
-  main .admin-content-wrap form:not([method='GET']) .flex.justify-end > button,
-  main .admin-content-wrap form:not([method='GET']) .flex.justify-end > a {
-    flex: 1 1 auto;
-  }
+.custom-dark-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #B85D19;
 }
