@@ -150,7 +150,7 @@
                             }
                         }"
                         class="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-[34px] font-bold text-[var(--theme-text-heading)] mb-2 tracking-tight leading-snug min-h-[44px] sm:min-h-[72px] lg:min-h-[80px]">
-                        <span class="break-words" x-text="part || '{{ addslashes($profile->title ?: 'Laravel Backend Developer') }}'">{{ $profile->title ?: 'Laravel Backend Developer' }}</span><span class="inline-block w-0.5 h-5 sm:h-7 bg-brand ml-1 align-baseline animate-pulse"></span>
+                        <span class="break-words" x-text="part || '{{ addslashes($profile->title ?: 'Laravel Backend Developer') }}'">{{ $profile->title ?: 'Laravel Backend Developer' }}</span><span class="inline-block w-0.5 h-5 sm:h-7 bg-brand ml-1 align-baseline animate-cursor-blink"></span>
                     </div>
 
                     @if($homepageSettings->hero_title || $profile->subtitle)

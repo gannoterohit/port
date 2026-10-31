@@ -10,14 +10,16 @@
     }
 }" 
 x-init="
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                activeSection = entry.target.id;
-            }
-        });
-    }, { rootMargin: '-20% 0px -55% 0px' });
-    document.querySelectorAll('section[id]').forEach(sec => observer.observe(sec));
+    if (window.innerWidth >= 1024) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    activeSection = entry.target.id;
+                }
+            });
+        }, { rootMargin: '-20% 0px -55% 0px' });
+        document.querySelectorAll('section[id]').forEach(sec => observer.observe(sec));
+    }
 "
 @scroll.window.passive="scrolled = (window.scrollY || document.documentElement.scrollTop) > 20"
 class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6 pt-3 sm:pt-4 transition-all duration-300">

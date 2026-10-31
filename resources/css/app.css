@@ -396,6 +396,38 @@
   }
 }
 
+/* Composited 60fps Hardware-Accelerated Ping for Status Indicators */
+@keyframes pingComposited {
+  0% {
+    transform: scale3d(1, 1, 1);
+    opacity: 0.75;
+  }
+  75%, 100% {
+    transform: scale3d(2.2, 2.2, 1);
+    opacity: 0;
+  }
+}
+
+.animate-ping {
+  animation: pingComposited 1.8s cubic-bezier(0, 0, 0.2, 1) infinite !important;
+  will-change: transform, opacity !important;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden !important;
+}
+
+/* Composited Hardware-Accelerated Blink for Typewriter Cursor */
+@keyframes typewriterBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.animate-cursor-blink {
+  animation: typewriterBlink 0.9s infinite !important;
+  will-change: opacity !important;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden !important;
+}
+
 /* Accessible Reduced Motion Guarantee */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
@@ -406,7 +438,9 @@
   }
   .animate-marquee,
   .animate-float,
-  .animate-pulse-data {
+  .animate-pulse-data,
+  .animate-ping,
+  .animate-cursor-blink {
     animation: none !important;
     transform: none !important;
   }

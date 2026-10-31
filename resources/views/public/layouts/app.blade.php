@@ -94,6 +94,8 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=optional">
     </noscript>
 
+    <!-- High-Priority Critical Stylesheet Preload -->
+    <link rel="preload" href="{{ Vite::asset('resources/css/app.css') }}" as="style">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
