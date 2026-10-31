@@ -43,6 +43,12 @@ Route::middleware([MaintenanceModeMiddleware::class, TrackVisitorMiddleware::cla
 
     Route::get('/sitemap.xml', [SitemapController::class, '__invoke'])->name('sitemap.xml');
 
+    Route::get('/robots.txt', function () {
+        $sitemapUrl = url('/sitemap.xml');
+        $content = "User-agent: *\nDisallow: /admin/\nDisallow: /admin\nAllow: /\n\nSitemap: {$sitemapUrl}\n";
+        return response($content, 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+    })->name('robots.txt');
+
     Route::get('/maintenance', function () {
         return response()->view('errors.maintenance', [], 503);
     })->name('maintenance');
