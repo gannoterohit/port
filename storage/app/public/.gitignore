@@ -1,2 +1,12 @@
 *
 !.gitignore
+
+!profile/
+!projects/
+!resumes/
+!settings/
+
+!profile/**
+!projects/**
+!resumes/**
+!settings/**
