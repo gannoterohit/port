@@ -118,6 +118,11 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.index')->with('success', 'Project created successfully.');
     }
 
+    public function show(Project $project)
+    {
+        return redirect()->route('admin.projects.edit', $project);
+    }
+
     public function edit(Project $project)
     {
         return view('admin.projects.edit', compact('project'));
@@ -156,6 +161,7 @@ class ProjectController extends Controller
             'screenshots.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
         ]);
 
+        $data['slug'] = ! empty($data['slug']) ? Str::slug($data['slug']) : ($project->slug ?: Str::slug($data['title']));
         $data['is_featured'] = $request->boolean('is_featured');
         $data['no_index'] = $request->boolean('no_index');
         $data['published_at'] = $data['status'] === 'published' && ! $project->published_at ? now() : $project->published_at;

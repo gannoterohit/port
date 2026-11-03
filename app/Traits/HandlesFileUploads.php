@@ -44,45 +44,77 @@ trait HandlesFileUploads
 
     protected function storeOptimizedImage(UploadedFile $file, string $directory, int $maxWidth = 1920, int $quality = 82): string
     {
-        $image = imagecreatefromstring($file->get());
-
-        if (! $image) {
+        if (
+            ! extension_loaded('gd') ||
+            ! function_exists('imagecreatefromstring') ||
+            ! function_exists('imagewebp') ||
+            ! function_exists('imagecreatetruecolor')
+        ) {
             return $file->store($directory, 'public');
         }
 
-        $originalWidth = imagesx($image);
-        $originalHeight = imagesy($image);
-
-        if ($originalWidth > $maxWidth) {
-            $ratio = $maxWidth / $originalWidth;
-            $newHeight = (int) round($originalHeight * $ratio);
-            $resized = imagecreatetruecolor($maxWidth, $newHeight);
-            if ($file->getClientMimeType() === 'image/png') {
-                imagealphablending($resized, false);
-                imagesavealpha($resized, true);
-                $transparent = imagecolorallocatealpha($resized, 255, 255, 255, 127);
-                imagefilledrectangle($resized, 0, 0, $maxWidth, $newHeight, $transparent);
+        try {
+            $contents = $file->get();
+            if ($contents === false || $contents === '') {
+                return $file->store($directory, 'public');
             }
-            imagecopyresampled($resized, $image, 0, 0, 0, 0, $maxWidth, $newHeight, $originalWidth, $originalHeight);
+
+            $image = @imagecreatefromstring($contents);
+
+            if (! $image) {
+                return $file->store($directory, 'public');
+            }
+
+            $originalWidth = imagesx($image);
+            $originalHeight = imagesy($image);
+
+            if ($originalWidth > $maxWidth && $originalWidth > 0) {
+                $ratio = $maxWidth / $originalWidth;
+                $newHeight = (int) round($originalHeight * $ratio);
+                $resized = imagecreatetruecolor($maxWidth, $newHeight);
+                if ($file->getClientMimeType() === 'image/png') {
+                    imagealphablending($resized, false);
+                    imagesavealpha($resized, true);
+                    $transparent = imagecolorallocatealpha($resized, 255, 255, 255, 127);
+                    imagefilledrectangle($resized, 0, 0, $maxWidth, $newHeight, $transparent);
+                }
+                imagecopyresampled($resized, $image, 0, 0, 0, 0, $maxWidth, $newHeight, $originalWidth, $originalHeight);
+                imagedestroy($image);
+                $image = $resized;
+            }
+
+            $filename = $directory.'/'.Str::uuid().'.webp';
+            $tempFile = tempnam(sys_get_temp_dir(), 'img_opt_');
+
+            if (! $tempFile) {
+                imagedestroy($image);
+                return $file->store($directory, 'public');
+            }
+
+            $saved = @imagewebp($image, $tempFile, $quality);
             imagedestroy($image);
-            $image = $resized;
+
+            if (! $saved || ! file_exists($tempFile)) {
+                if ($tempFile && file_exists($tempFile)) {
+                    @unlink($tempFile);
+                }
+                return $file->store($directory, 'public');
+            }
+
+            if (! Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->makeDirectory($directory);
+            }
+
+            $stream = fopen($tempFile, 'r+');
+            if ($stream) {
+                Storage::disk('public')->writeStream($filename, $stream);
+                fclose($stream);
+            }
+            @unlink($tempFile);
+
+            return $filename;
+        } catch (\Throwable $e) {
+            return $file->store($directory, 'public');
         }
-
-        $filename = $directory.'/'.Str::uuid().'.webp';
-        $tempFile = tempnam(sys_get_temp_dir(), 'img_opt_');
-
-        imagewebp($image, $tempFile, $quality);
-        imagedestroy($image);
-
-        if (! Storage::disk('public')->exists($directory)) {
-            Storage::disk('public')->makeDirectory($directory);
-        }
-
-        $stream = fopen($tempFile, 'r+');
-        Storage::disk('public')->writeStream($filename, $stream);
-        fclose($stream);
-        unlink($tempFile);
-
-        return $filename;
     }
 }

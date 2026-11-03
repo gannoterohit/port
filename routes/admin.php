@@ -43,18 +43,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('homepage', [HomepageController::class, 'edit'])->name('homepage.edit');
         Route::put('homepage', [HomepageController::class, 'update'])->name('homepage.update');
 
-        Route::resource('skills', SkillController::class);
-        Route::resource('skill-categories', SkillCategoryController::class);
+        Route::resource('skills', SkillController::class)->except(['show']);
+        Route::resource('skill-categories', SkillCategoryController::class)->except(['show']);
 
         Route::resource('projects', ProjectController::class);
         Route::delete('project-screenshots/{screenshot}', [ProjectScreenshotController::class, 'destroy'])->name('project-screenshots.destroy');
         Route::post('project-screenshots/{screenshot}/reorder', [ProjectScreenshotController::class, 'reorder'])->name('project-screenshots.reorder');
 
-        Route::resource('services', ServiceController::class);
+        Route::resource('services', ServiceController::class)->except(['show']);
 
-        Route::resource('testimonials', TestimonialController::class);
+        Route::resource('testimonials', TestimonialController::class)->except(['show']);
 
-        Route::resource('pages', PageController::class);
+        Route::resource('pages', PageController::class)->except(['show']);
 
         Route::get('enquiries', [EnquiryController::class, 'index'])->name('enquiries.index');
         Route::get('enquiries/export', [EnquiryController::class, 'export'])->name('enquiries.export');

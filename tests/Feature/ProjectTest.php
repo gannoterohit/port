@@ -115,4 +115,11 @@ class ProjectTest extends TestCase
             ob_end_clean();
         }
     }
+
+    public function test_admin_projects_show_redirects_to_edit(): void
+    {
+        $project = Project::first();
+        $response = $this->get(route('admin.projects.show', $project));
+        $response->assertRedirect(route('admin.projects.edit', $project));
+    }
 }
